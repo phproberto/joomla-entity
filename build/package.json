@@ -1,0 +1,27 @@
+{
+  "name": "joomla-component",
+  "version": "0.0.1",
+  "description": "Library to interact with Joomla! components",
+  "main": "gulpfile.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/phproberto/joomla-component"
+  },
+  "keywords": [
+    "joomla",
+    "module"
+  ],
+  "author": "Roberto Segura <roberto@phproberto.com>",
+  "license": "GPL-2.0"
+}

@@ -1,0 +1,304 @@
+<?php
+/**
+ * Joomla! entity library.
+ *
+ * @copyright  Copyright (C) 2017 Roberto Segura López, Inc. All rights reserved.
+ * @license    See COPYING.txt
+ */
+
+namespace Phproberto\Joomla\Entity;
+
+use Phproberto\Joomla\Object\Object;
+use Phproberto\Joomla\Object\Traits\HasObject;
+use Phproberto\Joomla\Traits\HasInstances;
+use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
+use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
+
+/**
+ * Entity class.
+ *
+ * @since   __DEPLOY_VERSION__
+ */
+abstract class Entity implements EntityInterface
+{
+	use HasInstances;
+
+	/**
+	 * Identifier.
+	 *
+	 * @var  integer
+	 */
+	protected $id;
+
+	/**
+	 * Primary key property.
+	 *
+	 * @var  string
+	 */
+	protected $primaryKey = 'id';
+
+	/**
+	 * Database row data.
+	 *
+	 * @var  array
+	 */
+	protected $row;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   integer  $id  Identifier
+	 */
+	public function __construct($id = null)
+	{
+		$this->id = (int) $id;
+	}
+
+	/**
+	 * Assign a value to entity property.
+	 *
+	 * @param   string  $property  Name of the property to set
+	 * @param   mixed   $value     Value to assign
+	 *
+	 * @return  self
+	 */
+	public function assign($property, $value)
+	{
+		if (null === $this->row)
+		{
+			$this->row = [];
+		}
+
+		$this->row[$property] = $value;
+
+		if ($property === $this->primaryKey)
+		{
+			$this->id = (int) $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Bind data to the entity.
+	 *
+	 * @param   array  $data  Data to bind
+	 *
+	 * @return  self
+	 */
+	public function bind(array $data)
+	{
+		if (null === $this->row)
+		{
+			$this->row = [];
+		}
+
+		foreach ($data as $property => $value)
+		{
+			$this->row[$property] = $value;
+		}
+
+		if ($this->primaryKey && !empty($data[$this->primaryKey]))
+		{
+			$this->id = (int) $data[$this->primaryKey];
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Get a property of this entity.
+	 *
+	 * @param   string  $property  [description]
+	 * @param   mixed   $default   [description]
+	 *
+	 * @return  mixed
+	 */
+	public function get($property, $default = null)
+	{
+		$row = $this->getRow();
+
+		if (!$row || !isset($row[$property]))
+		{
+			return $default;
+		}
+
+		return $row[$property];
+	}
+
+	/**
+	 * Gets the Identifier.
+	 *
+	 * @return  integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * Get the attached entity.
+	 *
+	 * @return  array
+	 */
+	public function getRow()
+	{
+		if (empty($this->row[$this->primaryKey]))
+		{
+			$this->loadRow();
+		}
+
+		return $this->row;
+	}
+
+	/**
+	 * Get a table.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return  \JTable
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function getTable($name = '', $prefix = null, $options = array())
+	{
+		$table = \JTable::getInstance($name, $prefix);
+
+		if (!$table instanceof \JTable)
+		{
+			throw new \InvalidArgumentException(
+				sprintf("Cannot find the table `%s`.", $prefix . $name)
+			);
+		}
+
+		return $table;
+	}
+
+	/**
+	 * Check if entity has a property.
+	 *
+	 * @param   string   $property  Entity property name
+	 *
+	 * @return  boolean
+	 */
+	public function has($property)
+	{
+		if (!$this->row)
+		{
+			return false;
+		}
+
+		return array_key_exists($property, $this->row);
+	}
+
+	/**
+	 * Check if this entity has an id.
+	 *
+	 * @return  boolean
+	 */
+	public function hasId()
+	{
+		return !empty($this->id);
+	}
+
+	/**
+	 * Fetch an instance.
+	 *
+	 * @param   integer  $id  Instance identifier
+	 *
+	 * @return  static
+	 */
+	public static function fetch($id)
+	{
+		return static::instance($id)->loadRow();
+	}
+
+	/**
+	 * Load row data.
+	 *
+	 * @return  self
+	 */
+	public function loadRow()
+	{
+		$this->row = $this->fetchRow();
+
+		return $this;
+	}
+
+	/**
+	 * Check if entity has been loaded.
+	 *
+	 * @return  boolean
+	 */
+	public function isLoaded()
+	{
+		return $this->hasId() && !empty($this->row);
+	}
+
+	/**
+	 * Load the entity from the database.
+	 *
+	 * @return  array
+	 *
+	 * @throws  LoadEntityDataError  Table error loading row
+	 * @throws  InvalidEntityData    Incorrect data received
+	 */
+	protected function fetchRow()
+	{
+		$table = $this->getTable();
+
+		if (!$table->load($this->id))
+		{
+			throw LoadEntityDataError::tableError($this, $table->getError());
+		}
+
+		$data = $table->getProperties(true);
+
+		if (empty($data))
+		{
+			throw InvalidEntityData::emptyData($this);
+		}
+
+		if (!array_key_exists($this->primaryKey, $data))
+		{
+			throw InvalidEntityData::missingPrimaryKey($this);
+		}
+
+		$this->id = (int) $data[$this->primaryKey];
+
+		return $data;
+	}
+
+	/**
+	 * Save entity to the database.
+	 *
+	 * @return  boolean
+	 */
+	public function save()
+	{
+		$table = $this->getTable();
+
+		if (!$table->save($this->row))
+		{
+			throw new \RuntimeException($table->getError());
+		}
+
+		return true;
+	}
+
+	/**
+	 * Unassigns a row property.
+	 *
+	 * @param   string  $property  Name of the property to set
+	 *
+	 * @return  self
+	 */
+	public function unassign($property)
+	{
+		unset($this->row[$property]);
+
+		return $this;
+	}
+}

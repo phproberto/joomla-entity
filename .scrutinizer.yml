@@ -1,0 +1,28 @@
+filter:
+    excluded_paths:
+        - 'tests/*'
+checks:
+    php: true
+coding_style:
+    php:
+        indentation:
+            general:
+                use_tabs: true
+        spaces:
+            around_operators:
+                concatenation: true
+build:
+    environment:
+        php:
+            version: 7.1
+    tests:
+        before:
+            - composer install --prefer-dist --no-interaction --no-progress
+            - git clone https://github.com/joomla/joomla-cms.git -b master /tmp/joomla-cms
+            - composer install -d /tmp/joomla-cms
+        override:
+            -
+                command: ./vendor/bin/phpunit --configuration ci/phpunit.ci.xml --coverage-clover ./clover.xml
+                coverage:
+                    file: clover.xml
+                    format: clover
