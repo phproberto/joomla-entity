@@ -44,22 +44,28 @@ trait HasCategory
 	}
 
 	/**
+	 * Get the name of the column that stores category.
+	 *
+	 * @return  string
+	 */
+	protected function getColumnCategory()
+	{
+		return 'category_id';
+	}
+
+	/**
 	 * Load the category from the database.
 	 *
 	 * @return  Category
 	 */
 	protected function loadCategory()
 	{
-		$row = $this->getRow();
+		$column = $this->getColumnCategory();
+		$row    = $this->getRow();
 
-		if (!empty($row['category_id']))
+		if (array_key_exists($column, $row))
 		{
-			return Category::instance($row['category_id']);
-		}
-
-		if (!empty($row['catid']))
-		{
-			return Category::instance($row['catid']);
+			return Category::instance($row[$column]);
 		}
 
 		return new Category;

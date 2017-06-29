@@ -22,12 +22,23 @@ class Article extends Entity
 {
 	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasParams;
 
+
+	/**
+	 * Get the name of the column that stores category.
+	 *
+	 * @return  string
+	 */
+	protected function getColumnCategory()
+	{
+		return 'catid';
+	}
+
 	/**
 	 * Get the name of the column that stores params.
 	 *
 	 * @return  string
 	 */
-	protected function getParamsColumn()
+	protected function getColumnParams()
 	{
 		return 'attribs';
 	}

@@ -49,7 +49,7 @@ trait HasParams
 	 *
 	 * @return  string
 	 */
-	protected function getParamsColumn()
+	protected function getColumnParams()
 	{
 		return 'params';
 	}
@@ -61,7 +61,7 @@ trait HasParams
 	 */
 	protected function loadParams()
 	{
-		$column = $this->getParamsColumn();
+		$column = $this->getColumnParams();
 		$row    = $this->getRow();
 
 		if (array_key_exists($column, $row))
@@ -81,7 +81,7 @@ trait HasParams
 	 */
 	public function saveParams()
 	{
-		$column = $this->getParamsColumn();
+		$column = $this->getColumnParams();
 		$row    = $this->getRow();
 
 		if (!array_key_exists($column, $row))
@@ -116,7 +116,7 @@ trait HasParams
 	{
 		$this->commonSetParam($name, $value);
 
-		$this->assign($this->getParamsColumn(), $this->getParams()->toString());
+		$this->assign($this->getColumnParams(), $this->getParams()->toString());
 
 		return $this;
 	}
@@ -132,7 +132,7 @@ trait HasParams
 	{
 		$this->commonSetParams($params);
 
-		$this->assign($this->getParamsColumn(), $this->getParams()->toString());
+		$this->assign($this->getColumnParams(), $this->getParams()->toString());
 
 		return $this;
 	}
