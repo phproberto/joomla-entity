@@ -8,8 +8,6 @@
 
 namespace Phproberto\Joomla\Entity;
 
-use Phproberto\Joomla\Object\Object;
-use Phproberto\Joomla\Object\Traits\HasObject;
 use Phproberto\Joomla\Traits\HasInstances;
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
