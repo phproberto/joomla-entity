@@ -24,6 +24,27 @@ trait HasParams
 	}
 
 	/**
+	 * Get the entity identifier.
+	 *
+	 * @return  integer
+	 */
+	abstract public function getId();
+
+	/**
+	 * Get entity primary key column.
+	 *
+	 * @return  string
+	 */
+	abstract public function getPrimaryKey();
+
+	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	abstract public function getRow();
+
+	/**
 	 * Get the name of the column that stores params.
 	 *
 	 * @return  string
