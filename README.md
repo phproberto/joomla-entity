@@ -30,14 +30,14 @@ if ($article->isFeatured())
 	// Do something
 }
 
-// Check if has an use intro image
+// Check if article has an intro image
 if ($article->hasIntroImage())
 {
 	$image = $article->getIntroImage();
 	echo '<img src="' . JUri::root(true) . '/' . $image['url'] . '" />';
 }
 
-// Check if has an use full text image
+// Check if article has a full text image
 if ($article->hasFullTextImage())
 {
 	$image = $article->getFullTextImage();
