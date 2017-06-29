@@ -44,6 +44,12 @@ if ($article->hasFullTextImage())
 	echo '<img src="' . JUri::root(true) . '/' . $image['url'] . '" />';
 }
 
+// Check article state
+if ($article->isPublished())
+{
+	echo 'Article published!';
+}
+
 // Retrieve article category
 echo $article->getCategory()->get('title');
 
