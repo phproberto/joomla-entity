@@ -18,6 +18,12 @@ $article = Article::instance(1);
 // Use article as entity
 echo $article->get('title');
 
+// Use params transparently
+if ($article->getParam('show_title', '1') === '1')
+{
+	echo $article->get('title');
+}
+
 // Retrieve article category
 echo $article->getCategory()->get('title');
 
