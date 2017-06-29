@@ -8,9 +8,6 @@
 
 namespace Phproberto\Joomla\Entity\Traits;
 
-use Phproberto\Joomla\Traits\HasParams as CommonHasParams;
-use Joomla\Registry\Registry;
-
 /**
  * Trait for entities with state.
  *
