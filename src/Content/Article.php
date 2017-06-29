@@ -23,6 +23,16 @@ class Article extends Entity
 	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasParams;
 
 	/**
+	 * Get the name of the column that stores params.
+	 *
+	 * @return  string
+	 */
+	protected function getParamsColumn()
+	{
+		return 'attribs';
+	}
+
+	/**
 	 * Get a table.
 	 *
 	 * @param   string  $name     The table name. Optional.
