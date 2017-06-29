@@ -18,7 +18,20 @@ use Joomla\Registry\Registry;
  */
 trait HasParams
 {
-	use CommonHasParams;
+	use CommonHasParams {
+		setParam as protected commonSetParam;
+		setParams as protected commonSetParams;
+	}
+
+	/**
+	 * Get the name of the column that stores params.
+	 *
+	 * @return  string
+	 */
+	protected function getParamsColumn()
+	{
+		return 'params';
+	}
 
 	/**
 	 * Load parameters from database.
@@ -27,16 +40,12 @@ trait HasParams
 	 */
 	protected function loadParams()
 	{
+		$column = $this->getParamsColumn();
 		$row = $this->getRow();
 
-		if (array_key_exists('params', $row))
+		if (array_key_exists($column, $row))
 		{
-			return new Registry($row['params']);
-		}
-
-		if (array_key_exists('attribs', $row))
-		{
-			return new Registry($row['attribs']);
+			return new Registry($row[$column]);
 		}
 
 		return new Registry;
@@ -49,28 +58,54 @@ trait HasParams
 	 */
 	public function saveParams()
 	{
+		$column = $this->getParamsColumn();
 		$row = $this->getRow();
+
+		if (!array_key_exists($column, $row))
+		{
+			throw new \RuntimeException("Cannot find entity parameters column", 500);
+		}
 
 		$table = $this->getTable();
 
 		$data = [
-			$this->primaryKey => $this->getId()
+			$this->primaryKey => $this->getId(),
+			$column => $this->getParams()->toString()
 		];
 
-		if (array_key_exists('params', $row))
-		{
-			$data['params'] = $this->getParams()->toString();
+		return $table->save($data);
+	}
 
-			return $table->save($data);
-		}
+	/**
+	 * Set the value of a parameter.
+	 *
+	 * @param   string  $name   Parameter name
+	 * @param   mixed   $value  Value to assign to selected parameter
+	 *
+	 * @return  self
+	 */
+	public function setParam($name, $value)
+	{
+		$this->commonSetParam($name, $value);
 
-		if (array_key_exists('attribs', $row))
-		{
-			$data['attribs'] = $this->getParams()->toString();
+		$this->assign($this->getParamsColumn(), $this->getParams()->toString());
 
-			return $table->save($data);
-		}
+		return $this;
+	}
 
-		return true;
+	/**
+	 * Set the module parameters.
+	 *
+	 * @param   Registry  $params  Parameters to apply
+	 *
+	 * @return  self
+	 */
+	public function setParams(Registry $params)
+	{
+		$this->commonSetParams($params);
+
+		$this->assign($this->getParamsColumn(), $this->getParams()->toString());
+
+		return $this;
 	}
 }
