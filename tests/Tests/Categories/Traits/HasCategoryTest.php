@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Categories\Traits;
 
+use Phproberto\Joomla\Entity\Categories\Category;
 use Phproberto\Joomla\Entity\Tests\Categories\Traits\Stubs\ClassWithCategory;
 
 /**
@@ -24,7 +25,12 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetCategoryWorksForCatidColumn()
 	{
-		$class = new ClassWithCategory;
+		$class = $this->getMockBuilder(ClassWithCategory::class)
+			->setMethods(array('getColumnCategory'))
+			->getMock();
+
+		$class->method('getColumnCategory')
+			->willReturn('catid');
 
 		$reflection = new \ReflectionClass($class);
 		$rowProperty = $reflection->getProperty('row');
@@ -50,6 +56,24 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($class, ['id' => 999, 'category_id' => 666]);
 
-		$this->assertSame(666, $class->getCategory()->getId());
+		$this->assertEquals(new Category(666), $class->getCategory());
+	}
+
+	/**
+	 * getCategory returns empty category for unset column.
+	 *
+	 * @return  void
+	 */
+	public function testGetCategoryReturnsEmptyCategoryForUnsetColumn()
+	{
+		$class = new ClassWithCategory;
+
+		$reflection = new \ReflectionClass($class);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($class, ['id' => 999, 'name' => 'Sample class']);
+
+		$this->assertEquals(new Category, $class->getCategory());
 	}
 }

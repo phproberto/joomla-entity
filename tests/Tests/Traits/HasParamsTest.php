@@ -46,11 +46,11 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	public function testGetParamsWorksWithAttribsColumn()
 	{
 		$mock = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getParamsColumn'))
+			->setMethods(array('getColumnParams'))
 			->getMock();
 
 		$mock->expects($this->once())
-			->method('getParamsColumn')
+			->method('getColumnParams')
 			->willReturn('attribs');
 
 		$reflection = new \ReflectionClass($mock);
@@ -60,6 +60,24 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 		$rowProperty->setValue($mock, ['id' => 999, 'attribs' => '{"foo":"var"}']);
 
 		$this->assertEquals(new Registry(['foo' => 'var']), $mock->getParams());
+	}
+
+	/**
+	 * getParams works for unset params.
+	 *
+	 * @return  void
+	 */
+	public function testGetParamsWorksForUnsetParams()
+	{
+		$entity = new EntityWithParams;
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, ['id' => 999, 'name' => 'Roberto Segura']);
+
+		$this->assertEquals(new Registry, $entity->getParams());
 	}
 
 	/**
@@ -90,10 +108,10 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	public function testSaveParamsThrowsExceptionIfParamsColumnIsNotPresentInRow()
 	{
 		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getParamsColumn'))
+			->setMethods(array('getColumnParams'))
 			->getMock();
 
-		$entity->method('getParamsColumn')
+		$entity->method('getColumnParams')
 			->willReturn('attribs');
 
 		$reflection = new \ReflectionClass($entity);
@@ -140,7 +158,7 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"test":"var"}']);
 
-		$entity->save();
+		$entity->saveParams();
 	}
 
 	/**
@@ -172,7 +190,7 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"test":"var"}']);
 
-		$this->assertTrue($entity->save());
+		$this->assertTrue($entity->saveParams());
 	}
 
 	/**
@@ -216,10 +234,10 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	public function testSetParamSetsCorrectParamValueWithCustomParamsColumn()
 	{
 		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getParamsColumn'))
+			->setMethods(array('getColumnParams'))
 			->getMock();
 
-		$entity->method('getParamsColumn')
+		$entity->method('getColumnParams')
 			->willReturn('attribs');
 
 		$reflection = new \ReflectionClass($entity);
@@ -282,10 +300,10 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	public function testSetParamsSetsCorrectValueWithCustomParamsColumn()
 	{
 		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getParamsColumn'))
+			->setMethods(array('getColumnParams'))
 			->getMock();
 
-		$entity->method('getParamsColumn')
+		$entity->method('getColumnParams')
 			->willReturn('attribs');
 
 		$reflection = new \ReflectionClass($entity);
