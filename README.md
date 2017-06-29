@@ -49,6 +49,10 @@ if ($article->isPublished())
 {
 	echo 'Article published!';
 }
+elseif ($article->isTrashed())
+{
+	echo 'Article trashed!';
+}
 
 // Retrieve article category
 echo $article->getCategory()->get('title');
