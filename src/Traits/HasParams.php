@@ -45,6 +45,19 @@ trait HasParams
 	abstract public function getRow();
 
 	/**
+	 * Get a table.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return  \JTable
+	 *
+	 * @codeCoverageIgnore
+	 */
+	abstract public function getTable($name = '', $prefix = null, $options = array());
+
+	/**
 	 * Get the name of the column that stores params.
 	 *
 	 * @return  string
