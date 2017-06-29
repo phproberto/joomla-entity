@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tests\Content;
 
 use Phproberto\Joomla\Entity\Content\Article;
+use Joomla\Registry\Registry;
 
 /**
  * Article entity tests.
@@ -116,5 +117,23 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Categories\Category', $category);
 		$this->assertNotSame(0, $category->getId());
+	}
+
+	/**
+	 * getParams returns parameters.
+	 *
+	 * @return  void
+	 */
+	public function testGetParamsReturnsParameters()
+	{
+		$article = new Article(999);
+
+		$reflection = new \ReflectionClass($article);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($article, ['id' => 999, 'attribs' => '{"foo":"var"}']);
+
+		$this->assertEquals(new Registry(['foo' => 'var']), $article->getParams());
 	}
 }

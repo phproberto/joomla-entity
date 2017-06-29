@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Content;
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Traits as EntityTraits;
 
 /**
  * Stub to test Entity class.
@@ -19,7 +20,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
  */
 class Article extends Entity
 {
-	use CoreTraits\HasAsset, CategoriesTraits\HasCategory;
+	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasParams;
 
 	/**
 	 * Get a table.
