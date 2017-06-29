@@ -50,6 +50,18 @@ class Article extends Entity
 	}
 
 	/**
+	 * Get the full text image.
+	 *
+	 * @return  array
+	 */
+	public function getFullTextImage()
+	{
+		$images = $this->getImages();
+
+		return array_key_exists('full', $images) ? $images['full'] : [];
+	}
+
+	/**
 	 * Get article images.
 	 *
 	 * @param   boolean  $reload  Force data reloading
@@ -64,6 +76,18 @@ class Article extends Entity
 		}
 
 		return $this->images;
+	}
+
+	/**
+	 * Get the article intro image.
+	 *
+	 * @return  array
+	 */
+	public function getIntroImage()
+	{
+		$images = $this->getImages();
+
+		return array_key_exists('intro', $images) ? $images['intro'] : [];
 	}
 
 	/**
@@ -83,6 +107,30 @@ class Article extends Entity
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::getTable($name, $prefix, $options);
+	}
+
+	/**
+	 * Has this article an full text image?
+	 *
+	 * @return  boolean
+	 */
+	public function hasFullTextImage()
+	{
+		$images = $this->getImages();
+
+		return array_key_exists('full', $this->getImages());
+	}
+
+	/**
+	 * Has this article an intro image?
+	 *
+	 * @return  boolean
+	 */
+	public function hasIntroImage()
+	{
+		$images = $this->getImages();
+
+		return array_key_exists('intro', $this->getImages());
 	}
 
 	/**

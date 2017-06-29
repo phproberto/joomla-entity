@@ -24,6 +24,26 @@ if ($article->getParam('show_title', '1') === '1')
 	echo $article->get('title');
 }
 
+// Check if article is featured
+if ($article->isFeatured())
+{
+	// Do something
+}
+
+// Check if has an use intro image
+if ($article->hasIntroImage())
+{
+	$image = $article->getIntroImage();
+	echo '<img src="' . JUri::root(true) . '/' . $image['url'] . '" />';
+}
+
+// Check if has an use full text image
+if ($article->hasFullTextImage())
+{
+	$image = $article->getFullTextImage();
+	echo '<img src="' . JUri::root(true) . '/' . $image['url'] . '" />';
+}
+
 // Retrieve article category
 echo $article->getCategory()->get('title');
 
