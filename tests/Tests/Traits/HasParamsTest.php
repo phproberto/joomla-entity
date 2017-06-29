@@ -81,6 +81,101 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * saveParams throws an exception when column is not present in database row.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException \RuntimeException
+	 */
+	public function testSaveParamsThrowsExceptionIfParamsColumnIsNotPresentInRow()
+	{
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(array('getParamsColumn'))
+			->getMock();
+
+		$entity->method('getParamsColumn')
+			->willReturn('attribs');
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"test":"var"}']);
+
+		$entity->saveParams();
+	}
+
+	/**
+	 * saveParams stores correct value.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException \RuntimeException
+	 */
+	public function testSaveParamsThrowsExceptionIfTableSaveFails()
+	{
+		$tableMock = $this->getMockBuilder(\JTable::class)
+			->disableOriginalConstructor()
+			->setMethods(array('save', 'getError'))
+			->getMock();
+
+		$tableMock->expects($this->at(0))
+			->method('save')
+			->willReturn(false);
+
+		$tableMock->expects($this->at(1))
+			->method('getError')
+			->willReturn('En un lugar de La Mancha de cuyo nombre no quiero acordarme');
+
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(array('getTable'))
+			->getMock();
+
+		$entity->method('getTable')
+			->willReturn($tableMock);
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"test":"var"}']);
+
+		$entity->save();
+	}
+
+	/**
+	 * saveParams returns true when table saves data.
+	 *
+	 * @return  void
+	 */
+	public function testSaveParamsReturnsTrueWhenTableSavesData()
+	{
+		$tableMock = $this->getMockBuilder(\JTable::class)
+			->disableOriginalConstructor()
+			->setMethods(array('save'))
+			->getMock();
+
+		$tableMock->expects($this->at(0))
+			->method('save')
+			->willReturn(true);
+
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(array('getTable'))
+			->getMock();
+
+		$entity->method('getTable')
+			->willReturn($tableMock);
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"test":"var"}']);
+
+		$this->assertTrue($entity->save());
+	}
+
+	/**
 	 * setParam sets the correct param value.
 	 *
 	 * @return  void
