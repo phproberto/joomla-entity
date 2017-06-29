@@ -25,6 +25,20 @@ interface EntityInterface
 	public function getId();
 
 	/**
+	 * Get entity primary key column.
+	 *
+	 * @return  string
+	 */
+	public function getPrimaryKey();
+
+	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	public function getRow();
+
+	/**
 	 * Check if this entity has an identifier.
 	 *
 	 * @return  boolean

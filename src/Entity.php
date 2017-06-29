@@ -31,13 +31,6 @@ abstract class Entity implements EntityInterface
 	protected $id;
 
 	/**
-	 * Primary key property.
-	 *
-	 * @var  string
-	 */
-	protected $primaryKey = 'id';
-
-	/**
 	 * Database row data.
 	 *
 	 * @var  array
@@ -71,7 +64,7 @@ abstract class Entity implements EntityInterface
 
 		$this->row[$property] = $value;
 
-		if ($property === $this->primaryKey)
+		if ($property === $this->getPrimaryKey())
 		{
 			$this->id = (int) $value;
 		}
@@ -93,14 +86,16 @@ abstract class Entity implements EntityInterface
 			$this->row = [];
 		}
 
+		$primaryKey = $this->getPrimaryKey();
+
 		foreach ($data as $property => $value)
 		{
 			$this->row[$property] = $value;
-		}
 
-		if ($this->primaryKey && !empty($data[$this->primaryKey]))
-		{
-			$this->id = (int) $data[$this->primaryKey];
+			if ($property === $primaryKey)
+			{
+				$this->id = (int) $data[$primaryKey];
+			}
 		}
 
 		return $this;
@@ -137,13 +132,23 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Get the attached entity.
+	 * Get entity primary key column.
+	 *
+	 * @return  string
+	 */
+	public function getPrimaryKey()
+	{
+		return 'id';
+	}
+
+	/**
+	 * Get the attached database row.
 	 *
 	 * @return  array
 	 */
 	public function getRow()
 	{
-		if (empty($this->row[$this->primaryKey]))
+		if (empty($this->row[$this->getPrimaryKey()]))
 		{
 			$this->loadRow();
 		}
@@ -261,12 +266,12 @@ abstract class Entity implements EntityInterface
 			throw InvalidEntityData::emptyData($this);
 		}
 
-		if (!array_key_exists($this->primaryKey, $data))
+		if (!array_key_exists($this->getPrimaryKey(), $data))
 		{
 			throw InvalidEntityData::missingPrimaryKey($this);
 		}
 
-		$this->id = (int) $data[$this->primaryKey];
+		$this->id = (int) $data[$this->getPrimaryKey()];
 
 		return $data;
 	}

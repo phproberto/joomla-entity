@@ -41,7 +41,7 @@ trait HasParams
 	protected function loadParams()
 	{
 		$column = $this->getParamsColumn();
-		$row = $this->getRow();
+		$row    = $this->getRow();
 
 		if (array_key_exists($column, $row))
 		{
@@ -61,7 +61,7 @@ trait HasParams
 	public function saveParams()
 	{
 		$column = $this->getParamsColumn();
-		$row = $this->getRow();
+		$row    = $this->getRow();
 
 		if (!array_key_exists($column, $row))
 		{
@@ -71,8 +71,8 @@ trait HasParams
 		$table = $this->getTable();
 
 		$data = [
-			$this->primaryKey => $this->getId(),
-			$column => $this->getParams()->toString()
+			$this->getPrimaryKey() => $this->getId(),
+			$column                => $this->getParams()->toString()
 		];
 
 		if (!$table->save($data))
