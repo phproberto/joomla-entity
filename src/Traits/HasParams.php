@@ -55,6 +55,8 @@ trait HasParams
 	 * Save parameters to database.
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  \RuntimeException
 	 */
 	public function saveParams()
 	{
@@ -63,7 +65,7 @@ trait HasParams
 
 		if (!array_key_exists($column, $row))
 		{
-			throw new \RuntimeException("Cannot find entity parameters column", 500);
+			throw new \RuntimeException("Error saving entity parameters: Cannot find entity parameters column", 500);
 		}
 
 		$table = $this->getTable();
@@ -73,7 +75,12 @@ trait HasParams
 			$column => $this->getParams()->toString()
 		];
 
-		return $table->save($data);
+		if (!$table->save($data))
+		{
+			throw new \RuntimeException("Error saving entity parameters: " . $table->getError(), 500);
+		}
+
+		return true;
 	}
 
 	/**
