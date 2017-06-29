@@ -22,6 +22,12 @@ class Article extends Entity
 {
 	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasParams;
 
+	/**
+	 * Images.
+	 *
+	 * @var  array
+	 */
+	protected $images;
 
 	/**
 	 * Get the name of the column that stores category.
@@ -44,6 +50,23 @@ class Article extends Entity
 	}
 
 	/**
+	 * Get article images.
+	 *
+	 * @param   boolean  $reload  Force data reloading
+	 *
+	 * @return  array
+	 */
+	public function getImages($reload = false)
+	{
+		if ($reload || null === $this->images)
+		{
+			$this->images = $this->loadImages();
+		}
+
+		return $this->images;
+	}
+
+	/**
 	 * Get a table.
 	 *
 	 * @param   string  $name     The table name. Optional.
@@ -60,5 +83,108 @@ class Article extends Entity
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::getTable($name, $prefix, $options);
+	}
+
+	/**
+	 * Load images information.
+	 *
+	 * @return  array
+	 */
+	protected function loadImages()
+	{
+		$row = $this->getRow();
+
+		if (empty($row['images']))
+		{
+			return [];
+		}
+
+		$data = (array) json_decode($row['images']);
+
+		$images = [];
+
+		if ($introImage = $this->parseImageIntro($data))
+		{
+			$images['intro'] = $introImage;
+		}
+
+		if ($fullImage = $this->parseImageFull($data))
+		{
+			$images['full'] = $fullImage;
+		}
+
+		return $images;
+	}
+
+	/**
+	 * Parse full image information from images array.
+	 *
+	 * @param   array   $data  [description]
+	 *
+	 * @return  [type]         [description]
+	 */
+	private function parseImageFull(array $data)
+	{
+		if (empty($data['image_fulltext']))
+		{
+			return [];
+		}
+
+		$image = [
+			'url' => $data['image_fulltext']
+		];
+
+		if (!empty($data['float_fulltext']))
+		{
+			$image['float'] = $data['float_fulltext'];
+		}
+
+		if (!empty($data['image_fulltext_alt']))
+		{
+			$image['alt'] = $data['image_fulltext_alt'];
+		}
+
+		if (!empty($data['image_fulltext_caption']))
+		{
+			$image['caption'] = $data['image_fulltext_caption'];
+		}
+
+		return $image;
+	}
+
+	/**
+	 * Parse intro image information from images array.
+	 *
+	 * @param   array   $data  Images data
+	 *
+	 * @return  mixed   array
+	 */
+	private function parseImageIntro(array $data)
+	{
+		if (empty($data['image_intro']))
+		{
+			return [];
+		}
+
+		$image = [
+			'url' => $data['image_intro']
+		];
+
+		if (!empty($data['float_intro']))
+		{
+			$image['float'] = $data['float_intro'];
+		}
+
+		if (!empty($data['image_intro_alt']))
+		{
+			$image['alt'] = $data['image_intro_alt'];
+		}
+
+		if (!empty($data['image_intro_caption']))
+		{
+			$image['caption'] = $data['image_intro_caption'];
+		}
+
+		return $image;
 	}
 }
