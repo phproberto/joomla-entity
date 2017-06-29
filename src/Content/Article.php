@@ -116,8 +116,6 @@ class Article extends Entity
 	 */
 	public function hasFullTextImage()
 	{
-		$images = $this->getImages();
-
 		return array_key_exists('full', $this->getImages());
 	}
 
@@ -128,8 +126,6 @@ class Article extends Entity
 	 */
 	public function hasIntroImage()
 	{
-		$images = $this->getImages();
-
 		return array_key_exists('intro', $this->getImages());
 	}
 
