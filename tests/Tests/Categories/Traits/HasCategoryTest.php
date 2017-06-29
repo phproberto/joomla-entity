@@ -60,6 +60,29 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * getCategory reload works.
+	 *
+	 * @return  void
+	 */
+	public function testGetCategoryReloadWorks()
+	{
+		$class = new ClassWithCategory;
+
+		$reflection = new \ReflectionClass($class);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($class, ['id' => 999, 'category_id' => 666]);
+
+		$this->assertEquals(new Category(666), $class->getCategory());
+
+		$rowProperty->setValue($class, ['id' => 999, 'category_id' => 667]);
+
+		$this->assertEquals(new Category(666), $class->getCategory());
+		$this->assertEquals(new Category(667), $class->getCategory(true));
+	}
+
+	/**
 	 * getCategory returns empty category for unset column.
 	 *
 	 * @return  void

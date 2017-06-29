@@ -15,17 +15,34 @@ use Phproberto\Joomla\Entity\Categories\Category;
  *
  * @since   __DEPLOY_VERSION__
  */
-class CategoryTest extends \TestCase
+class CategoryTest extends \TestCaseDatabase
 {
 	/**
-	 * getTable returns correct instance.
+	 * Asset can be retrieved.
 	 *
 	 * @return  void
 	 */
-	public function testGetTableReturnsCorrectInstance()
+	public function testAssetCanBeRetrieved()
 	{
 		$category = new Category;
+		$reflection = new \ReflectionClass($category);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
 
-		$this->assertInstanceOf('CategoriesTableCategory', $category->getTable());
+		$rowProperty->setValue($category, ['id' => 999]);
+
+		$asset = $category->getAsset();
+
+		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
+		$this->assertSame(0, $asset->getId());
+
+		$category = new Category;
+
+		$rowProperty->setValue($category, ['id' => 999, 'asset_id' => 666]);
+
+		$asset = $category->getAsset();
+
+		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
+		$this->assertSame(666, $asset->getId());
 	}
 }

@@ -99,6 +99,29 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * getParams reload works.
+	 *
+	 * @return  void
+	 */
+	public function testGetParamsReloadWorks()
+	{
+		$entity = new EntityWithParams;
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"foo":"bar"}']);
+
+		$this->assertEquals(new Registry(['foo' => 'bar']), $entity->getParams());
+
+		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"foo":"bar-modified"}']);
+
+		$this->assertEquals(new Registry(['foo' => 'bar']), $entity->getParams());
+		$this->assertEquals(new Registry(['foo' => 'bar-modified']), $entity->getParams(true));
+	}
+
+	/**
 	 * saveParams throws an exception when column is not present in database row.
 	 *
 	 * @return  void
