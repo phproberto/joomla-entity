@@ -2,6 +2,25 @@
 
 > Easy management of Joomla! entities.
 
+## Quickstart
+
+This is still a work in progress but...
+
+```php
+use Phproberto\Joomla\Entity\Content\Article;
+
+$article = Article::instance(1);
+
+// Use article as entity
+echo $article->get('title');
+
+// Retrieve article category
+echo $article->getCategory()->get('title');
+
+// Retrieve article asset
+$asset = $article->getAsset();
+```
+
 ## Requirements
 
 * **PHP 5.5+** 
