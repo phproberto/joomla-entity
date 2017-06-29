@@ -14,13 +14,13 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
 
 /**
- * Stub to test Entity class.
+ * Article entity.
  *
  * @since   __DEPLOY_VERSION__
  */
 class Article extends Entity
 {
-	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasParams;
+	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasParams, EntityTraits\HasState;
 
 	/**
 	 * Images.

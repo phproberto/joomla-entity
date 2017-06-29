@@ -18,6 +18,34 @@ defined('_JEXEC') or die;
 interface EntityInterface
 {
 	/**
+	 * Value for published state
+	 *
+	 * @const
+	 */
+	const STATE_PUBLISHED = 1;
+
+	/**
+	 * Value for unpublished state
+	 *
+	 * @const
+	 */
+	const STATE_UNPUBLISHED = 0;
+
+	/**
+	 * Value for archived state
+	 *
+	 * @const
+	 */
+	const STATE_ARCHIVED = 2;
+
+	/**
+	 * Value for trashed state
+	 *
+	 * @const
+	 */
+	const STATE_TRASHED = -2;
+
+	/**
 	 * Get the entity identifier.
 	 *
 	 * @return  integer
