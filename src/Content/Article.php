@@ -86,6 +86,23 @@ class Article extends Entity
 	}
 
 	/**
+	 * Is this article featured?
+	 *
+	 * @return  boolean
+	 */
+	public function isFeatured()
+	{
+		$row = $this->getRow();
+
+		if (empty($row['featured']))
+		{
+			return false;
+		}
+
+		return 1 === (int) $row['featured'];
+	}
+
+	/**
 	 * Load images information.
 	 *
 	 * @return  array
@@ -119,9 +136,9 @@ class Article extends Entity
 	/**
 	 * Parse full image information from images array.
 	 *
-	 * @param   array   $data  [description]
+	 * @param   array   $data  Images data
 	 *
-	 * @return  [type]         [description]
+	 * @return  mixed   array
 	 */
 	private function parseImageFull(array $data)
 	{

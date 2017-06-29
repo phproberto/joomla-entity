@@ -275,4 +275,38 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertEquals(new Registry(['foo' => 'var']), $article->getParams());
 	}
+
+	/**
+	 * isFeatured returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testIsFeaturedReturnsCorrectValue()
+	{
+		$article = new Article(999);
+
+		$reflection = new \ReflectionClass($article);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($article, ['id' => 999]);
+
+		$this->assertFalse($article->isFeatured());
+
+		$rowProperty->setValue($article, ['id' => 999, 'featured' => 0]);
+
+		$this->assertFalse($article->isFeatured());
+
+		$rowProperty->setValue($article, ['id' => 999, 'featured' => '0']);
+
+		$this->assertFalse($article->isFeatured());
+
+		$rowProperty->setValue($article, ['id' => 999, 'featured' => '1']);
+
+		$this->assertTrue($article->isFeatured());
+
+		$rowProperty->setValue($article, ['id' => 999, 'featured' => 1]);
+
+		$this->assertTrue($article->isFeatured());
+	}
 }
