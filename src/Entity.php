@@ -159,7 +159,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @param   string  $name     The table name. Optional.
 	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
+	 * @param   array   $options  Configuration array for table. Optional.
 	 *
 	 * @return  \JTable
 	 *
