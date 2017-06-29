@@ -27,6 +27,19 @@ if ($article->getParam('show_title', '1') === '1')
 // Retrieve article category
 echo $article->getCategory()->get('title');
 
+// You can modify article properties
+$article->set('title', 'My modified title');
+
+// And save it
+try	
+{
+	$article->save();
+}
+catch (\RuntimeException $e)
+{
+	echo 'There was an error saving article: ' . $e->getMessage();
+}
+
 // Retrieve article asset
 $asset = $article->getAsset();
 ```
