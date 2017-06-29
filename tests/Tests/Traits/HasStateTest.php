@@ -270,4 +270,33 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertFalse($entity->isTrashed());
 	}
+
+	/**
+	 * getAvailableStates returns available states.
+	 *
+	 * @return  void
+	 */
+	public function testGetAvailableStatesReturnsAvailableStates()
+	{
+		$entity = new EntityWithState;
+
+		$this->assertSame(4, count($entity->getAvailableStates()));
+
+		$customStates = [
+			56   => 'Dead or alive',
+			99   => 'Broken by Dimitris',
+			999  => 'Sold to Google by Ronni',
+			1001 => 'Drinking beer'
+		];
+
+		$entity = $this->getMockBuilder(EntityWithState::class)
+			->setMethods(array('getAvailableStates'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('getAvailableStates')
+			->willReturn($customStates);
+
+		$this->assertSame($customStates, $entity->getAvailableStates());
+	}
 }

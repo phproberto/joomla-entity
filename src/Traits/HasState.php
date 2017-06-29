@@ -43,6 +43,21 @@ trait HasState
 	abstract public function getTable($name = '', $prefix = null, $options = array());
 
 	/**
+	 * Get a list of available states.
+	 *
+	 * @return  string
+	 */
+	public function getAvailableStates()
+	{
+		return [
+			self::STATE_PUBLISHED   => \JText::_('JPUBLISHED'),
+			self::STATE_UNPUBLISHED => \JText::_('JUNPUBLISHED'),
+			self::STATE_ARCHIVED    => \JText::_('JARCHIVEDSTATE_ARCHIVED'),
+			self::STATE_TRASHED     => \JText::_('JTRASHED')
+		];
+	}
+
+	/**
 	 * Get the name of the column that stores state.
 	 *
 	 * @return  string
