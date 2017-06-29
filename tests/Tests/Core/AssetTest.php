@@ -18,14 +18,14 @@ use Phproberto\Joomla\Entity\Core\Asset;
 class AssetTest extends \TestCase
 {
 	/**
-	 * getTable returns correct instance.
+	 * instance loads an asset.
 	 *
 	 * @return  void
 	 */
-	public function testGetTableReturnsCorrectInstance()
+	public function testInstanceLoadsAnAsset()
 	{
-		$asset = new Asset;
+		$asset = Asset::instance(1);
 
-		$this->assertInstanceOf('JTableAsset', $asset->getTable());
+		$this->assertEquals(1, $asset->getId());
 	}
 }
