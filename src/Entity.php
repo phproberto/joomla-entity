@@ -102,8 +102,8 @@ abstract class Entity implements EntityInterface
 	/**
 	 * Get a property of this entity.
 	 *
-	 * @param   string  $property  [description]
-	 * @param   mixed   $default   [description]
+	 * @param   string  $property  Name of the property to get
+	 * @param   mixed   $default   Value to use as default if property is not set or is null
 	 *
 	 * @return  mixed
 	 */
@@ -188,7 +188,9 @@ abstract class Entity implements EntityInterface
 	 */
 	public function has($property)
 	{
-		if (!$this->row)
+		$row = $this->getRow();
+
+		if (!$row)
 		{
 			return false;
 		}

@@ -383,13 +383,15 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 	{
 		$entity = new Entity;
 
-		$this->assertFalse($entity->has(self::PRIMARY_KEY));
-		$this->assertFalse($entity->has('name'));
-		$this->assertFalse($entity->has('age'));
-
 		$reflection = new \ReflectionClass($entity);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999]);
+
+		$this->assertTrue($entity->has(self::PRIMARY_KEY));
+		$this->assertFalse($entity->has('name'));
+		$this->assertFalse($entity->has('age'));
 
 		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura']);
 
