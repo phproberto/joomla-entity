@@ -100,6 +100,34 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get a row date field formatted.
+	 *
+	 * @param   string   $property   Name of the property to use as source date
+	 * @param   array    $options    Optional settings:
+	 *                               format =>The date format specification string (see {@link PHP_MANUAL#date}).
+	 * 	                             tz => Time zone to be used for the date.  Special cases: boolean true for user
+	 *                               	setting, boolean false for server setting.
+	 * 	                             gregorian => True to use Gregorian calendar.
+	 *
+	 * @return  string
+	 */
+	public function date($property, array $options = [])
+	{
+		$format    = isset($options['format']) ? $options['format'] : 'DATE_FORMAT_LC1';
+		$tz        = isset($options['tz']) ? $options['tz'] : true;
+		$gregorian = isset($options['gregorian']) ? $options['gregorian'] : false;
+
+		$row = $this->getRow();
+
+		if (empty($row[$property]))
+		{
+			return null;
+		}
+
+		return \JHtml::_('date', $row[$property], $format, $tz, $gregorian);
+	}
+
+	/**
 	 * Get a property of this entity.
 	 *
 	 * @param   string  $property  Name of the property to get
@@ -190,12 +218,7 @@ abstract class Entity implements EntityInterface
 	{
 		$row = $this->getRow();
 
-		if (!$row)
-		{
-			return false;
-		}
-
-		return array_key_exists($property, $this->row);
+		return $row && array_key_exists($property, $this->row);
 	}
 
 	/**

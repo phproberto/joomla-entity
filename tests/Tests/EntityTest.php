@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
  *
  * @since   __DEPLOY_VERSION__
  */
-class EntityTest extends \PHPUnit\Framework\TestCase
+class EntityTest extends \TestCase
 {
 	/**
 	 * Name of the primary key
@@ -23,6 +23,39 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 	 * @const
 	 */
 	const PRIMARY_KEY = 'id';
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		\JFactory::$session     = $this->getMockSession();
+		\JFactory::$config      = $this->getMockConfig();
+		\JFactory::$application = $this->getMockCmsApp();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		// Ensure that all the tests start with no cached instances
+		Entity::clearAllInstances();
+
+		parent::tearDown();
+	}
 
 	/**
 	 * Get an entity that simulates data loading.
@@ -171,6 +204,53 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 		$entity = new Entity('999');
 
 		$this->assertSame(999, $idProperty->getValue($entity));
+	}
+
+	/**
+	 * date returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testDateReturnsCorrectValue()
+	{
+		$entity = new Entity;
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$data = ['id' => 999, 'date' => '1976-11-16 16:05:00'];
+
+		$rowProperty->setValue($entity, $data);
+
+		$this->assertSame('Tuesday, 16 November 1976', $entity->date('date', ['tz' => 'GMT']));
+		$this->assertSame('1976-11-16 16:05:00', $entity->date('date', ['tz' => 'GMT', 'format' => 'DATE_FORMAT_FILTER_DATETIME']));
+	}
+
+	/**
+	 * date returns null when property does not exist or is empty.
+	 *
+	 * @return  void
+	 */
+	public function testDateReturnsNullWhenNoPropertyOrEmpty()
+	{
+		$entity = new Entity;
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$data = ['id' => 999];
+
+		$rowProperty->setValue($entity, $data);
+
+		$this->assertSame(null, $entity->date('date', ['tz' => 'GMT']));
+
+		$data = ['id' => 999, 'date' => ''];
+
+		$rowProperty->setValue($entity, $data);
+
+		$this->assertSame(null, $entity->date('date', ['tz' => 'GMT']));
 	}
 
 	/**
