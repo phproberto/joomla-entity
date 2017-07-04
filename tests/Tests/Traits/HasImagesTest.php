@@ -18,6 +18,39 @@ use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithImages;
 class HasImagesTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * getFullTextImage returns correct value
+	 *
+	 * @return  void
+	 */
+	public function testGetFullTextImageReturnsCorrectValue()
+	{
+		$entity = new EntityWithImages(999);
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, ['id' => 999, 'images' => '']);
+
+		$this->assertEquals([], $entity->getFullTextImage());
+
+		$entity = EntityWithImages::freshInstance(999);
+		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png"}']);
+
+		$this->assertEquals(['url' => 'images/joomla_black.png'], $entity->getFullTextImage());
+
+		$entity = EntityWithImages::freshInstance(999);
+		$rowProperty->setValue($entity, ['id' => 999]);
+
+		$this->assertEquals([], $entity->getFullTextImage());
+
+		$entity = EntityWithImages::freshInstance(999);
+		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}']);
+
+		$this->assertEquals([], $entity->getFullTextImage());
+	}
+
+	/**
 	 * getImages returns intro image if exists.
 	 *
 	 * @return  void
@@ -134,30 +167,30 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetIntroImageReturnsCorrectValue()
 	{
-		$article = new EntityWithImages(999);
+		$entity = new EntityWithImages(999);
 
-		$reflection = new \ReflectionClass($article);
+		$reflection = new \ReflectionClass($entity);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '']);
+		$rowProperty->setValue($entity, ['id' => 999, 'images' => '']);
 
-		$this->assertEquals([], $article->getIntroImage());
+		$this->assertEquals([], $entity->getIntroImage());
 
-		$article = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png"}']);
+		$entity = EntityWithImages::freshInstance(999);
+		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png"}']);
 
-		$this->assertEquals(['url' => 'images/joomla_black.png'], $article->getIntroImage());
+		$this->assertEquals(['url' => 'images/joomla_black.png'], $entity->getIntroImage());
 
-		$article = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999]);
+		$entity = EntityWithImages::freshInstance(999);
+		$rowProperty->setValue($entity, ['id' => 999]);
 
-		$this->assertEquals([], $article->getIntroImage());
+		$this->assertEquals([], $entity->getIntroImage());
 
-		$article = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}']);
+		$entity = EntityWithImages::freshInstance(999);
+		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}']);
 
-		$this->assertEquals([], $article->getIntroImage());
+		$this->assertEquals([], $entity->getIntroImage());
 	}
 
 	/**
