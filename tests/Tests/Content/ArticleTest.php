@@ -292,38 +292,6 @@ class ArticleTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * getIntroImage returns correct value.
-	 *
-	 * @return  void
-	 */
-	public function testGetIntroImageReturnsCorrectValue()
-	{
-		$article = new Article(999);
-
-		$reflection = new \ReflectionClass($article);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '']);
-
-		$this->assertEquals([], $article->getIntroImage());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png"}']);
-
-		$this->assertEquals(['url' => 'images/joomla_black.png'], $article->getIntroImage());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999]);
-
-		$this->assertEquals([], $article->getIntroImage());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}']);
-
-		$this->assertEquals([], $article->getIntroImage());
-	}
-	/**
 	 * getMetadata returns data.
 	 *
 	 * @return  void

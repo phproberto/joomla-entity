@@ -33,6 +33,19 @@ trait HasImages
 	}
 
 	/**
+	 * Get the full text image.
+	 *
+	 * @return  array
+	 */
+	public function getFullTextImage()
+	{
+		$images = $this->getImages();
+
+		return array_key_exists('full', $images) ? $images['full'] : [];
+	}
+
+
+	/**
 	 * Get article images.
 	 *
 	 * @param   boolean  $reload  Force data reloading
@@ -47,6 +60,38 @@ trait HasImages
 		}
 
 		return $this->images;
+	}
+
+	/**
+	 * Get the article intro image.
+	 *
+	 * @return  array
+	 */
+	public function getIntroImage()
+	{
+		$images = $this->getImages();
+
+		return array_key_exists('intro', $images) ? $images['intro'] : [];
+	}
+
+	/**
+	 * Has this article an full text image?
+	 *
+	 * @return  boolean
+	 */
+	public function hasFullTextImage()
+	{
+		return array_key_exists('full', $this->getImages());
+	}
+
+	/**
+	 * Has this article an intro image?
+	 *
+	 * @return  boolean
+	 */
+	public function hasIntroImage()
+	{
+		return array_key_exists('intro', $this->getImages());
 	}
 
 	/**

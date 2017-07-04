@@ -50,30 +50,6 @@ class Article extends Entity
 	}
 
 	/**
-	 * Get the full text image.
-	 *
-	 * @return  array
-	 */
-	public function getFullTextImage()
-	{
-		$images = $this->getImages();
-
-		return array_key_exists('full', $images) ? $images['full'] : [];
-	}
-
-	/**
-	 * Get the article intro image.
-	 *
-	 * @return  array
-	 */
-	public function getIntroImage()
-	{
-		$images = $this->getImages();
-
-		return array_key_exists('intro', $images) ? $images['intro'] : [];
-	}
-
-	/**
 	 * Get a table.
 	 *
 	 * @param   string  $name     The table name. Optional.
@@ -105,26 +81,6 @@ class Article extends Entity
 		}
 
 		return $this->urls;
-	}
-
-	/**
-	 * Has this article an full text image?
-	 *
-	 * @return  boolean
-	 */
-	public function hasFullTextImage()
-	{
-		return array_key_exists('full', $this->getImages());
-	}
-
-	/**
-	 * Has this article an intro image?
-	 *
-	 * @return  boolean
-	 */
-	public function hasIntroImage()
-	{
-		return array_key_exists('intro', $this->getImages());
 	}
 
 	/**
