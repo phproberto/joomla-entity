@@ -33,6 +33,13 @@ trait HasAccess
 	abstract public function get($property, $default = null);
 
 	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	abstract public function getRow();
+
+	/**
 	 * Check if this entity has an id.
 	 *
 	 * @return  boolean
