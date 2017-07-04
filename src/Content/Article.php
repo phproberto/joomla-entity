@@ -30,6 +30,13 @@ class Article extends Entity
 	protected $images;
 
 	/**
+	 * URLs
+	 *
+	 * @var  array
+	 */
+	protected $urls;
+
+	/**
 	 * Get the name of the column that stores category.
 	 *
 	 * @return  string
@@ -110,6 +117,21 @@ class Article extends Entity
 	}
 
 	/**
+	 * Get this article URLs.
+	 *
+	 * @return  array
+	 */
+	public function getUrls()
+	{
+		if (null === $this->urls)
+		{
+			$this->urls = $this->loadUrls();
+		}
+
+		return $this->urls;
+	}
+
+	/**
 	 * Has this article an full text image?
 	 *
 	 * @return  boolean
@@ -164,12 +186,12 @@ class Article extends Entity
 
 		$images = [];
 
-		if ($introImage = $this->parseImageIntro($data))
+		if ($introImage = $this->parseImage('intro', $data))
 		{
 			$images['intro'] = $introImage;
 		}
 
-		if ($fullImage = $this->parseImageFull($data))
+		if ($fullImage = $this->parseImage('fulltext', $data))
 		{
 			$images['full'] = $fullImage;
 		}
@@ -178,74 +200,103 @@ class Article extends Entity
 	}
 
 	/**
-	 * Parse full image information from images array.
+	 * Load urls from database.
 	 *
-	 * @param   array   $data  Images data
-	 *
-	 * @return  mixed   array
+	 * @return  array
 	 */
-	private function parseImageFull(array $data)
+	protected function loadUrls()
 	{
-		if (empty($data['image_fulltext']))
+		$row = $this->getRow();
+
+		if (empty($row['urls']))
+		{
+			return [];
+		}
+
+		$data = (array) json_decode($row['urls']);
+
+		$urls = [];
+
+		for ($i = 'a'; $i < 'd'; $i++)
+		{
+			if ($url = $this->parseUrl($i, $data))
+			{
+				$urls[$i] = $url;
+			}
+		}
+
+		return $urls;
+	}
+
+	/**
+	 * Parse an image information from db data.
+	 *
+	 * @param   string  $name  Name of the image: intro | fulltext
+	 * @param   array   $data  Data from the database
+	 *
+	 * @return  array
+	 */
+	private function parseImage($name, array $data)
+	{
+		if (empty($data['image_' . $name]))
 		{
 			return [];
 		}
 
 		$image = [
-			'url' => $data['image_fulltext']
+			'url' => $data['image_' . $name]
 		];
 
-		if (!empty($data['float_fulltext']))
-		{
-			$image['float'] = $data['float_fulltext'];
-		}
+		$properties = [
+			'float'   => 'float_' . $name,
+			'alt'     => 'image_' . $name . '_alt',
+			'caption' => 'image_' . $name . '_caption'
+		];
 
-		if (!empty($data['image_fulltext_alt']))
+		foreach ($properties as $key => $property)
 		{
-			$image['alt'] = $data['image_fulltext_alt'];
-		}
-
-		if (!empty($data['image_fulltext_caption']))
-		{
-			$image['caption'] = $data['image_fulltext_caption'];
+			if (isset($data[$property]) && $data[$property] != '')
+			{
+				$image[$key] = $data[$property];
+			}
 		}
 
 		return $image;
 	}
 
 	/**
-	 * Parse intro image information from images array.
+	 * Parse URL.
 	 *
-	 * @param   array   $data  Images data
+	 * @param   string  $position  URL position
+	 * @param   array   $data      URLs data source from db
 	 *
-	 * @return  mixed   array
+	 * @return  array
 	 */
-	private function parseImageIntro(array $data)
+	function parseUrl($position, $data)
 	{
-		if (empty($data['image_intro']))
+		if (empty($data['url' . $position]))
 		{
 			return [];
 		}
 
-		$image = [
-			'url' => $data['image_intro']
+		$url = [
+			'url' => $data['url' . $position]
 		];
 
-		if (!empty($data['float_intro']))
+		$properties = [
+			'url'    => 'url' . $position,
+			'text'   => 'url' . $position . 'text',
+			'target' => 'target' . $position
+		];
+
+		foreach ($properties as $key => $property)
 		{
-			$image['float'] = $data['float_intro'];
+			if (isset($data[$property]) && $data[$property] != '')
+			{
+				$url[$key] = $data[$property];
+			}
 		}
 
-		if (!empty($data['image_intro_alt']))
-		{
-			$image['alt'] = $data['image_intro_alt'];
-		}
-
-		if (!empty($data['image_intro_caption']))
-		{
-			$image['caption'] = $data['image_intro_caption'];
-		}
-
-		return $image;
+		return $url;
 	}
 }
