@@ -24,6 +24,16 @@ trait HasParams
 	}
 
 	/**
+	 * Assign a value to entity property.
+	 *
+	 * @param   string  $property  Name of the property to set
+	 * @param   mixed   $value     Value to assign
+	 *
+	 * @return  self
+	 */
+	abstract public function assign($property, $value);
+
+	/**
 	 * Get the entity identifier.
 	 *
 	 * @return  integer
