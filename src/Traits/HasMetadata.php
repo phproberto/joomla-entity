@@ -23,6 +23,16 @@ trait HasMetadata
 	protected $metadata;
 
 	/**
+	 * Get the name of the column that stores metadata.
+	 *
+	 * @return  string
+	 */
+	protected function getColumnMetadata()
+	{
+		return 'metadata';
+	}
+
+	/**
 	 * Get article metadata.
 	 *
 	 * @return  array
@@ -51,15 +61,16 @@ trait HasMetadata
 	 */
 	protected function loadMetadata()
 	{
-		$data = [];
-		$row = $this->getRow();
+		$data   = [];
+		$column = $this->getColumnMetadata();
+		$row    = $this->getRow();
 
-		if (empty($row['metadata']))
+		if (empty($row[$column]))
 		{
 			return $data;
 		}
 
-		foreach ((array) json_decode($row['metadata']) as $property => $value)
+		foreach ((array) json_decode($row[$column]) as $property => $value)
 		{
 			if ($value === '')
 			{
