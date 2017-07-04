@@ -20,14 +20,7 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
  */
 class Article extends Entity
 {
-	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
-
-	/**
-	 * Images.
-	 *
-	 * @var  array
-	 */
-	protected $images;
+	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasImages, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
 
 	/**
 	 * URLs
@@ -66,23 +59,6 @@ class Article extends Entity
 		$images = $this->getImages();
 
 		return array_key_exists('full', $images) ? $images['full'] : [];
-	}
-
-	/**
-	 * Get article images.
-	 *
-	 * @param   boolean  $reload  Force data reloading
-	 *
-	 * @return  array
-	 */
-	public function getImages($reload = false)
-	{
-		if ($reload || null === $this->images)
-		{
-			$this->images = $this->loadImages();
-		}
-
-		return $this->images;
 	}
 
 	/**
@@ -169,37 +145,6 @@ class Article extends Entity
 	}
 
 	/**
-	 * Load images information.
-	 *
-	 * @return  array
-	 */
-	protected function loadImages()
-	{
-		$row = $this->getRow();
-
-		if (empty($row['images']))
-		{
-			return [];
-		}
-
-		$data = (array) json_decode($row['images']);
-
-		$images = [];
-
-		if ($introImage = $this->parseImage('intro', $data))
-		{
-			$images['intro'] = $introImage;
-		}
-
-		if ($fullImage = $this->parseImage('fulltext', $data))
-		{
-			$images['full'] = $fullImage;
-		}
-
-		return $images;
-	}
-
-	/**
 	 * Load urls from database.
 	 *
 	 * @return  array
@@ -249,32 +194,6 @@ class Article extends Entity
 		}
 
 		return $output;
-	}
-
-	/**
-	 * Parse an image information from db data.
-	 *
-	 * @param   string  $name  Name of the image: intro | fulltext
-	 * @param   array   $data  Data from the database
-	 *
-	 * @return  array
-	 */
-	private function parseImage($name, array $data)
-	{
-		if (empty($data['image_' . $name]))
-		{
-			return [];
-		}
-
-		return $this->parseJsonDecodedProperties(
-			[
-				'url'     => 'image_' . $name,
-				'float'   => 'float_' . $name,
-				'alt'     => 'image_' . $name . '_alt',
-				'caption' => 'image_' . $name . '_caption'
-			],
-			$data
-		);
 	}
 
 	/**
