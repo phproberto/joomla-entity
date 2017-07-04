@@ -244,6 +244,36 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get the content of a column with data stored in JSON.
+	 *
+	 * @param   string  $property  Name of the column storing data
+	 *
+	 * @return  array
+	 */
+	public function json($property)
+	{
+		$data = [];
+		$row  = $this->getRow();
+
+		if (empty($row[$property]))
+		{
+			return $data;
+		}
+
+		foreach ((array) json_decode($row[$property]) as $property => $value)
+		{
+			if ($value === '')
+			{
+				continue;
+			}
+
+			$data[$property] = $value;
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Load row data.
 	 *
 	 * @return  self

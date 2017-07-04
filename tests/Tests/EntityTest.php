@@ -513,6 +513,36 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * json returns correct data.
+	 *
+	 * @return  void
+	 */
+	public function testJsonReturnsCorrectData()
+	{
+		$entity = new Entity;
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999]);
+
+		$this->assertEquals([], $entity->json('json_column'));
+
+		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'json_column' => '{"foo":""}']);
+
+		$this->assertEquals([], $entity->json('json_column'));
+
+		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"0"}']);
+
+		$this->assertEquals(['foo' => '0'], $entity->json('json_column'));
+
+		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"bar"}']);
+
+		$this->assertEquals(['foo' => 'bar'], $entity->json('json_column'));
+	}
+
+	/**
 	 * save returns true.
 	 *
 	 * @return  void

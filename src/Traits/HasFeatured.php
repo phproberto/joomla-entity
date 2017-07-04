@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Traits;
 
 /**
- * Trait for entities with metadata. Based on metadata columns.
+ * Trait for entities with featured column.
  *
  * @since   __DEPLOY_VERSION__
  */
