@@ -50,6 +50,15 @@ trait HasUrls
 	}
 
 	/**
+	 * Get the content of a column with data stored in JSON.
+	 *
+	 * @param   string  $property  Name of the column storing data
+	 *
+	 * @return  array
+	 */
+	abstract public function json($property);
+
+	/**
 	 * Load urls from database.
 	 *
 	 * @return  array
