@@ -324,11 +324,11 @@ class ArticleTest extends \TestCaseDatabase
 		$this->assertEquals([], $article->getIntroImage());
 	}
 	/**
-	 * getMetadata returns correct data.
+	 * getMetadata returns data.
 	 *
 	 * @return  void
 	 */
-	public function testGetMetadataReturnsCorrectData()
+	public function testGetMetadataReturnsData()
 	{
 		$article = new Article(999);
 
@@ -336,63 +336,10 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999]);
-
-		$this->assertEquals([], $article->getMetadata());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '']);
-
-		$this->assertEquals([], $article->getMetadata());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{}']);
-
-		$this->assertEquals([], $article->getMetadata());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"robots":"","author":"","rights":"","xreference":""}']);
-
-		$this->assertEquals([], $article->getMetadata());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"robots":"noindex, follow","author":"Roberto Segura","rights":"Creative Commons","xreference":"http:\/\/phproberto.com"}']);
+		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"foo":"bar"}']);
 
 		$expected = [
-			'robots' => 'noindex, follow',
-			'author' => 'Roberto Segura',
-			'rights' => 'Creative Commons',
-			'xreference' => 'http://phproberto.com'
-		];
-
-		$this->assertEquals($expected, $article->getMetadata());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"robots":"noindex, follow","author":"Roberto Segura","xreference":"http:\/\/phproberto.com"}']);
-
-		$expected = [
-			'robots' => 'noindex, follow',
-			'author' => 'Roberto Segura',
-			'xreference' => 'http://phproberto.com'
-		];
-
-		$this->assertEquals($expected, $article->getMetadata());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"author":"Roberto Segura","xreference":"http:\/\/phproberto.com"}']);
-
-		$expected = [
-			'author' => 'Roberto Segura',
-			'xreference' => 'http://phproberto.com'
-		];
-
-		$this->assertEquals($expected, $article->getMetadata());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"author":"Roberto Segura"}']);
-
-		$expected = [
-			'author' => 'Roberto Segura'
+			'foo' => 'bar'
 		];
 
 		$this->assertEquals($expected, $article->getMetadata());
