@@ -480,22 +480,22 @@ class ArticleTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($article, ['id' => 999]);
 
-		$this->assertFalse($article->isFeatured());
+		$this->assertFalse($article->isFeatured(true));
 
 		$rowProperty->setValue($article, ['id' => 999, 'featured' => 0]);
 
-		$this->assertFalse($article->isFeatured());
+		$this->assertFalse($article->isFeatured(true));
 
 		$rowProperty->setValue($article, ['id' => 999, 'featured' => '0']);
 
-		$this->assertFalse($article->isFeatured());
+		$this->assertFalse($article->isFeatured(true));
 
 		$rowProperty->setValue($article, ['id' => 999, 'featured' => '1']);
 
-		$this->assertTrue($article->isFeatured());
+		$this->assertTrue($article->isFeatured(true));
 
 		$rowProperty->setValue($article, ['id' => 999, 'featured' => 1]);
 
-		$this->assertTrue($article->isFeatured());
+		$this->assertTrue($article->isFeatured(true));
 	}
 }

@@ -20,7 +20,8 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
  */
 class Article extends Entity
 {
-	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasImages, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
+	use CategoriesTraits\HasCategory, CoreTraits\HasAsset;
+	use EntityTraits\HasFeatured, EntityTraits\HasImages, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
 
 	/**
 	 * URLs
@@ -81,23 +82,6 @@ class Article extends Entity
 		}
 
 		return $this->urls;
-	}
-
-	/**
-	 * Is this article featured?
-	 *
-	 * @return  boolean
-	 */
-	public function isFeatured()
-	{
-		$row = $this->getRow();
-
-		if (empty($row['featured']))
-		{
-			return false;
-		}
-
-		return 1 === (int) $row['featured'];
 	}
 
 	/**

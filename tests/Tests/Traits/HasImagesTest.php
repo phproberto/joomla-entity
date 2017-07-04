@@ -9,7 +9,6 @@
 namespace Phproberto\Joomla\Entity\Tests\Traits;
 
 use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithImages;
-use Joomla\Registry\Registry;
 
 /**
  * HasImages trait tests.

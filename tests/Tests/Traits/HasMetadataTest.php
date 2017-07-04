@@ -9,7 +9,6 @@
 namespace Phproberto\Joomla\Entity\Tests\Traits;
 
 use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithMetadata;
-use Joomla\Registry\Registry;
 
 /**
  * HasMetadata trait tests.
