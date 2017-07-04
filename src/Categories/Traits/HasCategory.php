@@ -27,6 +27,13 @@ trait HasCategory
 	protected $category;
 
 	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	abstract public function getRow();
+
+	/**
 	 * Get the associated category.
 	 *
 	 * @param   boolean  $reload  Force reloading

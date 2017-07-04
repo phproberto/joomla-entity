@@ -218,7 +218,7 @@ abstract class Entity implements EntityInterface
 	{
 		$row = $this->getRow();
 
-		return $row && array_key_exists($property, $this->row);
+		return $row && array_key_exists($property, $row);
 	}
 
 	/**

@@ -27,6 +27,13 @@ trait HasAsset
 	protected $asset;
 
 	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	abstract public function getRow();
+
+	/**
 	 * Get the associated asset.
 	 *
 	 * @param   boolean  $reload  Force asset reloading
