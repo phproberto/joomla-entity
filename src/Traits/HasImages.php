@@ -44,7 +44,6 @@ trait HasImages
 		return array_key_exists('full', $images) ? $images['full'] : [];
 	}
 
-
 	/**
 	 * Get article images.
 	 *
@@ -73,6 +72,13 @@ trait HasImages
 
 		return array_key_exists('intro', $images) ? $images['intro'] : [];
 	}
+
+	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	abstract public function getRow();
 
 	/**
 	 * Has this article an full text image?

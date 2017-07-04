@@ -33,6 +33,13 @@ trait HasFeatured
 	}
 
 	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	abstract public function getRow();
+
+	/**
 	 * Is this article featured?
 	 *
 	 * @param   boolean  $reload  Force reloading
