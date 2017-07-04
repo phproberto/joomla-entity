@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Exception;
 
 use Phproberto\Joomla\Entity\EntityInterface;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 /**
  * Invalid entity data errors.

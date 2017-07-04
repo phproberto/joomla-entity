@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Exception;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 /**
  * Exception interface.

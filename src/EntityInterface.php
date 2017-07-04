@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 /**
  * Describes methods required by entities.
