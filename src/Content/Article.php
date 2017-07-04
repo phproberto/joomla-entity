@@ -21,8 +21,8 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
 class Article extends Entity
 {
 	use CategoriesTraits\HasCategory, CoreTraits\HasAsset;
-	use EntityTraits\HasFeatured, EntityTraits\HasImages, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
-	use EntityTraits\HasUrls;
+	use EntityTraits\HasAccess, EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages, EntityTraits\HasMetadata;
+	use EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasUrls;
 
 	/**
 	 * Get the name of the column that stores category.
@@ -57,9 +57,30 @@ class Article extends Entity
 	 */
 	public function getTable($name = '', $prefix = null, $options = array())
 	{
-		$name = $name ?: 'Content';
+		$name   = $name ?: 'Content';
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::getTable($name, $prefix, $options);
+	}
+
+	/**
+	 * Load the link to this entity.
+	 *
+	 * @return  atring
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function loadLink()
+	{
+		$slug = $this->getSlug();
+
+		if (!$slug)
+		{
+			return null;
+		}
+
+		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+
+		return \JRoute::_(\ContentHelperRoute::getArticleRoute($slug, (int) $this->get('catid'), $this->get('language')));
 	}
 }
