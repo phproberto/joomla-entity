@@ -20,7 +20,7 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
  */
 class Tag extends Entity
 {
-	use EntityTraits\HasImages, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
+	use EntityTraits\HasImages, EntityTraits\HasLink, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
 
 	/**
 	 * Get a table.
@@ -41,5 +41,26 @@ class Tag extends Entity
 		$prefix = $prefix ?: 'TagsTable';
 
 		return parent::getTable($name, $prefix, $options);
+	}
+
+	/**
+	 * Load the link to this entity.
+	 *
+	 * @return  atring
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function loadLink()
+	{
+		$id = $this->getId();
+
+		if (!$id)
+		{
+			return null;
+		}
+
+		\JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
+
+		return \JRoute::_(\TagsHelperRoute::getTagRoute($id . '-' . $this->get('alias')));
 	}
 }
