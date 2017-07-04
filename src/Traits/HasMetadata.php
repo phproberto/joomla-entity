@@ -35,11 +35,13 @@ trait HasMetadata
 	/**
 	 * Get article metadata.
 	 *
+	 * @param   boolean  $reload  Force reloading
+	 *
 	 * @return  array
 	 */
-	public function getMetadata()
+	public function getMetadata($reload = false)
 	{
-		if (null === $this->metadata)
+		if ($reload || null === $this->metadata)
 		{
 			$this->metadata = $this->loadMetadata();
 		}

@@ -18,11 +18,11 @@ use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithMetadata;
 class HasMetadataTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * getParam returns correct value.
+	 * getMetadata returns correct value.
 	 *
 	 * @return  void
 	 */
-	public function testGetParamReturnsCorrectValue()
+	public function testGetMetadataReturnsCorrectValue()
 	{
 		$article = new EntityWithMetadata(999);
 
@@ -32,47 +32,44 @@ class HasMetadataTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($article, ['id' => 999]);
 
-		$this->assertEquals([], $article->getMetadata());
+		$this->assertEquals([], $article->getMetadata(true));
 
-		$article = EntityWithMetadata::freshInstance(999);
 		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '']);
 
-		$this->assertEquals([], $article->getMetadata());
+		$this->assertEquals([], $article->getMetadata(true));
 
-		$article = EntityWithMetadata::freshInstance(999);
 		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{}']);
 
-		$this->assertEquals([], $article->getMetadata());
+		$this->assertEquals([], $article->getMetadata(true));
 
-		$article = EntityWithMetadata::freshInstance(999);
 		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"robots":"","author":"","rights":"","xreference":""}']);
 
-		$this->assertEquals([], $article->getMetadata());
+		$this->assertEquals([], $article->getMetadata(true));
 
-		$article = EntityWithMetadata::freshInstance(999);
 		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"robots":"noindex, follow","author":"Roberto Segura","rights":"Creative Commons","xreference":"http:\/\/phproberto.com"}']);
 
+		// Without reload = old data
+		$this->assertEquals([], $article->getMetadata());
+
 		$expected = [
-			'robots' => 'noindex, follow',
-			'author' => 'Roberto Segura',
-			'rights' => 'Creative Commons',
+			'robots'     => 'noindex, follow',
+			'author'     => 'Roberto Segura',
+			'rights'     => 'Creative Commons',
 			'xreference' => 'http://phproberto.com'
 		];
 
-		$this->assertEquals($expected, $article->getMetadata());
+		$this->assertEquals($expected, $article->getMetadata(true));
 
-		$article = EntityWithMetadata::freshInstance(999);
 		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"robots":"noindex, follow","author":"Roberto Segura","xreference":"http:\/\/phproberto.com"}']);
 
 		$expected = [
-			'robots' => 'noindex, follow',
-			'author' => 'Roberto Segura',
+			'robots'     => 'noindex, follow',
+			'author'     => 'Roberto Segura',
 			'xreference' => 'http://phproberto.com'
 		];
 
-		$this->assertEquals($expected, $article->getMetadata());
+		$this->assertEquals($expected, $article->getMetadata(true));
 
-		$article = EntityWithMetadata::freshInstance(999);
 		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"author":"Roberto Segura","xreference":"http:\/\/phproberto.com"}']);
 
 		$expected = [
@@ -80,15 +77,14 @@ class HasMetadataTest extends \PHPUnit\Framework\TestCase
 			'xreference' => 'http://phproberto.com'
 		];
 
-		$this->assertEquals($expected, $article->getMetadata());
+		$this->assertEquals($expected, $article->getMetadata(true));
 
-		$article = EntityWithMetadata::freshInstance(999);
 		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"author":"Roberto Segura"}']);
 
 		$expected = [
 			'author' => 'Roberto Segura'
 		];
 
-		$this->assertEquals($expected, $article->getMetadata());
+		$this->assertEquals($expected, $article->getMetadata(true));
 	}
 }
