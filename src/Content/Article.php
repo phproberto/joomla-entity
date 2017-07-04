@@ -229,6 +229,29 @@ class Article extends Entity
 	}
 
 	/**
+	 * Parse data
+	 *
+	 * @param   array   $properties  Properties to process
+	 * @param   array   $data        Array containing the JSON decoded data
+	 *
+	 * @return  array
+	 */
+	private function parseJsonDecodedProperties($properties, array $data)
+	{
+		$output = [];
+
+		foreach ($properties as $key => $property)
+		{
+			if (isset($data[$property]) && $data[$property] != '')
+			{
+				$output[$key] = $data[$property];
+			}
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Parse an image information from db data.
 	 *
 	 * @param   string  $name  Name of the image: intro | fulltext
@@ -243,25 +266,15 @@ class Article extends Entity
 			return [];
 		}
 
-		$image = [
-			'url' => $data['image_' . $name]
-		];
-
-		$properties = [
-			'float'   => 'float_' . $name,
-			'alt'     => 'image_' . $name . '_alt',
-			'caption' => 'image_' . $name . '_caption'
-		];
-
-		foreach ($properties as $key => $property)
-		{
-			if (isset($data[$property]) && $data[$property] != '')
-			{
-				$image[$key] = $data[$property];
-			}
-		}
-
-		return $image;
+		return $this->parseJsonDecodedProperties(
+			[
+				'url' => 'image_' . $name,
+				'float'   => 'float_' . $name,
+				'alt'     => 'image_' . $name . '_alt',
+				'caption' => 'image_' . $name . '_caption'
+			],
+			$data
+		);
 	}
 
 	/**
@@ -272,31 +285,20 @@ class Article extends Entity
 	 *
 	 * @return  array
 	 */
-	function parseUrl($position, $data)
+	private function parseUrl($position, array $data)
 	{
 		if (empty($data['url' . $position]))
 		{
 			return [];
 		}
 
-		$url = [
-			'url' => $data['url' . $position]
-		];
-
-		$properties = [
-			'url'    => 'url' . $position,
-			'text'   => 'url' . $position . 'text',
-			'target' => 'target' . $position
-		];
-
-		foreach ($properties as $key => $property)
-		{
-			if (isset($data[$property]) && $data[$property] != '')
-			{
-				$url[$key] = $data[$property];
-			}
-		}
-
-		return $url;
+		return $this->parseJsonDecodedProperties(
+			[
+				'url'    => 'url' . $position,
+				'text'   => 'url' . $position . 'text',
+				'target' => 'target' . $position
+			],
+			$data
+		);
 	}
 }
