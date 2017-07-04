@@ -343,6 +343,74 @@ class ArticleTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * getUrls returns correct information.
+	 *
+	 * @return  void
+	 */
+	public function testGetUrlsReturnsCorrectInformation()
+	{
+		$article = new Article(999);
+
+		$reflection = new \ReflectionClass($article);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($article, ['id' => 999]);
+
+		$this->assertEquals([], $article->getUrls());
+
+		$article = Article::freshInstance(999);
+		$rowProperty->setValue($article, ['id' => 999, 'urls' => '']);
+
+		$this->assertEquals([], $article->getUrls());
+
+		$article = Article::freshInstance(999);
+		$rowProperty->setValue($article, ['id' => 999, 'urls' => '{}']);
+
+		$this->assertEquals([], $article->getUrls());
+
+		$article = Article::freshInstance(999);
+		$rowProperty->setValue($article, ['id' => 999, 'urls' => '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}']);
+
+		$this->assertEquals([], $article->getUrls());
+
+		$article = Article::freshInstance(999);
+		$rowProperty->setValue($article, ['id' => 999, 'urls' => '{"urla":"http://google.com","urlatext":"Google","targeta":"0"}']);
+
+		$expected = [
+			'a' => [
+				'url'    => 'http://google.com',
+				'text'   => 'Google',
+				'target' => '0'
+			]
+		];
+
+		$this->assertEquals($expected, $article->getUrls());
+
+		$article = Article::freshInstance(999);
+		$rowProperty->setValue($article, ['id' => 999, 'urls' => '{"urla":"http:\/\/google.es","urlatext":"Google","targeta":"1","urlb":"http:\/\/yahoo.com","urlbtext":"Yahoo","targetb":"0","urlc":"http://www.phproberto.com","urlctext":"Phproberto","targetc":""}']);
+
+		$expected = [
+			'a' => [
+				'url'    => 'http://google.es',
+				'text'   => 'Google',
+				'target' => '1'
+			],
+			'b' => [
+				'url'    => 'http://yahoo.com',
+				'text'   => 'Yahoo',
+				'target' => '0'
+			],
+			'c' => [
+				'url'    => 'http://www.phproberto.com',
+				'text'   => 'Phproberto'
+			]
+		];
+
+		$this->assertEquals($expected, $article->getUrls());
+	}
+
+	/**
 	 * hasFullTextImage returns correct value.
 	 *
 	 * @return  void
