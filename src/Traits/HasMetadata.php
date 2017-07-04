@@ -43,7 +43,7 @@ trait HasMetadata
 	{
 		if ($reload || null === $this->metadata)
 		{
-			$this->metadata = $this->loadMetadata();
+			$this->metadata = $this->json($this->getColumnMetadata());
 		}
 
 		return $this->metadata;
@@ -55,33 +55,4 @@ trait HasMetadata
 	 * @return  array
 	 */
 	abstract public function getRow();
-
-	/**
-	 * Load metadata from db.
-	 *
-	 * @return  array
-	 */
-	protected function loadMetadata()
-	{
-		$data   = [];
-		$column = $this->getColumnMetadata();
-		$row    = $this->getRow();
-
-		if (empty($row[$column]))
-		{
-			return $data;
-		}
-
-		foreach ((array) json_decode($row[$column]) as $property => $value)
-		{
-			if ($value === '')
-			{
-				continue;
-			}
-
-			$data[$property] = $value;
-		}
-
-		return $data;
-	}
 }

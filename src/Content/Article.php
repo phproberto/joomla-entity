@@ -22,13 +22,7 @@ class Article extends Entity
 {
 	use CategoriesTraits\HasCategory, CoreTraits\HasAsset;
 	use EntityTraits\HasFeatured, EntityTraits\HasImages, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
-
-	/**
-	 * URLs
-	 *
-	 * @var  array
-	 */
-	protected $urls;
+	use EntityTraits\HasUrls;
 
 	/**
 	 * Get the name of the column that stores category.
@@ -67,97 +61,5 @@ class Article extends Entity
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::getTable($name, $prefix, $options);
-	}
-
-	/**
-	 * Get this article URLs.
-	 *
-	 * @return  array
-	 */
-	public function getUrls()
-	{
-		if (null === $this->urls)
-		{
-			$this->urls = $this->loadUrls();
-		}
-
-		return $this->urls;
-	}
-
-	/**
-	 * Load urls from database.
-	 *
-	 * @return  array
-	 */
-	protected function loadUrls()
-	{
-		$row = $this->getRow();
-
-		if (empty($row['urls']))
-		{
-			return [];
-		}
-
-		$data = (array) json_decode($row['urls']);
-
-		$urls = [];
-
-		for ($i = 'a'; $i < 'd'; $i++)
-		{
-			if ($url = $this->parseUrl($i, $data))
-			{
-				$urls[$i] = $url;
-			}
-		}
-
-		return $urls;
-	}
-
-	/**
-	 * Parse data
-	 *
-	 * @param   array   $properties  Properties to process
-	 * @param   array   $data        Array containing the JSON decoded data
-	 *
-	 * @return  array
-	 */
-	private function parseJsonDecodedProperties($properties, array $data)
-	{
-		$output = [];
-
-		foreach ($properties as $key => $property)
-		{
-			if (isset($data[$property]) && $data[$property] != '')
-			{
-				$output[$key] = $data[$property];
-			}
-		}
-
-		return $output;
-	}
-
-	/**
-	 * Parse URL.
-	 *
-	 * @param   string  $position  URL position
-	 * @param   array   $data      URLs data source from db
-	 *
-	 * @return  array
-	 */
-	private function parseUrl($position, array $data)
-	{
-		if (empty($data['url' . $position]))
-		{
-			return [];
-		}
-
-		return $this->parseJsonDecodedProperties(
-			[
-				'url'    => 'url' . $position,
-				'text'   => 'url' . $position . 'text',
-				'target' => 'target' . $position
-			],
-			$data
-		);
 	}
 }
