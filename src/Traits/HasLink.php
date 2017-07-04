@@ -23,6 +23,13 @@ trait HasLink
 	protected $link;
 
 	/**
+	 * Gets the Identifier.
+	 *
+	 * @return  integer
+	 */
+	abstract public function getId();
+
+	/**
 	 * Get the link to this entity.
 	 *
 	 * @param   boolean  $reload  Force reloading
@@ -66,7 +73,7 @@ trait HasLink
 	/**
 	 * Load the link to this entity.
 	 *
-	 * @return  atring
+	 * @return  string
 	 */
 	abstract protected function loadLink();
 }

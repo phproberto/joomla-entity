@@ -23,6 +23,23 @@ trait HasAccess
 	protected $access;
 
 	/**
+	 * Get a property of this entity.
+	 *
+	 * @param   string  $property  Name of the property to get
+	 * @param   mixed   $default   Value to use as default if property is not set or is null
+	 *
+	 * @return  mixed
+	 */
+	abstract public function get($property, $default = null);
+
+	/**
+	 * Check if this entity has an id.
+	 *
+	 * @return  boolean
+	 */
+	abstract public function hasId();
+
+	/**
 	 * Get the name of the column that stores access.
 	 *
 	 * @return  string
