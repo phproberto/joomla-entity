@@ -30,6 +30,13 @@ class Article extends Entity
 	protected $images;
 
 	/**
+	 * Metadata
+	 *
+	 * @var  array
+	 */
+	protected $metadata;
+
+	/**
 	 * URLs
 	 *
 	 * @var  array
@@ -95,6 +102,21 @@ class Article extends Entity
 		$images = $this->getImages();
 
 		return array_key_exists('intro', $images) ? $images['intro'] : [];
+	}
+
+	/**
+	 * Get article metadata.
+	 *
+	 * @return  array
+	 */
+	public function getMetadata()
+	{
+		if (null === $this->metadata)
+		{
+			$this->metadata = $this->loadMetadata();
+		}
+
+		return $this->metadata;
 	}
 
 	/**
@@ -200,6 +222,31 @@ class Article extends Entity
 	}
 
 	/**
+	 * Load metadata from db.
+	 *
+	 * @return  array
+	 */
+	protected function loadMetadata()
+	{
+		$row = $this->getRow();
+
+		if (empty($row['metadata']))
+		{
+			return [];
+		}
+
+		return $this->parseJsonDecodedProperties(
+			[
+				'robots'     => 'robots',
+				'author'     => 'author',
+				'rights'     => 'rights',
+				'xreference' => 'xreference'
+			],
+			(array) json_decode($row['metadata'])
+		);
+	}
+
+	/**
 	 * Load urls from database.
 	 *
 	 * @return  array
@@ -268,7 +315,7 @@ class Article extends Entity
 
 		return $this->parseJsonDecodedProperties(
 			[
-				'url' => 'image_' . $name,
+				'url'     => 'image_' . $name,
 				'float'   => 'float_' . $name,
 				'alt'     => 'image_' . $name . '_alt',
 				'caption' => 'image_' . $name . '_caption'
