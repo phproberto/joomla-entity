@@ -20,7 +20,7 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
  */
 class Article extends Entity
 {
-	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasParams, EntityTraits\HasState;
+	use CategoriesTraits\HasCategory, CoreTraits\HasAsset, EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState;
 
 	/**
 	 * Images.
@@ -28,13 +28,6 @@ class Article extends Entity
 	 * @var  array
 	 */
 	protected $images;
-
-	/**
-	 * Metadata
-	 *
-	 * @var  array
-	 */
-	protected $metadata;
 
 	/**
 	 * URLs
@@ -102,21 +95,6 @@ class Article extends Entity
 		$images = $this->getImages();
 
 		return array_key_exists('intro', $images) ? $images['intro'] : [];
-	}
-
-	/**
-	 * Get article metadata.
-	 *
-	 * @return  array
-	 */
-	public function getMetadata()
-	{
-		if (null === $this->metadata)
-		{
-			$this->metadata = $this->loadMetadata();
-		}
-
-		return $this->metadata;
 	}
 
 	/**
@@ -219,31 +197,6 @@ class Article extends Entity
 		}
 
 		return $images;
-	}
-
-	/**
-	 * Load metadata from db.
-	 *
-	 * @return  array
-	 */
-	protected function loadMetadata()
-	{
-		$row = $this->getRow();
-
-		if (empty($row['metadata']))
-		{
-			return [];
-		}
-
-		return $this->parseJsonDecodedProperties(
-			[
-				'robots'     => 'robots',
-				'author'     => 'author',
-				'rights'     => 'rights',
-				'xreference' => 'xreference'
-			],
-			(array) json_decode($row['metadata'])
-		);
 	}
 
 	/**
