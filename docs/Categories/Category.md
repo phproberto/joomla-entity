@@ -1,4 +1,6 @@
-# Article entity
+# Category entity 
+
+`Phproberto\Joomla\Entity\Categories\Category`
 
 > Represents a com_categories category.
 

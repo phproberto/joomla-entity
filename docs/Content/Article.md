@@ -1,5 +1,7 @@
 # Article entity
 
+`Phproberto\Joomla\Entity\Content\Article`
+
 > Represents a com_content article.
 
 * [Usage](#usage)
