@@ -27,7 +27,25 @@
 
 ## Usage <a id="usage"></a>
 
-This is an abstract class. You cannot directly use it. It's only purpose is that other classes extend it to inherit all its logic.  
+This is an abstract class. You cannot use it directly but extend it to inherit all its logic. 
+
+How to use it as base class for your entity:
+
+```php
+<?php
+namespace My\Namespace;
+
+use Phproberto\Joomla\Entity\Entity;
+
+/**
+ * Sample entity declaration.
+ *
+ * @since   __DEPLOY_VERSION__
+ */
+class Sample extends Entity
+{
+}
+```
 
 ## Methods <a id="methods"></a>
 
