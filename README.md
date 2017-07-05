@@ -9,21 +9,22 @@
 This library is intended to help developers to use Joomla! core classes with a logical entity structure. It also exposes that entity structure so it can be used and extended by any third part extension.  
 
 Benefits:
-* Entities aren't `stdClass` objects. The expose everything you can get from them.
+* Entities aren't `stdClass` objects. They expose everything you need from them.
 * Creates an API between core classes and extensions. 
-* Includes static caching to ensure that objects are only loaded once per page load
-* Traits that can be reused by any entity
+* Includes static caching to ensure that objects are only loaded once per page load.
+* Traits that can be reused by any entity.
 * Extendable. You can extend the entity system to connect any custom logic you need to connect.
 
 ## Index <a id="index"></a>
 
 * [Quickstart](#quickstart)
+* [Documentation](#documentation)
 * [Requirements](#requirements)
 * [Copyright & License](#license)
 
 ## Quickstart <a id="quickstart"></a>
 
-Let's use a fast example. This is how you actually can load an article by id:
+Let's use a fast example. This is how you actually can load an article by id in Joomla:
 
 ```php
 \JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
@@ -91,6 +92,10 @@ catch (\RuntimeException $e)
 	echo 'There was an error saving article: ' . $e->getMessage();
 }
 ```
+
+## Documentation <a id="documentation"></a>
+
+See [documentation](./docs) for detailed documentation.
 
 ## Requirements <a id="requirements"></a>
 
