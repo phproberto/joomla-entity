@@ -150,7 +150,7 @@ trait HasState
 
 		if (!array_key_exists($column, $row))
 		{
-			throw new \RuntimeException("Entity does not have a state column", 500);
+			throw new \RuntimeException("Entity (" . get_class($this) . ") does not have a state column", 500);
 		}
 
 		return (int) $row[$column];

@@ -114,6 +114,8 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => 1]);
 
+		// For no reload returns old state
+		$this->assertSame(0, $entity->getState());
 		$this->assertSame(1, $entity->getState(true));
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => 0]);

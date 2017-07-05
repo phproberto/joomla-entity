@@ -100,4 +100,26 @@ class TagTest extends \TestCaseDatabase
 
 		$this->assertEquals(new Registry(['foo' => 'var']), $article->getParams());
 	}
+
+	/**
+	 * getState returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testGetStateReturnsCorrectValue()
+	{
+		$tag = new Tag(999);
+
+		$reflection = new \ReflectionClass($tag);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($tag, ['id' => 999, 'published' => '0']);
+
+		$this->assertEquals(0, $tag->getState());
+
+		$rowProperty->setValue($tag, ['id' => 999, 'published' => '1']);
+
+		$this->assertEquals(1, $tag->getState(true));
+	}
 }
