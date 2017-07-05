@@ -96,7 +96,7 @@ catch (\RuntimeException $e)
 
 ## Installation <a id="installation"></a>
 
-**This is still a work in progress** This means that there is still no official release and you can use it at your own risk. 
+**This is still a work in progress.** There is still no official release and you can use it at your own risk. 
 
 This repository contains exclusively the classes you need to use the entity system. You can use include it in composer adding to your `composer.json` require section something like:
 
