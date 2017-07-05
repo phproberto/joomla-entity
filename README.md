@@ -6,15 +6,32 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/phproberto/joomla-entity/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phproberto/joomla-entity/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phproberto/joomla-entity/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phproberto/joomla-entity/?branch=master)
 
-## Quickstart
+This library is intended to help developers to use Joomla! core classes with a logical entity structure. It also exposes that entity structure so it can be used and extended by any third part extension.  
 
-This is still a work in progress but...
+Let's use a fast example. This is how you actually can load an article by id:
+
+```php
+\JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
+
+$model = JModelLegacy::getInstance('Article', 'ContentModel');
+$article = $model->getItem(1);
+```
+
+Where `$article` is a `stdClass` object. You can access its properties but it's really a dummy thing. An end point.
+
+This library allows you to use something like:
 
 ```php
 use Phproberto\Joomla\Entity\Content\Article;
 
 $article = Article::instance(1);
+```
 
+Here `$article` is an entity. An object that exposes its logic for you to use it. Not an end point anymore but a tool that exposes its available resources to you.
+
+Some examples of what you can do with that article entity:
+
+```php
 // Use article as entity
 echo $article->get('title');
 
@@ -37,21 +54,10 @@ if ($article->hasIntroImage())
 	echo '<img src="' . JUri::root(true) . '/' . $image['url'] . '" />';
 }
 
-// Check if article has a full text image
-if ($article->hasFullTextImage())
-{
-	$image = $article->getFullTextImage();
-	echo '<img src="' . JUri::root(true) . '/' . $image['url'] . '" />';
-}
-
 // Check article state
 if ($article->isPublished())
 {
 	echo 'Article published!';
-}
-elseif ($article->isTrashed())
-{
-	echo 'Article trashed!';
 }
 
 // Retrieve article category
@@ -69,17 +75,19 @@ catch (\RuntimeException $e)
 {
 	echo 'There was an error saving article: ' . $e->getMessage();
 }
-
-// Retrieve article asset
-$asset = $article->getAsset();
 ```
 
-## Requirements
+## Index
+
+* [Requirements](#requirements)
+* [Copyright & License](#license)
+
+## Requirements <a id="requirements"></a>
 
 * **PHP 5.5+** 
 * **Joomla! CMS v3.7+**
 
-## License
+## Copyright & License <a id="license"></a>
 
 This library is licensed under [GNU LESSER GENERAL PUBLIC LICENSE](./LICENSE).  
 
