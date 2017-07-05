@@ -4,6 +4,8 @@
 
 > Represents a com_categories category.
 
+## Index <a id="index"></a>
+
 * [Usage](#usage)
 * [Methods](#methods)
 

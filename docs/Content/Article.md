@@ -4,6 +4,8 @@
 
 > Represents a com_content article.
 
+## Index <a id="index"></a>
+
 * [Usage](#usage)
 * [Methods](#methods)
 
