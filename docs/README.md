@@ -1,6 +1,8 @@
 Available traits and entities
 
 * common
+	* Entities
+	    * [Entity (base entity)](./Entity.md)
     * Traits
         * [HasAccess](./Traits/HasAccess.md)
         * HasFeatured
@@ -11,18 +13,18 @@ Available traits and entities
         * HasState
         * HasUrls
 * core
-    * Traits
-        * HasAsset
     * Entities
         * Asset
+    * Traits
+        * HasAsset
 * com_categories
+    * Entities
+        * [Category](./Categories/Category.md)
     * Traits
         * HasCategory
-    * Entities
-        * Category
 * com_content
     * Entities
-        * Article
+        * [Article](./Content/Article.md)
 * com_tags
     * Entities
         * Tag
