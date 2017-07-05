@@ -18,6 +18,7 @@ Benefits:
 ## Index <a id="index"></a>
 
 * [Quickstart](#quickstart)
+* [Installation](#installation)
 * [Documentation](#documentation)
 * [Requirements](#requirements)
 * [Copyright & License](#license)
@@ -92,6 +93,23 @@ catch (\RuntimeException $e)
 	echo 'There was an error saving article: ' . $e->getMessage();
 }
 ```
+
+## Installation <a id="installation"></a>
+
+**This is still a work in progress** This means that there is still no official release and you can use it at your own risk. 
+
+This repository contains exclusively the classes you need to use the entity system. You can use include it in composer adding to your `composer.json` require section something like:
+
+```
+	"require": {
+		"php": ">=5.5.0",
+		"phproberto/joomla-entity": "@dev"
+	}
+```
+
+which will use current code in development mode.
+
+With the first stable version I will publish a repository that will contain a library extension that can be installed on any Joomla! site and included in third part extension packages.
 
 ## Documentation <a id="documentation"></a>
 
