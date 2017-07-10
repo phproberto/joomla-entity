@@ -9,8 +9,11 @@
 namespace Phproberto\Joomla\Entity\Content;
 
 use Phproberto\Joomla\Entity\Entity;
+use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
 
 /**
@@ -21,6 +24,7 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
 class Article extends Entity
 {
 	use CategoriesTraits\HasCategory, CoreTraits\HasAsset;
+	use TagsTraits\HasTags;
 	use EntityTraits\HasAccess, EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages, EntityTraits\HasMetadata;
 	use EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasUrls;
 
@@ -82,5 +86,30 @@ class Article extends Entity
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return \JRoute::_(\ContentHelperRoute::getArticleRoute($slug, (int) $this->get('catid'), $this->get('language')));
+	}
+
+	/**
+	 * Load associated tags from DB.
+	 *
+	 * @return  EntityCollection
+	 */
+	protected function loadTags()
+	{
+		if (!$this->hasId())
+		{
+			return new EntityCollection;
+		}
+
+		$tagHelper = new \JHelperTags;
+
+		$tags = array_map(
+			function($tag)
+			{
+				return Tag::instance($tag->id)->bind($tag);
+			},
+			$tagHelper->getItemTags('com_content.article', $this->getId()) ?: array()
+		);
+
+		return new EntityCollection($tags);
 	}
 }
