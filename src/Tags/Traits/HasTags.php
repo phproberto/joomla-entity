@@ -30,12 +30,13 @@ trait HasTags
 	/**
 	 * Get the associated tags.
 	 *
+	 * @param   boolean  $reload  Force data reloading
+	 *
 	 * @return  EntityCollection
 	 */
-	public function getTags()
+	public function getTags($reload = false)
 	{
-
-		if (null === $this->tags)
+		if ($reload || null === $this->tags)
 		{
 			$this->tags = $this->loadTags();
 		}
