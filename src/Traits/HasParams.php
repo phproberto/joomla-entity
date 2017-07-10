@@ -52,7 +52,7 @@ trait HasParams
 	 *
 	 * @return  array
 	 */
-	abstract public function getRow();
+	abstract public function getAll();
 
 	/**
 	 * Get a table.
@@ -85,11 +85,11 @@ trait HasParams
 	protected function loadParams()
 	{
 		$column = $this->getColumnParams();
-		$row    = $this->getRow();
+		$data    = $this->getAll();
 
-		if (array_key_exists($column, $row))
+		if (array_key_exists($column, $data))
 		{
-			return new Registry($row[$column]);
+			return new Registry($data[$column]);
 		}
 
 		return new Registry;
@@ -105,21 +105,21 @@ trait HasParams
 	public function saveParams()
 	{
 		$column = $this->getColumnParams();
-		$row    = $this->getRow();
+		$data    = $this->getAll();
 
-		if (!array_key_exists($column, $row))
+		if (!array_key_exists($column, $data))
 		{
 			throw new \RuntimeException("Error saving entity parameters: Cannot find entity parameters column", 500);
 		}
 
 		$table = $this->getTable();
 
-		$data = [
+		$saveData = [
 			$this->getPrimaryKey() => $this->getId(),
 			$column                => $this->getParams()->toString()
 		];
 
-		if (!$table->save($data))
+		if (!$table->save($saveData))
 		{
 			throw new \RuntimeException("Error saving entity parameters: " . $table->getError(), 500);
 		}

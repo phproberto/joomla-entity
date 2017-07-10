@@ -27,7 +27,7 @@ trait HasState
 	 *
 	 * @return  array
 	 */
-	abstract public function getRow();
+	abstract public function getAll();
 
 	/**
 	 * Get a table.
@@ -146,13 +146,13 @@ trait HasState
 	protected function loadState()
 	{
 		$column = $this->getColumnState();
-		$row    = $this->getRow();
+		$data    = $this->getAll();
 
-		if (!array_key_exists($column, $row))
+		if (!array_key_exists($column, $data))
 		{
 			throw new \RuntimeException("Entity (" . get_class($this) . ") does not have a state column", 500);
 		}
 
-		return (int) $row[$column];
+		return (int) $data[$column];
 	}
 }

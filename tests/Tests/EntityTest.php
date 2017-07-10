@@ -439,7 +439,7 @@ class EntityTest extends \TestCase
 	 *
 	 * @return  void
 	 */
-	public function testGetRowForcesFetchRow()
+	public function testGetAllForcesFetchRow()
 	{
 		$row = [self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'];
 
@@ -451,7 +451,7 @@ class EntityTest extends \TestCase
 			->method('fetchRow')
 			->willReturn($row);
 
-		$this->assertSame($row, $mock->getRow());
+		$this->assertSame($row, $mock->getAll());
 	}
 
 	/**

@@ -57,7 +57,7 @@ abstract class Entity implements EntityInterface
 	{
 		if (null === $this->row)
 		{
-			$this->row = [];
+			$this->row = array();
 		}
 
 		$this->row[$property] = $value;
@@ -77,11 +77,13 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  self
 	 */
-	public function bind(array $data)
+	public function bind($data)
 	{
+		$data = (array) $data;
+
 		if (null === $this->row)
 		{
-			$this->row = [];
+			$this->row = array();
 		}
 
 		$primaryKey = $this->getPrimaryKey();
@@ -111,20 +113,20 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  string
 	 */
-	public function date($property, array $options = [])
+	public function date($property, array $options = array())
 	{
 		$format    = isset($options['format']) ? $options['format'] : 'DATE_FORMAT_LC1';
 		$tz        = isset($options['tz']) ? $options['tz'] : true;
 		$gregorian = isset($options['gregorian']) ? $options['gregorian'] : false;
 
-		$row = $this->getRow();
+		$data = $this->getAll();
 
-		if (empty($row[$property]))
+		if (empty($data[$property]))
 		{
 			return null;
 		}
 
-		return \JHtml::_('date', $row[$property], $format, $tz, $gregorian);
+		return \JHtml::_('date', $data[$property], $format, $tz, $gregorian);
 	}
 
 	/**
@@ -137,14 +139,14 @@ abstract class Entity implements EntityInterface
 	 */
 	public function get($property, $default = null)
 	{
-		$row = $this->getRow();
+		$data = $this->getAll();
 
-		if (!$row || !isset($row[$property]))
+		if (!$data || !isset($data[$property]))
 		{
 			return $default;
 		}
 
-		return $row[$property];
+		return $data[$property];
 	}
 
 	/**
@@ -172,7 +174,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  array
 	 */
-	public function getRow()
+	public function getAll()
 	{
 		if (empty($this->row[$this->getPrimaryKey()]))
 		{
@@ -216,7 +218,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function has($property)
 	{
-		$row = $this->getRow();
+		$row = $this->getAll();
 
 		return $row && array_key_exists($property, $row);
 	}
@@ -252,8 +254,8 @@ abstract class Entity implements EntityInterface
 	 */
 	public function json($property)
 	{
-		$data = [];
-		$row  = $this->getRow();
+		$data = array();
+		$row  = $this->getAll();
 
 		if (empty($row[$property]))
 		{

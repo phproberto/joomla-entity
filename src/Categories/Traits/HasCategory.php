@@ -31,7 +31,7 @@ trait HasCategory
 	 *
 	 * @return  array
 	 */
-	abstract public function getRow();
+	abstract public function getAll();
 
 	/**
 	 * Get the associated category.
@@ -68,11 +68,11 @@ trait HasCategory
 	protected function loadCategory()
 	{
 		$column = $this->getColumnCategory();
-		$row    = $this->getRow();
+		$data    = $this->getAll();
 
-		if (array_key_exists($column, $row))
+		if (array_key_exists($column, $data))
 		{
-			return Category::instance($row[$column]);
+			return Category::instance($data[$column]);
 		}
 
 		return new Category;

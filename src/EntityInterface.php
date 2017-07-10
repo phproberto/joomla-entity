@@ -64,7 +64,7 @@ interface EntityInterface
 	 *
 	 * @return  array
 	 */
-	public function getRow();
+	public function getAll();
 
 	/**
 	 * Check if this entity has an identifier.

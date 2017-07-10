@@ -50,13 +50,6 @@ trait HasMetadata
 	}
 
 	/**
-	 * Get the attached database row.
-	 *
-	 * @return  array
-	 */
-	abstract public function getRow();
-
-	/**
 	 * Get the content of a column with data stored in JSON.
 	 *
 	 * @param   string  $property  Name of the column storing data

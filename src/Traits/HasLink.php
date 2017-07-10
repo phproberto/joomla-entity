@@ -60,8 +60,6 @@ trait HasLink
 			return null;
 		}
 
-		$row = $this->getRow();
-
 		if ($this->has('alias'))
 		{
 			$slug .= ':' . $this->get('alias');

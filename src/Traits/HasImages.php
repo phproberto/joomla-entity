@@ -27,7 +27,7 @@ trait HasImages
 	 *
 	 * @return  array
 	 */
-	abstract public function getRow();
+	abstract public function getAll();
 
 	/**
 	 * Get the name of the column that stores images.
@@ -108,14 +108,14 @@ trait HasImages
 	protected function loadImages()
 	{
 		$column = $this->getColumnImages();
-		$row    = $this->getRow();
+		$data    = $this->getAll();
 
-		if (empty($row[$column]))
+		if (empty($data[$column]))
 		{
 			return [];
 		}
 
-		$data = (array) json_decode($row[$column]);
+		$data = (array) json_decode($data[$column]);
 
 		$images = [];
 
