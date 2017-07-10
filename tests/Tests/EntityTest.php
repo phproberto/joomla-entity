@@ -274,7 +274,7 @@ class EntityTest extends \TestCase
 
 		$instancesProperty->setValue(Entity::class, $instances);
 
-		$entity = Entity::fetch(999);
+		$entity = Entity::load(999);
 
 		$reflection = new \ReflectionClass($entity);
 		$rowProperty = $reflection->getProperty('row');
@@ -313,7 +313,7 @@ class EntityTest extends \TestCase
 			->method('getTable')
 			->willReturn($tableMock);
 
-		$mock->load();
+		$mock->fetch();
 	}
 	/**
 	 * fetch throws InvalidEntityData exception for empty data.
@@ -336,7 +336,7 @@ class EntityTest extends \TestCase
 
 		$instancesProperty->setValue(Entity::class, $instances);
 
-		$entity = Entity::fetch(999);
+		$entity = Entity::load(999);
 	}
 
 	/**
@@ -360,7 +360,7 @@ class EntityTest extends \TestCase
 
 		$instancesProperty->setValue(Entity::class, $instances);
 
-		$entity = Entity::fetch(999);
+		$entity = Entity::load(999);
 	}
 
 	/**
@@ -382,7 +382,7 @@ class EntityTest extends \TestCase
 
 		$instancesProperty->setValue(Entity::class, $instances);
 
-		$entity = Entity::fetch(999);
+		$entity = Entity::load(999);
 
 		$entityReflection = new \ReflectionClass($entity);
 		$idProperty = $reflection->getProperty('id');

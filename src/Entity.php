@@ -148,6 +148,21 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	public function getAll()
+	{
+		if (empty($this->row[$this->getPrimaryKey()]))
+		{
+			$this->fetch();
+		}
+
+		return $this->row;
+	}
+
+	/**
 	 * Gets the Identifier.
 	 *
 	 * @return  integer
@@ -165,21 +180,6 @@ abstract class Entity implements EntityInterface
 	public function getPrimaryKey()
 	{
 		return 'id';
-	}
-
-	/**
-	 * Get the attached database row.
-	 *
-	 * @return  array
-	 */
-	public function getAll()
-	{
-		if (empty($this->row[$this->getPrimaryKey()]))
-		{
-			$this->load();
-		}
-
-		return $this->row;
 	}
 
 	/**
@@ -232,15 +232,15 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Fetch an instance.
+	 * Load an instance.
 	 *
 	 * @param   integer  $id  Instance identifier
 	 *
 	 * @return  static
 	 */
-	public static function fetch($id)
+	public static function load($id)
 	{
-		return static::instance($id)->load();
+		return static::instance($id)->fetch();
 	}
 
 	/**
@@ -274,11 +274,11 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Load row data.
+	 * Fetch DB data.
 	 *
 	 * @return  self
 	 */
-	public function load()
+	public function fetch()
 	{
 		$this->row = $this->fetchRow();
 

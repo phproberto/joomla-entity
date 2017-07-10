@@ -70,7 +70,7 @@ class ArticleTest extends \TestCaseDatabase
 	 */
 	public function testArticleLoaded()
 	{
-		$article = Article::fetch(1);
+		$article = Article::load(1);
 
 		$this->assertTrue($article->isLoaded());
 	}
