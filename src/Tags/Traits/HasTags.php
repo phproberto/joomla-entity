@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\EntityCollection;
 defined('JPATH_PLATFORM') || die;
 
 /**
- * Trait for entities that have tags.
+ * Trait for entities that have associated tags.
  *
  * @since  __DEPLOY_VERSION__
  */
