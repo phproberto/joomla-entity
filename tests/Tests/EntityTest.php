@@ -254,6 +254,28 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * fetch preserves previously assigned data.
+	 *
+	 * @return  void
+	 */
+	public function testFetchPreservesPreviouslyAssignedData()
+	{
+		$row = [self::PRIMARY_KEY => 999, 'name' => 'Sample name'];
+
+		$entity = $this->getLoadableEntityMock($row);
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, array('foo' => 'bar'));
+
+		$entity->fetch();
+
+		$this->assertEquals(array_merge(array('foo' => 'bar'), $row), $rowProperty->getValue($entity));
+	}
+
+	/**
 	 * fetch loads correct data.
 	 *
 	 * @return  void

@@ -280,7 +280,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function fetch()
 	{
-		$this->row = $this->fetchRow();
+		$this->row = array_merge((array) $this->row, $this->fetchRow());
 
 		return $this;
 	}
