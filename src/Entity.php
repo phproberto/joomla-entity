@@ -178,7 +178,7 @@ abstract class Entity implements EntityInterface
 	{
 		if (empty($this->row[$this->getPrimaryKey()]))
 		{
-			$this->loadRow();
+			$this->load();
 		}
 
 		return $this->row;
@@ -242,7 +242,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public static function fetch($id)
 	{
-		return static::instance($id)->loadRow();
+		return static::instance($id)->load();
 	}
 
 	/**
@@ -280,7 +280,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  self
 	 */
-	public function loadRow()
+	public function load()
 	{
 		$this->row = $this->fetchRow();
 

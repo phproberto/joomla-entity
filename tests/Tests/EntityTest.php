@@ -313,7 +313,7 @@ class EntityTest extends \TestCase
 			->method('getTable')
 			->willReturn($tableMock);
 
-		$mock->loadRow();
+		$mock->load();
 	}
 	/**
 	 * fetch throws InvalidEntityData exception for empty data.
