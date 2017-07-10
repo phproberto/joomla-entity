@@ -150,6 +150,74 @@ class EntityTest extends \TestCase
 		$entity->bind($data);
 
 		$this->assertSame($data, $rowProperty->getValue($entity));
+
+		$data = (object) [self::PRIMARY_KEY => 999, 'name' => 'Sample Name'];
+
+		$entity->bind($data);
+
+		$this->assertSame((array) $data, $rowProperty->getValue($entity));
+	}
+
+	/**
+	 * bind throws exception with wrong data.
+	 *
+	 * @return  void
+	 */
+	public function testBindThrowsExceptionWithWrongData()
+	{
+		$entity = new Entity;
+
+		$exception = false;
+
+		try
+		{
+			$entity->bind('test');
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			$exception = true;
+		}
+
+		$this->assertTrue($exception);
+
+		$exception = false;
+
+		try
+		{
+			$entity->bind(111);
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			$exception = true;
+		}
+
+		$this->assertTrue($exception);
+
+		$exception = false;
+
+		try
+		{
+			$entity->bind(null);
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			$exception = true;
+		}
+
+		$this->assertTrue($exception);
+
+		$exception = false;
+
+		try
+		{
+			$entity->bind(true);
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			$exception = true;
+		}
+
+		$this->assertTrue($exception);
 	}
 
 	/**

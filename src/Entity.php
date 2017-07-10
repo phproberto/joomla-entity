@@ -73,12 +73,17 @@ abstract class Entity implements EntityInterface
 	/**
 	 * Bind data to the entity.
 	 *
-	 * @param   array  $data  Data to bind
+	 * @param   mixed  $data  array | \stdClass Data to bind
 	 *
 	 * @return  self
 	 */
 	public function bind($data)
 	{
+		if (!is_array($data) && !$data instanceof \stdClass)
+		{
+			throw new \InvalidArgumentException(sprintf("Invalid data sent for %s::%s()", __CLASS__, __FUNCTION__));
+		}
+
 		$data = (array) $data;
 
 		if (null === $this->row)
