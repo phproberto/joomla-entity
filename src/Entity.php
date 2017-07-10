@@ -79,6 +79,8 @@ abstract class Entity implements EntityInterface
 	 */
 	public function bind($data)
 	{
+		$data = (array) $data;
+
 		if (null === $this->row)
 		{
 			$this->row = array();
@@ -86,7 +88,7 @@ abstract class Entity implements EntityInterface
 
 		$primaryKey = $this->getPrimaryKey();
 
-		foreach ((array) $data as $property => $value)
+		foreach ($data as $property => $value)
 		{
 			$this->row[$property] = $value;
 

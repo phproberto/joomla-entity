@@ -46,9 +46,7 @@ $model->setState('filter.published', 1);
 
 $articles = array_map(
 	function($item) {
-		$article = Article::instance($item->id);
-
-		return $article;
+		return Article::instance($item->id)->bind($item);
 	}
 	,
 	$model->getItems() ?: array()
