@@ -28,6 +28,18 @@ trait HasTags
 	protected $tags;
 
 	/**
+	 * Clear preloaded tags.
+	 *
+	 * @return  self
+	 */
+	public function clearTags()
+	{
+		$this->tags = null;
+
+		return $this;
+	}
+
+	/**
 	 * Get the associated tags.
 	 *
 	 * @param   boolean  $reload  Force data reloading
