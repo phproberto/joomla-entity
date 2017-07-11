@@ -381,6 +381,55 @@ class EntityCollectionTest extends \TestCase
 	}
 
 	/**
+	 * Merge returns correct collection.
+	 *
+	 * @return  void
+	 */
+	public function testMergeReturnsCorrectCollection()
+	{
+		$collection1 = new EntityCollection;
+		$collection2 = new EntityCollection;
+
+		$mergedCollection = $collection1->merge($collection2);
+
+		$reflection = new \ReflectionClass($mergedCollection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$this->assertEquals(array(), $entitiesProperty->getValue($mergedCollection));
+
+		$collection1 = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection2 = new EntityCollection(array(new Entity(1002), new Entity(1003)));
+
+		$mergedCollection = $collection1->merge($collection2);
+
+		$expectetdEntities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001),
+			1002 => new Entity(1002),
+			1003 => new Entity(1003)
+		);
+
+		$this->assertEquals($expectetdEntities, $entitiesProperty->getValue($mergedCollection));
+		$this->assertSame(array(1000, 1001, 1002, 1003), array_keys($entitiesProperty->getValue($mergedCollection)));
+
+		$collection1 = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection2 = new EntityCollection(array(new Entity(1002), new Entity(1003)));
+
+		$mergedCollection = $collection2->merge($collection1);
+
+		$expectetdEntities = array(
+			1002 => new Entity(1002),
+			1003 => new Entity(1003),
+			1000 => new Entity(1000),
+			1001 => new Entity(1001)
+		);
+
+		$this->assertEquals($expectetdEntities, $entitiesProperty->getValue($mergedCollection));
+		$this->assertSame(array(1002, 1003, 1000, 1001), array_keys($entitiesProperty->getValue($mergedCollection)));
+	}
+
+	/**
 	 * next returns correct value.
 	 *
 	 * @return  void

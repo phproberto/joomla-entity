@@ -149,6 +149,23 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Merge another collection into this collection.
+	 *
+	 * @param   EntityCollection  $collection  Collection to merge
+	 *
+	 * @return  static
+	 */
+	public function merge(EntityCollection $collection)
+	{
+		foreach ($collection as $entity)
+		{
+			$this->add($entity);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Gets the next entity.
 	 * Part of the iterator implementation.
 	 *

@@ -17,6 +17,7 @@
     * [ids()](#ids)
     * [isEmpty()](#isEmpty)
     * [key()](#key)
+    * [merge(EntityCollection $collection)](#merge)
     * [next()](#next)
     * [remove($id)](#remove)
     * [rewind()](#rewind)
@@ -306,6 +307,28 @@ while ($collection->valid())
     echo $collection->key() . '. ' . $article->get('title') . '<br />';
     $collection->next();
 }
+```
+
+### merge(EntityCollection $collection) <a id="merge"></a>
+
+> Merge another collection into this collection.
+
+**Parameters:**
+
+* `EntityCollection` *$collection (required):* Collection to merge.
+
+**Returns:**
+
+`self`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(69), Article::instance(70)));
+$articles2 = new EntityCollection(array(Article::instance(71), Article::instance(72)));
+
+// Will show [69, 70, 71, 72]
+var_dump($articles->merge($articles2)->ids());
 ```
 
 ### next() <a id="next"></a>
