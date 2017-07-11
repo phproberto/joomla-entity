@@ -22,6 +22,7 @@
     * [next()](#next)
     * [remove($id)](#remove)
     * [rewind()](#rewind)
+    * [toObjects()](#toObjects)
     * [valid()](#valid)
     * [write(EntityInterface $entity, $overwrite = true)](#write)
 
@@ -442,6 +443,28 @@ $article = $articles->rewind();
 
 // Will echo 70
 echo '<pre>'; print_r($article->getId()); echo '</pre>';
+```
+
+### toObjects() <a id="toObjects"></a>
+
+> Get all data from all the entities as objects.
+
+**Parameters:**
+
+None
+
+**Returns:**
+
+`array`
+
+**Examples:**
+
+```php
+
+$articles = new EntityCollection(array(Article::instance(69), Article::instance(70)));
+
+// Will return an array of objects with articles data
+var_dump($articles->toObjects());
 ```
 
 ### valid() <a id="valid"></a>

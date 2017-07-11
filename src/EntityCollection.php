@@ -240,6 +240,23 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Get all data from all the entities as objects.
+	 *
+	 * @return  \stdClass[]  An array of stdClass objects
+	 */
+	public function toObjects()
+	{
+		$result = array();
+
+		foreach ($this->entities as $id => $entity)
+		{
+			$result[$id] = (object) $entity->getAll();
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Check if there are still entities in the entities array.
 	 * Part of the iterator implementation.
 	 *
