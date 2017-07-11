@@ -57,6 +57,17 @@ trait HasTags
 	}
 
 	/**
+	 * Get an instance of the tags helper.
+	 * Here mainly for tests.
+	 *
+	 * @return  \JHelperTags
+	 */
+	protected function getTagsHelperInstance()
+	{
+		return new \JHelperTags;
+	}
+
+	/**
 	 * Check if this entity has an associated tag.
 	 *
 	 * @param   integer   $id  Tag identifier

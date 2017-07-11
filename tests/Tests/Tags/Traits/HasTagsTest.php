@@ -75,6 +75,22 @@ class HasTagsTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * getTagsHelper returns correct class.
+	 *
+	 * @return  void
+	 */
+	public function testGetTagsHelperReturnsCorrectInstance()
+	{
+		$entity = new ClassWithTags;
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('getTagsHelperInstance');
+		$method->setAccessible(true);
+
+		$this->assertTrue($method->invoke($entity) instanceof \JHelperTags);
+	}
+
+	/**
 	 * getTags returns correct data.
 	 *
 	 * @return  void

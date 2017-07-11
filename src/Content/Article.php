@@ -100,14 +100,14 @@ class Article extends Entity
 			return new EntityCollection;
 		}
 
-		$tagHelper = new \JHelperTags;
+		$items = $this->getTagsHelperInstance()->getItemTags('com_content.article', $this->getId()) ?: array();
 
 		$tags = array_map(
-			function($tag)
+			function ($tag)
 			{
 				return Tag::instance($tag->id)->bind($tag);
 			},
-			$tagHelper->getItemTags('com_content.article', $this->getId()) ?: array()
+			$items
 		);
 
 		return new EntityCollection($tags);

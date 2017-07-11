@@ -8,7 +8,9 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content;
 
+use Phproberto\Joomla\Entity\EntityCollection;
 use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Tags\Tag;
 use Joomla\Registry\Registry;
 
 /**
@@ -368,5 +370,70 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty->setValue($article, ['id' => 999, 'featured' => 1]);
 
 		$this->assertTrue($article->isFeatured(true));
+	}
+
+	/**
+	 * loadTags returns empty collection for missing id.
+	 *
+	 * @return  void
+	 */
+	public function testLoadTagsReturnsEmptyCollectionForMissingId()
+	{
+		$article = new Article;
+
+		$reflection = new \ReflectionClass($article);
+		$method = $reflection->getMethod('loadTags');
+		$method->setAccessible(true);
+
+		$this->assertEquals(new EntityCollection, $method->invoke($article));
+	}
+
+	/**
+	 * loadTags loads correct data for existing id.
+	 *
+	 * @return  void
+	 */
+	public function testLoadTagsReturnsCorrectDataForExistingId()
+	{
+		$helperMock = $this->getMockBuilder(\JHelperTags::class)
+			->disableOriginalConstructor()
+			->setMethods(array('getItemTags'))
+			->getMock();
+
+		$helperMock->method('getItemTags')
+			->willReturn(
+				array(
+					(object) array(
+						'id' => 23,
+						'title' => 'Sample tag'
+					)
+				)
+			);
+
+		$entity = $this->getMockBuilder(Article::class)
+			->setMethods(array('getTagsHelperInstance'))
+			->getMock();
+
+		$entity
+			->method('getTagsHelperInstance')
+			->willReturn($helperMock);
+
+		$reflection = new \ReflectionClass($entity);
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+
+		$idProperty->setValue($entity, 999);
+
+		$method = $reflection->getMethod('loadTags');
+		$method->setAccessible(true);
+
+		$tag = new Tag(23);
+
+		$tagReflection = new \ReflectionClass($tag);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+		$rowProperty->setValue($tag, array('id' => 23, 'title' => 'Sample tag'));
+
+		$this->assertEquals(new EntityCollection(array($tag)), $method->invoke($entity));
 	}
 }
