@@ -38,9 +38,9 @@ use Phproberto\Joomla\Entity\EntityCollection;
 $articles = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
 // Collection implements Iterator so you can traverse it like
-foreach ($articles as $article)
+foreach ($articles as $articleId => $article)
 {
-    echo $article->getId() . '. ' . $article->get('title') . '<br />';
+    echo $articleId . '. ' . $article->get('title') . '<br />';
 }
 
 // It also implements Countable
