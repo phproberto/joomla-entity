@@ -20,6 +20,61 @@ use Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs\ClassWithTags;
 class HasTagsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function tearDown()
+	{
+		ClassWithTags::clearAllInstances();
+
+		parent::tearDown();
+	}
+
+	/**
+	 * clearTags clears tags property.
+	 *
+	 * @return  void
+	 */
+	public function testClearTagsClearsTagsProperty()
+	{
+		$entity = new ClassWithTags;
+
+		$reflection = new \ReflectionClass($entity);
+		$tagsProperty = $reflection->getProperty('tags');
+		$tagsProperty->setAccessible(true);
+
+		$this->assertEquals(null, $tagsProperty->getValue($entity));
+
+		$tags = new EntityCollection(
+			array(
+				new Tag(23),
+				new Tag(24),
+				new Tag(25)
+			)
+		);
+
+		$tagsProperty->setValue($entity, $tags);
+		$this->assertEquals($tags, $tagsProperty->getValue($entity));
+
+		$entity->clearTags();
+		$this->assertEquals(null, $tagsProperty->getValue($entity));
+	}
+
+	/**
+	 * clearTags is chainable.
+	 *
+	 * @return  void
+	 */
+	public function testClearTagsIsChainable()
+	{
+		$entity = new ClassWithTags;
+
+		$this->assertTrue($entity->clearTags() instanceof ClassWithTags);
+	}
+
+	/**
 	 * getTags returns correct data.
 	 *
 	 * @return  void
@@ -35,5 +90,41 @@ class HasTagsTest extends \PHPUnit\Framework\TestCase
 		// Previous data with no reload
 		$this->assertEquals(new EntityCollection, $entity->getTags());
 		$this->assertEquals(new EntityCollection(array(new Tag(999))), $entity->getTags(true));
+	}
+
+	/**
+	 * hasTag returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testHasTagReturnsCorrectValue()
+	{
+		$entity = new ClassWithTags;
+
+		$entity->tagsIds = array(999, 1001, 1003);
+
+		$this->assertFalse($entity->hasTag(998));
+		$this->assertTrue($entity->hasTag(999));
+		$this->assertFalse($entity->hasTag(1000));
+		$this->assertTrue($entity->hasTag(1001));
+		$this->assertFalse($entity->hasTag(1002));
+		$this->assertTrue($entity->hasTag(1003));
+	}
+
+	/**
+	 * hasTags returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testHasTagsReturnsCorrectValue()
+	{
+		$entity = new ClassWithTags;
+
+		$this->assertFalse($entity->hasTags());
+
+		$entity = new ClassWithTags;
+		$entity->tagsIds = array(999, 1001, 1003);
+
+		$this->assertTrue($entity->hasTags());
 	}
 }
