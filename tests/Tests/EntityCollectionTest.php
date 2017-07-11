@@ -224,6 +224,33 @@ class EntityCollectionTest extends \TestCase
 	}
 
 	/**
+	 * get retrieves correct entity.
+	 *
+	 * @return  void
+	 */
+	public function testGetRetrievesCorrectEntity()
+	{
+		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+
+		$this->assertEquals(new Entity(1000), $collection->get(1000));
+		$this->assertEquals(new Entity(1001), $collection->get(1001));
+	}
+
+	/**
+	 * get throws exception when element is not present.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  \InvalidArgumentException
+	 */
+	public function testGetThrowsExceptionForMissingElement()
+	{
+		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+
+		$collection->get(1002);
+	}
+
+	/**
 	 * has returns correct vlaue.
 	 *
 	 * @return  void

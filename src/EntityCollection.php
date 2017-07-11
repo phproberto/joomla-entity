@@ -39,7 +39,8 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Adds an entity to the collection. It won't add any entity that already exists
+	 * Adds an entity to the collection.
+	 * Note: It won't overwrite existing entities.
 	 *
 	 * @param   EntityInterface  $entity  Entity going to be added
 	 *
@@ -53,7 +54,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Clears the entities of the collection
+	 * Clears all the entities of the collection.
 	 *
 	 * @return  self
 	 */
@@ -65,7 +66,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Gets the count of entities in this collection
+	 * Get the count of entities in this collection.
 	 *
 	 * @return  integer
 	 */
@@ -76,7 +77,7 @@ class EntityCollection implements \Countable, \Iterator
 
 	/**
 	 * Get the active entity.
-	 * Iterator implementation.
+	 * Part of the iterator implementation.
 	 *
 	 * @return  mixed  EntityInterface | FALSE if no entities
 	 */
@@ -86,7 +87,24 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Check if an entity is already in this collection
+	 * Get an entity by it's id
+	 *
+	 * @param   integer  $id  Item's identifier
+	 *
+	 * @return  mixed  EntityInterface if item exists. Null otherwise
+	 */
+	public function get($id)
+	{
+		if (!$this->has($id))
+		{
+			throw new \InvalidArgumentException(sprintf('Error in %s::%s(): Collection does not have %s element', __CLASS__, __FUNCTION__, $id));
+		}
+
+		return $this->entities[$id];
+	}
+
+	/**
+	 * Check if an entity is present in this collection.
 	 *
 	 * @param   integer  $id  Entity identifier
 	 *
@@ -98,7 +116,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Returns ids of the entities in the collection
+	 * Returns ids of the entities in this collection in the order they were added.
 	 *
 	 * @return  array
 	 */
@@ -108,7 +126,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Check if the collection is empty
+	 * Check if the collection is empty.
 	 *
 	 * @return  boolean
 	 */
@@ -119,7 +137,7 @@ class EntityCollection implements \Countable, \Iterator
 
 	/**
 	 * Return the id of the active entity.
-	 * Iterator implementation.
+	 * Part of the iterator implementation.
 	 *
 	 * @return  mixed  integer | null for no entities
 	 */
@@ -130,7 +148,7 @@ class EntityCollection implements \Countable, \Iterator
 
 	/**
 	 * Gets the next entity.
-	 * Iterator implementation.
+	 * Part of the iterator implementation.
 	 *
 	 * @return  mixed  EntityInterface | FALSE if no entities
 	 */
@@ -140,7 +158,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Removes an item from the collection
+	 * Remove an entity from the collection.
 	 *
 	 * @param   integer  $id  Entity identifier
 	 *
@@ -159,8 +177,8 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Method to get the first entity.
-	 * Iterator implementation.
+	 * Get the first entity in the collection.
+	 * Part of the iterator implementation.
 	 *
 	 * @return  mixed  EntityInterface | FALSE if no entities
 	 */
@@ -171,7 +189,7 @@ class EntityCollection implements \Countable, \Iterator
 
 	/**
 	 * Check if there are still entities in the entities array.
-	 * Iterator implementation.
+	 * Part of the iterator implementation.
 	 *
 	 * @return  boolean
 	 */
