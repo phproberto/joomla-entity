@@ -25,6 +25,10 @@
     * [remove($id)](#remove)
     * [rewind()](#rewind)
     * [sort(callable $function)](#sort)
+    * [sortByInteger($property)](#sortByInteger)
+    * [sortByIntegerDescending($property)](#sortByIntegerDescending)
+    * [sortByText($property)](#sortByText)
+    * [sortByTextDescending($property)](#sortByTextDescending)
     * [toObjects()](#toObjects)
     * [valid()](#valid)
     * [write(EntityInterface $entity, $overwrite = true)](#write)
@@ -564,6 +568,118 @@ echo '<h3>Descending</h3>';
 foreach ($articles as $article)
 {
     echo '<pre>'; print_r($article->get('title')); echo '</pre>';
+}
+```
+
+### sortByInteger($property) <a id="sortByInteger"></a>
+
+> Sort entities by an integer property.
+
+**Parameters:**
+
+* `string` *$property (required):* Property to use for ordering.
+
+**Returns:**
+
+`boolean`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+
+$tags = Article::instance(71)->getTags();
+
+$tags->sortByInteger('id');
+
+// This will show ids ordered ascendently
+foreach ($tags as $tag)
+{
+    echo '<pre>'; print_r($tag->getId()); echo '</pre>';
+}
+```
+
+### sortByIntegerDescending($property) <a id="sortByIntegerDescending"></a>
+
+> Sort entities by an integer property in descending order.
+
+**Parameters:**
+
+* `string` *$property (required):* Property to use for ordering.
+
+**Returns:**
+
+`boolean`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+
+$tags = Article::instance(71)->getTags();
+
+$tags->sortByIntegerDescending('id');
+
+// This will show ids reversely ordered 
+foreach ($tags as $tag)
+{
+    echo '<pre>'; print_r($tag->getId()); echo '</pre>';
+}
+```
+
+### sortByText($property) <a id="sortByText"></a>
+
+> Sort entities by a text property.
+
+**Parameters:**
+
+* `string` *$property (required):* Property to use for ordering.
+
+**Returns:**
+
+`boolean`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+
+$tags = Article::instance(71)->getTags();
+
+$tags->sortByText('title');
+
+// This will show tags ordered by title ascendently
+foreach ($tags as $tag)
+{
+    echo '<pre>'; print_r($tag->get('title')); echo '</pre>';
+}
+```
+
+### sortByTextDescending($property) <a id="sortByTextDescending"></a>
+
+> Sort entities by a text property in descending order.
+
+**Parameters:**
+
+* `string` *$property (required):* Property to use for ordering.
+
+**Returns:**
+
+`boolean`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+
+$tags = Article::instance(71)->getTags();
+
+$tags->sortByTextDescending('title');
+
+// This will show tags reversely ordered by title
+foreach ($tags as $tag)
+{
+    echo '<pre>'; print_r($tag->get('title')); echo '</pre>';
 }
 ```
 
