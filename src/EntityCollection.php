@@ -128,6 +128,32 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Get a new collection containing entities present in two collections.
+	 *
+	 * @param   EntityCollection  $collection  Collection to intersect
+	 *
+	 * @return  static
+	 */
+	public function intersect(EntityCollection $collection)
+	{
+		$intersection = new static;
+
+		if ($collection->isEmpty())
+		{
+			return $intersection;
+		}
+
+		$commonIds = array_intersect(array_keys($this->entities), $collection->ids());
+
+		foreach ($commonIds as $id)
+		{
+			$intersection->add($this->entities[$id]);
+		}
+
+		return $intersection;
+	}
+
+	/**
 	 * Check if the collection is empty.
 	 *
 	 * @return  boolean
@@ -149,7 +175,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Merge another collection into this collection.
+	 * Get a new collection containing merged entities from two collections.
 	 *
 	 * @param   EntityCollection  $collection  Collection to merge
 	 *
@@ -157,12 +183,19 @@ class EntityCollection implements \Countable, \Iterator
 	 */
 	public function merge(EntityCollection $collection)
 	{
-		foreach ($collection as $entity)
+		$merge = clone $this;
+
+		if ($collection->isEmpty())
 		{
-			$this->add($entity);
+			return $merge;
 		}
 
-		return $this;
+		foreach ($collection as $item)
+		{
+			$merge->add($item);
+		}
+
+		return $merge;
 	}
 
 	/**

@@ -258,6 +258,28 @@ $collection = new EntityCollection(array(Article::instance(70), Article::instanc
 var_dump($collection->ids());
 ```
 
+### intersect(EntityCollection $collection) <a id="intersect"></a>
+
+> Get a new collection containing entities present in two collections.
+
+**Parameters:**
+
+* `EntityCollection` *$collection (required):* Collection to intersect.
+
+**Returns:**
+
+`static`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(69), Article::instance(70)));
+$articles2 = new EntityCollection(array(Article::instance(69), Article::instance(72)));
+
+// Will show [69]
+var_dump($articles->intersect($articles2)->ids());
+```
+
 ### isEmpty() <a id="isEmpty"></a>
 
 > Check if the collection is empty.
@@ -311,7 +333,7 @@ while ($collection->valid())
 
 ### merge(EntityCollection $collection) <a id="merge"></a>
 
-> Merge another collection into this collection.
+> Create a new collection containing elements from 2 collections.
 
 **Parameters:**
 
@@ -319,7 +341,7 @@ while ($collection->valid())
 
 **Returns:**
 
-`self`
+`static`
 
 **Examples:**
 

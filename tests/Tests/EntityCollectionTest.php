@@ -302,6 +302,58 @@ class EntityCollectionTest extends \TestCase
 	}
 
 	/**
+	 * intersect returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testIntersectReturnsCorrectValue()
+	{
+		$collection1 = new EntityCollection;
+		$collection2 = new EntityCollection;
+
+		$result = $collection1->intersect($collection2);
+
+		$reflection = new \ReflectionClass($result);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$this->assertEquals(array(), $entitiesProperty->getValue($result));
+
+		$collection1 = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection2 = new EntityCollection(array(new Entity(1002), new Entity(1000)));
+
+		$result = $collection1->intersect($collection2);
+
+		$expectetdEntities = array(
+			1000 => new Entity(1000)
+		);
+
+		$this->assertEquals($expectetdEntities, $entitiesProperty->getValue($result));
+		$this->assertSame(array(1000), array_keys($entitiesProperty->getValue($result)));
+
+		// Ensure that source entities aren't modified
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection1)));
+		$this->assertSame(array(1002, 1000), array_keys($entitiesProperty->getValue($collection2)));
+
+		$collection1 = new EntityCollection(array(new Entity(999), new Entity(1000), new Entity(1001)));
+		$collection2 = new EntityCollection(array(new Entity(1001), new Entity(1000), new Entity(1002),));
+
+		$result = $collection1->intersect($collection2);
+
+		$expectetdEntities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001)
+		);
+
+		$this->assertEquals($expectetdEntities, $entitiesProperty->getValue($result));
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($result)));
+
+		// Ensure that source entities aren't modified
+		$this->assertSame(array(999, 1000, 1001), array_keys($entitiesProperty->getValue($collection1)));
+		$this->assertSame(array(1001, 1000, 1002), array_keys($entitiesProperty->getValue($collection2)));
+	}
+
+	/**
 	 * isEmpty returns correct value.
 	 *
 	 * @return  void
@@ -413,6 +465,10 @@ class EntityCollectionTest extends \TestCase
 		$this->assertEquals($expectetdEntities, $entitiesProperty->getValue($mergedCollection));
 		$this->assertSame(array(1000, 1001, 1002, 1003), array_keys($entitiesProperty->getValue($mergedCollection)));
 
+		// Ensure that source entities aren't modified
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection1)));
+		$this->assertSame(array(1002, 1003), array_keys($entitiesProperty->getValue($collection2)));
+
 		$collection1 = new EntityCollection(array(new Entity(1000), new Entity(1001)));
 		$collection2 = new EntityCollection(array(new Entity(1002), new Entity(1003)));
 
@@ -427,6 +483,10 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertEquals($expectetdEntities, $entitiesProperty->getValue($mergedCollection));
 		$this->assertSame(array(1002, 1003, 1000, 1001), array_keys($entitiesProperty->getValue($mergedCollection)));
+
+		// Ensure that source entities aren't modified
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection1)));
+		$this->assertSame(array(1002, 1003), array_keys($entitiesProperty->getValue($collection2)));
 	}
 
 	/**
