@@ -87,11 +87,13 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Get an entity by it's id
+	 * Get an entity by its identifier.
 	 *
 	 * @param   integer  $id  Item's identifier
 	 *
-	 * @return  mixed  EntityInterface if item exists. Null otherwise
+	 * @return  EntityInterface
+	 *
+	 * @throws  \InvalidArgumentException
 	 */
 	public function get($id)
 	{

@@ -13,6 +13,7 @@
     * [count()](#count)
     * [current()](#current)
     * [has($id)](#has)
+    * [get($id)](#get)
     * [ids()](#ids)
     * [isEmpty()](#isEmpty)
     * [key()](#key)
@@ -185,6 +186,40 @@ var_dump($collection->has(69));
 
 // Will return false
 var_dump($collection->has(13));
+```
+
+### get($id) <a id="get"></a>
+
+> Get an entity by its identifier.
+
+**Parameters:**
+
+* `integer` *$id (required):* Entity identifier.
+
+**Returns:**
+
+`EntityInterface`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
+
+// Will echo 69
+var_dump($articles->get(69)->getId());
+
+// Trying to retrieve an unexisting entity will throw an exception
+try
+{
+    $article = $articles->get(999);
+}
+catch (\InvalidArgumentException $e)
+{
+    $article = $articles->get(69);
+}
+
+// Will echo 69 because retrieving 999 threw an exception
+var_dump($articles->get(69)->getId());
 ```
 
 ### ids() <a id="ids"></a>
