@@ -185,7 +185,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Sort collection reversely by id.
+	 * Sort collection entities reversely by id.
 	 *
 	 * @return  boolean
 	 */
@@ -195,7 +195,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Sort collection by id.
+	 * Sort collection entities by id.
 	 *
 	 * @return  boolean
 	 */
@@ -270,7 +270,7 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
-	 * Apply custom function to order entities.
+	 * Apply custom function to order collection entities.
 	 *
 	 * @param   callable  $function  Function to sort entities
 	 *

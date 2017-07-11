@@ -356,6 +356,54 @@ while ($collection->valid())
 }
 ```
 
+### krsort() <a id="krsort"></a>
+
+> Sort collection entities reversely by id.
+
+**Parameters:**
+
+None
+
+**Returns:**
+
+`boolean`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
+
+$articles->krsort();
+
+// Will print [71, 70, 69]
+var_dump($articles->ids());
+
+```
+
+### ksort() <a id="ksort"></a>
+
+> Sort collection entities by id.
+
+**Parameters:**
+
+None
+
+**Returns:**
+
+`boolean`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+
+$articles->ksort();
+
+// Will print [60, 70, 71]
+var_dump($articles->ids());
+
+```
+
 ### merge(EntityCollection $collection) <a id="merge"></a>
 
 > Create a new collection containing elements from 2 collections.
@@ -466,6 +514,54 @@ $article = $articles->rewind();
 
 // Will echo 70
 echo '<pre>'; print_r($article->getId()); echo '</pre>';
+```
+
+### sort(callable $function) <a id="sort"></a>
+
+> Apply custom function to order collection entities.
+
+**Parameters:**
+
+* `callable` *$function (required)   :* Function to order entities.
+
+**Returns:**
+
+`boolean`
+
+**Examples:**
+
+```php
+$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+
+$sortByTitle = function ($entity1, $entity2)
+{
+    return strcmp($entity1->get('title'), $entity2->get('title'));
+};
+
+$reverseSortByTitle = function ($entity1, $entity2)
+{
+    return strcmp($entity2->get('title'), $entity1->get('title'));
+};
+
+$articles->sort($sortByTitle);
+
+echo '<h3>Ascending</h3>';
+
+// This will print article titles ordered alphabetically by title
+foreach ($articles as $article)
+{
+    echo '<pre>'; print_r($article->get('title')); echo '</pre>';
+}
+
+$articles->sort($reverseSortByTitle);
+
+echo '<h3>Descending</h3>';
+
+// This will print article titles ordered alphabetically by title in descending order
+foreach ($articles as $article)
+{
+    echo '<pre>'; print_r($article->get('title')); echo '</pre>';
+}
 ```
 
 ### toObjects() <a id="toObjects"></a>
