@@ -312,11 +312,6 @@ class EntityCollection implements \Countable, \Iterator
 				$value1 = (int) $entity1->get($property);
 				$value2 = (int) $entity2->get($property);
 
-				if ($value1 === $value2)
-				{
-					return 0;
-				}
-
 				if ($ascending)
 				{
 					return ($value1 < $value2) ? -1 : 1;

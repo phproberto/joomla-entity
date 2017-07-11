@@ -830,11 +830,6 @@ class EntityCollectionTest extends \TestCase
 		$collection->sort(
 			function ($entity1, $entity2)
 			{
-				if ($entity1->getId() === $entity2->getId())
-				{
-					return 0;
-				}
-
 				if ($entity1->getId() === 1000)
 				{
 					return 1;
