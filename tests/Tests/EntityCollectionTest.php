@@ -730,7 +730,7 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sortByInteger('test_integer', $collection::DIRECTION_DESCENDING);
+		$collection->sortByInteger('test_integer', EntityCollection::DIRECTION_DESCENDING);
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
@@ -787,7 +787,7 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sortByText('test_text', $collection::DIRECTION_DESCENDING);
+		$collection->sortByText('test_text', EntityCollection::DIRECTION_DESCENDING);
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
