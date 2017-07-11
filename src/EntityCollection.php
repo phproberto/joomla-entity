@@ -106,6 +106,16 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Get all the entities in the collection as array.
+	 *
+	 * @return  EntityInterface[]
+	 */
+	public function getAll()
+	{
+		return $this->entities;
+	}
+
+	/**
 	 * Check if an entity is present in this collection.
 	 *
 	 * @param   integer  $id  Entity identifier

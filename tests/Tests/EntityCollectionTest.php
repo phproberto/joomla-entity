@@ -224,6 +224,27 @@ class EntityCollectionTest extends \TestCase
 	}
 
 	/**
+	 * getAll returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testGetAllReturnsCorrectValue()
+	{
+		$collection = new EntityCollection;
+
+		$this->assertSame(array(), $collection->getAll());
+
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001)
+		);
+
+		$collection = new EntityCollection($entities);
+
+		$this->assertSame($entities, $collection->getAll());
+	}
+
+	/**
 	 * get retrieves correct entity.
 	 *
 	 * @return  void
