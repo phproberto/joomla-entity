@@ -185,6 +185,26 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Sort collection reversely by id.
+	 *
+	 * @return  boolean
+	 */
+	public function krsort()
+	{
+		return krsort($this->entities);
+	}
+
+	/**
+	 * Sort collection by id.
+	 *
+	 * @return  boolean
+	 */
+	public function ksort()
+	{
+		return ksort($this->entities);
+	}
+
+	/**
 	 * Get a new collection containing merged entities from two collections.
 	 *
 	 * @param   EntityCollection  $collection  Collection to merge
@@ -247,6 +267,18 @@ class EntityCollection implements \Countable, \Iterator
 	public function rewind()
 	{
 		return reset($this->entities);
+	}
+
+	/**
+	 * Apply custom function to order entities.
+	 *
+	 * @param   callable  $function  Function to sort entities
+	 *
+	 * @return  boolean
+	 */
+	public function sort(callable $function)
+	{
+		return uasort($this->entities, $function);
 	}
 
 	/**

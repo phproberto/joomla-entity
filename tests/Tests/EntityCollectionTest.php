@@ -454,6 +454,50 @@ class EntityCollectionTest extends \TestCase
 	}
 
 	/**
+	 * ksort orders entities.
+	 *
+	 * @return  void
+	 */
+	public function testKsortOrdersEntities()
+	{
+		$entities = array(1001 => new Entity(1001), 1000 => new Entity(1000), 1002 => new Entity(1002));
+
+		$collection = new EntityCollection($entities);
+
+		$reflection = new \ReflectionClass($collection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$this->assertSame(array(1001, 1000, 1002), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->ksort();
+
+		$this->assertSame(array(1000, 1001, 1002), array_keys($entitiesProperty->getValue($collection)));
+	}
+
+	/**
+	 * krsort orders entities.
+	 *
+	 * @return  void
+	 */
+	public function testKrsortOrdersEntities()
+	{
+		$entities = array(1001 => new Entity(1001), 1000 => new Entity(1000), 1002 => new Entity(1002));
+
+		$collection = new EntityCollection($entities);
+
+		$reflection = new \ReflectionClass($collection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$this->assertSame(array(1001, 1000, 1002), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->krsort();
+
+		$this->assertSame(array(1002, 1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+	}
+
+	/**
 	 * Merge returns correct collection.
 	 *
 	 * @return  void
@@ -650,6 +694,38 @@ class EntityCollectionTest extends \TestCase
 		);
 
 		$this->assertEquals($expected, $collection->toObjects());
+	}
+
+	/**
+	 * sort orders entities.
+	 *
+	 * @return  void
+	 */
+	public function testSortOrdersEntities()
+	{
+		$entities = array(1000 => new Entity(1000), 1001 => new Entity(1001), 1002 => new Entity(1002));
+
+		$collection = new EntityCollection($entities);
+
+		$reflection = new \ReflectionClass($collection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$this->assertSame(array(1000, 1001, 1002), array_keys($entitiesProperty->getValue($collection)));
+
+		$sortFunction = function ($entity1, $entity2)
+		{
+			if ($entity1->getId() === 1000)
+			{
+				return 1;
+			}
+
+			return ($entity1->getId() < $entity2->getId()) ? -1 : 1;
+		};
+
+		$collection->sort($sortFunction);
+
+		$this->assertSame(array(1001, 1002, 1000), array_keys($entitiesProperty->getValue($collection)));
 	}
 
 	/**
