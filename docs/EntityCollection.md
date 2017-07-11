@@ -15,6 +15,7 @@
     * [has($id)](#has)
     * [get($id)](#get)
     * [ids()](#ids)
+    * [intersect(EntityCollection $collection)](#intersect)
     * [isEmpty()](#isEmpty)
     * [key()](#key)
     * [merge(EntityCollection $collection)](#merge)
