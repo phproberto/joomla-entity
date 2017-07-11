@@ -282,6 +282,90 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Sort entities by an integer property.
+	 *
+	 * @param   string  $property  Property name
+	 *
+	 * @return  boolean
+	 */
+	public function sortByInteger($property)
+	{
+		return $this->sort(
+			function ($entity1, $entity2) use ($property)
+			{
+				$value1 = (int) $entity1->get($property);
+				$value2 = (int) $entity2->get($property);
+
+				if ($value1 === $value2)
+				{
+					return 0;
+				}
+
+				return ($value1 < $value2) ? -1 : 1;
+			}
+		);
+	}
+
+	/**
+	 * Sort entities by an integer property in descending order.
+	 *
+	 * @param   string  $property  Property name
+	 *
+	 * @return  boolean
+	 */
+	public function sortByIntegerDescending($property)
+	{
+		return $this->sort(
+			function ($entity1, $entity2) use ($property)
+			{
+				$value1 = (int) $entity1->get($property);
+				$value2 = (int) $entity2->get($property);
+
+				if ($value1 === $value2)
+				{
+					return 0;
+				}
+
+				return ($value2 < $value1) ? -1 : 1;
+			}
+		);
+	}
+
+	/**
+	 * Sort entities by a text property.
+	 *
+	 * @param   string  $property  Property name
+	 *
+	 * @return  boolean
+	 */
+	public function sortByText($property)
+	{
+		return $this->sort(
+			function ($entity1, $entity2) use ($property)
+			{
+				return strcmp($entity1->get($property), $entity2->get($property));
+			}
+		);
+	}
+
+	/**
+	 * Sort entities by a text property in descending order.
+	 *
+	 * @param   string  $property  Property name
+	 *
+	 * @return  boolean
+	 */
+	public function sortByTextDescending($property)
+	{
+		return $this->sort(
+			function ($entity1, $entity2) use ($property)
+			{
+				return strcmp($entity2->get($property), $entity1->get($property));
+			}
+		);
+	}
+
+	/**
 	 * Get all data from all the entities as objects.
 	 *
 	 * @return  \stdClass[]  An array of stdClass objects

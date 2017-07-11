@@ -46,6 +46,26 @@ interface EntityInterface
 	const STATE_TRASHED = -2;
 
 	/**
+	 * Assign a value to entity property.
+	 *
+	 * @param   string  $property  Name of the property to set
+	 * @param   mixed   $value     Value to assign
+	 *
+	 * @return  self
+	 */
+	public function assign($property, $value);
+
+	/**
+	 * Get a property of this entity.
+	 *
+	 * @param   string  $property  Name of the property to get
+	 * @param   mixed   $default   Value to use as default if property is not set or is null
+	 *
+	 * @return  mixed
+	 */
+	public function get($property, $default = null);
+
+	/**
 	 * Get the entity identifier.
 	 *
 	 * @return  integer

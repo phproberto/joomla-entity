@@ -697,6 +697,120 @@ class EntityCollectionTest extends \TestCase
 	}
 
 	/**
+	 * sortByInteger orders entities.
+	 *
+	 * @return  void
+	 */
+	public function testSortByIntegerOrdersEntities()
+	{
+		$entity1 = new Entity(1000);
+		$entity2 = new Entity(1001);
+
+		$reflection = new \ReflectionClass($entity1);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$row1 = array('id' => 1000, 'test_integer' => '4');
+		$row2 = array('id' => 1001, 'test_integer' => '3');
+
+		$rowProperty->setValue($entity1, $row1);
+		$rowProperty->setValue($entity2, $row2);
+
+		$entities = array($entity1, $entity2);
+
+		$collection = new EntityCollection($entities);
+
+		$reflection = new \ReflectionClass($collection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->sortByInteger('test_integer');
+
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->sortByIntegerDescending('test_integer');
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$row1 = array('id' => 1000, 'test_integer' => 'this is 0 casted');
+		$row2 = array('id' => 1001, 'test_integer' => 400);
+
+		$rowProperty->setValue($entity1, $row1);
+		$rowProperty->setValue($entity2, $row2);
+
+		$entities = array($entity1, $entity2);
+
+		$collection = new EntityCollection($entities);
+
+		$collection->sortByInteger('test_integer');
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->sortByIntegerDescending('test_integer');
+
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+	}
+
+	/**
+	 * sortByText orders entities.
+	 *
+	 * @return  void
+	 */
+	public function testSortByTextOrdersEntities()
+	{
+		$entity1 = new Entity(1000);
+		$entity2 = new Entity(1001);
+
+		$reflection = new \ReflectionClass($entity1);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$row1 = array('id' => 1000, 'test_text' => 'Camióna');
+		$row2 = array('id' => 1001, 'test_text' => 'Camión');
+
+		$rowProperty->setValue($entity1, $row1);
+		$rowProperty->setValue($entity2, $row2);
+
+		$entities = array($entity1, $entity2);
+
+		$collection = new EntityCollection($entities);
+
+		$reflection = new \ReflectionClass($collection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->sortByText('test_text');
+
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->sortByTextDescending('test_text');
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$row1 = array('id' => 1000, 'test_text' => 'Turrón');
+		$row2 = array('id' => 1001, 'test_text' => 'turrón');
+
+		$rowProperty->setValue($entity1, $row1);
+		$rowProperty->setValue($entity2, $row2);
+
+		$entities = array($entity1, $entity2);
+
+		$collection = new EntityCollection($entities);
+
+		$collection->sortByText('test_text');
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->sortByTextDescending('test_text');
+
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+	}
+
+	/**
 	 * sort orders entities.
 	 *
 	 * @return  void
