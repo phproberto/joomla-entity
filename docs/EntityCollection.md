@@ -45,24 +45,26 @@ $model->setState('list.start', 0);
 $model->setState('list.limit', 5);
 $model->setState('filter.published', 1);
 
-$articles = array_map(
-	function($item) {
-		return Article::instance($item->id)->bind($item);
-	}
-	,
-	$model->getItems() ?: array()
+$items = array_map(
+    function($item) {
+        return Article::instance($item->id)->bind($item);
+    }
+    ,
+    $model->getItems() ?: array()
 );
 
 
-$collection = new EntityCollection($articles);
+$articles = new EntityCollection($items);
 
-foreach ($collection as $id => $article)
+foreach ($articles as $id => $article)
 {
-	if (!$article->canAccess())
-	{
-		continue;
-	}
-	echo '<pre>'; print_r('You have access to ' . $id . '. ' . $article->get('title')); echo '</pre>';
+    if (!$article->canAccess())
+    {
+        continue;
+    }
+    echo '<pre>'; print_r('You have access to ' . $id . '. ' . $article->get('title')); echo '</pre>';
+
+    echo '<pre>Tags: '; print_r($article->getTags()->ids()); echo '</pre>';
 }
 ```
 
