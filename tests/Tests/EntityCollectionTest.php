@@ -827,22 +827,22 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertSame(array(1000, 1001, 1002), array_keys($entitiesProperty->getValue($collection)));
 
-		$sortFunction = function ($entity1, $entity2)
-		{
-			if ($entity1->getId() === $entity2->getId())
+		$collection->sort(
+			function ($entity1, $entity2)
 			{
-				return 0;
+				if ($entity1->getId() === $entity2->getId())
+				{
+					return 0;
+				}
+
+				if ($entity1->getId() === 1000)
+				{
+					return 1;
+				}
+
+				return ($entity1->getId() < $entity2->getId()) ? -1 : 1;
 			}
-
-			if ($entity1->getId() === 1000)
-			{
-				return 1;
-			}
-
-			return ($entity1->getId() < $entity2->getId()) ? -1 : 1;
-		};
-
-		$collection->sort($sortFunction);
+		);
 
 		$this->assertSame(array(1001, 1002, 1000), array_keys($entitiesProperty->getValue($collection)));
 	}
