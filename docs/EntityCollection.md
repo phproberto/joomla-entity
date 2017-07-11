@@ -25,7 +25,7 @@
 
 ## Usage <a id="usage"></a>
 
-This is a fast example:
+A couple of fast examples:
 
 ```php
 <?php
@@ -35,37 +35,41 @@ use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\EntityCollection;
 
-\JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
+$articles = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
-$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
-
-$model->setState('params', new Registry);
-
-$model->setState('list.start', 0);
-$model->setState('list.limit', 5);
-$model->setState('filter.published', 1);
-
-$items = array_map(
-    function($item) {
-        return Article::instance($item->id)->bind($item);
-    }
-    ,
-    $model->getItems() ?: array()
-);
-
-
-$articles = new EntityCollection($items);
-
-foreach ($articles as $id => $article)
+// Collection implements Iterator so you can traverse it like
+foreach ($articles as $article)
 {
-    if (!$article->canAccess())
-    {
-        continue;
-    }
-    echo '<pre>'; print_r('You have access to ' . $id . '. ' . $article->get('title')); echo '</pre>';
-
-    echo '<pre>Tags: '; print_r($article->getTags()->ids()); echo '</pre>';
+    echo $article->getId() . '. ' . $article->get('title') . '<br />';
 }
+
+// It also implements Countable
+echo 'Collecton has ' . $articles->count() . ' entities <br />';
+
+// Check if an article is in the collection
+if ($articles->has(69))
+{
+    echo $articles->get(69)->getId() . '. ' . $articles->get(69)->get('title') . '<br />';
+}
+
+// Add entities
+$articles->add(Article::instance(72));
+
+// Remove entities
+$articles->remove(69);
+
+// Get the ids of the entities in the collection
+var_dump($articles->ids());
+
+// Clear the collection
+$articles->clear();
+
+// Check if collection is empty
+if ($articles->isEmpty())
+{
+    echo 'Collection is empty <br />';
+}
+
 ```
 
 ### add(EntityInterface $entity) <a id="add"></a>
