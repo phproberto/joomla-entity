@@ -46,6 +46,14 @@ foreach ($articles as $articleId => $article)
 // It also implements Countable
 echo 'Collecton has ' . $articles->count() . ' entities <br />';
 
+// Other entities can return collections
+$article = Article::instance(71);
+
+foreach ($article->getTags() as $tagId => $tag)
+{
+    echo 'Tag ' . $tagId . '. ' . $tag->get('title') . '<br />';
+}
+
 // Check if an article is in the collection
 if ($articles->has(69))
 {
