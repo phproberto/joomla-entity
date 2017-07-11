@@ -18,6 +18,20 @@ use Phproberto\Joomla\Entity\EntityInterface;
 class EntityCollection implements \Countable, \Iterator
 {
 	/**
+	 * Ascending direction for sorting.
+	 *
+	 * @const
+	 */
+	const DIRECTION_ASCENDING = 'ASC';
+
+	/**
+	 * Descending direction for sorting.
+	 *
+	 * @const
+	 */
+	const DIRECTION_DESCENDING = 'DESC';
+
+	/**
 	 * @var  array
 	 */
 	protected $entities = array();
@@ -288,11 +302,13 @@ class EntityCollection implements \Countable, \Iterator
 	 *
 	 * @return  boolean
 	 */
-	public function sortByInteger($property)
+	public function sortByInteger($property, $direction = self::DIRECTION_ASCENDING)
 	{
 		return $this->sort(
-			function ($entity1, $entity2) use ($property)
+			function ($entity1, $entity2) use ($property, $direction)
 			{
+				$ascending = $direction === self::DIRECTION_ASCENDING;
+
 				$value1 = (int) $entity1->get($property);
 				$value2 = (int) $entity2->get($property);
 
@@ -301,32 +317,12 @@ class EntityCollection implements \Countable, \Iterator
 					return 0;
 				}
 
-				return ($value1 < $value2) ? -1 : 1;
-			}
-		);
-	}
-
-	/**
-	 * Sort entities by an integer property in descending order.
-	 *
-	 * @param   string  $property  Property name
-	 *
-	 * @return  boolean
-	 */
-	public function sortByIntegerDescending($property)
-	{
-		return $this->sort(
-			function ($entity1, $entity2) use ($property)
-			{
-				$value1 = (int) $entity1->get($property);
-				$value2 = (int) $entity2->get($property);
-
-				if ($value1 === $value2)
+				if ($ascending)
 				{
-					return 0;
+					return ($value1 < $value2) ? -1 : 1;
 				}
 
-				return ($value2 < $value1) ? -1 : 1;
+				return ($value2 < $value2) ? -1 : 1;
 			}
 		);
 	}
@@ -338,28 +334,18 @@ class EntityCollection implements \Countable, \Iterator
 	 *
 	 * @return  boolean
 	 */
-	public function sortByText($property)
+	public function sortByText($property, $direction = self::DIRECTION_ASCENDING)
 	{
 		return $this->sort(
-			function ($entity1, $entity2) use ($property)
+			function ($entity1, $entity2) use ($property, $direction)
 			{
-				return strcmp($entity1->get($property), $entity2->get($property));
-			}
-		);
-	}
+				$ascending = $direction === self::DIRECTION_ASCENDING;
 
-	/**
-	 * Sort entities by a text property in descending order.
-	 *
-	 * @param   string  $property  Property name
-	 *
-	 * @return  boolean
-	 */
-	public function sortByTextDescending($property)
-	{
-		return $this->sort(
-			function ($entity1, $entity2) use ($property)
-			{
+				if ($ascending)
+				{
+					return strcmp($entity1->get($property), $entity2->get($property));
+				}
+
 				return strcmp($entity2->get($property), $entity1->get($property));
 			}
 		);

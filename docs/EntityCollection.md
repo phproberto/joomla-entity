@@ -25,10 +25,8 @@
     * [remove($id)](#remove)
     * [rewind()](#rewind)
     * [sort(callable $function)](#sort)
-    * [sortByInteger($property)](#sortByInteger)
-    * [sortByIntegerDescending($property)](#sortByIntegerDescending)
-    * [sortByText($property)](#sortByText)
-    * [sortByTextDescending($property)](#sortByTextDescending)
+    * [sortByInteger($property, $direction = self::DIRECTION_ASCENDING)](#sortByInteger)
+    * [sortByText($property, $direction = self::DIRECTION_ASCENDING)](#sortByText)
     * [toObjects()](#toObjects)
     * [valid()](#valid)
     * [write(EntityInterface $entity, $overwrite = true)](#write)
@@ -577,7 +575,8 @@ foreach ($articles as $article)
 
 **Parameters:**
 
-* `string` *$property (required):* Property to use for ordering.
+* `string` *$property (required):*  Property to use for ordering.
+* `string` *$direction (optional):* Ordering direction: 'ASC' | 'DESC'.
 
 **Returns:**
 
@@ -586,8 +585,6 @@ foreach ($articles as $article)
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
-
 $tags = Article::instance(71)->getTags();
 
 $tags->sortByInteger('id');
@@ -597,30 +594,10 @@ foreach ($tags as $tag)
 {
     echo '<pre>'; print_r($tag->getId()); echo '</pre>';
 }
-```
 
-### sortByIntegerDescending($property) <a id="sortByIntegerDescending"></a>
+$tags->sortByInteger('id', $tags::DIRECTION_DESCENDING);
 
-> Sort entities by an integer property in descending order.
-
-**Parameters:**
-
-* `string` *$property (required):* Property to use for ordering.
-
-**Returns:**
-
-`boolean`
-
-**Examples:**
-
-```php
-$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
-
-$tags = Article::instance(71)->getTags();
-
-$tags->sortByIntegerDescending('id');
-
-// This will show ids reversely ordered 
+// This will show ids ordered descendently
 foreach ($tags as $tag)
 {
     echo '<pre>'; print_r($tag->getId()); echo '</pre>';
@@ -634,6 +611,7 @@ foreach ($tags as $tag)
 **Parameters:**
 
 * `string` *$property (required):* Property to use for ordering.
+* `string` *$direction (optional):* Ordering direction: 'ASC' | 'DESC'.
 
 **Returns:**
 
@@ -642,8 +620,6 @@ foreach ($tags as $tag)
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
-
 $tags = Article::instance(71)->getTags();
 
 $tags->sortByText('title');
@@ -653,31 +629,11 @@ foreach ($tags as $tag)
 {
     echo '<pre>'; print_r($tag->get('title')); echo '</pre>';
 }
-```
 
-### sortByTextDescending($property) <a id="sortByTextDescending"></a>
+$tags->sortByText('title');
 
-> Sort entities by a text property in descending order.
-
-**Parameters:**
-
-* `string` *$property (required):* Property to use for ordering.
-
-**Returns:**
-
-`boolean`
-
-**Examples:**
-
-```php
-$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
-
-$tags = Article::instance(71)->getTags();
-
-$tags->sortByTextDescending('title');
-
-// This will show tags reversely ordered by title
-foreach ($tags as $tag)
+// This will show tags ordered by title descendently
+foreach ($tags as $tag, $tags::DIRECTION_DESCENDING)
 {
     echo '<pre>'; print_r($tag->get('title')); echo '</pre>';
 }
