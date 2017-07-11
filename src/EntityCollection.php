@@ -317,7 +317,7 @@ class EntityCollection implements \Countable, \Iterator
 					return ($value1 < $value2) ? -1 : 1;
 				}
 
-				return ($value2 < $value2) ? -1 : 1;
+				return ($value2 < $value1) ? -1 : 1;
 			}
 		);
 	}
