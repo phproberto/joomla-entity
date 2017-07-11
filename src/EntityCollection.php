@@ -304,11 +304,11 @@ class EntityCollection implements \Countable, \Iterator
 	 */
 	public function sortByInteger($property, $direction = self::DIRECTION_ASCENDING)
 	{
-		return $this->sort(
-			function ($entity1, $entity2) use ($property, $direction)
-			{
-				$ascending = $direction === self::DIRECTION_ASCENDING;
+		$ascending = $direction === self::DIRECTION_ASCENDING;
 
+		return $this->sort(
+			function ($entity1, $entity2) use ($property, $ascending)
+			{
 				$value1 = (int) $entity1->get($property);
 				$value2 = (int) $entity2->get($property);
 
@@ -336,11 +336,11 @@ class EntityCollection implements \Countable, \Iterator
 	 */
 	public function sortByText($property, $direction = self::DIRECTION_ASCENDING)
 	{
-		return $this->sort(
-			function ($entity1, $entity2) use ($property, $direction)
-			{
-				$ascending = $direction === self::DIRECTION_ASCENDING;
+		$ascending = $direction === self::DIRECTION_ASCENDING;
 
+		return $this->sort(
+			function ($entity1, $entity2) use ($property, $ascending)
+			{
 				if ($ascending)
 				{
 					return strcmp($entity1->get($property), $entity2->get($property));
