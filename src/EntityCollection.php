@@ -286,13 +286,13 @@ class EntityCollection implements \Countable, \Iterator
 	/**
 	 * Apply custom function to order collection entities.
 	 *
-	 * @param   callable  $function  Function to sort entities
+	 * @param   callable  $func  Function to sort entities
 	 *
 	 * @return  boolean
 	 */
-	public function sort(callable $function)
+	public function sort(callable $func)
 	{
-		return uasort($this->entities, $function);
+		return uasort($this->entities, $func);
 	}
 
 	/**
