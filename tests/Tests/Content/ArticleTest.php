@@ -108,17 +108,25 @@ class ArticleTest extends \TestCaseDatabase
 	{
 		$article = new Article;
 
+		$reflection = new \ReflectionClass($article);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($article, ['id' => 999]);
+
 		$category = $article->getCategory();
 
-		$this->assertInstanceOf('Phproberto\Joomla\Entity\Categories\Category', $category);
+		$this->assertInstanceOf('Phproberto\Joomla\Entity\Content\Category', $category);
 		$this->assertSame(0, $category->getId());
 
-		$article = Article::instance(1);
+		$article = new Article(999);
+
+		$rowProperty->setValue($article, ['id' => 999, 'catid' => 666]);
 
 		$category = $article->getCategory();
 
-		$this->assertInstanceOf('Phproberto\Joomla\Entity\Categories\Category', $category);
-		$this->assertNotSame(0, $category->getId());
+		$this->assertInstanceOf('Phproberto\Joomla\Entity\Content\Category', $category);
+		$this->assertSame(666, $category->getId());
 	}
 
 	/**

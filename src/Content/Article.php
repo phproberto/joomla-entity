@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Content;
 
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Content\Category;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
@@ -65,6 +66,24 @@ class Article extends Entity
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::getTable($name, $prefix, $options);
+	}
+
+	/**
+	 * Load the category from the database.
+	 *
+	 * @return  Category
+	 */
+	protected function loadCategory()
+	{
+		$column = $this->getColumnCategory();
+		$data    = $this->getAll();
+
+		if (array_key_exists($column, $data))
+		{
+			return Category::instance($data[$column]);
+		}
+
+		return new Category;
 	}
 
 	/**
