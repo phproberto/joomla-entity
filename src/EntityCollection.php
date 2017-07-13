@@ -219,7 +219,7 @@ class EntityCollection implements \Countable, \Iterator
 	{
 		ksort($this->entities);
 
-		return self;
+		return $this;
 	}
 
 	/**
