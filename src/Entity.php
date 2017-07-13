@@ -62,7 +62,7 @@ abstract class Entity implements EntityInterface
 
 		$this->row[$property] = $value;
 
-		if ($property === $this->getPrimaryKey())
+		if ($property === $this->primaryKey())
 		{
 			$this->id = (int) $value;
 		}
@@ -91,7 +91,7 @@ abstract class Entity implements EntityInterface
 			$this->row = array();
 		}
 
-		$primaryKey = $this->getPrimaryKey();
+		$primaryKey = $this->primaryKey();
 
 		foreach ($data as $property => $value)
 		{
@@ -170,12 +170,12 @@ abstract class Entity implements EntityInterface
 			throw InvalidEntityData::emptyData($this);
 		}
 
-		if (!array_key_exists($this->getPrimaryKey(), $data))
+		if (!array_key_exists($this->primaryKey(), $data))
 		{
 			throw InvalidEntityData::missingPrimaryKey($this);
 		}
 
-		$this->id = (int) $data[$this->getPrimaryKey()];
+		$this->id = (int) $data[$this->primaryKey()];
 
 		return $data;
 	}
@@ -207,7 +207,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function getAll()
 	{
-		if (empty($this->row[$this->getPrimaryKey()]))
+		if (empty($this->row[$this->primaryKey()]))
 		{
 			$this->fetch();
 		}
@@ -220,7 +220,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  string
 	 */
-	public function getPrimaryKey()
+	public function primaryKey()
 	{
 		return 'id';
 	}

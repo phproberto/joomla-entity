@@ -77,7 +77,7 @@ interface EntityInterface
 	 *
 	 * @return  string
 	 */
-	public function getPrimaryKey();
+	public function primaryKey();
 
 	/**
 	 * Get the attached database row.

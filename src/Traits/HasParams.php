@@ -45,7 +45,7 @@ trait HasParams
 	 *
 	 * @return  string
 	 */
-	abstract public function getPrimaryKey();
+	abstract public function primaryKey();
 
 	/**
 	 * Get the attached database row.
@@ -115,7 +115,7 @@ trait HasParams
 		$table = $this->table();
 
 		$saveData = array(
-			$this->getPrimaryKey() => $this->id(),
+			$this->primaryKey() => $this->id(),
 			$column                => $this->getParams()->toString()
 		);
 
