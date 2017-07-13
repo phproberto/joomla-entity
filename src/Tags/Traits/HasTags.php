@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tags\Traits;
 
 use Phproberto\Joomla\Entity\Tags\Tag;
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 
 defined('JPATH_PLATFORM') || die;
 
@@ -23,7 +23,7 @@ trait HasTags
 	/**
 	 * Associated tags.
 	 *
-	 * @var  EntityCollection
+	 * @var  Collection
 	 */
 	protected $tags;
 
@@ -44,7 +44,7 @@ trait HasTags
 	 *
 	 * @param   boolean  $reload  Force data reloading
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	public function getTags($reload = false)
 	{
@@ -92,7 +92,7 @@ trait HasTags
 	/**
 	 * Load associated tags from DB.
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	abstract protected function loadTags();
 }

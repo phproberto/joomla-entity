@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content\Traits;
 
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Tests\Content\Traits\Stubs\ClassWithArticles;
 
@@ -47,7 +47,7 @@ class HasArticlesTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(null, $articlesProperty->getValue($entity));
 
-		$articles = new EntityCollection(
+		$articles = new Collection(
 			array(
 				new Article(23),
 				new Article(24),
@@ -83,13 +83,13 @@ class HasArticlesTest extends \PHPUnit\Framework\TestCase
 	{
 		$entity = new ClassWithArticles;
 
-		$this->assertEquals(new EntityCollection, $entity->getArticles());
+		$this->assertEquals(new Collection, $entity->getArticles());
 
 		$entity->articlesIds = array(999);
 
 		// Previous data with no reload
-		$this->assertEquals(new EntityCollection, $entity->getArticles());
-		$this->assertEquals(new EntityCollection(array(new Article(999))), $entity->getArticles(true));
+		$this->assertEquals(new Collection, $entity->getArticles());
+		$this->assertEquals(new Collection(array(new Article(999))), $entity->getArticles(true));
 	}
 
 	/**

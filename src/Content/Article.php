@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Content;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Category;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
@@ -110,13 +110,13 @@ class Article extends Entity
 	/**
 	 * Load associated tags from DB.
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	protected function loadTags()
 	{
 		if (!$this->hasId())
 		{
-			return new EntityCollection;
+			return new Collection;
 		}
 
 		$items = $this->getTagsHelperInstance()->getItemTags('com_content.article', $this->id()) ?: array();
@@ -129,6 +129,6 @@ class Article extends Entity
 			$items
 		);
 
-		return new EntityCollection($tags);
+		return new Collection($tags);
 	}
 }

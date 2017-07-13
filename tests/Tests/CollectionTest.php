@@ -9,14 +9,14 @@
 namespace Phproberto\Joomla\Entity\Tests;
 
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 
 /**
  * Entity collection tests.
  *
  * @since   __DEPLOY_VERSION__
  */
-class EntityCollectionTest extends \TestCase
+class CollectionTest extends \TestCase
 {
 	/**
 	 * Constructor sets entities.
@@ -25,7 +25,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testConstructorSetsEntities()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -38,7 +38,7 @@ class EntityCollectionTest extends \TestCase
 			new Entity(1001)
 		);
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -60,7 +60,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testAddAddsNewEntity()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -91,7 +91,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testAddThrowsExceptionWhenEntityHasNoId()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$collection->add(new Entity);
 	}
@@ -103,7 +103,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testAddDoesNotOverwriteEntity()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -139,7 +139,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testClearEmptiesEntitiesArray()
 	{
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -159,7 +159,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testCountReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -167,7 +167,7 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertSame(0, $collection->count());
 
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001)));
 
 		$this->assertSame(2, $collection->count());
 
@@ -190,7 +190,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testCurrentReturnsCorrectValue()
 	{
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
 
 		foreach ($collection as $entity)
 		{
@@ -201,7 +201,7 @@ class EntityCollectionTest extends \TestCase
 		$entitiesProperty = $reflection->getProperty('entities');
 		$entitiesProperty->setAccessible(true);
 
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
 
 		$entities = array(
 			1000 => new Entity(1000),
@@ -230,7 +230,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testAllReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertSame(array(), $collection->all());
 
@@ -239,7 +239,7 @@ class EntityCollectionTest extends \TestCase
 			1001 => new Entity(1001)
 		);
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$returnedEntities = $collection->all();
 
@@ -258,7 +258,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testGetRetrievesCorrectEntity()
 	{
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001)));
 
 		$this->assertEquals(new Entity(1000), $collection->get(1000));
 		$this->assertEquals(new Entity(1001), $collection->get(1001));
@@ -273,7 +273,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testGetThrowsExceptionForMissingElement()
 	{
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001)));
 
 		$collection->get(1002);
 	}
@@ -285,13 +285,13 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testHasReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertFalse($collection->has(1000));
 		$this->assertFalse($collection->has(1001));
 		$this->assertFalse($collection->has(1002));
 
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001)));
 
 		$this->assertTrue($collection->has(1000));
 		$this->assertFalse($collection->has(1002));
@@ -305,7 +305,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testIdsReturnsCorrectIdentifiers()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -313,7 +313,7 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertSame(array(), $collection->ids());
 
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001)));
 
 		$this->assertSame(array(1000, 1001), $collection->ids());
 
@@ -336,8 +336,8 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testIntersectReturnsCorrectValue()
 	{
-		$collection1 = new EntityCollection;
-		$collection2 = new EntityCollection;
+		$collection1 = new Collection;
+		$collection2 = new Collection;
 
 		$result = $collection1->intersect($collection2);
 
@@ -347,8 +347,8 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertEquals(array(), $entitiesProperty->getValue($result));
 
-		$collection1 = new EntityCollection(array(new Entity(1000), new Entity(1001)));
-		$collection2 = new EntityCollection(array(new Entity(1002), new Entity(1000)));
+		$collection1 = new Collection(array(new Entity(1000), new Entity(1001)));
+		$collection2 = new Collection(array(new Entity(1002), new Entity(1000)));
 
 		$result = $collection1->intersect($collection2);
 
@@ -363,8 +363,8 @@ class EntityCollectionTest extends \TestCase
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection1)));
 		$this->assertSame(array(1002, 1000), array_keys($entitiesProperty->getValue($collection2)));
 
-		$collection1 = new EntityCollection(array(new Entity(999), new Entity(1000), new Entity(1001)));
-		$collection2 = new EntityCollection(array(new Entity(1001), new Entity(1000), new Entity(1002),));
+		$collection1 = new Collection(array(new Entity(999), new Entity(1000), new Entity(1001)));
+		$collection2 = new Collection(array(new Entity(1001), new Entity(1000), new Entity(1002),));
 
 		$result = $collection1->intersect($collection2);
 
@@ -388,7 +388,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testIsEmptyReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -396,7 +396,7 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertTrue($collection->isEmpty());
 
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001)));
 
 		$this->assertFalse($collection->isEmpty());
 
@@ -423,11 +423,11 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testKeyReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertSame(null, $collection->key());
 
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
 
 		foreach ($collection as $entity)
 		{
@@ -438,7 +438,7 @@ class EntityCollectionTest extends \TestCase
 		$entitiesProperty = $reflection->getProperty('entities');
 		$entitiesProperty->setAccessible(true);
 
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
 
 		$entities = array(
 			1000 => new Entity(1000),
@@ -469,7 +469,7 @@ class EntityCollectionTest extends \TestCase
 	{
 		$entities = array(1001 => new Entity(1001), 1000 => new Entity(1000), 1002 => new Entity(1002));
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -491,7 +491,7 @@ class EntityCollectionTest extends \TestCase
 	{
 		$entities = array(1001 => new Entity(1001), 1000 => new Entity(1000), 1002 => new Entity(1002));
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -511,13 +511,13 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testLastReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertSame(false, $collection->last());
 
 		$entities = array(1000 => new Entity(1000), 1001 => new Entity(1001), 1002 => new Entity(1002));
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$this->assertSame($entities[1002], $collection->last());
 
@@ -543,8 +543,8 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testMergeReturnsCorrectCollection()
 	{
-		$collection1 = new EntityCollection;
-		$collection2 = new EntityCollection;
+		$collection1 = new Collection;
+		$collection2 = new Collection;
 
 		$mergedCollection = $collection1->merge($collection2);
 
@@ -554,8 +554,8 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertEquals(array(), $entitiesProperty->getValue($mergedCollection));
 
-		$collection1 = new EntityCollection(array(new Entity(1000), new Entity(1001)));
-		$collection2 = new EntityCollection(array(new Entity(1002), new Entity(1003)));
+		$collection1 = new Collection(array(new Entity(1000), new Entity(1001)));
+		$collection2 = new Collection(array(new Entity(1002), new Entity(1003)));
 
 		$mergedCollection = $collection1->merge($collection2);
 
@@ -573,8 +573,8 @@ class EntityCollectionTest extends \TestCase
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection1)));
 		$this->assertSame(array(1002, 1003), array_keys($entitiesProperty->getValue($collection2)));
 
-		$collection1 = new EntityCollection(array(new Entity(1000), new Entity(1001)));
-		$collection2 = new EntityCollection(array(new Entity(1002), new Entity(1003)));
+		$collection1 = new Collection(array(new Entity(1000), new Entity(1001)));
+		$collection2 = new Collection(array(new Entity(1002), new Entity(1003)));
 
 		$mergedCollection = $collection2->merge($collection1);
 
@@ -600,13 +600,13 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testNextReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertSame(false, $collection->next());
 
 		$entities = array(1000 => new Entity(1000), 1001 => new Entity(1001), 1002 => new Entity(1002));
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		foreach ($collection as $entity)
 		{
@@ -620,7 +620,7 @@ class EntityCollectionTest extends \TestCase
 		$entitiesProperty = $reflection->getProperty('entities');
 		$entitiesProperty->setAccessible(true);
 
-		$collection = new EntityCollection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
+		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
 
 		$entitiesProperty->setValue($collection, $entities);
 
@@ -643,13 +643,13 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testRemoveRemovesEntity()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertSame(false, $collection->remove(1000));
 
 		$entities = array(1000 => new Entity(1000), 1001 => new Entity(1001), 1002 => new Entity(1002));
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$this->assertSame(false, $collection->remove(1005));
 
@@ -674,13 +674,13 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testRewindReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertSame(false, $collection->rewind());
 
 		$entities = array(1000 => new Entity(1000), 1001 => new Entity(1001), 1002 => new Entity(1002));
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$this->assertSame($entities[1000], $collection->rewind());
 
@@ -706,7 +706,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testToObjectsReturnsCorrectData()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertEquals(array(), $collection->toObjects());
 
@@ -725,7 +725,7 @@ class EntityCollectionTest extends \TestCase
 
 		$entities = array($entity1, $entity2);
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$expected = array(
 			$row1['id'] => (object) $row1,
@@ -755,7 +755,7 @@ class EntityCollectionTest extends \TestCase
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$collection = new EntityCollection(array($entity1, $entity2));
+		$collection = new Collection(array($entity1, $entity2));
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -777,7 +777,7 @@ class EntityCollectionTest extends \TestCase
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$collection = new EntityCollection(array($entity1, $entity2));
+		$collection = new Collection(array($entity1, $entity2));
 
 		$collection->sortBy('test_integer');
 
@@ -793,7 +793,7 @@ class EntityCollectionTest extends \TestCase
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$collection = new EntityCollection(array($entity1, $entity2));
+		$collection = new Collection(array($entity1, $entity2));
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
@@ -826,7 +826,7 @@ class EntityCollectionTest extends \TestCase
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$collection = new EntityCollection(array($entity1, $entity2));
+		$collection = new Collection(array($entity1, $entity2));
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -848,7 +848,7 @@ class EntityCollectionTest extends \TestCase
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$collection = new EntityCollection(array($entity1, $entity2));
+		$collection = new Collection(array($entity1, $entity2));
 
 		$collection->sortBy('test_text');
 
@@ -868,7 +868,7 @@ class EntityCollectionTest extends \TestCase
 	{
 		$entities = array(1000 => new Entity(1000), 1001 => new Entity(1001), 1002 => new Entity(1002));
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -893,13 +893,13 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testValidReturnsCorrectValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertFalse($collection->valid());
 
 		$entities = array(1000 => new Entity(1000), 1001 => new Entity(1001), 1002 => new Entity(1002));
 
-		$collection = new EntityCollection($entities);
+		$collection = new Collection($entities);
 
 		$this->assertTrue($collection->valid());
 	}
@@ -911,7 +911,7 @@ class EntityCollectionTest extends \TestCase
 	 */
 	public function testWriteOverwritesValue()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		$this->assertTrue($collection->write(new Entity(1000)));
 

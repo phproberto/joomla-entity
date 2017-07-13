@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Content;
 
 use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
 use Joomla\Registry\Registry;
 
@@ -25,13 +25,13 @@ class Category extends BaseCategory
 	/**
 	 * Load associated articles from DB.
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	protected function loadArticles()
 	{
 		if (!$this->hasId())
 		{
-			return new EntityCollection;
+			return new Collection;
 		}
 
 		$articles = array_map(
@@ -42,7 +42,7 @@ class Category extends BaseCategory
 			$this->getArticlesModel()->getItems() ?: array()
 		);
 
-		return new EntityCollection($articles);
+		return new Collection($articles);
 	}
 
 	/**

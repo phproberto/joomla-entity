@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Tags\Traits;
 
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs\ClassWithTags;
 
@@ -47,7 +47,7 @@ class HasTagsTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(null, $tagsProperty->getValue($entity));
 
-		$tags = new EntityCollection(
+		$tags = new Collection(
 			array(
 				new Tag(23),
 				new Tag(24),
@@ -99,13 +99,13 @@ class HasTagsTest extends \PHPUnit\Framework\TestCase
 	{
 		$entity = new ClassWithTags;
 
-		$this->assertEquals(new EntityCollection, $entity->getTags());
+		$this->assertEquals(new Collection, $entity->getTags());
 
 		$entity->tagsIds = array(999);
 
 		// Previous data with no reload
-		$this->assertEquals(new EntityCollection, $entity->getTags());
-		$this->assertEquals(new EntityCollection(array(new Tag(999))), $entity->getTags(true));
+		$this->assertEquals(new Collection, $entity->getTags());
+		$this->assertEquals(new Collection(array(new Tag(999))), $entity->getTags(true));
 	}
 
 	/**

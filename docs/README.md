@@ -2,7 +2,7 @@ Available traits and entities
 
 * common
     * [Entity (base entity)](./Entity.md)
-     * [EntityCollection](./EntityCollection.md)
+     * [Collection](./Collection.md)
     * Traits
         * [HasAccess](./Traits/HasAccess.md)
         * HasFeatured

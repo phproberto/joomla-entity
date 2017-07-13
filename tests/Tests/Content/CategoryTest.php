@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content;
 
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Content\Category;
 
@@ -45,7 +45,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 		$method = $reflection->getMethod('loadArticles');
 		$method->setAccessible(true);
 
-		$this->assertEquals(new EntityCollection, $method->invoke($category));
+		$this->assertEquals(new Collection, $method->invoke($category));
 
 		$articlesItems = array(
 			(object) array(
@@ -60,11 +60,11 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 
 		$category = $this->getCategoryMock(666, $articlesItems);
 
-		$expectedCollection = new EntityCollection;
+		$expectedCollection = new Collection;
 
 		$articles = $method->invoke($category);
 
-		$this->assertInstanceOf(EntityCollection::class, $articles);
+		$this->assertInstanceOf(Collection::class, $articles);
 		$this->assertSame(2, $articles->count());
 		$this->assertTrue($articles->has(999));
 		$this->assertTrue($articles->has(1000));

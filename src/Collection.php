@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\EntityInterface;
  *
  * @since   __DEPLOY_VERSION__
  */
-class EntityCollection implements \Countable, \Iterator
+class Collection implements \Countable, \Iterator
 {
 	/**
 	 * Ascending direction for sorting.
@@ -164,11 +164,11 @@ class EntityCollection implements \Countable, \Iterator
 	/**
 	 * Get a new collection containing entities present in two collections.
 	 *
-	 * @param   EntityCollection  $collection  Collection to intersect
+	 * @param   Collection  $collection  Collection to intersect
 	 *
 	 * @return  static
 	 */
-	public function intersect(EntityCollection $collection)
+	public function intersect(Collection $collection)
 	{
 		$intersection = new static;
 
@@ -245,11 +245,11 @@ class EntityCollection implements \Countable, \Iterator
 	/**
 	 * Get a new collection containing merged entities from two collections.
 	 *
-	 * @param   EntityCollection  $collection  Collection to merge
+	 * @param   Collection  $collection  Collection to merge
 	 *
 	 * @return  static
 	 */
-	public function merge(EntityCollection $collection)
+	public function merge(Collection $collection)
 	{
 		$merge = clone $this;
 

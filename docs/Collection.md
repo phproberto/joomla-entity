@@ -1,6 +1,6 @@
 # Entity collection class
 
-`Phproberto\Joomla\Entity\EntityCollection`
+`Phproberto\Joomla\Entity\Collection`
 
 > Class to perform common actions on groups of entities.
 
@@ -15,12 +15,12 @@
     * [has($id)](#has)
     * [get($id)](#get)
     * [ids()](#ids)
-    * [intersect(EntityCollection $collection)](#intersect)
+    * [intersect(Collection $collection)](#intersect)
     * [isEmpty()](#isEmpty)
     * [key()](#key)
     * [krsort()](#krsort)
     * [ksort()](#ksort)
-    * [merge(EntityCollection $collection)](#merge)
+    * [merge(Collection $collection)](#merge)
     * [next()](#next)
     * [remove($id)](#remove)
     * [rewind()](#rewind)
@@ -41,9 +41,9 @@ JLoader::import('phproberto_entity.library');
 
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Content\Article;
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 
-$articles = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
+$articles = new Collection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
 // Collection implements Iterator so you can traverse it like
 foreach ($articles as $articleId => $article)
@@ -103,7 +103,7 @@ if ($articles->isEmpty())
 **Examples:**
 
 ```php
-$collection = new EntityCollection;
+$collection = new Collection;
 
 $collection->add(Article::instance(1));
 ```
@@ -123,7 +123,7 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection(array(Article::instance(70), Article::instance(69)));
+$collection = new Collection(array(Article::instance(70), Article::instance(69)));
 
 foreach ($collection->all() as $entity)
 {
@@ -146,7 +146,7 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection;
+$collection = new Collection;
 
 $collection->add(Article::instance(1));
 $collection->add(Article::instance(2));
@@ -175,7 +175,7 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection;
+$collection = new Collection;
 
 $collection->add(Article::instance(1));
 $collection->add(Article::instance(2));
@@ -199,7 +199,7 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
+$collection = new Collection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
 while ($collection->valid())
 {
@@ -224,7 +224,7 @@ while ($collection->valid())
 **Examples:**
 
 ```php
-$collection = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
+$collection = new Collection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
 // Will return true
 var_dump($collection->has(69));
@@ -248,7 +248,7 @@ var_dump($collection->has(13));
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
+$articles = new Collection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
 
 // Will echo 69
 var_dump($articles->get(69)->id());
@@ -282,19 +282,19 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
+$collection = new Collection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
 
 // Will return: [70, 69, 71]
 var_dump($collection->ids());
 ```
 
-### intersect(EntityCollection $collection) <a id="intersect"></a>
+### intersect(Collection $collection) <a id="intersect"></a>
 
 > Get a new collection containing entities present in two collections.
 
 **Parameters:**
 
-* `EntityCollection` *$collection (required):* Collection to intersect.
+* `Collection` *$collection (required):* Collection to intersect.
 
 **Returns:**
 
@@ -303,8 +303,8 @@ var_dump($collection->ids());
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(69), Article::instance(70)));
-$articles2 = new EntityCollection(array(Article::instance(69), Article::instance(72)));
+$articles = new Collection(array(Article::instance(69), Article::instance(70)));
+$articles2 = new Collection(array(Article::instance(69), Article::instance(72)));
 
 // Will show [69]
 var_dump($articles->intersect($articles2)->ids());
@@ -325,12 +325,12 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection;
+$collection = new Collection;
 
 // Will return true
 var_dump($collection->isEmpty());
 
-$collection = new EntityCollection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
+$collection = new Collection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
 
 // Will return: false
 var_dump($collection->isEmpty());
@@ -351,7 +351,7 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
+$collection = new Collection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
 while ($collection->valid())
 {
@@ -376,7 +376,7 @@ None
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
+$articles = new Collection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
 $articles->krsort();
 
@@ -400,7 +400,7 @@ None
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+$articles = new Collection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
 
 $articles->ksort();
 
@@ -409,13 +409,13 @@ var_dump($articles->ids());
 
 ```
 
-### merge(EntityCollection $collection) <a id="merge"></a>
+### merge(Collection $collection) <a id="merge"></a>
 
 > Create a new collection containing elements from 2 collections.
 
 **Parameters:**
 
-* `EntityCollection` *$collection (required):* Collection to merge.
+* `Collection` *$collection (required):* Collection to merge.
 
 **Returns:**
 
@@ -424,8 +424,8 @@ var_dump($articles->ids());
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(69), Article::instance(70)));
-$articles2 = new EntityCollection(array(Article::instance(71), Article::instance(72)));
+$articles = new Collection(array(Article::instance(69), Article::instance(70)));
+$articles2 = new Collection(array(Article::instance(71), Article::instance(72)));
 
 // Will show [69, 70, 71, 72]
 var_dump($articles->merge($articles2)->ids());
@@ -446,7 +446,7 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
+$collection = new Collection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
 $article = $collection->current();
 
@@ -479,7 +479,7 @@ echo $article->id() . '. ' . $article->get('title') . '<br />';
 **Examples:**
 
 ```php
-$collection = new EntityCollection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
+$collection = new Collection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
 
 // Will print [70, 69, 71]
 var_dump($collection->ids());
@@ -505,7 +505,7 @@ None
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
+$articles = new Collection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
 
 foreach ($articles as $article)
 {
@@ -536,7 +536,7 @@ echo '<pre>'; print_r($article->id()); echo '</pre>';
 **Examples:**
 
 ```php
-$articles = new EntityCollection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+$articles = new Collection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
 
 $sortByTitle = function ($entity1, $entity2)
 {
@@ -646,7 +646,7 @@ None
 
 ```php
 
-$articles = new EntityCollection(array(Article::instance(69), Article::instance(70)));
+$articles = new Collection(array(Article::instance(69), Article::instance(70)));
 
 // Will return an array of objects with articles data
 var_dump($articles->toObjects());
@@ -667,7 +667,7 @@ None
 **Examples:**
 
 ```php
-$collection = new EntityCollection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
+$collection = new Collection(array(Article::instance(69), Article::instance(70), Article::instance(71)));
 
 while ($collection->valid())
 {
@@ -693,7 +693,7 @@ while ($collection->valid())
 **Examples:**
 
 ```php
-$collection = new EntityCollection;
+$collection = new Collection;
 
 $collection->add(Article::instance(1));
 ```

@@ -22,7 +22,7 @@ trait HasArticles
 	/**
 	 * Associated articles.
 	 *
-	 * @var  EntityCollection
+	 * @var  Collection
 	 */
 	protected $articles;
 
@@ -43,7 +43,7 @@ trait HasArticles
 	 *
 	 * @param   boolean  $reload  Force data reloading
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	public function getArticles($reload = false)
 	{
@@ -80,7 +80,7 @@ trait HasArticles
 	/**
 	 * Load associated articles from DB.
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	abstract protected function loadArticles();
 }

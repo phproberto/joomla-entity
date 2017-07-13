@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tests\Content\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Content\Traits\HasArticles;
 
@@ -32,11 +32,11 @@ class ClassWithArticles extends Entity
 	/**
 	 * Load associated articles from DB.
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	protected function loadArticles()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		foreach ($this->articlesIds as $id)
 		{

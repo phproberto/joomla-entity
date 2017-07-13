@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content;
 
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Joomla\Registry\Registry;
@@ -441,7 +441,7 @@ class ArticleTest extends \TestCaseDatabase
 		$method = $reflection->getMethod('loadTags');
 		$method->setAccessible(true);
 
-		$this->assertEquals(new EntityCollection, $method->invoke($article));
+		$this->assertEquals(new Collection, $method->invoke($article));
 	}
 
 	/**
@@ -490,6 +490,6 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty->setAccessible(true);
 		$rowProperty->setValue($tag, array('id' => 23, 'title' => 'Sample tag'));
 
-		$this->assertEquals(new EntityCollection(array($tag)), $method->invoke($entity));
+		$this->assertEquals(new Collection(array($tag)), $method->invoke($entity));
 	}
 }

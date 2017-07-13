@@ -16,13 +16,13 @@ Using this trait requires that your entity implements the loadTags() method like
 	/**
 	 * Load associated tags from DB.
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	protected function loadTags()
 	{
 		if (!$this->hasId())
 		{
-			return new EntityCollection;
+			return new Collection;
 		}
 
 		$tagHelper = new \JHelperTags;
@@ -35,6 +35,6 @@ Using this trait requires that your entity implements the loadTags() method like
 			$tagHelper->getItemTags('com_content.article', $this->id()) ?: array()
 		);
 
-		return new EntityCollection($tags);
+		return new Collection($tags);
 	}
 ```

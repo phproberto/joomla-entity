@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\EntityCollection;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
 
@@ -32,11 +32,11 @@ class ClassWithTags extends Entity
 	/**
 	 * Load associated tags from DB.
 	 *
-	 * @return  EntityCollection
+	 * @return  Collection
 	 */
 	protected function loadTags()
 	{
-		$collection = new EntityCollection;
+		$collection = new Collection;
 
 		foreach ($this->tagsIds as $tagId)
 		{
