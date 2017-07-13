@@ -31,7 +31,7 @@ trait HasAsset
 	 *
 	 * @return  array
 	 */
-	abstract public function getAll();
+	abstract public function all();
 
 	/**
 	 * Get the associated asset.
@@ -57,7 +57,7 @@ trait HasAsset
 	 */
 	protected function loadAsset()
 	{
-		$data = $this->getAll();
+		$data = $this->all();
 
 		if (empty($data['asset_id']))
 		{

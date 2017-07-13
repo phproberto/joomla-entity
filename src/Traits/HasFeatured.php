@@ -37,7 +37,7 @@ trait HasFeatured
 	 *
 	 * @return  array
 	 */
-	abstract public function getAll();
+	abstract public function all();
 
 	/**
 	 * Is this article featured?
@@ -64,7 +64,7 @@ trait HasFeatured
 	private function loadFeatured()
 	{
 		$column = $this->getColumnFeatured();
-		$data    = $this->getAll();
+		$data    = $this->all();
 
 		if (empty($data[$column]))
 		{

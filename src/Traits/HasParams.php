@@ -52,7 +52,7 @@ trait HasParams
 	 *
 	 * @return  array
 	 */
-	abstract public function getAll();
+	abstract public function all();
 
 	/**
 	 * Get a table.
@@ -85,7 +85,7 @@ trait HasParams
 	protected function loadParams()
 	{
 		$column = $this->getColumnParams();
-		$data    = $this->getAll();
+		$data    = $this->all();
 
 		if (array_key_exists($column, $data))
 		{
@@ -105,7 +105,7 @@ trait HasParams
 	public function saveParams()
 	{
 		$column = $this->getColumnParams();
-		$data    = $this->getAll();
+		$data    = $this->all();
 
 		if (!array_key_exists($column, $data))
 		{

@@ -541,7 +541,7 @@ class EntityTest extends \TestCase
 			->method('fetchRow')
 			->willReturn($row);
 
-		$this->assertSame($row, $mock->getAll());
+		$this->assertSame($row, $mock->all());
 	}
 
 	/**

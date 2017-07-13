@@ -352,7 +352,7 @@ class EntityCollection implements \Countable, \Iterator
 
 		foreach ($this->entities as $id => $entity)
 		{
-			$result[$id] = (object) $entity->getAll();
+			$result[$id] = (object) $entity->all();
 		}
 
 		return $result;

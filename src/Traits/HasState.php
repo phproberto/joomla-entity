@@ -27,7 +27,7 @@ trait HasState
 	 *
 	 * @return  array
 	 */
-	abstract public function getAll();
+	abstract public function all();
 
 	/**
 	 * Get a table.
@@ -146,7 +146,7 @@ trait HasState
 	protected function loadState()
 	{
 		$column = $this->getColumnState();
-		$data    = $this->getAll();
+		$data    = $this->all();
 
 		if (!array_key_exists($column, $data))
 		{

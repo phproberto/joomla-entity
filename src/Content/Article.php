@@ -76,7 +76,7 @@ class Article extends Entity
 	protected function loadCategory()
 	{
 		$column = $this->getColumnCategory();
-		$data    = $this->getAll();
+		$data    = $this->all();
 
 		if (array_key_exists($column, $data))
 		{

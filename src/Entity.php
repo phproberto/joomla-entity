@@ -46,6 +46,21 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	public function all()
+	{
+		if (empty($this->row[$this->primaryKey()]))
+		{
+			$this->fetch();
+		}
+
+		return $this->row;
+	}
+
+	/**
 	 * Assign a value to entity property.
 	 *
 	 * @param   string  $property  Name of the property to set
@@ -124,7 +139,7 @@ abstract class Entity implements EntityInterface
 		$tz        = isset($options['tz']) ? $options['tz'] : true;
 		$gregorian = isset($options['gregorian']) ? $options['gregorian'] : false;
 
-		$data = $this->getAll();
+		$data = $this->all();
 
 		if (empty($data[$property]))
 		{
@@ -190,7 +205,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function get($property, $default = null)
 	{
-		$data = $this->getAll();
+		$data = $this->all();
 
 		if (!$data || !isset($data[$property]))
 		{
@@ -198,31 +213,6 @@ abstract class Entity implements EntityInterface
 		}
 
 		return $data[$property];
-	}
-
-	/**
-	 * Get the attached database row.
-	 *
-	 * @return  array
-	 */
-	public function getAll()
-	{
-		if (empty($this->row[$this->primaryKey()]))
-		{
-			$this->fetch();
-		}
-
-		return $this->row;
-	}
-
-	/**
-	 * Get entity primary key column.
-	 *
-	 * @return  string
-	 */
-	public function primaryKey()
-	{
-		return 'id';
 	}
 
 	/**
@@ -234,7 +224,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function has($property)
 	{
-		$row = $this->getAll();
+		$row = $this->all();
 
 		return $row && array_key_exists($property, $row);
 	}
@@ -292,7 +282,7 @@ abstract class Entity implements EntityInterface
 	public function json($property)
 	{
 		$data = array();
-		$row  = $this->getAll();
+		$row  = $this->all();
 
 		if (empty($row[$property]))
 		{
@@ -310,6 +300,16 @@ abstract class Entity implements EntityInterface
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Get entity primary key column.
+	 *
+	 * @return  string
+	 */
+	public function primaryKey()
+	{
+		return 'id';
 	}
 
 	/**
