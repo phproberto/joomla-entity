@@ -65,7 +65,7 @@ foreach ($article->getTags() as $tagId => $tag)
 // Check if an article is in the collection
 if ($articles->has(69))
 {
-    echo $articles->get(69)->getId() . '. ' . $articles->get(69)->get('title') . '<br />';
+    echo $articles->get(69)->id() . '. ' . $articles->get(69)->get('title') . '<br />';
 }
 
 // Add entities
@@ -181,7 +181,7 @@ $collection = new EntityCollection(array(Article::instance(69), Article::instanc
 while ($collection->valid())
 {
     $article = $collection->current();
-    echo $article->getId() . '. ' . $article->get('title') . '<br />';
+    echo $article->id() . '. ' . $article->get('title') . '<br />';
     $collection->next();
 }
 ```
@@ -228,7 +228,7 @@ var_dump($collection->has(13));
 $articles = new EntityCollection(array(Article::instance(70), Article::instance(69), Article::instance(71)));
 
 // Will echo 69
-var_dump($articles->get(69)->getId());
+var_dump($articles->get(69)->id());
 
 // Trying to retrieve an unexisting entity will throw an exception
 try
@@ -241,7 +241,7 @@ catch (\InvalidArgumentException $e)
 }
 
 // Will echo 69 because retrieving 999 threw an exception
-var_dump($articles->get(69)->getId());
+var_dump($articles->get(69)->id());
 ```
 
 ### getAll() <a id="getAll"></a>
@@ -263,7 +263,7 @@ $collection = new EntityCollection(array(Article::instance(70), Article::instanc
 
 foreach ($collection->getAll() as $entity)
 {
-    echo $entity->getId() . '. ' . $article->get('title') . '<br />';
+    echo $entity->id() . '. ' . $article->get('title') . '<br />';
 }
 ```
 
@@ -451,17 +451,17 @@ $collection = new EntityCollection(array(Article::instance(69), Article::instanc
 $article = $collection->current();
 
 // It will echo something like: 69. Quick Icons
-echo $article->getId() . '. ' . $article->get('title') . '<br />';
+echo $article->id() . '. ' . $article->get('title') . '<br />';
 
 $article = $collection->next();
 
 // It will echo something like: 70. Smart Search
-echo $article->getId() . '. ' . $article->get('title') . '<br />';
+echo $article->id() . '. ' . $article->get('title') . '<br />';
 
 $article = $collection->next();
 
 // It will echo something like: 71. Similar Tags
-echo $article->getId() . '. ' . $article->get('title') . '<br />';
+echo $article->id() . '. ' . $article->get('title') . '<br />';
 ```
 
 ### remove($id) <a id="remove"></a>
@@ -509,16 +509,16 @@ $articles = new EntityCollection(array(Article::instance(70), Article::instance(
 
 foreach ($articles as $article)
 {
-    echo $article->getId() . '. ' . $article->get('title') . '<br />';
+    echo $article->id() . '. ' . $article->get('title') . '<br />';
 }
 
 // Will echo 71
-echo '<pre>'; print_r($article->getId()); echo '</pre>';
+echo '<pre>'; print_r($article->id()); echo '</pre>';
 
 $article = $articles->rewind();
 
 // Will echo 70
-echo '<pre>'; print_r($article->getId()); echo '</pre>';
+echo '<pre>'; print_r($article->id()); echo '</pre>';
 ```
 
 ### sort(callable $function) <a id="sort"></a>
@@ -592,7 +592,7 @@ $tags->sortBy('id');
 // This will show ids ordered ascendently
 foreach ($tags as $tag)
 {
-    echo '<pre>'; print_r($tag->getId()); echo '</pre>';
+    echo '<pre>'; print_r($tag->id()); echo '</pre>';
 }
 
 $tags->sortBy('id', $tags::DIRECTION_DESCENDING);
@@ -600,7 +600,7 @@ $tags->sortBy('id', $tags::DIRECTION_DESCENDING);
 // This will show ids ordered descendently
 foreach ($tags as $tag)
 {
-    echo '<pre>'; print_r($tag->getId()); echo '</pre>';
+    echo '<pre>'; print_r($tag->id()); echo '</pre>';
 }
 ```
 

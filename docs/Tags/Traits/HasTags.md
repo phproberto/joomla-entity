@@ -32,7 +32,7 @@ Using this trait requires that your entity implements the loadTags() method like
 			{
 				return Tag::instance($tag->id)->bind($tag);
 			},
-			$tagHelper->getItemTags('com_content.article', $this->getId()) ?: array()
+			$tagHelper->getItemTags('com_content.article', $this->id()) ?: array()
 		);
 
 		return new EntityCollection($tags);
