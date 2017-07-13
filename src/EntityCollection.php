@@ -201,21 +201,25 @@ class EntityCollection implements \Countable, \Iterator
 	/**
 	 * Sort collection entities reversely by id.
 	 *
-	 * @return  boolean
+	 * @return  self
 	 */
 	public function krsort()
 	{
-		return krsort($this->entities);
+		krsort($this->entities);
+
+		return $this;
 	}
 
 	/**
 	 * Sort collection entities by id.
 	 *
-	 * @return  boolean
+	 * @return  self
 	 */
 	public function ksort()
 	{
-		return ksort($this->entities);
+		ksort($this->entities);
+
+		return self;
 	}
 
 	/**
@@ -288,52 +292,28 @@ class EntityCollection implements \Countable, \Iterator
 	 *
 	 * @param   callable  $func  Function to sort entities
 	 *
-	 * @return  boolean
+	 * @return  self
 	 */
 	public function sort(callable $func)
 	{
-		return uasort($this->entities, $func);
+		uasort($this->entities, $func);
+
+		return $this;
 	}
 
 	/**
-	 * Sort entities by an integer property.
+	 * Sort entities by a property.
 	 *
-	 * @param   string  $property  Property name
+	 * @param   string  $property   Property name
+	 * @param   string  $direction  Ordering direction: ASC | DESC
 	 *
-	 * @return  boolean
+	 * @return  self
 	 */
-	public function sortByInteger($property, $direction = self::DIRECTION_ASCENDING)
+	public function sortBy($property, $direction = self::DIRECTION_ASCENDING)
 	{
 		$ascending = $direction === self::DIRECTION_ASCENDING;
 
-		return $this->sort(
-			function ($entity1, $entity2) use ($property, $ascending)
-			{
-				$value1 = (int) $entity1->get($property);
-				$value2 = (int) $entity2->get($property);
-
-				if ($ascending)
-				{
-					return ($value1 < $value2) ? -1 : 1;
-				}
-
-				return ($value2 < $value1) ? -1 : 1;
-			}
-		);
-	}
-
-	/**
-	 * Sort entities by a text property.
-	 *
-	 * @param   string  $property  Property name
-	 *
-	 * @return  boolean
-	 */
-	public function sortByText($property, $direction = self::DIRECTION_ASCENDING)
-	{
-		$ascending = $direction === self::DIRECTION_ASCENDING;
-
-		return $this->sort(
+		$this->sort(
 			function ($entity1, $entity2) use ($property, $ascending)
 			{
 				if ($ascending)
@@ -344,6 +324,21 @@ class EntityCollection implements \Countable, \Iterator
 				return strcmp($entity2->get($property), $entity1->get($property));
 			}
 		);
+
+		return $this;
+	}
+
+	/**
+	 * Sort entities in descendent order by a property.
+	 * This is a fast usage proxy sortBy with descendencing direction.
+	 *
+	 * @param   string  $property  Property name
+	 *
+	 * @return  boolean
+	 */
+	public function sortDescendingBy($property)
+	{
+		return $this->sortBy($property, self::DIRECTION_DESCENDING);
 	}
 
 	/**

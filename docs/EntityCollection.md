@@ -25,8 +25,8 @@
     * [remove($id)](#remove)
     * [rewind()](#rewind)
     * [sort(callable $function)](#sort)
-    * [sortByInteger($property, $direction = self::DIRECTION_ASCENDING)](#sortByInteger)
-    * [sortByText($property, $direction = self::DIRECTION_ASCENDING)](#sortByText)
+    * [sortBy($property, $direction = self::DIRECTION_ASCENDING)](#sortBy)
+    * [sortDescendingBy($property](#sortDescendingBy)
     * [toObjects()](#toObjects)
     * [valid()](#valid)
     * [write(EntityInterface $entity, $overwrite = true)](#write)
@@ -371,7 +371,7 @@ None
 
 **Returns:**
 
-`boolean`
+`self`
 
 **Examples:**
 
@@ -395,7 +395,7 @@ None
 
 **Returns:**
 
-`boolean`
+`self`
 
 **Examples:**
 
@@ -569,9 +569,9 @@ foreach ($articles as $article)
 }
 ```
 
-### sortByInteger($property) <a id="sortByInteger"></a>
+### sortBy($property) <a id="sortByInteger"></a>
 
-> Sort entities by an integer property.
+> Sort entities by a property.
 
 **Parameters:**
 
@@ -580,14 +580,14 @@ foreach ($articles as $article)
 
 **Returns:**
 
-`boolean`
+`self`
 
 **Examples:**
 
 ```php
 $tags = Article::instance(71)->getTags();
 
-$tags->sortByInteger('id');
+$tags->sortBy('id');
 
 // This will show ids ordered ascendently
 foreach ($tags as $tag)
@@ -595,7 +595,7 @@ foreach ($tags as $tag)
     echo '<pre>'; print_r($tag->getId()); echo '</pre>';
 }
 
-$tags->sortByInteger('id', $tags::DIRECTION_DESCENDING);
+$tags->sortBy('id', $tags::DIRECTION_DESCENDING);
 
 // This will show ids ordered descendently
 foreach ($tags as $tag)
@@ -604,36 +604,27 @@ foreach ($tags as $tag)
 }
 ```
 
-### sortByText($property) <a id="sortByText"></a>
+### sortDescendingBy($property) <a id="sortDescendingBy"></a>
 
-> Sort entities by a text property.
+> Sort entities in descendent order by a property. This is a fast usage proxy sortBy with descendencing direction.
 
 **Parameters:**
 
 * `string` *$property (required):* Property to use for ordering.
-* `string` *$direction (optional):* Ordering direction: 'ASC' | 'DESC'.
 
 **Returns:**
 
-`boolean`
+`self`
 
 **Examples:**
 
 ```php
 $tags = Article::instance(71)->getTags();
 
-$tags->sortByText('title');
-
-// This will show tags ordered by title ascendently
-foreach ($tags as $tag)
-{
-    echo '<pre>'; print_r($tag->get('title')); echo '</pre>';
-}
-
-$tags->sortByText('title');
+$tags->sortDescendingByText('title');
 
 // This will show tags ordered by title descendently
-foreach ($tags as $tag, $tags::DIRECTION_DESCENDING)
+foreach ($tags as $tag)
 {
     echo '<pre>'; print_r($tag->get('title')); echo '</pre>';
 }

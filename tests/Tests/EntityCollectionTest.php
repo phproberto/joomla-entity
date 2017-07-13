@@ -697,11 +697,11 @@ class EntityCollectionTest extends \TestCase
 	}
 
 	/**
-	 * sortByInteger orders entities.
+	 * sortBy orders entities for integer properties.
 	 *
 	 * @return  void
 	 */
-	public function testSortByIntegerOrdersEntities()
+	public function testSortByIntegerOrdering()
 	{
 		$entity1 = new Entity(1000);
 		$entity2 = new Entity(1001);
@@ -716,9 +716,7 @@ class EntityCollectionTest extends \TestCase
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$entities = array($entity1, $entity2);
-
-		$collection = new EntityCollection($entities);
+		$collection = new EntityCollection(array($entity1, $entity2));
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -726,39 +724,55 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sortByInteger('test_integer');
+		$collection->sortBy('test_integer');
 
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sortByInteger('test_integer', EntityCollection::DIRECTION_DESCENDING);
+		$collection->sortDescendingBy('test_integer');
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$row1 = array('id' => 1000, 'test_integer' => 'this is 0 casted');
+		$row1 = array('id' => 1000, 'test_integer' => '0');
 		$row2 = array('id' => 1001, 'test_integer' => 400);
 
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$entities = array($entity1, $entity2);
+		$collection = new EntityCollection(array($entity1, $entity2));
 
-		$collection = new EntityCollection($entities);
-
-		$collection->sortByInteger('test_integer');
+		$collection->sortBy('test_integer');
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sortByInteger('test_integer', $collection::DIRECTION_DESCENDING);
+		$collection->sortDescendingBy('test_integer');
 
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+
+		$row1 = array('id' => 1000, 'test_integer' => 34);
+		$row2 = array('id' => 1001, 'test_integer' => 44);
+
+		$rowProperty->setValue($entity1, $row1);
+		$rowProperty->setValue($entity2, $row2);
+
+		$collection = new EntityCollection(array($entity1, $entity2));
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->sortDescendingBy('test_integer');
+
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+
+		$collection->sortBy('test_integer');
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 	}
 
 	/**
-	 * sortByText orders entities.
+	 * sortBy orders entities for text fields.
 	 *
 	 * @return  void
 	 */
-	public function testSortByTextOrdersEntities()
+	public function testSortByTextOrdering()
 	{
 		$entity1 = new Entity(1000);
 		$entity2 = new Entity(1001);
@@ -773,9 +787,7 @@ class EntityCollectionTest extends \TestCase
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$entities = array($entity1, $entity2);
-
-		$collection = new EntityCollection($entities);
+		$collection = new EntityCollection(array($entity1, $entity2));
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -783,11 +795,11 @@ class EntityCollectionTest extends \TestCase
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sortByText('test_text');
+		$collection->sortBy('test_text');
 
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sortByText('test_text', EntityCollection::DIRECTION_DESCENDING);
+		$collection->sortDescendingBy('test_text');
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
@@ -797,15 +809,13 @@ class EntityCollectionTest extends \TestCase
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
 
-		$entities = array($entity1, $entity2);
+		$collection = new EntityCollection(array($entity1, $entity2));
 
-		$collection = new EntityCollection($entities);
-
-		$collection->sortByText('test_text');
+		$collection->sortBy('test_text');
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sortByText('test_text', $collection::DIRECTION_DESCENDING);
+		$collection->sortDescendingBy('test_text');
 
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 	}
