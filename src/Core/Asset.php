@@ -28,11 +28,11 @@ class Asset extends Entity
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function getTable($name = '', $prefix = null, $options = array())
+	public function table($name = '', $prefix = null, $options = array())
 	{
 		$name = $name ?: 'Asset';
 		$prefix = $prefix ?: 'JTable';
 
-		return parent::getTable($name, $prefix, $options);
+		return parent::table($name, $prefix, $options);
 	}
 }

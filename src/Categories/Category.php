@@ -31,13 +31,13 @@ class Category extends Entity
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function getTable($name = '', $prefix = null, $options = array())
+	public function table($name = '', $prefix = null, $options = array())
 	{
 		\JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
 
 		$name = $name ?: 'Category';
 		$prefix = $prefix ?: 'CategoriesTable';
 
-		return parent::getTable($name, $prefix, $options);
+		return parent::table($name, $prefix, $options);
 	}
 }

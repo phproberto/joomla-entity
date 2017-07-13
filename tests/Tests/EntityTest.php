@@ -80,11 +80,11 @@ class EntityTest extends \TestCase
 			->willReturn($data);
 
 		$mock = $this->getMockBuilder(Entity::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
 		$mock
-			->method('getTable')
+			->method('table')
 			->willReturn($tableMock);
 
 		return $mock;
@@ -396,11 +396,11 @@ class EntityTest extends \TestCase
 			->willReturn('En un lugar de La Mancha de cuyo nombre no quiero acordarme');
 
 		$mock = $this->getMockBuilder(Entity::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
 		$mock
-			->method('getTable')
+			->method('table')
 			->willReturn($tableMock);
 
 		$mock->fetch();
@@ -649,11 +649,11 @@ class EntityTest extends \TestCase
 			->willReturn(true);
 
 		$mock = $this->getMockBuilder(Entity::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
 		$mock
-			->method('getTable')
+			->method('table')
 			->willReturn($tableMock);
 
 		$this->assertTrue($mock->save());
@@ -682,11 +682,11 @@ class EntityTest extends \TestCase
 			->willReturn('En un lugar de La Mancha de cuyo nombre no quiero acordarme');
 
 		$mock = $this->getMockBuilder(Entity::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
 		$mock
-			->method('getTable')
+			->method('table')
 			->willReturn($tableMock);
 
 		$mock->save();

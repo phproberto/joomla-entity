@@ -169,10 +169,10 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 			->willReturn('En un lugar de La Mancha de cuyo nombre no quiero acordarme');
 
 		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
-		$entity->method('getTable')
+		$entity->method('table')
 			->willReturn($tableMock);
 
 		$reflection = new \ReflectionClass($entity);
@@ -201,10 +201,10 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 			->willReturn(true);
 
 		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
-		$entity->method('getTable')
+		$entity->method('table')
 			->willReturn($tableMock);
 
 		$reflection = new \ReflectionClass($entity);

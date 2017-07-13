@@ -34,10 +34,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 			->willReturn('state');
 
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
-		$entity->method('getTable')
+		$entity->method('table')
 			->willReturn($tableMock);
 
 		$reflection = new \ReflectionClass($entity);
@@ -66,10 +66,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 			->willReturn('state');
 
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
-		$entity->method('getTable')
+		$entity->method('table')
 			->willReturn($tableMock);
 
 		$reflection = new \ReflectionClass($entity);
@@ -98,10 +98,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 			->willReturn('state');
 
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('getTable'))
+			->setMethods(array('table'))
 			->getMock();
 
-		$entity->method('getTable')
+		$entity->method('table')
 			->willReturn($tableMock);
 
 		$reflection = new \ReflectionClass($entity);

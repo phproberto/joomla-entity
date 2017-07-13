@@ -65,7 +65,7 @@ trait HasParams
 	 *
 	 * @codeCoverageIgnore
 	 */
-	abstract public function getTable($name = '', $prefix = null, $options = array());
+	abstract public function table($name = '', $prefix = null, $options = array());
 
 	/**
 	 * Get the name of the column that stores params.
@@ -112,7 +112,7 @@ trait HasParams
 			throw new \RuntimeException("Error saving entity parameters: Cannot find entity parameters column", 500);
 		}
 
-		$table = $this->getTable();
+		$table = $this->table();
 
 		$saveData = array(
 			$this->getPrimaryKey() => $this->id(),

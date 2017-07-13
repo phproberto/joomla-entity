@@ -135,6 +135,52 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Fetch DB data.
+	 *
+	 * @return  self
+	 */
+	public function fetch()
+	{
+		$this->row = array_merge((array) $this->row, $this->fetchRow());
+
+		return $this;
+	}
+
+	/**
+	 * Load the entity from the database.
+	 *
+	 * @return  array
+	 *
+	 * @throws  LoadEntityDataError  Table error loading row
+	 * @throws  InvalidEntityData    Incorrect data received
+	 */
+	protected function fetchRow()
+	{
+		$table = $this->table();
+
+		if (!$table->load($this->id))
+		{
+			throw LoadEntityDataError::tableError($this, $table->getError());
+		}
+
+		$data = $table->getProperties(true);
+
+		if (empty($data))
+		{
+			throw InvalidEntityData::emptyData($this);
+		}
+
+		if (!array_key_exists($this->getPrimaryKey(), $data))
+		{
+			throw InvalidEntityData::missingPrimaryKey($this);
+		}
+
+		$this->id = (int) $data[$this->getPrimaryKey()];
+
+		return $data;
+	}
+
+	/**
 	 * Get a property of this entity.
 	 *
 	 * @param   string  $property  Name of the property to get
@@ -170,16 +216,6 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Gets the Identifier.
-	 *
-	 * @return  integer
-	 */
-	public function id()
-	{
-		return $this->id;
-	}
-
-	/**
 	 * Get entity primary key column.
 	 *
 	 * @return  string
@@ -187,31 +223,6 @@ abstract class Entity implements EntityInterface
 	public function getPrimaryKey()
 	{
 		return 'id';
-	}
-
-	/**
-	 * Get a table.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for table. Optional.
-	 *
-	 * @return  \JTable
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function getTable($name = '', $prefix = null, $options = array())
-	{
-		$table = \JTable::getInstance($name, $prefix);
-
-		if (!$table instanceof \JTable)
-		{
-			throw new \InvalidArgumentException(
-				sprintf("Cannot find the table `%s`.", $prefix . $name)
-			);
-		}
-
-		return $table;
 	}
 
 	/**
@@ -239,6 +250,16 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Gets the Identifier.
+	 *
+	 * @return  integer
+	 */
+	public function id()
+	{
+		return $this->id;
+	}
+
+	/**
 	 * Load an instance.
 	 *
 	 * @param   integer  $id  Instance identifier
@@ -249,6 +270,17 @@ abstract class Entity implements EntityInterface
 	{
 		return static::instance($id)->fetch();
 	}
+
+	/**
+	 * Check if entity has been loaded.
+	 *
+	 * @return  boolean
+	 */
+	public function isLoaded()
+	{
+		return $this->hasId() && !empty($this->row);
+	}
+
 
 	/**
 	 * Get the content of a column with data stored in JSON.
@@ -281,69 +313,13 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Fetch DB data.
-	 *
-	 * @return  self
-	 */
-	public function fetch()
-	{
-		$this->row = array_merge((array) $this->row, $this->fetchRow());
-
-		return $this;
-	}
-
-	/**
-	 * Check if entity has been loaded.
-	 *
-	 * @return  boolean
-	 */
-	public function isLoaded()
-	{
-		return $this->hasId() && !empty($this->row);
-	}
-
-	/**
-	 * Load the entity from the database.
-	 *
-	 * @return  array
-	 *
-	 * @throws  LoadEntityDataError  Table error loading row
-	 * @throws  InvalidEntityData    Incorrect data received
-	 */
-	protected function fetchRow()
-	{
-		$table = $this->getTable();
-
-		if (!$table->load($this->id))
-		{
-			throw LoadEntityDataError::tableError($this, $table->getError());
-		}
-
-		$data = $table->getProperties(true);
-
-		if (empty($data))
-		{
-			throw InvalidEntityData::emptyData($this);
-		}
-
-		if (!array_key_exists($this->getPrimaryKey(), $data))
-		{
-			throw InvalidEntityData::missingPrimaryKey($this);
-		}
-
-		$this->id = (int) $data[$this->getPrimaryKey()];
-
-		return $data;
-	}
-
-	/**
 	 * Save entity to the database.
 	 *
 	 * @return  boolean
 	 */
 	public function save()
 	{
-		$table = $this->getTable();
+		$table = $this->table();
 
 		if (!$table->save($this->row))
 		{
@@ -351,6 +327,31 @@ abstract class Entity implements EntityInterface
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get a table.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for table. Optional.
+	 *
+	 * @return  \JTable
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function table($name = '', $prefix = null, $options = array())
+	{
+		$table = \JTable::getInstance($name, $prefix);
+
+		if (!$table instanceof \JTable)
+		{
+			throw new \InvalidArgumentException(
+				sprintf("Cannot find the table `%s`.", $prefix . $name)
+			);
+		}
+
+		return $table;
 	}
 
 	/**

@@ -40,7 +40,7 @@ trait HasState
 	 *
 	 * @codeCoverageIgnore
 	 */
-	abstract public function getTable($name = '', $prefix = null, $options = array());
+	abstract public function table($name = '', $prefix = null, $options = array());
 
 	/**
 	 * Get a list of available states.
@@ -64,7 +64,7 @@ trait HasState
 	 */
 	protected function getColumnState()
 	{
-		return $this->getTable()->getColumnAlias('published');
+		return $this->table()->getColumnAlias('published');
 	}
 
 	/**
