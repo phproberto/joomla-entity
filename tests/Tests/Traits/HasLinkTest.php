@@ -28,7 +28,7 @@ class HasLinkTest extends \PHPUnit\Framework\TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$entity = new EntityWithLink;
-		$this->assertSame(null, $entity->getLink());
+		$this->assertSame(null, $entity->link());
 
 		$entity = new EntityWithLink(999);
 
@@ -39,12 +39,12 @@ class HasLinkTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999]);
 
-		$this->assertSame('/999', $entity->getLink());
+		$this->assertSame('/999', $entity->link());
 
 		$rowProperty->setValue($entity, ['id' => 999, 'alias' => 'sample-alias']);
 
 		// Without reload returns old link
-		$this->assertSame('/999', $entity->getLink());
-		$this->assertSame('/999:sample-alias', $entity->getLink(true));
+		$this->assertSame('/999', $entity->link());
+		$this->assertSame('/999:sample-alias', $entity->link(true));
 	}
 }

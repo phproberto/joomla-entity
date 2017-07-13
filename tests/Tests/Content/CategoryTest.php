@@ -86,14 +86,14 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 		$model = $method->invoke($category);
 
 		$this->assertInstanceOf('ContentModelArticles', $model);
-		$this->assertSame(null, $model->getState('filter.catid'));
+		$this->assertSame(null, $model->getState('filter.category_id'));
 
 		$category = new Category(34);
 
 		$model = $method->invoke($category);
 
 		$this->assertInstanceOf('ContentModelArticles', $model);
-		$this->assertSame(34, $model->getState('filter.catid'));
+		$this->assertSame(34, $model->getState('filter.category_id'));
 	}
 
 	/**

@@ -60,7 +60,7 @@ class Category extends BaseCategory
 
 		if ($this->hasId())
 		{
-			$model->setState('filter.catid', $this->id());
+			$model->setState('filter.category_id', $this->id());
 		}
 
 		return $model;

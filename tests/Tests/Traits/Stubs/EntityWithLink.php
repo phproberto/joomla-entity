@@ -27,7 +27,7 @@ class EntityWithLink extends Entity
 	 */
 	protected function loadLink()
 	{
-		$slug = $this->getSlug();
+		$slug = $this->slug();
 
 		if (!$slug)
 		{

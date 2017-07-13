@@ -36,7 +36,7 @@ trait HasLink
 	 *
 	 * @return  string
 	 */
-	public function getLink($reload = false)
+	public function link($reload = false)
 	{
 		if ($reload || null === $this->link)
 		{
@@ -51,7 +51,7 @@ trait HasLink
 	 *
 	 * @return  string
 	 */
-	public function getSlug()
+	public function slug()
 	{
 		$slug = $this->id();
 
