@@ -4,7 +4,7 @@
 
 extends:
 
-`Phproberto\Joomla\Entity\Category`
+`Phproberto\Joomla\Entity\Categories\Category`
 
 > Represents a com_content category.
 
@@ -12,6 +12,8 @@ extends:
 
 * [Usage](#usage)
 * [Methods](#methods)
+	* [Extends](#extends)
+    * [Traits](#traits)
 
 ## Usage <a id="usage"></a>
 
@@ -36,4 +38,15 @@ foreach ($category->getArticles() as $article)
 ```
 
 ## Methods <a id="methods"></a>
+
+### Extends <a id="extends"></a>
+This class extends another class so you can also use methods defined there:
+
+* [Category](../Categories/Category.md)
+
+### Traits <a id="traits"></a>
+This class allows you to use methods defined in these traits:
+
+* [HasArticles](./Traits/HasArticles.md)
+
 
