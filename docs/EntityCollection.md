@@ -108,6 +108,29 @@ $collection = new EntityCollection;
 $collection->add(Article::instance(1));
 ```
 
+### all() <a id="all"></a>
+
+> Get all the entities in the collection as array. Most of the times you don't want to use this because collection already behaves like an array.
+
+**Parameters:**
+
+None
+
+**Returns:**
+
+`array`
+
+**Examples:**
+
+```php
+$collection = new EntityCollection(array(Article::instance(70), Article::instance(69)));
+
+foreach ($collection->all() as $entity)
+{
+    echo $entity->id() . '. ' . $article->get('title') . '<br />';
+}
+```
+
 ### clear() <a id="clear"></a>
 
 > Clears all the entities of the collection.
@@ -242,29 +265,6 @@ catch (\InvalidArgumentException $e)
 
 // Will echo 69 because retrieving 999 threw an exception
 var_dump($articles->get(69)->id());
-```
-
-### getAll() <a id="getAll"></a>
-
-> Get all the entities in the collection as array. Most of the times you don't want to use this because collection already behaves like an array.
-
-**Parameters:**
-
-None
-
-**Returns:**
-
-`array`
-
-**Examples:**
-
-```php
-$collection = new EntityCollection(array(Article::instance(70), Article::instance(69)));
-
-foreach ($collection->getAll() as $entity)
-{
-    echo $entity->id() . '. ' . $article->get('title') . '<br />';
-}
 ```
 
 ### ids() <a id="ids"></a>
