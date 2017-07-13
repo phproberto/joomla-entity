@@ -766,7 +766,7 @@ class CollectionTest extends \TestCase
 		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_integer'));
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortDescendingBy('test_integer'));
+		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_integer'));
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
 		$row1 = array('id' => 1000, 'test_integer' => '0');
@@ -780,7 +780,7 @@ class CollectionTest extends \TestCase
 		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_integer'));
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortDescendingBy('test_integer'));
+		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_integer'));
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 
 		$row1 = array('id' => 1000, 'test_integer' => 34);
@@ -793,7 +793,7 @@ class CollectionTest extends \TestCase
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortDescendingBy('test_integer'));
+		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_integer'));
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 
 		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_integer'));
@@ -831,7 +831,7 @@ class CollectionTest extends \TestCase
 		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_text'));
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortDescendingBy('test_text'));
+		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_text'));
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
 		$row1 = array('id' => 1000, 'test_text' => 'Turrón');
@@ -845,7 +845,7 @@ class CollectionTest extends \TestCase
 		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_text'));
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortDescendingBy('test_text'));
+		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_text'));
 		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
 	}
 

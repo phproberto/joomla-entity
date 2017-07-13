@@ -26,7 +26,7 @@
     * [rewind()](#rewind)
     * [sort(callable $function)](#sort)
     * [sortBy($property, $direction = self::DIRECTION_ASCENDING)](#sortBy)
-    * [sortDescendingBy($property](#sortDescendingBy)
+    * [sortByDesc($property](#sortByDesc)
     * [toObjects()](#toObjects)
     * [valid()](#valid)
     * [write(EntityInterface $entity, $overwrite = true)](#write)
@@ -604,7 +604,7 @@ foreach ($tags as $tag)
 }
 ```
 
-### sortDescendingBy($property) <a id="sortDescendingBy"></a>
+### sortByDesc($property) <a id="sortByDesc"></a>
 
 > Sort entities in descendent order by a property. This is a fast usage proxy sortBy with descendencing direction.
 
@@ -621,7 +621,7 @@ foreach ($tags as $tag)
 ```php
 $tags = Article::instance(71)->getTags();
 
-$tags->sortDescendingBy('title');
+$tags->sortByDesc('title');
 
 // This will show tags ordered by title descendently
 foreach ($tags as $tag)

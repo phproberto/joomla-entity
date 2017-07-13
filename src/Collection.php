@@ -356,7 +356,7 @@ class Collection implements \Countable, \Iterator
 	 *
 	 * @return  self
 	 */
-	public function sortDescendingBy($property)
+	public function sortByDesc($property)
 	{
 		return $this->sortBy($property, self::DIRECTION_DESCENDING);
 	}
