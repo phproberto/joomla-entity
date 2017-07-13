@@ -85,7 +85,7 @@ trait HasParams
 	protected function loadParams()
 	{
 		$column = $this->getColumnParams();
-		$data    = $this->all();
+		$data = $this->all();
 
 		if (array_key_exists($column, $data))
 		{

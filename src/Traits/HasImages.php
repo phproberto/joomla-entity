@@ -108,7 +108,7 @@ trait HasImages
 	protected function loadImages()
 	{
 		$column = $this->getColumnImages();
-		$data    = $this->all();
+		$data = $this->all();
 
 		if (empty($data[$column]))
 		{

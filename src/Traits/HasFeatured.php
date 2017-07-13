@@ -64,7 +64,7 @@ trait HasFeatured
 	private function loadFeatured()
 	{
 		$column = $this->getColumnFeatured();
-		$data    = $this->all();
+		$data = $this->all();
 
 		if (empty($data[$column]))
 		{
