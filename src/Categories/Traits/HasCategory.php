@@ -68,7 +68,7 @@ trait HasCategory
 	protected function loadCategory()
 	{
 		$column = $this->getColumnCategory();
-		$data    = $this->all();
+		$data = $this->all();
 
 		if (array_key_exists($column, $data))
 		{
