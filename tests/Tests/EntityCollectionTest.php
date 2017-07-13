@@ -424,7 +424,7 @@ class EntityCollectionTest extends \TestCase
 
 		foreach ($collection as $entity)
 		{
-			$this->assertSame($collection->key(), $entity->getId());
+			$this->assertSame($collection->key(), $entity->id());
 		}
 
 		$reflection = new \ReflectionClass($collection);
@@ -571,9 +571,9 @@ class EntityCollectionTest extends \TestCase
 
 		foreach ($collection as $entity)
 		{
-			if ($entity->getId() !== 1002)
+			if ($entity->id() !== 1002)
 			{
-				$this->assertSame($collection->next(), $entities[$entity->getId() + 1]);
+				$this->assertSame($collection->next(), $entities[$entity->id() + 1]);
 			}
 		}
 
@@ -840,7 +840,7 @@ class EntityCollectionTest extends \TestCase
 		$collection->sort(
 			function ($entity1, $entity2)
 			{
-				return ($entity2->getId() < $entity1->getId()) ? -1 : 1;
+				return ($entity2->id() < $entity1->id()) ? -1 : 1;
 			}
 		);
 

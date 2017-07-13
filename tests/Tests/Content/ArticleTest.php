@@ -89,14 +89,14 @@ class ArticleTest extends \TestCaseDatabase
 		$asset = $article->getAsset();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
-		$this->assertSame(0, $asset->getId());
+		$this->assertSame(0, $asset->id());
 
 		$article = Article::instance(1);
 
 		$asset = $article->getAsset();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
-		$this->assertNotSame(0, $asset->getId());
+		$this->assertNotSame(0, $asset->id());
 	}
 
 	/**
@@ -112,21 +112,21 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999]);
+		$rowProperty->setValue($article, array('id' => 999));
 
 		$category = $article->getCategory();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Content\Category', $category);
-		$this->assertSame(0, $category->getId());
+		$this->assertSame(0, $category->id());
 
 		$article = new Article(999);
 
-		$rowProperty->setValue($article, ['id' => 999, 'catid' => 666]);
+		$rowProperty->setValue($article, array('id' => 999, 'catid' => 666));
 
 		$category = $article->getCategory();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Content\Category', $category);
-		$this->assertSame(666, $category->getId());
+		$this->assertSame(666, $category->id());
 	}
 
 	/**
@@ -145,28 +145,34 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999]);
+		$rowProperty->setValue($article, array('id' => 999));
 
-		$this->assertSame([], $article->getImages(true));
+		$this->assertSame(array(), $article->getImages(true));
 
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text","image_intro_caption":"Caption text","image_fulltext":"images\/fulltext.png","float_fulltext":"right","image_fulltext_alt":"Alt fulltext","image_fulltext_caption":"Caption fulltext"}']);
+		$rowProperty->setValue(
+			$article,
+			array(
+				'id' => 999,
+				'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text","image_intro_caption":"Caption text","image_fulltext":"images\/fulltext.png","float_fulltext":"right","image_fulltext_alt":"Alt fulltext","image_fulltext_caption":"Caption fulltext"}'
+			)
+		);
 
-		$this->assertSame([], $article->getImages());
+		$this->assertSame(array(), $article->getImages());
 
-		$expected = [
-			'intro' => [
+		$expected = array(
+			'intro' => array(
 				'url'     => 'images/joomla_black.png',
 				'float'   => 'left',
 				'alt'     => 'Alt text',
 				'caption' => 'Caption text'
-			],
-			'full' => [
+			),
+			'full' => array(
 				'url'     => 'images/fulltext.png',
 				'float'   => 'right',
 				'alt'     => 'Alt fulltext',
 				'caption' => 'Caption fulltext'
-			]
-		];
+			)
+		);
 		$images = $article->getImages(true);
 
 		$this->assertEquals($expected, $article->getImages(true));
@@ -185,11 +191,11 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"foo":"bar"}']);
+		$rowProperty->setValue($article, array('id' => 999, 'metadata' => '{"foo":"bar"}'));
 
-		$expected = [
+		$expected = array(
 			'foo' => 'bar'
-		];
+		);
 
 		$this->assertEquals($expected, $article->getMetadata());
 	}
@@ -207,9 +213,9 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999, 'attribs' => '{"foo":"var"}']);
+		$rowProperty->setValue($article, array('id' => 999, 'attribs' => '{"foo":"var"}'));
 
-		$this->assertEquals(new Registry(['foo' => 'var']), $article->getParams());
+		$this->assertEquals(new Registry(array('foo' => 'var')), $article->getParams());
 	}
 
 	/**
@@ -225,57 +231,75 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999]);
+		$rowProperty->setValue($article, array('id' => 999));
 
-		$this->assertEquals([], $article->getUrls());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'urls' => '']);
-
-		$this->assertEquals([], $article->getUrls());
+		$this->assertEquals(array(), $article->getUrls());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'urls' => '{}']);
+		$rowProperty->setValue($article, array('id' => 999, 'urls' => ''));
 
-		$this->assertEquals([], $article->getUrls());
-
-		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'urls' => '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}']);
-
-		$this->assertEquals([], $article->getUrls());
+		$this->assertEquals(array(), $article->getUrls());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'urls' => '{"urla":"http://google.com","urlatext":"Google","targeta":"0"}']);
+		$rowProperty->setValue($article, array('id' => 999, 'urls' => '{}'));
 
-		$expected = [
-			'a' => [
+		$this->assertEquals(array(), $article->getUrls());
+
+		$article = Article::freshInstance(999);
+		$rowProperty->setValue(
+			$article,
+			array(
+				'id' => 999,
+				'urls' => '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}'
+			)
+		);
+
+		$this->assertEquals(array(), $article->getUrls());
+
+		$article = Article::freshInstance(999);
+		$rowProperty->setValue(
+			$article,
+			array(
+				'id' => 999,
+				'urls' => '{"urla":"http://google.com","urlatext":"Google","targeta":"0"}'
+			)
+		);
+
+		$expected = array(
+			'a' => array(
 				'url'    => 'http://google.com',
 				'text'   => 'Google',
 				'target' => '0'
-			]
-		];
+			)
+		);
 
 		$this->assertEquals($expected, $article->getUrls());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'urls' => '{"urla":"http:\/\/google.es","urlatext":"Google","targeta":"1","urlb":"http:\/\/yahoo.com","urlbtext":"Yahoo","targetb":"0","urlc":"http://www.phproberto.com","urlctext":"Phproberto","targetc":""}']);
+		$rowProperty->setValue(
+			$article,
+			array(
+				'id' => 999,
+				'urls' => '{"urla":"http:\/\/google.es","urlatext":"Google","targeta":"1","urlb":"http:\/\/yahoo.com","urlbtext":"Yahoo","targetb":"0","urlc":"http://www.phproberto.com","urlctext":"Phproberto","targetc":""}'
+			)
+		);
 
-		$expected = [
-			'a' => [
+		$expected = array(
+			'a' => array(
 				'url'    => 'http://google.es',
 				'text'   => 'Google',
 				'target' => '1'
-			],
-			'b' => [
+			),
+			'b' => array(
 				'url'    => 'http://yahoo.com',
 				'text'   => 'Yahoo',
 				'target' => '0'
-			],
-			'c' => [
+			),
+			'c' => array(
 				'url'    => 'http://www.phproberto.com',
 				'text'   => 'Phproberto'
-			]
-		];
+			)
+		);
 
 		$this->assertEquals($expected, $article->getUrls());
 	}
@@ -293,22 +317,34 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '']);
+		$rowProperty->setValue($article, array('id' => 999, 'images' => ''));
 
 		$this->assertFalse($article->hasFullTextImage());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png"}']);
+		$rowProperty->setValue(
+			$article,
+			array(
+				'id' => 999,
+				'images' => '{"image_fulltext":"images\/joomla_black.png"}'
+			)
+		);
 
 		$this->assertTrue($article->hasFullTextImage());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999]);
+		$rowProperty->setValue($article, array('id' => 999));
 
 		$this->assertFalse($article->hasFullTextImage());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}']);
+		$rowProperty->setValue(
+			$article,
+			array(
+				'id' => 999,
+				'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}'
+			)
+		);
 
 		$this->assertFalse($article->hasFullTextImage());
 	}
@@ -326,22 +362,34 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '']);
+		$rowProperty->setValue($article, array('id' => 999, 'images' => ''));
 
 		$this->assertFalse($article->hasIntroImage());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png"}']);
+		$rowProperty->setValue(
+			$article,
+			array(
+				'id' => 999,
+				'images' => '{"image_intro":"images\/joomla_black.png"}'
+			)
+		);
 
 		$this->assertTrue($article->hasIntroImage());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999]);
+		$rowProperty->setValue($article, array('id' => 999));
 
 		$this->assertFalse($article->hasIntroImage());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}']);
+		$rowProperty->setValue(
+			$article,
+			array(
+				'id' => 999,
+				'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}'
+			)
+		);
 
 		$this->assertFalse($article->hasIntroImage());
 	}
@@ -359,23 +407,23 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999]);
+		$rowProperty->setValue($article, array('id' => 999));
 
 		$this->assertFalse($article->isFeatured(true));
 
-		$rowProperty->setValue($article, ['id' => 999, 'featured' => 0]);
+		$rowProperty->setValue($article, array('id' => 999, 'featured' => 0));
 
 		$this->assertFalse($article->isFeatured(true));
 
-		$rowProperty->setValue($article, ['id' => 999, 'featured' => '0']);
+		$rowProperty->setValue($article, array('id' => 999, 'featured' => '0'));
 
 		$this->assertFalse($article->isFeatured(true));
 
-		$rowProperty->setValue($article, ['id' => 999, 'featured' => '1']);
+		$rowProperty->setValue($article, array('id' => 999, 'featured' => '1'));
 
 		$this->assertTrue($article->isFeatured(true));
 
-		$rowProperty->setValue($article, ['id' => 999, 'featured' => 1]);
+		$rowProperty->setValue($article, array('id' => 999, 'featured' => 1));
 
 		$this->assertTrue($article->isFeatured(true));
 	}

@@ -36,9 +36,9 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($class, ['id' => 999, 'catid' => 666]);
+		$rowProperty->setValue($class, array('id' => 999, 'catid' => 666));
 
-		$this->assertSame(666, $class->getCategory()->getId());
+		$this->assertSame(666, $class->getCategory()->id());
 	}
 
 	/**
@@ -54,7 +54,7 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($class, ['id' => 999, 'category_id' => 666]);
+		$rowProperty->setValue($class, array('id' => 999, 'category_id' => 666));
 
 		$this->assertEquals(new Category(666), $class->getCategory());
 	}
@@ -72,11 +72,11 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($class, ['id' => 999, 'category_id' => 666]);
+		$rowProperty->setValue($class, array('id' => 999, 'category_id' => 666));
 
 		$this->assertEquals(new Category(666), $class->getCategory());
 
-		$rowProperty->setValue($class, ['id' => 999, 'category_id' => 667]);
+		$rowProperty->setValue($class, array('id' => 999, 'category_id' => 667));
 
 		$this->assertEquals(new Category(666), $class->getCategory());
 		$this->assertEquals(new Category(667), $class->getCategory(true));
@@ -95,7 +95,7 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($class, ['id' => 999, 'name' => 'Sample class']);
+		$rowProperty->setValue($class, array('id' => 999, 'name' => 'Sample class'));
 
 		$this->assertEquals(new Category, $class->getCategory());
 	}

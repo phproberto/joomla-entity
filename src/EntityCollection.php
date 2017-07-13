@@ -381,7 +381,7 @@ class EntityCollection implements \Countable, \Iterator
 	 */
 	public function write(EntityInterface $entity, $overwrite = true)
 	{
-		$id = (int) $entity->getId();
+		$id = (int) $entity->id();
 
 		if (!$id)
 		{

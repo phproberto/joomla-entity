@@ -70,7 +70,7 @@ interface EntityInterface
 	 *
 	 * @return  integer
 	 */
-	public function getId();
+	public function id();
 
 	/**
 	 * Get entity primary key column.

@@ -28,7 +28,7 @@ class InvalidEntityData extends \RuntimeException implements ExceptionInterface
 	 */
 	public static function emptyData(EntityInterface $entity)
 	{
-		return new static('Data for entity ' . get_class($entity) . ' (id: `' . $entity->getId() . '`) is empty.', 500);
+		return new static('Data for entity ' . get_class($entity) . ' (id: `' . $entity->id() . '`) is empty.', 500);
 	}
 
 	/**
@@ -40,6 +40,6 @@ class InvalidEntityData extends \RuntimeException implements ExceptionInterface
 	 */
 	public static function missingPrimaryKey(EntityInterface $entity)
 	{
-		return new static('Data for entity ' . get_class($entity) . ' (id: `' . $entity->getId() . '`) does not contain primary key.', 500);
+		return new static('Data for entity ' . get_class($entity) . ' (id: `' . $entity->id() . '`) does not contain primary key.', 500);
 	}
 }

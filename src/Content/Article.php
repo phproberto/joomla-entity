@@ -119,7 +119,7 @@ class Article extends Entity
 			return new EntityCollection;
 		}
 
-		$items = $this->getTagsHelperInstance()->getItemTags('com_content.article', $this->getId()) ?: array();
+		$items = $this->getTagsHelperInstance()->getItemTags('com_content.article', $this->id()) ?: array();
 
 		$tags = array_map(
 			function ($tag)

@@ -27,7 +27,7 @@ trait HasLink
 	 *
 	 * @return  integer
 	 */
-	abstract public function getId();
+	abstract public function id();
 
 	/**
 	 * Get the link to this entity.
@@ -53,7 +53,7 @@ trait HasLink
 	 */
 	public function getSlug()
 	{
-		$slug = $this->getId();
+		$slug = $this->id();
 
 		if (!$slug)
 		{

@@ -52,15 +52,13 @@ class Tag extends Entity
 	 */
 	protected function loadLink()
 	{
-		$id = $this->getId();
-
-		if (!$id)
+		if (!$this->hasId())
 		{
 			return null;
 		}
 
 		\JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 
-		return \JRoute::_(\TagsHelperRoute::getTagRoute($id . '-' . $this->get('alias')));
+		return \JRoute::_(\TagsHelperRoute::getTagRoute($this->id() . '-' . $this->get('alias')));
 	}
 }

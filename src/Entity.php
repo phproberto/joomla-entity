@@ -174,7 +174,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  integer
 	 */
-	public function getId()
+	public function id()
 	{
 		return $this->id;
 	}

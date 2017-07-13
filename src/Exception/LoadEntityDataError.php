@@ -29,6 +29,6 @@ class LoadEntityDataError extends \RuntimeException implements ExceptionInterfac
 	 */
 	public static function tableError(EntityInterface $entity, $error)
 	{
-		return new static('Table returned an error loading ' . get_class($entity) . ' (id: `' . $entity->getId() . '`) data: ' . $error, 500);
+		return new static('Table returned an error loading ' . get_class($entity) . ' (id: `' . $entity->id() . '`) data: ' . $error, 500);
 	}
 }

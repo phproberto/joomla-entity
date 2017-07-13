@@ -38,7 +38,7 @@ trait HasParams
 	 *
 	 * @return  integer
 	 */
-	abstract public function getId();
+	abstract public function id();
 
 	/**
 	 * Get entity primary key column.
@@ -114,10 +114,10 @@ trait HasParams
 
 		$table = $this->getTable();
 
-		$saveData = [
-			$this->getPrimaryKey() => $this->getId(),
+		$saveData = array(
+			$this->getPrimaryKey() => $this->id(),
 			$column                => $this->getParams()->toString()
-		];
+		);
 
 		if (!$table->save($saveData))
 		{

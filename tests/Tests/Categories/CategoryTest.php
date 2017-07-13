@@ -29,20 +29,20 @@ class CategoryTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($category, ['id' => 999]);
+		$rowProperty->setValue($category, array('id' => 999));
 
 		$asset = $category->getAsset();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
-		$this->assertSame(0, $asset->getId());
+		$this->assertSame(0, $asset->id());
 
 		$category = new Category;
 
-		$rowProperty->setValue($category, ['id' => 999, 'asset_id' => 666]);
+		$rowProperty->setValue($category, array('id' => 999, 'asset_id' => 666));
 
 		$asset = $category->getAsset();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
-		$this->assertSame(666, $asset->getId());
+		$this->assertSame(666, $asset->id());
 	}
 }
