@@ -26,6 +26,8 @@ Available traits and entities
     * Entities
         * [Article](./Content/Article.md)
         * [Category](./Content/Category.md)
+    * Traits
+        * [HasArticles](./Content/Traits/HasArticles.md)
 * com_tags
     * Entities
         * [Tag](./Tags/Tag.md)

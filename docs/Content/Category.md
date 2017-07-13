@@ -48,5 +48,3 @@ This class extends another class so you can also use methods defined there:
 This class allows you to use methods defined in these traits:
 
 * [HasArticles](./Traits/HasArticles.md)
-
-
