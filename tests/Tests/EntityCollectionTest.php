@@ -505,6 +505,38 @@ class EntityCollectionTest extends \TestCase
 	}
 
 	/**
+	 * last returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testLastReturnsCorrectValue()
+	{
+		$collection = new EntityCollection;
+
+		$this->assertSame(false, $collection->last());
+
+		$entities = array(1000 => new Entity(1000), 1001 => new Entity(1001), 1002 => new Entity(1002));
+
+		$collection = new EntityCollection($entities);
+
+		$this->assertSame($entities[1002], $collection->last());
+
+		$reflection = new \ReflectionClass($collection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		while (key($entities) !== 1001)
+		{
+			next($entities);
+		}
+
+		$entitiesProperty->setValue($collection, $entities);
+
+		$this->assertSame(1001, key($entitiesProperty->getValue($collection)));
+		$this->assertEquals(new Entity(1002), $collection->last());
+	}
+
+	/**
 	 * Merge returns correct collection.
 	 *
 	 * @return  void

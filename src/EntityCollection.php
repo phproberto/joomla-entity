@@ -111,6 +111,16 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Get the first entity in the collection.
+	 *
+	 * @return  mixed  EntityInterface | FALSE if no entities
+	 */
+	public function first()
+	{
+		return reset($this->entities);
+	}
+
+	/**
 	 * Get an entity by its identifier.
 	 *
 	 * @param   integer  $id  Item's identifier
@@ -223,6 +233,16 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Get the last entity in the collection.
+	 *
+	 * @return  mixed  EntityInterface | FALSE if no entities
+	 */
+	public function last()
+	{
+		return end($this->entities);
+	}
+
+	/**
 	 * Get a new collection containing merged entities from two collections.
 	 *
 	 * @param   EntityCollection  $collection  Collection to merge
@@ -284,7 +304,7 @@ class EntityCollection implements \Countable, \Iterator
 	 */
 	public function rewind()
 	{
-		return reset($this->entities);
+		return $this->first();
 	}
 
 	/**
