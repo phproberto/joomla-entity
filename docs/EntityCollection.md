@@ -569,7 +569,7 @@ foreach ($articles as $article)
 }
 ```
 
-### sortBy($property) <a id="sortByInteger"></a>
+### sortBy($property) <a id="sortBy"></a>
 
 > Sort entities by a property.
 
@@ -621,7 +621,7 @@ foreach ($tags as $tag)
 ```php
 $tags = Article::instance(71)->getTags();
 
-$tags->sortDescendingByText('title');
+$tags->sortDescendingBy('title');
 
 // This will show tags ordered by title descendently
 foreach ($tags as $tag)
