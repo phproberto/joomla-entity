@@ -1,4 +1,4 @@
-Available traits and entities
+# Detailed class documentation  
 
 * common
     * [Entity (base entity)](./Entity.md)
