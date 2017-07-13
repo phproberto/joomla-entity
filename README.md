@@ -6,7 +6,7 @@
 
 > Easy management of Joomla! entities.
 
-This library is intended to help developers to use Joomla! core classes with a logical entity structure. It also exposes that entity structure so it can be used and extended by any third part extension.  
+This library is intended to help developers to use Joomla! core classes with a logical entity structure. It also exposes that entity structure so it can be used and extended by any third party extension.  
 
 Benefits:
 * Entities aren't `stdClass` objects. They expose everything you need from them.
@@ -96,9 +96,9 @@ catch (\RuntimeException $e)
 
 ## Installation <a id="installation"></a>
 
-**This is still a work in progress.** There is still no official release and you can use it at your own risk. 
+**This is still a work in progress.** There is still no official release and you use it at your own risk. 
 
-This repository contains exclusively the classes you need to use the entity system. You can use include it in composer adding to your `composer.json` require section something like:
+This repository contains exclusively the classes you need to use the entity system. You can use include it with composer by adding to your `composer.json` require section something like:
 
 ```
 	"require": {
@@ -107,9 +107,9 @@ This repository contains exclusively the classes you need to use the entity syst
 	}
 ```
 
-which will use current code in development mode.
+which will use the current code in development mode.
 
-With the first stable version I will publish a repository that will contain a library extension that can be installed on any Joomla! site and included in third part extension packages.
+With the first stable version I will publish a repository that will contain a library extension that can be installed on any Joomla! site and included in third party extension packages.
 
 ## Documentation <a id="documentation"></a>
 
