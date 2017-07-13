@@ -68,6 +68,16 @@ class EntityCollection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Get all the entities in the collection as array.
+	 *
+	 * @return  EntityInterface[]
+	 */
+	public function all()
+	{
+		return $this->entities;
+	}
+
+	/**
 	 * Clears all the entities of the collection.
 	 *
 	 * @return  self
@@ -117,16 +127,6 @@ class EntityCollection implements \Countable, \Iterator
 		}
 
 		return $this->entities[$id];
-	}
-
-	/**
-	 * Get all the entities in the collection as array.
-	 *
-	 * @return  EntityInterface[]
-	 */
-	public function getAll()
-	{
-		return $this->entities;
 	}
 
 	/**
