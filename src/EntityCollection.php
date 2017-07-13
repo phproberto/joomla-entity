@@ -334,7 +334,7 @@ class EntityCollection implements \Countable, \Iterator
 	 *
 	 * @param   string  $property  Property name
 	 *
-	 * @return  boolean
+	 * @return  self
 	 */
 	public function sortDescendingBy($property)
 	{
