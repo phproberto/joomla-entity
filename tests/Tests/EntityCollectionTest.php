@@ -241,7 +241,14 @@ class EntityCollectionTest extends \TestCase
 
 		$collection = new EntityCollection($entities);
 
-		$this->assertSame($entities, $collection->all());
+		$returnedEntities = $collection->all();
+
+		$this->assertSame($entities, $returnedEntities);
+
+		// Test that writing does not modify source entities
+		$returnedEntities[1000]->publicProperty = 'test me';
+
+		$this->assertSame($entities, $returnedEntities);
 	}
 
 	/**

@@ -17,4 +17,10 @@ use Phproberto\Joomla\Entity\Entity as BaseEntity;
  */
 class Entity extends BaseEntity
 {
+	/**
+	 * Sample public property for tests.
+	 *
+	 * @var  mixed
+	 */
+	public $publicProperty;
 }
