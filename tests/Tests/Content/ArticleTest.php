@@ -213,7 +213,7 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, array('id' => 999, 'params' => '{"foo":"var"}'));
+		$rowProperty->setValue($article, array('id' => 999, 'attribs' => '{"foo":"var"}'));
 
 		$this->assertEquals(new Registry(array('foo' => 'var')), $article->params(true));
 	}

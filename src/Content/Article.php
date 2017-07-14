@@ -44,7 +44,7 @@ class Article extends Entity
 	 *
 	 * @return  string
 	 */
-	protected function getColumnParams()
+	protected function columnParams()
 	{
 		return 'attribs';
 	}
