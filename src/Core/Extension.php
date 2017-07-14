@@ -83,7 +83,7 @@ class Extension extends Entity
 	 *
 	 * @return  string
 	 */
-	public function getAvailableStates()
+	public function availableStates()
 	{
 		return array(
 			self::STATE_PUBLISHED   => \JText::_('JENABLED'),

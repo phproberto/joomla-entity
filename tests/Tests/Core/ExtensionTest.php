@@ -33,6 +33,23 @@ class ExtensionTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * available states returns correct data.
+	 *
+	 * @return  void
+	 */
+	public function testAvailableStatesReturnsCorrectData()
+	{
+		$extension = new Extension;
+		$this->assertSame(
+			array(
+				Extension::STATE_PUBLISHED   => \JText::_('JENABLED'),
+				Extension::STATE_UNPUBLISHED => \JText::_('JDISABLED')
+			),
+			$extension->availableStates()
+		);
+	}
+
+	/**
 	 * Client returns correct value.
 	 *
 	 * @return  void
