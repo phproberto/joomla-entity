@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Content\Article;
 defined('JPATH_PLATFORM') || die;
 
 /**
- * Trait for entities that have an article.
+ * Trait for entities that have an associated article.
  *
  * @since  __DEPLOY_VERSION__
  */

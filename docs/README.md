@@ -14,9 +14,9 @@
         * [HasUrls](./Traits/HasUrls.md)
 * core
     * Entities
-        * Asset
+        * [Asset](./Core/Asset.md)
     * Traits
-        * HasAsset
+        * [HasAsset](./Core/Traits/HasAsset.md)
 * com_categories
     * Entities
         * [Category](./Categories/Category.md)
@@ -28,6 +28,7 @@
         * [Article](./Content/Article.md)
         * [Category](./Content/Category.md)
     * Traits
+        * [HasArticle](./Content/Traits/HasArticle.md)
         * [HasArticles](./Content/Traits/HasArticles.md)
 * com_tags
     * Entities
