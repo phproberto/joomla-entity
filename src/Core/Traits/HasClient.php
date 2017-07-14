@@ -15,7 +15,7 @@ use Phproberto\Joomla\Client\ClientInterface;
 defined('JPATH_PLATFORM') || die;
 
 /**
- * Trait for entities that have a client assigned.
+ * Trait for entities that have an associated client.
  *
  * @since  __DEPLOY_VERSION__
  */

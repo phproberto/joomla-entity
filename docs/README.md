@@ -15,8 +15,10 @@
 * core
     * Entities
         * [Asset](./Core/Asset.md)
+        * [Extension](./Core/Extension.md)
     * Traits
         * [HasAsset](./Core/Traits/HasAsset.md)
+        * [HasClient](./Core/Traits/HasClient.md)
 * com_categories
     * Entities
         * [Category](./Categories/Category.md)
