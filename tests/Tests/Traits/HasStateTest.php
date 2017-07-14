@@ -169,6 +169,60 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * isDisabled returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testIsDisabledReturnsCorrectValue()
+	{
+		$entity = $this->getMockBuilder(EntityWithState::class)
+			->setMethods(array('columnState'))
+			->getMock();
+
+		$entity->method('columnState')
+			->willReturn('state');
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_UNPUBLISHED]);
+
+		$this->assertTrue($entity->isDisabled());
+
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_PUBLISHED]);
+
+		$this->assertFalse($entity->isDisabled());
+	}
+
+	/**
+	 * isEnabled returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testIsEnabledReturnsCorrectValue()
+	{
+		$entity = $this->getMockBuilder(EntityWithState::class)
+			->setMethods(array('columnState'))
+			->getMock();
+
+		$entity->method('columnState')
+			->willReturn('state');
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_UNPUBLISHED]);
+
+		$this->assertFalse($entity->isEnabled());
+
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_PUBLISHED]);
+
+		$this->assertTrue($entity->isEnabled());
+	}
+
+	/**
 	 * isOnState returns correct value.
 	 *
 	 * @return  void
