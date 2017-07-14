@@ -5,13 +5,13 @@
      * [Collection](./Collection.md)
     * Traits
         * [HasAccess](./Traits/HasAccess.md)
-        * HasFeatured
-        * HasImages
-        * HasLink
-        * HasMetadata
-        * HasParams
-        * HasState
-        * HasUrls
+        * [HasFeatured](./Traits/HasFeatured.md)
+        * [HasImages](./Traits/HasImages.md)
+        * [HasLink](./Traits/HasLink.md)
+        * [HasMetadata](./Traits/HasMetadata.md)
+        * [HasParams](./Traits/HasParams.md)
+        * [HasState](./Traits/HasState.md)
+        * [HasUrls](./Traits/HasUrls.md)
 * core
     * Entities
         * Asset

@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Traits;
 
 /**
- * Trait for linkable ntities.
+ * Trait for linkable entities.
  *
  * @since   __DEPLOY_VERSION__
  */
