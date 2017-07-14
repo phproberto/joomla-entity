@@ -114,9 +114,14 @@ trait HasParams
 
 		$table = $this->table();
 
+		if ($this->id())
+		{
+			$table->load($this->id());
+		}
+
 		$saveData = array(
 			$this->primaryKey() => $this->id(),
-			$column                => $this->getParams()->toString()
+			$column             => $this->getParams()->toString()
 		);
 
 		if (!$table->save($saveData))
