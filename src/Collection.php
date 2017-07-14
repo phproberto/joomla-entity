@@ -32,6 +32,13 @@ class Collection implements \Countable, \Iterator
 	const DIRECTION_DESCENDING = 'DESC';
 
 	/**
+	 * Class of the entities in this collection.
+	 *
+	 * @var  string
+	 */
+	protected $class;
+
+	/**
 	 * @var  array
 	 */
 	protected $entities = array();
@@ -87,6 +94,22 @@ class Collection implements \Countable, \Iterator
 		$this->entities = array();
 
 		return $this;
+	}
+
+	/**
+	 * Get a clone of the collection entities.
+	 *
+	 * @return  array
+	 */
+	private function clonedEntities()
+	{
+		return array_map(
+			function ($entity)
+			{
+				return clone $entity;
+			},
+			$this->entities
+		);
 	}
 
 	/**
@@ -243,6 +266,18 @@ class Collection implements \Countable, \Iterator
 	}
 
 	/**
+	 * Execute a function on all the items in the collection.
+	 *
+	 * @param   callable  $function  Function to execute
+	 *
+	 * @return  static
+	 */
+	public function map(callable $function)
+	{
+		return new static(array_map($function, $this->clonedEntities()));
+	}
+
+	/**
 	 * Get a new collection containing merged entities from two collections.
 	 *
 	 * @param   Collection  $collection  Collection to merge
@@ -310,15 +345,17 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Apply custom function to order collection entities.
 	 *
-	 * @param   callable  $func  Function to sort entities
+	 * @param   callable  $function  Function to sort entities
 	 *
-	 * @return  self
+	 * @return  static
 	 */
-	public function sort(callable $func)
+	public function sort(callable $function)
 	{
-		uasort($this->entities, $func);
+		$entities = $this->clonedEntities();
 
-		return $this;
+		uasort($entities, $function);
+
+		return new static($entities);
 	}
 
 	/**
@@ -333,7 +370,7 @@ class Collection implements \Countable, \Iterator
 	{
 		$ascending = $direction === self::DIRECTION_ASCENDING;
 
-		$this->sort(
+		return $this->sort(
 			function ($entity1, $entity2) use ($property, $ascending)
 			{
 				if ($ascending)
@@ -344,8 +381,6 @@ class Collection implements \Countable, \Iterator
 				return strcmp($entity2->get($property), $entity1->get($property));
 			}
 		);
-
-		return $this;
 	}
 
 	/**
@@ -406,6 +441,15 @@ class Collection implements \Countable, \Iterator
 		if (!$id)
 		{
 			throw new \InvalidArgumentException("Cannot add entity without id to the collection");
+		}
+
+		if (empty($this->class))
+		{
+			$this->class = get_class($entity);
+		}
+		elseif ($this->class !== get_class($entity))
+		{
+			throw new \InvalidArgumentException("Trying to add a `%s` entity to a collection of `%s`");
 		}
 
 		if (!$overwrite && $this->has($id))

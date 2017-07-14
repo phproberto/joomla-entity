@@ -20,6 +20,7 @@
     * [key()](#key)
     * [krsort()](#krsort)
     * [ksort()](#ksort)
+    * [map(callable $function)](#map)
     * [merge(Collection $collection)](#merge)
     * [next()](#next)
     * [remove($id)](#remove)
@@ -409,6 +410,34 @@ var_dump($articles->ids());
 
 ```
 
+### map(callable $function) <a id="map"></a>
+
+> Execute a function on all the items in the collection.
+
+**Parameters:**
+
+* `callable` *$function (required)   :* Function to execute. It will receive the entity as first parameter.
+
+**Returns:**
+
+`static`  New collection with modified entities
+
+**Examples:**
+
+```php
+$articles = new Collection(array(Article::instance(70), Article::instance(60), Article::instance(71)));
+
+// Change the title of all the articles
+$articles->map(
+    function($article)
+    {
+        $article->assign('title', $article->get('title') . ' edited');
+
+        return $article;
+    }
+);
+```
+
 ### merge(Collection $collection) <a id="merge"></a>
 
 > Create a new collection containing elements from 2 collections.
@@ -531,7 +560,7 @@ echo '<pre>'; print_r($article->id()); echo '</pre>';
 
 **Returns:**
 
-`boolean`
+`static`  New collection with entities ordered
 
 **Examples:**
 
@@ -580,7 +609,7 @@ foreach ($articles as $article)
 
 **Returns:**
 
-`self`
+`static`  New collection with entities ordered
 
 **Examples:**
 
@@ -614,7 +643,7 @@ foreach ($tags as $tag)
 
 **Returns:**
 
-`self`
+`static`  New collection with entities ordered
 
 **Examples:**
 

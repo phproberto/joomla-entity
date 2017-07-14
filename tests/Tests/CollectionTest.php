@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests;
 
+use Phproberto\Joomla\Entity\Tests\Stubs\AnotherEntity;
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
 use Phproberto\Joomla\Entity\Collection;
 
@@ -79,21 +80,6 @@ class CollectionTest extends \TestCase
 		$this->assertTrue($collection->add($entity1));
 
 		$this->assertSame(array(1000 => $entity, 1001 => $entity1), $entitiesProperty->getValue($collection));
-	}
-
-	/**
-	 * add throws exception when entity has no id.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  \InvalidArgumentException
-	 *
-	 */
-	public function testAddThrowsExceptionWhenEntityHasNoId()
-	{
-		$collection = new Collection;
-
-		$collection->add(new Entity);
 	}
 
 	/**
@@ -537,6 +523,54 @@ class CollectionTest extends \TestCase
 	}
 
 	/**
+	 * map processes all the entities.
+	 *
+	 * @return  void
+	 */
+	public function testMapProcessesAllTheEntities()
+	{
+		$entity1 = new Entity(1000);
+		$entity2 = new Entity(1001);
+
+		$reflection = new \ReflectionClass($entity1);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$row1 = array('id' => 1000, 'name' => 'Vicente Monroig');
+		$row2 = array('id' => 1001, 'name' => 'Jorge Pomer');
+
+		$rowProperty->setValue($entity1, $row1);
+		$rowProperty->setValue($entity2, $row2);
+
+		$entities = array($entity1, $entity2);
+
+		$collection = new Collection($entities);
+
+		$function = function ($entity)
+		{
+			$this->assertSame(null, $entity->publicProperty);
+			$entity->assign('foo', 'bar');
+
+			return $entity;
+		};
+
+		$newCollection = $collection->map($function);
+
+		foreach ($newCollection as $entity)
+		{
+			$this->assertSame('bar', $entity->get('foo'));
+		}
+
+		$this->assertNotEquals($newCollection, $collection);
+
+		// Original collection not modified
+		foreach ($collection as $entity)
+		{
+			$this->assertSame(null, $entity->get('foo'));
+		}
+	}
+
+	/**
 	 * Merge returns correct collection.
 	 *
 	 * @return  void
@@ -736,6 +770,41 @@ class CollectionTest extends \TestCase
 	}
 
 	/**
+	 * sortyBy does not modify source collection.
+	 *
+	 * @return  void
+	 */
+	public function testSortByDoesNotModifySourceCollection()
+	{
+		$entity1 = new Entity(1000);
+		$entity2 = new Entity(1001);
+
+		$reflection = new \ReflectionClass($entity1);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$row1 = array('id' => 1000, 'test_integer' => '4');
+		$row2 = array('id' => 1001, 'test_integer' => '3');
+
+		$rowProperty->setValue($entity1, $row1);
+		$rowProperty->setValue($entity2, $row2);
+
+		$collection = new Collection(array($entity1, $entity2));
+
+		$reflection = new \ReflectionClass($collection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$newCollection = $collection->sortBy('test_integer');
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+
+		$newCollection = $collection->sortByDesc('test_integer');
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+	}
+
+	/**
 	 * sortBy orders entities for integer properties.
 	 *
 	 * @return  void
@@ -763,11 +832,11 @@ class CollectionTest extends \TestCase
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_integer'));
-		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortBy('test_integer');
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($newCollection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_integer'));
-		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortByDesc('test_integer');
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($newCollection)));
 
 		$row1 = array('id' => 1000, 'test_integer' => '0');
 		$row2 = array('id' => 1001, 'test_integer' => 400);
@@ -777,11 +846,11 @@ class CollectionTest extends \TestCase
 
 		$collection = new Collection(array($entity1, $entity2));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_integer'));
-		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortBy('test_integer');
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($newCollection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_integer'));
-		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortByDesc('test_integer');
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($newCollection)));
 
 		$row1 = array('id' => 1000, 'test_integer' => 34);
 		$row2 = array('id' => 1001, 'test_integer' => 44);
@@ -793,11 +862,11 @@ class CollectionTest extends \TestCase
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_integer'));
-		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortByDesc('test_integer');
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($newCollection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_integer'));
-		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortBy('test_integer');
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($newCollection)));
 	}
 
 	/**
@@ -828,11 +897,11 @@ class CollectionTest extends \TestCase
 
 		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_text'));
-		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortBy('test_text');
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($newCollection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_text'));
-		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortByDesc('test_text');
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($newCollection)));
 
 		$row1 = array('id' => 1000, 'test_text' => 'Turrón');
 		$row2 = array('id' => 1001, 'test_text' => 'tºurrón');
@@ -842,11 +911,11 @@ class CollectionTest extends \TestCase
 
 		$collection = new Collection(array($entity1, $entity2));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortBy('test_text'));
-		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortBy('test_text');
+		$this->assertSame(array(1000, 1001), array_keys($entitiesProperty->getValue($newCollection)));
 
-		$this->assertInstanceOf(Collection::class, $collection->sortByDesc('test_text'));
-		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+		$newCollection = $collection->sortByDesc('test_text');
+		$this->assertSame(array(1001, 1000), array_keys($entitiesProperty->getValue($newCollection)));
 	}
 
 	/**
@@ -866,14 +935,17 @@ class CollectionTest extends \TestCase
 
 		$this->assertSame(array(1000, 1001, 1002), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->sort(
+		$newCollection = $collection->sort(
 			function ($entity1, $entity2)
 			{
 				return ($entity2->id() < $entity1->id()) ? -1 : 1;
 			}
 		);
 
-		$this->assertSame(array(1002, 1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+		$this->assertSame(array(1002, 1001, 1000), array_keys($entitiesProperty->getValue($newCollection)));
+
+		// Ensure integrity of source collection
+		$this->assertSame(array(1000, 1001, 1002), array_keys($entitiesProperty->getValue($collection)));
 	}
 
 	/**
@@ -932,5 +1004,36 @@ class CollectionTest extends \TestCase
 		$this->assertTrue($collection->write($entity2));
 
 		$this->assertSame(array(1000 => $entity2), $entitiesProperty->getValue($collection));
+	}
+
+	/**
+	 * write throws exception when entity has no id.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  \InvalidArgumentException
+	 *
+	 */
+	public function testWriteThrowsExceptionWhenEntityHasNoId()
+	{
+		$collection = new Collection;
+
+		$collection->add(new Entity);
+	}
+
+	/**
+	 * write throws exception when entity has a different class of the collection.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  \InvalidArgumentException
+	 *
+	 */
+	public function testWriteThrowsExceptionWhenEntityHasWrongClass()
+	{
+		$collection = new Collection;
+
+		$collection->add(new Entity(24));
+		$collection->add(new AnotherEntity(23));
 	}
 }
