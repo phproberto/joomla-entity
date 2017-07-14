@@ -193,12 +193,17 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	{
 		$tableMock = $this->getMockBuilder(\JTable::class)
 			->disableOriginalConstructor()
-			->setMethods(array('save'))
+			->setMethods(array('save', 'load'))
 			->getMock();
 
-		$tableMock->expects($this->at(0))
+		$tableMock
+			->method('load')
+			->willReturn(true);
+
+		$tableMock
 			->method('save')
 			->willReturn(true);
+
 
 		$entity = $this->getMockBuilder(EntityWithParams::class)
 			->setMethods(array('table'))
@@ -208,6 +213,9 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 			->willReturn($tableMock);
 
 		$reflection = new \ReflectionClass($entity);
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($entity, 999);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
