@@ -372,7 +372,7 @@ None
 
 **Returns:**
 
-`self`
+`static`  New collection with entities ordered
 
 **Examples:**
 
@@ -396,7 +396,7 @@ None
 
 **Returns:**
 
-`self`
+`static`  New collection with entities ordered
 
 **Examples:**
 

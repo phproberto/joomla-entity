@@ -234,25 +234,29 @@ class Collection implements \Countable, \Iterator
 	/**
 	 * Sort collection entities reversely by id.
 	 *
-	 * @return  self
+	 * @return  static
 	 */
 	public function krsort()
 	{
-		krsort($this->entities);
+		$entities = $this->clonedEntities();
 
-		return $this;
+		krsort($entities);
+
+		return new static($entities);
 	}
 
 	/**
 	 * Sort collection entities by id.
 	 *
-	 * @return  self
+	 * @return  static
 	 */
 	public function ksort()
 	{
-		ksort($this->entities);
+		$entities = $this->clonedEntities();
 
-		return $this;
+		ksort($entities);
+
+		return new static($entities);
 	}
 
 	/**

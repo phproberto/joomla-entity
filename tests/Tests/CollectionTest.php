@@ -463,9 +463,12 @@ class CollectionTest extends \TestCase
 
 		$this->assertSame(array(1001, 1000, 1002), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->ksort();
+		$newCollection = $collection->ksort();
 
-		$this->assertSame(array(1000, 1001, 1002), array_keys($entitiesProperty->getValue($collection)));
+		$this->assertSame(array(1000, 1001, 1002), array_keys($entitiesProperty->getValue($newCollection)));
+
+		// Ensure source collection integrity
+		$this->assertSame(array(1001, 1000, 1002), array_keys($entitiesProperty->getValue($collection)));
 	}
 
 	/**
@@ -485,9 +488,12 @@ class CollectionTest extends \TestCase
 
 		$this->assertSame(array(1001, 1000, 1002), array_keys($entitiesProperty->getValue($collection)));
 
-		$collection->krsort();
+		$newCollection = $collection->krsort();
 
-		$this->assertSame(array(1002, 1001, 1000), array_keys($entitiesProperty->getValue($collection)));
+		$this->assertSame(array(1002, 1001, 1000), array_keys($entitiesProperty->getValue($newCollection)));
+
+		// Ensure source collection integrity
+		$this->assertSame(array(1001, 1000, 1002), array_keys($entitiesProperty->getValue($collection)));
 	}
 
 	/**
