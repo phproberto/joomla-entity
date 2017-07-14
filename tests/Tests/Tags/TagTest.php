@@ -116,10 +116,10 @@ class TagTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($tag, ['id' => 999, 'published' => '0']);
 
-		$this->assertEquals(0, $tag->getState());
+		$this->assertEquals(0, $tag->state());
 
 		$rowProperty->setValue($tag, ['id' => 999, 'published' => '1']);
 
-		$this->assertEquals(1, $tag->getState(true));
+		$this->assertEquals(1, $tag->state());
 	}
 }

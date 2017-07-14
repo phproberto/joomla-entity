@@ -20,7 +20,7 @@ use Phproberto\Joomla\Entity\Traits;
 class Extension extends Entity
 {
 	use CoreTraits\HasClient;
-	use Traits\HasParams;
+	use Traits\HasAccess, Traits\HasParams, Traits\HasState;
 
 	/**
 	 * Component extension type
@@ -77,6 +77,29 @@ class Extension extends Entity
 	 * @const
 	 */
 	const TYPE_TEMPLATE = 'template';
+
+	/**
+	 * Get a list of available states.
+	 *
+	 * @return  string
+	 */
+	public function getAvailableStates()
+	{
+		return array(
+			self::STATE_PUBLISHED   => \JText::_('JENABLED'),
+			self::STATE_UNPUBLISHED => \JText::_('JDISABLED')
+		);
+	}
+
+	/**
+	 * Get the name of the column that stores state.
+	 *
+	 * @return  string
+	 */
+	protected function columnState()
+	{
+		return 'enabled';
+	}
 
 	/**
 	 * Check if this extension is a component.

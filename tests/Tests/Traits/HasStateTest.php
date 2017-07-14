@@ -18,11 +18,11 @@ use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithState;
 class HasStateTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * getColumnState returns table value.
+	 * columnState returns table value.
 	 *
 	 * @return  void
 	 */
-	public function testgetColumnStateReturnsTableValue()
+	public function testColumnStateReturnsTableValue()
 	{
 		$tableMock = $this->getMockBuilder(\JTable::class)
 			->disableOriginalConstructor()
@@ -41,7 +41,7 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 			->willReturn($tableMock);
 
 		$reflection = new \ReflectionClass($entity);
-		$method = $reflection->getMethod('getColumnState');
+		$method = $reflection->getMethod('columnState');
 		$method->setAccessible(true);
 
 		$this->assertSame('state', $method->invoke($entity));
@@ -78,7 +78,7 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999]);
 
-		$entity->getState();
+		$entity->state();
 	}
 
 	/**
@@ -110,33 +110,31 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => '0']);
 
-		$this->assertSame(0, $entity->getState());
+		$this->assertSame(0, $entity->state());
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => 1]);
 
-		// For no reload returns old state
-		$this->assertSame(0, $entity->getState());
-		$this->assertSame(1, $entity->getState(true));
+		$this->assertSame(1, $entity->state());
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => 0]);
 
-		$this->assertSame(0, $entity->getState(true));
+		$this->assertSame(0, $entity->state());
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => null]);
 
-		$this->assertSame(0, $entity->getState(true));
+		$this->assertSame(0, $entity->state());
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => '1']);
 
-		$this->assertSame(1, $entity->getState(true));
+		$this->assertSame(1, $entity->state());
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => '']);
 
-		$this->assertSame(0, $entity->getState(true));
+		$this->assertSame(0, $entity->state());
 
 		$rowProperty->setValue($entity, ['id' => 999, 'state' => 'test']);
 
-		$this->assertSame(0, $entity->getState(true));
+		$this->assertSame(0, $entity->state());
 	}
 
 	/**
@@ -146,21 +144,26 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testIsArchivedReturnsCorrectValue()
 	{
-		$entity = new EntityWithState;
+		$entity = $this->getMockBuilder(EntityWithState::class)
+			->setMethods(array('columnState'))
+			->getMock();
+
+		$entity->method('columnState')
+			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
-		$stateProperty = $reflection->getProperty('state');
-		$stateProperty->setAccessible(true);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_UNPUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_UNPUBLISHED]);
 
 		$this->assertFalse($entity->isArchived());
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_ARCHIVED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_ARCHIVED]);
 
 		$this->assertTrue($entity->isArchived());
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_PUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_PUBLISHED]);
 
 		$this->assertFalse($entity->isArchived());
 	}
@@ -172,25 +175,30 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testIsOnStateReturnsCorrectValue()
 	{
-		$entity = new EntityWithState;
+		$entity = $this->getMockBuilder(EntityWithState::class)
+			->setMethods(array('columnState'))
+			->getMock();
+
+		$entity->method('columnState')
+			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
-		$stateProperty = $reflection->getProperty('state');
-		$stateProperty->setAccessible(true);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_ARCHIVED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_ARCHIVED]);
 		$this->assertTrue($entity->isOnState(EntityWithState::STATE_ARCHIVED));
 		$this->assertFalse($entity->isOnState(EntityWithState::STATE_UNPUBLISHED));
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_UNPUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_UNPUBLISHED]);
 		$this->assertTrue($entity->isOnState(EntityWithState::STATE_UNPUBLISHED));
 		$this->assertFalse($entity->isOnState(EntityWithState::STATE_PUBLISHED));
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_PUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_PUBLISHED]);
 		$this->assertTrue($entity->isOnState(EntityWithState::STATE_PUBLISHED));
 		$this->assertFalse($entity->isOnState(EntityWithState::STATE_UNPUBLISHED));
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_TRASHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_TRASHED]);
 		$this->assertFalse($entity->isOnState(EntityWithState::STATE_UNPUBLISHED));
 		$this->assertTrue($entity->isOnState(EntityWithState::STATE_TRASHED));
 	}
@@ -202,21 +210,26 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testIsPublishedReturnsCorrectValue()
 	{
-		$entity = new EntityWithState;
+		$entity = $this->getMockBuilder(EntityWithState::class)
+			->setMethods(array('columnState'))
+			->getMock();
+
+		$entity->method('columnState')
+			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
-		$stateProperty = $reflection->getProperty('state');
-		$stateProperty->setAccessible(true);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_UNPUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_UNPUBLISHED]);
 
 		$this->assertFalse($entity->isPublished());
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_PUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_PUBLISHED]);
 
 		$this->assertTrue($entity->isPublished());
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_ARCHIVED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_ARCHIVED]);
 
 		$this->assertFalse($entity->isPublished());
 	}
@@ -228,21 +241,26 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testIsUnpublishedReturnsCorrectValue()
 	{
-		$entity = new EntityWithState;
+		$entity = $this->getMockBuilder(EntityWithState::class)
+			->setMethods(array('columnState'))
+			->getMock();
+
+		$entity->method('columnState')
+			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
-		$stateProperty = $reflection->getProperty('state');
-		$stateProperty->setAccessible(true);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_PUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_PUBLISHED]);
 
 		$this->assertFalse($entity->isUnpublished());
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_UNPUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_UNPUBLISHED]);
 
 		$this->assertTrue($entity->isUnpublished());
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_ARCHIVED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_ARCHIVED]);
 
 		$this->assertFalse($entity->isUnpublished());
 	}
@@ -254,51 +272,56 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testIsTrashedReturnsCorrectValue()
 	{
-		$entity = new EntityWithState;
+		$entity = $this->getMockBuilder(EntityWithState::class)
+			->setMethods(array('columnState'))
+			->getMock();
+
+		$entity->method('columnState')
+			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
-		$stateProperty = $reflection->getProperty('state');
-		$stateProperty->setAccessible(true);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_PUBLISHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_PUBLISHED]);
 
 		$this->assertFalse($entity->isTrashed());
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_TRASHED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_TRASHED]);
 
 		$this->assertTrue($entity->isTrashed());
 
-		$stateProperty->setValue($entity, EntityWithState::STATE_ARCHIVED);
+		$rowProperty->setValue($entity, ['id' => 999, 'state' => EntityWithState::STATE_ARCHIVED]);
 
 		$this->assertFalse($entity->isTrashed());
 	}
 
 	/**
-	 * getAvailableStates returns available states.
+	 * availableStates returns available states.
 	 *
 	 * @return  void
 	 */
-	public function testGetAvailableStatesReturnsAvailableStates()
+	public function testAvailableStatesReturnsAvailableStates()
 	{
 		$entity = new EntityWithState;
 
-		$this->assertSame(4, count($entity->getAvailableStates()));
+		$this->assertSame(4, count($entity->availableStates()));
 
-		$customStates = [
+		$customStates = array(
 			56   => 'Dead or alive',
 			99   => 'Broken by Dimitris',
 			999  => 'Sold to Google by Ronni',
 			1001 => 'Drinking beer'
-		];
+		);
 
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('getAvailableStates'))
+			->setMethods(array('availableStates'))
 			->getMock();
 
 		$entity->expects($this->once())
-			->method('getAvailableStates')
+			->method('availableStates')
 			->willReturn($customStates);
 
-		$this->assertSame($customStates, $entity->getAvailableStates());
+		$this->assertSame($customStates, $entity->availableStates());
 	}
 }

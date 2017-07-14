@@ -77,6 +77,30 @@ class ExtensionTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * isPublished returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testIsPublishedReturnsCorrectValue()
+	{
+		$extension = new Extension(999);
+
+		$reflection = new \ReflectionClass($extension);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'enabled' => 0));
+
+		$this->assertFalse($extension->isPublished());
+		$this->assertTrue($extension->isUnpublished());
+
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'enabled' => 1));
+
+		$this->assertTrue($extension->isPublished());
+		$this->assertFalse($extension->isUnpublished());
+	}
+
+	/**
 	 * isComponent returns correct value.
 	 *
 	 * @return  void

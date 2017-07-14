@@ -47,14 +47,14 @@ trait HasState
 	 *
 	 * @return  string
 	 */
-	public function getAvailableStates()
+	public function availableStates()
 	{
-		return [
+		return array(
 			self::STATE_PUBLISHED   => \JText::_('JPUBLISHED'),
 			self::STATE_UNPUBLISHED => \JText::_('JUNPUBLISHED'),
 			self::STATE_ARCHIVED    => \JText::_('JARCHIVEDSTATE_ARCHIVED'),
 			self::STATE_TRASHED     => \JText::_('JTRASHED')
-		];
+		);
 	}
 
 	/**
@@ -62,26 +62,9 @@ trait HasState
 	 *
 	 * @return  string
 	 */
-	protected function getColumnState()
+	protected function columnState()
 	{
 		return $this->table()->getColumnAlias('published');
-	}
-
-	/**
-	 * Get state of this entity.
-	 *
-	 * @param   boolean  $reload  Force state loading
-	 *
-	 * @return  integer
-	 */
-	public function getState($reload = false)
-	{
-		if ($reload || null === $this->state)
-		{
-			$this->state = $this->loadState();
-		}
-
-		return $this->state;
 	}
 
 	/**
@@ -95,6 +78,28 @@ trait HasState
 	}
 
 	/**
+	 * Check if this entity is disabled.
+	 * This is just a proxy for entities that use enabled/disabled instead of published/unpublished.
+	 *
+	 * @return  boolean
+	 */
+	public function isDisabled()
+	{
+		return $this->isUnpublished();
+	}
+
+	/**
+	 * Check if this entity is enabled.
+	 * This is just a proxy for entities that use enabled/disabled instead of published/unpublished.
+	 *
+	 * @return  boolean
+	 */
+	public function isEnabled()
+	{
+		return $this->isPublished();
+	}
+
+	/**
 	 * Check if this entity is on a specific state.
 	 *
 	 * @param   integer   $state  State to check.
@@ -103,7 +108,7 @@ trait HasState
 	 */
 	public function isOnState($state)
 	{
-		return $this->getState() === (int) $state;
+		return $this->state() === (int) $state;
 	}
 
 	/**
@@ -137,15 +142,13 @@ trait HasState
 	}
 
 	/**
-	 * Calculates the entity state.
+	 * Get state of this entity.
 	 *
 	 * @return  integer
-	 *
-	 * @throws  \RuntimeException
 	 */
-	protected function loadState()
+	public function state()
 	{
-		$column = $this->getColumnState();
+		$column = $this->columnState();
 		$data = $this->all();
 
 		if (!array_key_exists($column, $data))
