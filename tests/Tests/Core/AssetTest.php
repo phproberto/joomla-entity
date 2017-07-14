@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\Core;
 use Phproberto\Joomla\Entity\Core\Asset;
 
 /**
- * Article entity tests.
+ * Asset entity tests.
  *
  * @since   __DEPLOY_VERSION__
  */

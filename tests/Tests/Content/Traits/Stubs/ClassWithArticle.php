@@ -9,7 +9,6 @@
 namespace Phproberto\Joomla\Entity\Tests\Content\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Content\Traits\HasArticle;
 
 /**

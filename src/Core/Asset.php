@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Core;
 use Phproberto\Joomla\Entity\Entity;
 
 /**
- * Stub to test Entity class.
+ * Asset entity.
  *
  * @since   __DEPLOY_VERSION__
  */
