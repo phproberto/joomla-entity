@@ -40,13 +40,9 @@ class ExtensionTest extends \TestCaseDatabase
 	public function testAvailableStatesReturnsCorrectData()
 	{
 		$extension = new Extension;
-		$this->assertSame(
-			array(
-				Extension::STATE_PUBLISHED   => \JText::_('JENABLED'),
-				Extension::STATE_UNPUBLISHED => \JText::_('JDISABLED')
-			),
-			$extension->availableStates()
-		);
+
+		$this->assertTrue(is_array($extension->availableStates()));
+		$this->assertNotSame(0, count($extension->availableStates()));
 	}
 
 	/**
