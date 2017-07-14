@@ -19,11 +19,11 @@ use Joomla\Registry\Registry;
 class HasParamsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * getParam returns correct value.
+	 * param returns correct value.
 	 *
 	 * @return  void
 	 */
-	public function testGetParamReturnsCorrectValue()
+	public function testParamReturnsCorrectValue()
 	{
 		$entity = new EntityWithParams;
 
@@ -33,24 +33,24 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"foo":"var"}']);
 
-		$this->assertSame('var', $entity->getParam('foo'));
-		$this->assertSame(null, $entity->getParam('unknown'));
-		$this->assertSame('default', $entity->getParam('use-default', 'default'));
+		$this->assertSame('var', $entity->param('foo'));
+		$this->assertSame(null, $entity->param('unknown'));
+		$this->assertSame('default', $entity->param('use-default', 'default'));
 	}
 
 	/**
-	 * getParams works with attribs column.
+	 * params works with attribs column.
 	 *
 	 * @return  void
 	 */
-	public function testGetParamsWorksWithAttribsColumn()
+	public function testParamsWorksWithAttribsColumn()
 	{
 		$mock = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getColumnParams'))
+			->setMethods(array('columnParams'))
 			->getMock();
 
 		$mock->expects($this->once())
-			->method('getColumnParams')
+			->method('columnParams')
 			->willReturn('attribs');
 
 		$reflection = new \ReflectionClass($mock);
@@ -59,15 +59,15 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($mock, ['id' => 999, 'attribs' => '{"foo":"var"}']);
 
-		$this->assertEquals(new Registry(['foo' => 'var']), $mock->getParams());
+		$this->assertEquals(new Registry(['foo' => 'var']), $mock->params());
 	}
 
 	/**
-	 * getParams works for unset params.
+	 * params works for unset params.
 	 *
 	 * @return  void
 	 */
-	public function testGetParamsWorksForUnsetParams()
+	public function testParamsWorksForUnsetParams()
 	{
 		$entity = new EntityWithParams;
 
@@ -77,15 +77,15 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999, 'name' => 'Roberto Segura']);
 
-		$this->assertEquals(new Registry, $entity->getParams());
+		$this->assertEquals(new Registry, $entity->params());
 	}
 
 	/**
-	 * getParams works with params column.
+	 * params works with params column.
 	 *
 	 * @return  void
 	 */
-	public function testGetParamsWorksWithParamsColumn()
+	public function testParamsWorksWithParamsColumn()
 	{
 		$entity = new EntityWithParams;
 
@@ -95,15 +95,15 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"foo":"bar"}']);
 
-		$this->assertEquals(new Registry(['foo' => 'bar']), $entity->getParams());
+		$this->assertEquals(new Registry(['foo' => 'bar']), $entity->params());
 	}
 
 	/**
-	 * getParams reload works.
+	 * params reload works.
 	 *
 	 * @return  void
 	 */
-	public function testGetParamsReloadWorks()
+	public function testParamsReloadWorks()
 	{
 		$entity = new EntityWithParams;
 
@@ -113,12 +113,12 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"foo":"bar"}']);
 
-		$this->assertEquals(new Registry(['foo' => 'bar']), $entity->getParams());
+		$this->assertEquals(new Registry(['foo' => 'bar']), $entity->params());
 
 		$rowProperty->setValue($entity, ['id' => 999, 'params' => '{"foo":"bar-modified"}']);
 
-		$this->assertEquals(new Registry(['foo' => 'bar']), $entity->getParams());
-		$this->assertEquals(new Registry(['foo' => 'bar-modified']), $entity->getParams(true));
+		$this->assertEquals(new Registry(['foo' => 'bar']), $entity->params());
+		$this->assertEquals(new Registry(['foo' => 'bar-modified']), $entity->params(true));
 	}
 
 	/**
@@ -131,10 +131,10 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	public function testSaveParamsThrowsExceptionIfParamsColumnIsNotPresentInRow()
 	{
 		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getColumnParams'))
+			->setMethods(array('columnParams'))
 			->getMock();
 
-		$entity->method('getColumnParams')
+		$entity->method('columnParams')
 			->willReturn('attribs');
 
 		$reflection = new \ReflectionClass($entity);
@@ -239,13 +239,13 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$entity->setParam('foo', 'foobar');
 
-		$this->assertEquals(new Registry(['test' => 'var', 'foo' => 'foobar']), $entity->getParams());
+		$this->assertEquals(new Registry(['test' => 'var', 'foo' => 'foobar']), $entity->params());
 
 		$entity->setParam('test', 'modified-var');
 
 		$expectedParams = new Registry(['test' => 'modified-var', 'foo' => 'foobar']);
 
-		$this->assertEquals($expectedParams, $entity->getParams());
+		$this->assertEquals($expectedParams, $entity->params());
 		$this->assertEquals($expectedParams->toString(), $rowProperty->getValue($entity)['params']);
 	}
 
@@ -257,10 +257,10 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	public function testSetParamSetsCorrectParamValueWithCustomParamsColumn()
 	{
 		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getColumnParams'))
+			->setMethods(array('columnParams'))
 			->getMock();
 
-		$entity->method('getColumnParams')
+		$entity->method('columnParams')
 			->willReturn('attribs');
 
 		$reflection = new \ReflectionClass($entity);
@@ -323,10 +323,10 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	public function testSetParamsSetsCorrectValueWithCustomParamsColumn()
 	{
 		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('getColumnParams'))
+			->setMethods(array('columnParams'))
 			->getMock();
 
-		$entity->method('getColumnParams')
+		$entity->method('columnParams')
 			->willReturn('attribs');
 
 		$reflection = new \ReflectionClass($entity);

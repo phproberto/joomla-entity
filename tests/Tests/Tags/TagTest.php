@@ -84,11 +84,11 @@ class TagTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * getParams returns parameters.
+	 * params returns parameters.
 	 *
 	 * @return  void
 	 */
-	public function testGetParamsReturnsParameters()
+	public function testParamsReturnsParameters()
 	{
 		$article = new Tag(999);
 
@@ -98,7 +98,7 @@ class TagTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($article, ['id' => 999, 'params' => '{"foo":"var"}']);
 
-		$this->assertEquals(new Registry(['foo' => 'var']), $article->getParams());
+		$this->assertEquals(new Registry(['foo' => 'var']), $article->params());
 	}
 
 	/**

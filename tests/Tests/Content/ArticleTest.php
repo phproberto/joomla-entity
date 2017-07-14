@@ -201,11 +201,11 @@ class ArticleTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * getParams returns parameters.
+	 * params returns parameters.
 	 *
 	 * @return  void
 	 */
-	public function testGetParamsReturnsParameters()
+	public function testParamsReturnsParameters()
 	{
 		$article = new Article(999);
 
@@ -213,9 +213,9 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, array('id' => 999, 'attribs' => '{"foo":"var"}'));
+		$rowProperty->setValue($article, array('id' => 999, 'params' => '{"foo":"var"}'));
 
-		$this->assertEquals(new Registry(array('foo' => 'var')), $article->getParams());
+		$this->assertEquals(new Registry(array('foo' => 'var')), $article->params(true));
 	}
 
 	/**
