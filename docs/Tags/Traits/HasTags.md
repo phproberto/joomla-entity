@@ -1,5 +1,7 @@
 # HasTags trait
 
+`Phproberto\Joomla\Entity\Tags\Traits\HasTags`
+
 > Trait for entities that have associated tags.
 
 ## Index  

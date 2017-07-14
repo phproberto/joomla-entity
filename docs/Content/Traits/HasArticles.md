@@ -1,5 +1,7 @@
 # HasArticles trait
 
+`Phproberto\Joomla\Entity\Content\Traits\HasArticles`
+
 > Trait for entities that have associated articles.
 
 ## Index

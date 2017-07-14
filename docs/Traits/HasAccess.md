@@ -1,5 +1,7 @@
 # HasAccess trait
 
+`Phproberto\Joomla\Entity\Traits\HasAccess`
+
 > Trait for classes that have an `access` column to specify the entity access view level.
 
 ## Index  

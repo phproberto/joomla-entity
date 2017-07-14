@@ -21,7 +21,8 @@
     * Entities
         * [Category](./Categories/Category.md)
     * Traits
-        * HasCategory
+        * [HasCategories](./Categories/Traits/HasCategories.md)
+        * [HasCategory](./Categories/Traits/HasCategory.md)
 * com_content
     * Entities
         * [Article](./Content/Article.md)
