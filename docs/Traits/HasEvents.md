@@ -38,8 +38,9 @@ $article->trigger('articleVisited');
 $article->import('content')->trigger('articleVisited', array(\JFactory::getUser()));
 ```
 
-The plugin could be something like:  
+Note that **all the events receive entity as first parameter**.
 
+Sample plugin definition:  
 
 ```php
 <?php
