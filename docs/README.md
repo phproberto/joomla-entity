@@ -5,6 +5,7 @@
      * [Collection](./Collection.md)
     * Traits
         * [HasAccess](./Traits/HasAccess.md)
+        * [HasEvents](./Traits/HasEvents.md)
         * [HasFeatured](./Traits/HasFeatured.md)
         * [HasImages](./Traits/HasImages.md)
         * [HasLink](./Traits/HasLink.md)

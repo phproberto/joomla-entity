@@ -45,7 +45,7 @@ trait HasEvents
 	}
 
 	/**
-	 * Import a plugin type for events.
+	 * Import a plugin type for triggered events.
 	 *
 	 * @param   string  $pluginType  Folder of the plugin
 	 *
@@ -91,12 +91,12 @@ trait HasEvents
 	}
 
 	/**
-	 * Trigger an event.
+	 * Trigger an entity event.
 	 *
 	 * @param   string  $event   Event to trigger
-	 * @param   array   $params  Optional parameters
+	 * @param   array   $params  Optional parameters for the event
 	 *
-	 * @return  mixed
+	 * @return  array
 	 */
 	public function trigger($event, $params = array())
 	{
