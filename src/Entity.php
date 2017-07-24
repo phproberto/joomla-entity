@@ -8,9 +8,10 @@
 
 namespace Phproberto\Joomla\Entity;
 
-use Phproberto\Joomla\Traits\HasInstances;
+use Phproberto\Joomla\Traits;
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
+use Phproberto\Joomla\Entity\Traits as EntityTraits;
 
 /**
  * Entity class.
@@ -19,7 +20,8 @@ use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
  */
 abstract class Entity implements EntityInterface
 {
-	use HasInstances;
+	use EntityTraits\HasEvents;
+	use Traits\HasInstances;
 
 	/**
 	 * Identifier.
