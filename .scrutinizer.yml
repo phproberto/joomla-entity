@@ -18,7 +18,7 @@ build:
     tests:
         before:
             - composer install --prefer-dist --no-interaction --no-progress
-            - git clone https://github.com/joomla/joomla-cms.git -b master /tmp/joomla-cms
+            - git clone https://github.com/joomla/joomla-cms.git /tmp/joomla-cms
             - composer install -d /tmp/joomla-cms
         override:
             -
