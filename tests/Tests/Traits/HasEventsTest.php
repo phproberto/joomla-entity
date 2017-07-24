@@ -83,7 +83,7 @@ class HasEventsTest extends \PHPUnit\Framework\TestCase
 
 		$entity->trigger('sample_event');
 
-		$this->assertSame(array('entity'), $eventsPluginsImportedProperty->getValue($entity));
+		$this->assertSame(array('joomla_entity'), $eventsPluginsImportedProperty->getValue($entity));
 	}
 
 	/**

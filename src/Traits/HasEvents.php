@@ -18,13 +18,6 @@ defined('_JEXEC') or die;
 trait HasEvents
 {
 	/**
-	 * Plugins to import for events triggered on this entity.
-	 *
-	 * @var  array
-	 */
-	protected $eventsPlugins = array('entity');
-
-	/**
 	 * Check if
 	 *
 	 * @var  boolean
@@ -39,6 +32,16 @@ trait HasEvents
 	protected function getDispatcher()
 	{
 		return \JEventDispatcher::getInstance();
+	}
+
+	/**
+	 * Get the plugin types that will be used by this entity.
+	 *
+	 * @return  array
+	 */
+	protected function getEventsPlugins()
+	{
+		return array('joomla_entity');
 	}
 
 	/**
@@ -81,7 +84,7 @@ trait HasEvents
 	 */
 	private function importPlugins()
 	{
-		foreach ($this->eventsPlugins as $plugin)
+		foreach ($this->getEventsPlugins() as $plugin)
 		{
 			$this->importPlugin($plugin);
 		}
