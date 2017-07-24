@@ -86,6 +86,7 @@ class PlgContentSample extends JPlugin
 		echo '<pre>User ' . $user->get('email') . ' has visited the article ' . $article->id() . '</pre>';
 	}
 }
+```
 
 If your entity is not extending `Phproberto\Joomla\Entity\Entity` you can use the trait like:
 
