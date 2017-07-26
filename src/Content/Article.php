@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Content;
 
+use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Category;
@@ -27,7 +28,49 @@ class Article extends Entity
 	use CategoriesTraits\HasCategory, CoreTraits\HasAsset;
 	use TagsTraits\HasTags;
 	use EntityTraits\HasAccess, EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages, EntityTraits\HasMetadata;
-	use EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasUrls;
+	use EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasTranslations, EntityTraits\HasUrls;
+
+	/**
+	 * Get language associations.
+	 *
+	 * @return  \stdClass[]
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function associations()
+	{
+		if (!$this->hasId())
+		{
+			return array();
+		}
+
+		return \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $this->id());
+	}
+
+	/**
+	 * Get an instance of the articles model.
+	 *
+	 * @param   array  $state  State to populate in the model
+	 *
+	 * @return  \JModelList
+	 */
+	protected function getArticlesModel(array $state = array())
+	{
+		\JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
+
+		$model = \JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
+		$params = isset($state['params']) ? $state['params'] : new Registry;
+
+		$model->setState('params', new Registry);
+
+		foreach ($state as $key => $value)
+		{
+			$model->setState($key, $value);
+		}
+
+		return $model;
+	}
 
 	/**
 	 * Get the name of the column that stores category.
@@ -130,5 +173,47 @@ class Article extends Entity
 		);
 
 		return new Collection($tags);
+	}
+
+	/**
+	 * Load associated translations from DB.
+	 *
+	 * @return  Collection
+	 */
+	protected function loadTranslations()
+	{
+		if (!$this->hasId())
+		{
+			return new Collection;
+		}
+
+		$ids = array_filter(
+			array_map(
+				function ($association)
+				{
+					return (int) $association->id;
+				},
+				$this->associations()
+			)
+		);
+
+		if (!$ids)
+		{
+			return new Collection;
+		}
+
+		$state = array(
+			'filter.article_id' => array_values($ids)
+		);
+
+		$articles = array_map(
+			function ($item)
+			{
+				return static::instance($item->id)->bind($item);
+			},
+			$this->getArticlesModel($state)->getItems() ?: array()
+		);
+
+		return new Collection($articles);
 	}
 }

@@ -45,6 +45,8 @@ class ArticleTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		Article::clearAllInstances();
+
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -201,21 +203,36 @@ class ArticleTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * params returns parameters.
+	 * getArticlesModel returns correct value.
 	 *
 	 * @return  void
 	 */
-	public function testParamsReturnsParameters()
+	public function testGetArticlesModelReturnsCorrectValue()
 	{
-		$article = new Article(999);
+		$article = new Article;
 
 		$reflection = new \ReflectionClass($article);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
+		$method = $reflection->getMethod('getArticlesModel');
+		$method->setAccessible(true);
 
-		$rowProperty->setValue($article, array('id' => 999, 'attribs' => '{"foo":"var"}'));
+		$model = $method->invoke($article);
 
-		$this->assertEquals(new Registry(array('foo' => 'var')), $article->params(true));
+		$this->assertInstanceOf('ContentModelArticles', $model);
+		$this->assertSame(null, $model->getState('filter.article_id'));
+		$this->assertEquals(new Registry, $model->getState('params'));
+
+		$article = new Article;
+		$params = new Registry(array('foo' => 'var'));
+
+		$model = $method->invoke($article, array(
+				'filter.article_id' => array(34),
+				'params'            => $params
+			)
+		);
+
+		$this->assertInstanceOf('ContentModelArticles', $model);
+		$this->assertSame(array(34), $model->getState('filter.article_id'));
+		$this->assertEquals($params, $model->getState('params'));
 	}
 
 	/**
@@ -491,5 +508,154 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty->setValue($tag, array('id' => 23, 'title' => 'Sample tag'));
 
 		$this->assertEquals(new Collection(array($tag)), $method->invoke($entity));
+	}
+
+	/**
+	 * loadTranslations returns empty collection for missing id.
+	 *
+	 * @return  void
+	 */
+	public function testLoadTranslationsReturnsEmptyCollectionForMissingId()
+	{
+		$article = new Article;
+
+		$reflection = new \ReflectionClass($article);
+		$method = $reflection->getMethod('loadTranslations');
+		$method->setAccessible(true);
+
+		$this->assertEquals(new Collection, $method->invoke($article));
+	}
+
+	/**
+	 * loadTranslations returns empty collection for missing translations.
+	 *
+	 * @return  void
+	 */
+	public function testLoadTranslationsReturnsEmptyCollectionForMissingTranslations()
+	{
+		$article = $this->getMockBuilder(Article::class)
+			->setMethods(array('associations'))
+			->getMock();
+
+		$article
+			->expects($this->once())
+			->method('associations')
+			->willReturn(array());
+
+		$reflection = new \ReflectionClass($article);
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($article, 333);
+
+		$method = $reflection->getMethod('loadTranslations');
+		$method->setAccessible(true);
+
+		$this->assertEquals(new Collection, $method->invoke($article));
+	}
+
+	/**
+	 * loadTranslations loads correct data for existing id.
+	 *
+	 * @return  void
+	 */
+	public function testLoadTranslationsReturnsCorrectDataForExistingId()
+	{
+		$articles = array(
+			333 => array('id' => 333, 'title' => 'Source article', 'language' => 'en-GB'),
+			666 => array('id' => 666, 'title' => 'Spanish translation', 'language' => 'es-ES'),
+			999 => array('id' => 999, 'title' => 'Brasialian translation', 'language' => 'pt-BR')
+
+		);
+
+		$associations = array(
+			'es-ES' => (object) array(
+				'id' => 666
+			),
+			'pt-BR' => (object) array(
+				'id' => 999
+			)
+		);
+
+		$article = $this->getMockBuilder(Article::class)
+			->setMethods(array('associations', 'getArticlesModel'))
+			->getMock();
+
+		$article
+			->expects($this->once())
+			->method('associations')
+			->willReturn($associations);
+
+		$getItemsResponse = array(
+			(object) $articles[666],
+			(object) $articles[999]
+		);
+
+		$article
+			->expects($this->once())
+			->method('getArticlesModel')
+			->willReturn($this->getArticlesModelMock($getItemsResponse));
+
+		$reflection = new \ReflectionClass($article);
+
+		$method = $reflection->getMethod('loadTranslations');
+		$method->setAccessible(true);
+
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($article, 333);
+
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+		$rowProperty->setValue($article, $articles[333]);
+
+		$spanish = new Article(666);
+		$rowProperty->setValue($spanish, $articles[666]);
+
+		$brasilian = new Article(999);
+		$rowProperty->setValue($brasilian, $articles[999]);
+
+		$expectedCollection = new Collection(array($spanish, $brasilian));
+
+		// We can only compare ids because mocked article returns a collection of mocked articles
+		$this->assertEquals($expectedCollection->ids(), $method->invoke($article)->ids());
+	}
+
+	/**
+	 * params returns parameters.
+	 *
+	 * @return  void
+	 */
+	public function testParamsReturnsParameters()
+	{
+		$article = new Article(999);
+
+		$reflection = new \ReflectionClass($article);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($article, array('id' => 999, 'attribs' => '{"foo":"var"}'));
+
+		$this->assertEquals(new Registry(array('foo' => 'var')), $article->params(true));
+	}
+
+	/**
+	 * Get a mock of the articles model returning specific items.
+	 *
+	 * @param   array  $items  Items returned
+	 *
+	 * @return  \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private function getArticlesModelMock(array $items = array())
+	{
+		$mock = $this->getMockBuilder('ArticlesModelMock')
+			->disableOriginalConstructor()
+			->setMethods(array('getItems'))
+			->getMock();
+
+		$mock->expects($this->once())
+			->method('getItems')
+			->willReturn($items);
+
+		return $mock;
 	}
 }
