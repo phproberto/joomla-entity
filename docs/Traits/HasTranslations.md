@@ -8,6 +8,11 @@
 
 * [Usage](#usage)
 * [Methods](#methods)
+    * [hasTranslation($langTag)](#hasTranslation)
+    * [hasTranslations()](#hasTranslations)
+    * [translation($langTag)](#translation)
+    * [translations($reload = false)](#translations)
+    * [translationsByTag()](#translationsByTag)
 
 ## Usage <a id="usage"></a>
 
@@ -26,7 +31,7 @@ class Article extends Entity
 }
 ```
 
-This traits also requires that your entity implements the `loadTranslations()` method. Here is an example of how it does it for com_content article entity through the articles model:  
+This trait also requires that your entity implements the `loadTranslations()` method. Here is an example of how it does it for com_content article entity through the articles model:  
 
 ```php
 	/**
