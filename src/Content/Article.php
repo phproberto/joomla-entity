@@ -193,7 +193,7 @@ class Article extends Entity
 	{
 		$ids = $this->associationsIds();
 
-		if (!$ids)
+		if (empty($ids))
 		{
 			return new Collection;
 		}
