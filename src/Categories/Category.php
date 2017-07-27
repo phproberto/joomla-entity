@@ -8,8 +8,11 @@
 
 namespace Phproberto\Joomla\Entity\Categories;
 
+use Joomla\Utilities\ArrayHelper;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Traits as EntityTraits;
 
 /**
  * Stub to test Entity class.
@@ -19,6 +22,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 class Category extends Entity
 {
 	use CoreTraits\HasAsset;
+	use EntityTraits\HasAssociations, EntityTraits\HasTranslations;
 
 	/**
 	 * Get a table.
@@ -39,5 +43,64 @@ class Category extends Entity
 		$prefix = $prefix ?: 'CategoriesTable';
 
 		return parent::table($name, $prefix, $options);
+	}
+
+	/**
+	 * Load associations from DB.
+	 *
+	 * @return  array
+	 */
+	protected function loadAssociations()
+	{
+		if (!$this->hasId())
+		{
+			return array();
+		}
+
+		$associations = \JLanguageAssociations::getAssociations($this->get('extension'), '#__categories', 'com_categories.item', $this->id(), 'id', 'alias', '');
+
+		$result = array();
+
+		foreach ($associations as $langTag => $association)
+		{
+			$result[$langTag] = static::instance($association->id)->bind($association);
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * Load associated translations from DB.
+	 *
+	 * @return  Collection
+	 */
+	protected function loadTranslations()
+	{
+		$ids = $this->associationsIds();
+
+		if (empty($ids))
+		{
+			return new Collection;
+		}
+
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select('c.*')
+			->from($db->qn('#__categories', 'c'))
+			->where('c.id IN (' . implode(',', ArrayHelper::toInteger($ids)) . ')');
+
+		$db->setQuery($query);
+
+		$categories = array_map(
+			function ($item)
+			{
+				return static::instance($item->id)->bind($item);
+			},
+			$db->loadObjectList() ?: array()
+		);
+
+		return new Collection($categories);
 	}
 }

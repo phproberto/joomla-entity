@@ -218,6 +218,16 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get the \JDatabaseDriver object.
+	 *
+	 * @return  \JDatabaseDriver  Internal database driver object.
+	 */
+	public function getDbo()
+	{
+		return $this->table()->getDbo();
+	}
+
+	/**
 	 * Check if entity has a property.
 	 *
 	 * @param   string   $property  Entity property name
