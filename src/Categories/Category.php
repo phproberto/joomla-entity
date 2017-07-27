@@ -32,8 +32,6 @@ class Category extends Entity
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
 	 * @return  \JTable
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function table($name = '', $prefix = null, $options = array())
 	{
@@ -49,6 +47,8 @@ class Category extends Entity
 	 * Load associations from DB.
 	 *
 	 * @return  array
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function loadAssociations()
 	{
@@ -57,16 +57,7 @@ class Category extends Entity
 			return array();
 		}
 
-		$associations = \JLanguageAssociations::getAssociations($this->get('extension'), '#__categories', 'com_categories.item', $this->id(), 'id', 'alias', '');
-
-		$result = array();
-
-		foreach ($associations as $langTag => $association)
-		{
-			$result[$langTag] = static::instance($association->id)->bind($association);
-		}
-
-		return $result;
+		return \JLanguageAssociations::getAssociations($this->get('extension'), '#__categories', 'com_categories.item', $this->id(), 'id', 'alias', '');
 	}
 
 

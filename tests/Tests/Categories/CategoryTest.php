@@ -109,40 +109,6 @@ class CategoryTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * loadAssociations returns empty array.
-	 *
-	 * @return  void
-	 */
-	public function testLoadAssociationsReturnsEmptyArrayForNonLoadedCategory()
-	{
-		$category = new Category;
-
-		$reflection = new \ReflectionClass($category);
-		$method = $reflection->getMethod('loadAssociations');
-		$method->setAccessible(true);
-
-		$this->assertEquals(array(), $method->invoke($category));
-	}
-
-	/**
-	 * loadAssociations returns correct data.
-	 *
-	 * @return  void
-	 */
-	public function testLoadAssociationsReturnsCorrectData()
-	{
-		$category = new Category(35);
-
-		$reflection = new \ReflectionClass($category);
-		$method = $reflection->getMethod('loadAssociations');
-		$method->setAccessible(true);
-
-		$associations = $method->invoke($category);
-
-		$this->assertEquals(34, $associations['en-GB']->id());
-	}
-
-	/**
 	 * loadTranslations returns empty collection for missing associations.
 	 *
 	 * @return  void
@@ -180,5 +146,17 @@ class CategoryTest extends \TestCaseDatabase
 		$method->setAccessible(true);
 
 		$this->assertEquals(array(34, 35), $method->invoke($category)->ids());
+	}
+
+	/**
+	 * table returns correct table instance.
+	 *
+	 * @return  void
+	 */
+	public function testTableReturnsCorrectTableInstance()
+	{
+		$category = new Category;
+
+		$this->assertInstanceOf('CategoriesTableCategory', $category->table());
 	}
 }

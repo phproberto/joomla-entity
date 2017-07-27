@@ -635,6 +635,18 @@ class ArticleTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * table returns correct table instance.
+	 *
+	 * @return  void
+	 */
+	public function testTableReturnsCorrectTableInstance()
+	{
+		$article = new Article;
+
+		$this->assertInstanceOf('JTableContent', $article->table());
+	}
+
+	/**
 	 * Get a mock of the articles model returning specific items.
 	 *
 	 * @param   array  $items  Items returned

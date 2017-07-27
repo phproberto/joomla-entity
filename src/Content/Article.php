@@ -83,8 +83,6 @@ class Article extends Entity
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
 	 * @return  \JTable
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function table($name = '', $prefix = null, $options = array())
 	{
@@ -108,16 +106,7 @@ class Article extends Entity
 			return array();
 		}
 
-		$associations = \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $this->id());
-
-		$result = array();
-
-		foreach ($associations as $langTag => $association)
-		{
-			$result[$langTag] = static::instance($association->id)->bind($association);
-		}
-
-		return $result;
+		return \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $this->id());
 	}
 
 	/**

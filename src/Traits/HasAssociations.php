@@ -73,7 +73,7 @@ trait HasAssociations
 			array_map(
 				function ($association)
 				{
-					return $association->id();
+					return (int) $association->id;
 				},
 				$this->associations()
 			)
