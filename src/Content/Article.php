@@ -27,25 +27,8 @@ class Article extends Entity
 {
 	use CategoriesTraits\HasCategory, CoreTraits\HasAsset;
 	use TagsTraits\HasTags;
-	use EntityTraits\HasAccess, EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages, EntityTraits\HasMetadata;
-	use EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasTranslations, EntityTraits\HasUrls;
-
-	/**
-	 * Get language associations.
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function associations()
-	{
-		if (!$this->hasId())
-		{
-			return array();
-		}
-
-		return \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $this->id());
-	}
+	use EntityTraits\HasAccess, EntityTraits\HasAssociations, EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages;
+	use EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasTranslations, EntityTraits\HasUrls;
 
 	/**
 	 * Get an instance of the articles model.
@@ -109,6 +92,32 @@ class Article extends Entity
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::table($name, $prefix, $options);
+	}
+
+	/**
+	 * Load associations from DB.
+	 *
+	 * @return  array
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function loadAssociations()
+	{
+		if (!$this->hasId())
+		{
+			return array();
+		}
+
+		$associations = \JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $this->id());
+
+		$result = array();
+
+		foreach ($associations as $langTag => $association)
+		{
+			$result[$langTag] = static::instance($association->id)->bind($association);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -182,20 +191,7 @@ class Article extends Entity
 	 */
 	protected function loadTranslations()
 	{
-		if (!$this->hasId())
-		{
-			return new Collection;
-		}
-
-		$ids = array_filter(
-			array_map(
-				function ($association)
-				{
-					return (int) $association->id;
-				},
-				$this->associations()
-			)
-		);
+		$ids = $this->associationsIds();
 
 		if (!$ids)
 		{

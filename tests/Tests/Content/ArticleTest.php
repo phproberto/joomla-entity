@@ -568,12 +568,8 @@ class ArticleTest extends \TestCaseDatabase
 		);
 
 		$associations = array(
-			'es-ES' => (object) array(
-				'id' => 666
-			),
-			'pt-BR' => (object) array(
-				'id' => 999
-			)
+			'es-ES' => new Article(666),
+			'pt-BR' => new Article(999)
 		);
 
 		$article = $this->getMockBuilder(Article::class)
