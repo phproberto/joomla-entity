@@ -104,7 +104,7 @@ trait HasTranslations
 	}
 
 	/**
-	 * Retrieve translations indexed by tag.
+	 * Retrieve an array with the available translations using language tag as key.
 	 *
 	 * @return  array
 	 */

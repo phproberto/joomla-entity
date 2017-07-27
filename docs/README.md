@@ -5,6 +5,7 @@
      * [Collection](./Collection.md)
     * Traits
         * [HasAccess](./Traits/HasAccess.md)
+        * [HasAssociations](./Traits/HasAssociations.md)
         * [HasEvents](./Traits/HasEvents.md)
         * [HasFeatured](./Traits/HasFeatured.md)
         * [HasImages](./Traits/HasImages.md)
@@ -12,6 +13,7 @@
         * [HasMetadata](./Traits/HasMetadata.md)
         * [HasParams](./Traits/HasParams.md)
         * [HasState](./Traits/HasState.md)
+        * [HasTranslations](./Traits/HasTranslations.md)
         * [HasUrls](./Traits/HasUrls.md)
 * core
     * Entities

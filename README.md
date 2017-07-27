@@ -13,7 +13,7 @@ Benefits:
 * Creates an API between core classes and extensions. 
 * Includes static caching to ensure that objects are only loaded once per page load.
 * Traits that can be reused by any entity.
-* Extendable. You can extend the entity system to connect any custom logic you need to connect.
+* Extendable. You can extend the entity system to connect any custom logic you need.
 
 ## Index <a id="index"></a>
 
@@ -113,7 +113,7 @@ With the first stable version I will publish a repository that will contain a li
 
 ## Documentation <a id="documentation"></a>
 
-See [documentation](./docs) for detailed documentation.
+See [documentation](./docs/README.md) for detailed documentation.
 
 ## Requirements <a id="requirements"></a>
 
