@@ -45,7 +45,7 @@ class Article extends Entity
 
 		$params = isset($state['params']) ? $state['params'] : new Registry;
 
-		$model->setState('params', new Registry);
+		$model->setState('params', $params);
 
 		foreach ($state as $key => $value)
 		{
