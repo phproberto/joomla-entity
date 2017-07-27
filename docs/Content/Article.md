@@ -8,6 +8,9 @@
 
 * [Usage](#usage)
 * [Methods](#methods)
+    * [Traits](#traits)
+        * [Phproberto\Joomla\Entity\Categories\Traits\HasCategory](../Categories/Traits/HasCategory.md)
+        * [Phproberto\Joomla\Entity\Core\Traits\HasAsset](../Core/Traits/HasAsset.md)
 
 ## Usage <a id="usage"></a>
 
@@ -24,3 +27,11 @@ $article = Article::instance(1);
 
 ## Methods <a id="methods"></a>
 
+This entity has these methods available:
+
+### Traits <a id="traits"></a>
+
+This class allows you to use methods defined in these traits:
+
+* [Phproberto\Joomla\Entity\Categories\Traits\HasCategory](../Categories/Traits/HasCategory.md)
+* [Phproberto\Joomla\Entity\Core\Traits\HasAsset](../Core/Traits/HasAsset.md)
