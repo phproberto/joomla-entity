@@ -11,6 +11,17 @@
     * [Traits](#traits)
         * [Phproberto\Joomla\Entity\Categories\Traits\HasCategory](../Categories/Traits/HasCategory.md)
         * [Phproberto\Joomla\Entity\Core\Traits\HasAsset](../Core/Traits/HasAsset.md)
+        * [Phproberto\Joomla\Entity\Tags\Traits\HasTags](../Tags/Traits/HasTags.md)
+        * [Phproberto\Joomla\Entity\Traits\HasAccess](../Traits/HasAccess.md)
+        * [Phproberto\Joomla\Entity\Traits\HasAssociations](../Traits/HasAssociations.md)
+        * [Phproberto\Joomla\Entity\Traits\HasFeatured](../Traits/HasFeatured.md)
+        * [Phproberto\Joomla\Entity\Traits\HasLink](../Traits/HasLink.md)
+        * [Phproberto\Joomla\Entity\Traits\HasImages](../Traits/HasImages.md)
+        * [Phproberto\Joomla\Entity\Traits\HasMetadata](../Traits/HasMetadata.md)
+        * [Phproberto\Joomla\Entity\Traits\HasParams](../Traits/HasParams.md)
+        * [Phproberto\Joomla\Entity\Traits\HasState](../Traits/HasState.md)
+        * [Phproberto\Joomla\Entity\Traits\HasTranslations](../Traits/HasTranslations.md)
+        * [Phproberto\Joomla\Entity\Traits\HasUrls](../Traits/HasUrls.md)
 
 ## Usage <a id="usage"></a>
 
@@ -35,3 +46,14 @@ This class allows you to use methods defined in these traits:
 
 * [Phproberto\Joomla\Entity\Categories\Traits\HasCategory](../Categories/Traits/HasCategory.md)
 * [Phproberto\Joomla\Entity\Core\Traits\HasAsset](../Core/Traits/HasAsset.md)
+* [Phproberto\Joomla\Entity\Tags\Traits\HasTags](../Tags/Traits/HasTags.md)
+* [Phproberto\Joomla\Entity\Traits\HasAccess](../Traits/HasAccess.md)
+* [Phproberto\Joomla\Entity\Traits\HasAssociations](../Traits/HasAssociations.md)
+* [Phproberto\Joomla\Entity\Traits\HasFeatured](../Traits/HasFeatured.md)
+* [Phproberto\Joomla\Entity\Traits\HasLink](../Traits/HasLink.md)
+* [Phproberto\Joomla\Entity\Traits\HasImages](../Traits/HasImages.md)
+* [Phproberto\Joomla\Entity\Traits\HasMetadata](../Traits/HasMetadata.md)
+* [Phproberto\Joomla\Entity\Traits\HasParams](../Traits/HasParams.md)
+* [Phproberto\Joomla\Entity\Traits\HasState](../Traits/HasState.md)
+* [Phproberto\Joomla\Entity\Traits\HasTranslations](../Traits/HasTranslations.md)
+* [Phproberto\Joomla\Entity\Traits\HasUrls](../Traits/HasUrls.md)
