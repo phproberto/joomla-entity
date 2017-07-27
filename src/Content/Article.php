@@ -95,7 +95,7 @@ class Article extends Entity
 	/**
 	 * Load associations from DB.
 	 *
-	 * @return  array
+	 * @return  \stdClass[]
 	 *
 	 * @codeCoverageIgnore
 	 */

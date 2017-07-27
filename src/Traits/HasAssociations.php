@@ -46,11 +46,11 @@ trait HasAssociations
 	}
 
 	/**
-	 * Get language associations.
+	 * Get entity's language associations.
 	 *
 	 * @param   boolean  $reload  Force data reloading
 	 *
-	 * @return  static[]
+	 * @return  \stdClass[]
 	 */
 	public function associations($reload = false)
 	{
@@ -63,7 +63,7 @@ trait HasAssociations
 	}
 
 	/**
-	 * Get the ids of the language associations.
+	 * Get the ids of the entity's language associations.
 	 *
 	 * @return  array
 	 */
@@ -105,7 +105,7 @@ trait HasAssociations
 	}
 
 	/**
-	 * Check if this entity has associations
+	 * Check if this entity has associations.
 	 *
 	 * @return  boolean
 	 */
@@ -117,7 +117,7 @@ trait HasAssociations
 	/**
 	 * Load associations from DB.
 	 *
-	 * @return  static[]
+	 * @return  \stdClass[]
 	 */
 	abstract protected function loadAssociations();
 }
