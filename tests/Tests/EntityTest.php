@@ -786,7 +786,21 @@ class EntityTest extends \TestCase
 	 */
 	public function testShowDateReturnsCorrectValue()
 	{
-		$entity = new Entity;
+		$user = $this->getMockBuilder('UserMock')
+			->setMethods(array('getTimezone'))
+			->getMock();
+
+		$user->expects($this->exactly(2))
+			->method('getTimezone')
+			->willReturn(new \DateTimeZone('GMT'));
+
+		$entity = $this->getMockBuilder(Entity::class)
+			->setMethods(array('joomlaUser'))
+			->getMock();
+
+		$entity
+			->method('joomlaUser')
+			->willReturn($user);
 
 		$reflection = new \ReflectionClass($entity);
 		$rowProperty = $reflection->getProperty('row');
@@ -796,8 +810,8 @@ class EntityTest extends \TestCase
 
 		$rowProperty->setValue($entity, $data);
 
-		$this->assertSame('Tuesday, 16 November 1976', $entity->showDate('date', array('tz' => 'GMT')));
-		$this->assertSame('1976-11-16 16:05:00', $entity->showDate('date', array('tz' => 'GMT', 'format' => 'DATE_FORMAT_FILTER_DATETIME')));
+		$this->assertSame('Tuesday, 16 November 1976', $entity->showDate('date'));
+		$this->assertSame('1976-11-16 16:05:00', $entity->showDate('date', 'DATE_FORMAT_FILTER_DATETIME'));
 	}
 
 	/**
