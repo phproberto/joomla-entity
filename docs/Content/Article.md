@@ -22,6 +22,7 @@
         * [Phproberto\Joomla\Entity\Traits\HasState](../Traits/HasState.md)
         * [Phproberto\Joomla\Entity\Traits\HasTranslations](../Traits/HasTranslations.md)
         * [Phproberto\Joomla\Entity\Traits\HasUrls](../Traits/HasUrls.md)
+    * [table($name = '', $prefix = null, $options = array())](#table)
 
 ## Usage <a id="usage"></a>
 
@@ -57,3 +58,31 @@ This class allows you to use methods defined in these traits:
 * [Phproberto\Joomla\Entity\Traits\HasState](../Traits/HasState.md)
 * [Phproberto\Joomla\Entity\Traits\HasTranslations](../Traits/HasTranslations.md)
 * [Phproberto\Joomla\Entity\Traits\HasUrls](../Traits/HasUrls.md)
+
+### table($name = '', $prefix = null, $options = array()) <a id="table"></a>
+
+> Get a table instance. Defauts to \JTableContent. Most of the times you don't want to access this because entity handles most stuff that requires table access.
+
+**Parameters:**
+
+* `string` *$name (optional):* Table name. Defaults to `Content`.
+* `string` *$prefix (optional):* Class prefix. Defaults to `JTable`.
+* `array`  *$options (optional):* Configuration array for the table.
+
+**Returns:**
+
+`\JTable`
+
+**Throws:**
+
+`\InvalidArgumentException` if table cannot be loaded.
+
+**Examples:**
+
+```php
+$article = Article::instance(74);
+
+// Load another article through \JTableContent
+$table = $article->table();
+$table->load(75);
+```

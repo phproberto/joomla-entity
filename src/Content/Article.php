@@ -76,23 +76,6 @@ class Article extends Entity
 	}
 
 	/**
-	 * Get a table.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  \JTable
-	 */
-	public function table($name = '', $prefix = null, $options = array())
-	{
-		$name   = $name ?: 'Content';
-		$prefix = $prefix ?: 'JTable';
-
-		return parent::table($name, $prefix, $options);
-	}
-
-	/**
 	 * Load associations from DB.
 	 *
 	 * @return  \stdClass[]
@@ -200,5 +183,24 @@ class Article extends Entity
 		);
 
 		return new Collection($articles);
+	}
+
+	/**
+	 * Get a table instance. Defauts to \JTableContent.
+	 *
+	 * @param   string  $name     Table name. Optional.
+	 * @param   string  $prefix   Class prefix. Optional.
+	 * @param   array   $options  Configuration array for the table. Optional.
+	 *
+	 * @return  \JTable
+	 *
+	 * @throws  \InvalidArgumentException
+	 */
+	public function table($name = '', $prefix = null, $options = array())
+	{
+		$name   = $name ?: 'Content';
+		$prefix = $prefix ?: 'JTable';
+
+		return parent::table($name, $prefix, $options);
 	}
 }

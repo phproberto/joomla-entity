@@ -344,11 +344,13 @@ abstract class Entity implements EntityInterface
 	/**
 	 * Get a table.
 	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for table. Optional.
+	 * @param   string  $name     Table name. Optional.
+	 * @param   string  $prefix   Class prefix. Optional.
+	 * @param   array   $options  Configuration array for the table. Optional.
 	 *
 	 * @return  \JTable
+	 *
+	 * @throws  \InvalidArgumentException
 	 *
 	 * @codeCoverageIgnore
 	 */
