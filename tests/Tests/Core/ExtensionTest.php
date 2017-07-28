@@ -126,7 +126,7 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_MODULE));
 
 		$this->assertFalse($extension->isComponent());
 
@@ -148,7 +148,7 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_COMPONENT));
 
 		$this->assertFalse($extension->isFile());
 
@@ -170,7 +170,7 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_COMPONENT));
 
 		$this->assertFalse($extension->isLanguage());
 
@@ -192,7 +192,7 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_COMPONENT));
 
 		$this->assertFalse($extension->isLibrary());
 
@@ -214,7 +214,7 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_COMPONENT));
 
 		$this->assertFalse($extension->isModule());
 
@@ -236,7 +236,7 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_COMPONENT));
 
 		$this->assertFalse($extension->isPackage());
 
@@ -258,7 +258,7 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_COMPONENT));
 
 		$this->assertFalse($extension->isPlugin());
 
@@ -280,7 +280,7 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_COMPONENT));
 
 		$this->assertFalse($extension->isTemplate());
 
@@ -302,9 +302,9 @@ class ExtensionTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($extension, array('extension_id' => 999));
+		$rowProperty->setValue($extension, array('extension_id' => 999, 'type' => Extension::TYPE_COMPONENT));
 
-		$this->assertFalse($extension->isType(Extension::TYPE_COMPONENT));
+		$this->assertTrue($extension->isType(Extension::TYPE_COMPONENT));
 		$this->assertFalse($extension->isType(Extension::TYPE_FILE));
 		$this->assertFalse($extension->isType(Extension::TYPE_LANGUAGE));
 		$this->assertFalse($extension->isType(Extension::TYPE_LIBRARY));

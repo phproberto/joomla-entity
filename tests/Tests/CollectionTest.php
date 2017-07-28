@@ -542,8 +542,8 @@ class CollectionTest extends \TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$row1 = array('id' => 1000, 'name' => 'Vicente Monroig');
-		$row2 = array('id' => 1001, 'name' => 'Jorge Pomer');
+		$row1 = array('id' => 1000, 'name' => 'Vicente Monroig', 'foo' => 'foo');
+		$row2 = array('id' => 1001, 'name' => 'Jorge Pomer', 'foo' => 'foo');
 
 		$rowProperty->setValue($entity1, $row1);
 		$rowProperty->setValue($entity2, $row2);
@@ -572,7 +572,7 @@ class CollectionTest extends \TestCase
 		// Original collection not modified
 		foreach ($collection as $entity)
 		{
-			$this->assertSame(null, $entity->get('foo'));
+			$this->assertSame('foo', $entity->get('foo'));
 		}
 	}
 

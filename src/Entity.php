@@ -48,7 +48,7 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Get the attached database row.
+	 * Get all the entity properties.
 	 *
 	 * @return  array
 	 */
@@ -124,7 +124,61 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Get a row date field formatted.
+	 * Get an \JDate object from an entity date property.
+	 *
+	 * @param   string   $property   Name of the property to use as source date
+	 * @param   mixed    $tz         Time zone to be used for the date. Special cases:
+	 *                               	* boolean true for user setting
+	 *                               	* boolean false for server setting.
+	 *
+	 * @return  \JDate
+	 */
+	public function date($property, $tz = true)
+	{
+		$dateString = $this->get($property);
+
+		if (empty($dateString))
+		{
+			$msg = sprintf('Date property `%s` is empty', $property);
+
+			throw new \RuntimeException($msg);
+		}
+
+		// UTC date converted to user time zone.
+		if ($tz === true)
+		{
+			$date = \JFactory::getDate($dateString, 'UTC');
+			$date->setTimezone($this->joomlaUser()->getTimezone());
+
+			return $date;
+		}
+
+		// UTC date converted to server time zone.
+		if ($tz === false)
+		{
+			$config = \JFactory::getConfig();
+
+			$date = \JFactory::getDate($dateString, 'UTC');
+			$date->setTimezone(new \DateTimeZone($config->get('offset')));
+
+			return $date;
+		}
+
+		// No date conversion.
+		if ($tz === null)
+		{
+			return \JFactory::getDate($dateString);
+		}
+
+		// Get a date object based on UTC.
+		$date = \JFactory::getDate($dateString, 'UTC');
+		$date->setTimezone(new \DateTimeZone($tz));
+
+		return $date;
+	}
+
+	/**
+	 * Get an entity date field formatted.
 	 *
 	 * @param   string   $property   Name of the property to use as source date
 	 * @param   array    $options    Optional settings:
@@ -135,20 +189,20 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  string
 	 */
-	public function date($property, array $options = array())
+	public function showDate($property, array $options = array())
 	{
 		$format    = isset($options['format']) ? $options['format'] : 'DATE_FORMAT_LC1';
 		$tz        = isset($options['tz']) ? $options['tz'] : true;
 		$gregorian = isset($options['gregorian']) ? $options['gregorian'] : false;
 
-		$data = $this->all();
+		$date = $this->date($property, $tz);
 
-		if (empty($data[$property]))
+		if (\JFactory::getLanguage()->hasKey($format))
 		{
-			return null;
+			$format = \JText::_($format);
 		}
 
-		return \JHtml::_('date', $data[$property], $format, $tz, $gregorian);
+		return $gregorian ? $date->format($format, true) : $date->calendar($format, true);
 	}
 
 	/**
@@ -201,15 +255,24 @@ abstract class Entity implements EntityInterface
 	 * Get a property of this entity.
 	 *
 	 * @param   string  $property  Name of the property to get
-	 * @param   mixed   $default   Value to use as default if property is not set or is null
+	 * @param   mixed   $default   Value to use as default if property is null
 	 *
 	 * @return  mixed
+	 *
+	 * @throws  \InvalidArgumentException  Property does not exist
 	 */
 	public function get($property, $default = null)
 	{
 		$data = $this->all();
 
-		if (!$data || !isset($data[$property]))
+		if (!array_key_exists($property, $data))
+		{
+			$msg = sprintf('Property `%s` does not exist', $property);
+
+			throw new \InvalidArgumentException($msg);
+		}
+
+		if (null === $data[$property])
 		{
 			return $default;
 		}
@@ -283,6 +346,21 @@ abstract class Entity implements EntityInterface
 		return $this->hasId() && !empty($this->row);
 	}
 
+	/**
+	 * \JFactory::getUser() proxy for testing purposes
+	 *
+	 * @param   integer  $id  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 *
+	 * @return  \JUser object
+	 *
+	 * @see     \JUser
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function joomlaUser($id = null)
+	{
+		return \JFactory::getUser($id);
+	}
 
 	/**
 	 * Get the content of a column with data stored in JSON.

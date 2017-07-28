@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests;
 
+use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
 
 /**
@@ -51,7 +52,6 @@ class EntityTest extends \TestCase
 	{
 		$this->restoreFactoryState();
 
-		// Ensure that all the tests start with no cached instances
 		Entity::clearAllInstances();
 
 		parent::tearDown();
@@ -64,7 +64,7 @@ class EntityTest extends \TestCase
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 */
-	private function getLoadableEntityMock(array $data = [])
+	private function getLoadableEntityMock(array $data = array())
 	{
 		$tableMock = $this->getMockBuilder(\JTable::class)
 			->disableOriginalConstructor()
@@ -107,7 +107,7 @@ class EntityTest extends \TestCase
 
 		$entity->assign('name', 'Sample name');
 
-		$this->assertSame(['name' => 'Sample name'], $rowProperty->getValue($entity));
+		$this->assertSame(array('name' => 'Sample name'), $rowProperty->getValue($entity));
 	}
 
 	/**
@@ -145,13 +145,19 @@ class EntityTest extends \TestCase
 
 		$this->assertSame(null, $rowProperty->getValue($entity));
 
-		$data = [self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'];
+		$data = array(
+			self::PRIMARY_KEY => 999,
+			'name' => 'Roberto Segura'
+		);
 
 		$entity->bind($data);
 
 		$this->assertSame($data, $rowProperty->getValue($entity));
 
-		$data = (object) [self::PRIMARY_KEY => 999, 'name' => 'Sample Name'];
+		$data = (object) array(
+			self::PRIMARY_KEY => 999,
+			'name' => 'Sample Name'
+		);
 
 		$entity->bind($data);
 
@@ -235,7 +241,10 @@ class EntityTest extends \TestCase
 
 		$this->assertSame(0, $idProperty->getValue($entity));
 
-		$data = [self::PRIMARY_KEY => '999', 'name' => 'Roberto Segura'];
+		$data = array(
+			self::PRIMARY_KEY => '999',
+			'name' => 'Roberto Segura'
+		);
 
 		$entity->bind($data);
 
@@ -281,26 +290,51 @@ class EntityTest extends \TestCase
 	 */
 	public function testDateReturnsCorrectValue()
 	{
-		$entity = new Entity;
+		$user = $this->getMockBuilder('UserMock')
+			->setMethods(array('getTimezone'))
+			->getMock();
+
+		$user->expects($this->once())
+			->method('getTimezone')
+			->willReturn(new \DateTimeZone('GMT'));
+
+		$entity = $this->getMockBuilder(Entity::class)
+			->setMethods(array('joomlaUser'))
+			->getMock();
+
+		$entity
+			->method('joomlaUser')
+			->willReturn($user);
 
 		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('joomlaUser');
+		$method->setAccessible(true);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$data = ['id' => 999, 'date' => '1976-11-16 16:05:00'];
+		$data = array(
+			'id' => 999,
+			'date' => '1976-11-16 16:00:00'
+		);
 
 		$rowProperty->setValue($entity, $data);
 
-		$this->assertSame('Tuesday, 16 November 1976', $entity->date('date', ['tz' => 'GMT']));
-		$this->assertSame('1976-11-16 16:05:00', $entity->date('date', ['tz' => 'GMT', 'format' => 'DATE_FORMAT_FILTER_DATETIME']));
+		$this->assertInstanceOf(\JDate::class, $entity->date('date', true));
+
+		\JFactory::$config = new Registry(array('offset' => '+0600'));
+
+		$this->assertInstanceOf(\JDate::class, $entity->date('date', false));
+		$this->assertInstanceOf(\JDate::class, $entity->date('date', null));
 	}
 
 	/**
-	 * date returns null when property does not exist or is empty.
+	 * date throws exception when date property is empty.
 	 *
 	 * @return  void
+	 *
+	 * @expectedException  \RuntimeException
 	 */
-	public function testDateReturnsNullWhenNoPropertyOrEmpty()
+	public function testDateThrowsExceptionWhenDatePropertyIsEmpty()
 	{
 		$entity = new Entity;
 
@@ -308,17 +342,11 @@ class EntityTest extends \TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$data = ['id' => 999];
+		$data = array('id' => 999, 'date' => null);
 
 		$rowProperty->setValue($entity, $data);
 
-		$this->assertSame(null, $entity->date('date', ['tz' => 'GMT']));
-
-		$data = ['id' => 999, 'date' => ''];
-
-		$rowProperty->setValue($entity, $data);
-
-		$this->assertSame(null, $entity->date('date', ['tz' => 'GMT']));
+		$entity->date('date');
 	}
 
 	/**
@@ -328,7 +356,10 @@ class EntityTest extends \TestCase
 	 */
 	public function testFetchPreservesPreviouslyAssignedData()
 	{
-		$row = [self::PRIMARY_KEY => 999, 'name' => 'Sample name'];
+		$row = array(
+			self::PRIMARY_KEY => 999,
+			'name' => 'Sample name'
+		);
 
 		$entity = $this->getLoadableEntityMock($row);
 
@@ -354,13 +385,16 @@ class EntityTest extends \TestCase
 		$instancesProperty = $reflection->getProperty('instances');
 		$instancesProperty->setAccessible(true);
 
-		$row = [self::PRIMARY_KEY => 999, 'name' => 'Sample name'];
+		$row = array(
+			self::PRIMARY_KEY => 999,
+			'name' => 'Sample name'
+		);
 
-		$instances = [
-			Entity::class => [
+		$instances = array(
+			Entity::class => array(
 				999 => $this->getLoadableEntityMock($row)
-			]
-		];
+			)
+		);
 
 		$instancesProperty->setValue(Entity::class, $instances);
 
@@ -418,11 +452,11 @@ class EntityTest extends \TestCase
 		$instancesProperty = $reflection->getProperty('instances');
 		$instancesProperty->setAccessible(true);
 
-		$instances = [
-			Entity::class => [
-				999 => $this->getLoadableEntityMock([])
-			]
-		];
+		$instances = array(
+			Entity::class => array(
+				999 => $this->getLoadableEntityMock(array())
+			)
+		);
 
 		$instancesProperty->setValue(Entity::class, $instances);
 
@@ -442,11 +476,11 @@ class EntityTest extends \TestCase
 		$instancesProperty = $reflection->getProperty('instances');
 		$instancesProperty->setAccessible(true);
 
-		$instances = [
-			Entity::class => [
-				999 => $this->getLoadableEntityMock(['name' => 'Sample name'])
-			]
-		];
+		$instances = array(
+			Entity::class => array(
+				999 => $this->getLoadableEntityMock(array('name' => 'Sample name'))
+			)
+		);
 
 		$instancesProperty->setValue(Entity::class, $instances);
 
@@ -464,11 +498,11 @@ class EntityTest extends \TestCase
 		$instancesProperty = $reflection->getProperty('instances');
 		$instancesProperty->setAccessible(true);
 
-		$instances = [
-			Entity::class => [
-				999 => $this->getLoadableEntityMock([self::PRIMARY_KEY => 999])
-			]
-		];
+		$instances = array(
+			Entity::class => array(
+				999 => $this->getLoadableEntityMock(array(self::PRIMARY_KEY => 999))
+			)
+		);
 
 		$instancesProperty->setValue(Entity::class, $instances);
 
@@ -500,6 +534,7 @@ class EntityTest extends \TestCase
 
 		$this->assertSame(999, $idProperty->getValue($entity));
 	}
+
 	/**
 	 * get returns correct value.
 	 *
@@ -513,7 +548,11 @@ class EntityTest extends \TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$row = [self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'];
+		$row = array(
+			self::PRIMARY_KEY => 999,
+			'name' => 'Roberto Segura',
+			'age' => null
+		);
 
 		$rowProperty->setValue($entity, $row);
 
@@ -525,13 +564,41 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * get throws exception for missing property.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  \InvalidArgumentException
+	 */
+	public function testGetThrowsExceptionForMissingProperty()
+	{
+		$entity = new Entity;
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$row = array(
+			self::PRIMARY_KEY => 999,
+			'name' => 'Roberto Segura'
+		);
+
+		$rowProperty->setValue($entity, $row);
+
+		$entity->get('age');
+	}
+
+	/**
 	 * getRow forces fetchRow.
 	 *
 	 * @return  void
 	 */
 	public function testGetAllForcesFetchRow()
 	{
-		$row = [self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'];
+		$row = array(
+			self::PRIMARY_KEY => 999,
+			'name' => 'Roberto Segura'
+		);
 
 		$mock = $this->getMockBuilder(Entity::class)
 			->setMethods(array('fetchRow'))
@@ -557,13 +624,13 @@ class EntityTest extends \TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999]);
+		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999));
 
 		$this->assertTrue($entity->has(self::PRIMARY_KEY));
 		$this->assertFalse($entity->has('name'));
 		$this->assertFalse($entity->has('age'));
 
-		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura']);
+		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'));
 
 		$this->assertTrue($entity->has(self::PRIMARY_KEY));
 		$this->assertTrue($entity->has('name'));
@@ -593,11 +660,11 @@ class EntityTest extends \TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, []);
+		$rowProperty->setValue($entity, array());
 
 		$this->assertFalse($entity->isLoaded());
 
-		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura']);
+		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'));
 
 		$this->assertTrue($entity->isLoaded());
 	}
@@ -615,21 +682,21 @@ class EntityTest extends \TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999]);
+		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999));
 
-		$this->assertEquals([], $entity->json('json_column'));
+		$this->assertEquals(array(), $entity->json('json_column'));
 
-		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'json_column' => '{"foo":""}']);
+		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => '{"foo":""}'));
 
-		$this->assertEquals([], $entity->json('json_column'));
+		$this->assertEquals(array(), $entity->json('json_column'));
 
-		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"0"}']);
+		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"0"}'));
 
-		$this->assertEquals(['foo' => '0'], $entity->json('json_column'));
+		$this->assertEquals(array('foo' => '0'), $entity->json('json_column'));
 
-		$rowProperty->setValue($entity, [self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"bar"}']);
+		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"bar"}'));
 
-		$this->assertEquals(['foo' => 'bar'], $entity->json('json_column'));
+		$this->assertEquals(array('foo' => 'bar'), $entity->json('json_column'));
 	}
 
 	/**
@@ -693,6 +760,27 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * showDate returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testShowDateReturnsCorrectValue()
+	{
+		$entity = new Entity;
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$data = array('id' => 999, 'date' => '1976-11-16 16:05:00');
+
+		$rowProperty->setValue($entity, $data);
+
+		$this->assertSame('Tuesday, 16 November 1976', $entity->showDate('date', array('tz' => 'GMT')));
+		$this->assertSame('1976-11-16 16:05:00', $entity->showDate('date', array('tz' => 'GMT', 'format' => 'DATE_FORMAT_FILTER_DATETIME')));
+	}
+
+	/**
 	 * unassign unsets row property.
 	 *
 	 * @return  void
@@ -705,17 +793,21 @@ class EntityTest extends \TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$row = [self::PRIMARY_KEY => 999, 'name' => 'Isidro Baquero'];
+		$row = array(
+			self::PRIMARY_KEY => 999,
+			'name' => 'Isidro Baquero'
+		);
+
 		$rowProperty->setValue($entity, $row);
 
 		$this->assertSame($row, $rowProperty->getValue($entity));
 
 		$entity->unassign(self::PRIMARY_KEY);
 
-		$this->assertSame(['name' => 'Isidro Baquero'], $rowProperty->getValue($entity));
+		$this->assertSame(array('name' => 'Isidro Baquero'), $rowProperty->getValue($entity));
 
 		$entity->unassign('name');
 
-		$this->assertSame([], $rowProperty->getValue($entity));
+		$this->assertSame(array(), $rowProperty->getValue($entity));
 	}
 }

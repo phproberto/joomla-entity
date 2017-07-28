@@ -86,7 +86,7 @@ class HasAccessTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, ['id' => 999]);
+		$rowProperty->setValue($entity, ['id' => 999, 'access' => 0]);
 
 		$this->assertSame(0, $entity->getAccess());
 
@@ -122,7 +122,7 @@ class HasAccessTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, ['id' => 999]);
+		$rowProperty->setValue($entity, ['id' => 999, 'access_level' => 0]);
 
 		$this->assertSame(0, $entity->getAccess());
 
