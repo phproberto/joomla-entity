@@ -124,7 +124,7 @@ $article->get('title');
 
 ### date($property, $tz = true) <a id="date"></a>
 
-> Get an \JDate object from an entity date property.
+> Get an \JDate object from an entity date property. Useful for operations with dates.  
 
 **Parameters:**
 
@@ -146,7 +146,24 @@ $article->get('title');
 ```php
 $article = Article::instance(74);
 
+// Use \DateTime::format() function
 echo $article->date('modified')->format('Y-m-d H:i:s');
+
+// Use date objects for comparisons
+$today = new \JDate;
+$modified = $article->date('modified');
+
+// Displays `Article was modified +2 days ago`
+if ($modified < $today)
+{
+    $ago = $article->date('modified')->diff(new \JDate);
+
+    echo "Article was modified " . $ago->format('%R%a days ago');
+}
+elseif ($modified == $today)
+{
+    echo "Article hasn't been  modified ";
+}
 ```
 
 ### registry($property) <a id="registry"></a>
