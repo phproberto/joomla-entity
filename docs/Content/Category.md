@@ -13,7 +13,9 @@ extends:
 * [Usage](#usage)
 * [Methods](#methods)
 	* [Extends](#extends)
+	    * [Phproberto\Joomla\Entity\Categories\Category](../Categories/Category.md)
     * [Traits](#traits)
+        * [Phproberto\Joomla\Entity\Content\Traits\HasArticles](./Traits/HasArticles.md)
 
 ## Usage <a id="usage"></a>
 
@@ -42,9 +44,9 @@ foreach ($category->getArticles() as $article)
 ### Extends <a id="extends"></a>
 This class extends another class so you can also use methods defined there:
 
-* [Category](../Categories/Category.md)
+[Phproberto\Joomla\Entity\Categories\Category](../Categories/Category.md)
 
 ### Traits <a id="traits"></a>
 This class allows you to use methods defined in these traits:
 
-* [HasArticles](./Traits/HasArticles.md)
+* [Phproberto\Joomla\Entity\Content\Traits\HasArticles](./Traits/HasArticles.md)
