@@ -11,7 +11,7 @@
     * [all()](#all)
     * [assign($property, $value)](#assign)
     * [bind(array $data)](#bind)
-    * [date($property, array $options = [])](#date)
+    * [date($property, $tz = true)](#date)
     * [fetch($id)](#fetch)
     * [fetchRow($id)](#fetchRow)
     * [get($property, $default = null)](#get)
@@ -24,6 +24,7 @@
     * [primaryKey()](#primaryKey)
     * [registry($property)](#registry)
     * [save()](#save)
+    * [showDate($property, array $options = [])](#showDate)
     * [table($name = '', $prefix = null, $options = array())](#table)
     * [unassign($property)](#unassign)
 
@@ -121,9 +122,9 @@ $article->get('title');
 
 ```
 
-### date($property, array $options = array()) <a id="date"></a>
+### date($property, $tz = true) <a id="date"></a>
 
-> Get an entity date field formatted.
+> Get an \JDate object from an entity date property.
 
 **Parameters:**
 
@@ -135,6 +136,10 @@ $article->get('title');
 **Returns:**
 
 `JDate`
+
+**Throws:**
+
+`\InvalidArgumentException` If date property is empty.
 
 **Examples:**
 
@@ -170,4 +175,39 @@ if ($article->has('images'))
     // Display intro image and fallback to `joomla_black.png` if no image is et
     echo '<img src="' . $article->registry('images')->get('image_intro', 'images/joomla_black.png') . '" />';
 }
+```
+
+### showDate($property, $format = 'DATE_FORMAT_LC1', array $options = array()) <a id="showDate"></a>
+
+> Get an entity date field formatted.
+
+**Parameters:**
+
+* `string` *$property (required):* Property where date is stored.
+* `string` *$format (required):* PHP date format or language string containing it. Defaults to `DATE_FORMAT_LC1`
+* `array`  *$options (optional):* Supported options:
+    * `gregorian`: True to use Gregorian calendar.
+    * `tz`: Time zone to be used for the date.  Special cases:
+        * boolean true for user setting
+        * boolean false for server setting.
+
+**Returns:**
+
+`string`
+
+**Throws:**
+
+`\InvalidArgumentException` If date property is empty.
+
+**Examples:**
+
+```php
+// Shows Friday, 28 July 2017
+echo $article->showDate('modified');
+
+// Shows 2017-07-28 08:31:36
+echo $article->showDate('modified', 'Y-m-d H:i:s');
+
+// Shows Friday, 28 July 2017 08:31
+echo $article->showDate('modified', 'DATE_FORMAT_LC2');
 ```

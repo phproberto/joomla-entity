@@ -133,6 +133,8 @@ abstract class Entity implements EntityInterface
 	 *                               	* boolean false for server setting.
 	 *
 	 * @return  \JDate
+	 *
+	 * @throws  \RuntimeException  If date property is empty
 	 */
 	public function date($property, $tz = true)
 	{
@@ -410,17 +412,17 @@ abstract class Entity implements EntityInterface
 	 * Get an entity date field formatted.
 	 *
 	 * @param   string   $property   Name of the property to use as source date
+	 * @param   strig    $format     Format to output the date. PHP format | language string
 	 * @param   array    $options    Optional settings:
-	 *                               format =>The date format specification string (see {@link PHP_MANUAL#date}).
-	 * 	                             tz => Time zone to be used for the date.  Special cases: boolean true for user
-	 *                               	setting, boolean false for server setting.
-	 * 	                             gregorian => True to use Gregorian calendar.
+	 *                               gregorian => True to use Gregorian calendar.
+	 * 	                             tz => Time zone to be used for the date.  Special cases:
+	 * 	                             	* boolean true for user setting
+	 * 	                              	* boolean false for server setting.
 	 *
 	 * @return  string
 	 */
-	public function showDate($property, array $options = array())
+	public function showDate($property, $format = 'DATE_FORMAT_LC1', array $options = array())
 	{
-		$format    = isset($options['format']) ? $options['format'] : 'DATE_FORMAT_LC1';
 		$tz        = isset($options['tz']) ? $options['tz'] : true;
 		$gregorian = isset($options['gregorian']) ? $options['gregorian'] : false;
 
