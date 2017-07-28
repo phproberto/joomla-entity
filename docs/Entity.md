@@ -22,6 +22,7 @@
     * [json($property)](#json)
     * [load()](#load)
     * [primaryKey()](#primaryKey)
+    * [registry($property)](#registry)
     * [save()](#save)
     * [table($name = '', $prefix = null, $options = array())](#table)
     * [unassign($property)](#unassign)
@@ -127,20 +128,46 @@ $article->get('title');
 **Parameters:**
 
 * `string` *$property (required):* Property where date is stored.
-* `array` *$options (optional):* Additional formating options.
-    * `format`: PHP date format.
-    * `tz`: Time zone to be used for the date.  Special cases: boolean true for user setting, boolean false for server setting.
-    * `gregorian`: True to use Gregorian calendar.
+* `mixed`  *$tz (optional):* Time zone to be used for the date. Special cases: 
+    * boolean true for user setting
+    * boolean false for server setting.
 
 **Returns:**
 
-`string`
+`JDate`
 
 **Examples:**
 
 ```php
-$article->assign('title', 'My new title');
+$article = Article::instance(74);
 
-// This will return the new title
-$article->get('title');
+echo $article->date('modified')->format('Y-m-d H:i:s');
+```
+
+### registry($property) <a id="registry"></a>
+
+> Get a Registry object from a property of the entity.
+
+**Parameters:**
+
+* `string` *$property (required):* Property with the Registry dat source.
+
+**Returns:**
+
+`Joomla\Registry\Registry`
+
+**Throws:**
+
+`\InvalidArgumentException` Property does not exist. If you are not sure if a property exist use has($property) before accessing to it.
+
+**Examples:**
+
+```php
+$article = Article::instance(74);
+
+if ($article->has('images'))
+{
+    // Display intro image and fallback to `joomla_black.png` if no image is et
+    echo '<img src="' . $article->registry('images')->get('image_intro', 'images/joomla_black.png') . '" />';
+}
 ```

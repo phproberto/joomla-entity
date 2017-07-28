@@ -700,6 +700,26 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * registry returns correct data.
+	 *
+	 * @return  void
+	 */
+	public function testRegistryReturnsCorrectData()
+	{
+		$entity = new Entity;
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$data = array('id' => 999, 'registry' => '{"foo":"bar"}');
+
+		$rowProperty->setValue($entity, $data);
+
+		$this->assertEquals(new Registry('{"foo":"bar"}'), $entity->registry('registry'));
+	}
+
+	/**
 	 * save returns true.
 	 *
 	 * @return  void

@@ -8,10 +8,11 @@
 
 namespace Phproberto\Joomla\Entity;
 
+use Joomla\Registry\Registry;
 use Phproberto\Joomla\Traits;
+use Phproberto\Joomla\Entity\Traits as EntityTraits;
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
-use Phproberto\Joomla\Entity\Traits as EntityTraits;
 
 /**
  * Entity class.
@@ -175,34 +176,6 @@ abstract class Entity implements EntityInterface
 		$date->setTimezone(new \DateTimeZone($tz));
 
 		return $date;
-	}
-
-	/**
-	 * Get an entity date field formatted.
-	 *
-	 * @param   string   $property   Name of the property to use as source date
-	 * @param   array    $options    Optional settings:
-	 *                               format =>The date format specification string (see {@link PHP_MANUAL#date}).
-	 * 	                             tz => Time zone to be used for the date.  Special cases: boolean true for user
-	 *                               	setting, boolean false for server setting.
-	 * 	                             gregorian => True to use Gregorian calendar.
-	 *
-	 * @return  string
-	 */
-	public function showDate($property, array $options = array())
-	{
-		$format    = isset($options['format']) ? $options['format'] : 'DATE_FORMAT_LC1';
-		$tz        = isset($options['tz']) ? $options['tz'] : true;
-		$gregorian = isset($options['gregorian']) ? $options['gregorian'] : false;
-
-		$date = $this->date($property, $tz);
-
-		if (\JFactory::getLanguage()->hasKey($format))
-		{
-			$format = \JText::_($format);
-		}
-
-		return $gregorian ? $date->format($format, true) : $date->calendar($format, true);
 	}
 
 	/**
@@ -403,6 +376,20 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get a Registry object from a property of the entity.
+	 *
+	 * @param   string  $property  Property containing the data to import
+	 *
+	 * @return  Registry
+	 *
+	 * @throws  \InvalidArgumentException  Property does not exist
+	 */
+	public function registry($property)
+	{
+		return new Registry($this->get($property));
+	}
+
+	/**
 	 * Save entity to the database.
 	 *
 	 * @return  boolean
@@ -417,6 +404,34 @@ abstract class Entity implements EntityInterface
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get an entity date field formatted.
+	 *
+	 * @param   string   $property   Name of the property to use as source date
+	 * @param   array    $options    Optional settings:
+	 *                               format =>The date format specification string (see {@link PHP_MANUAL#date}).
+	 * 	                             tz => Time zone to be used for the date.  Special cases: boolean true for user
+	 *                               	setting, boolean false for server setting.
+	 * 	                             gregorian => True to use Gregorian calendar.
+	 *
+	 * @return  string
+	 */
+	public function showDate($property, array $options = array())
+	{
+		$format    = isset($options['format']) ? $options['format'] : 'DATE_FORMAT_LC1';
+		$tz        = isset($options['tz']) ? $options['tz'] : true;
+		$gregorian = isset($options['gregorian']) ? $options['gregorian'] : false;
+
+		$date = $this->date($property, $tz);
+
+		if (\JFactory::getLanguage()->hasKey($format))
+		{
+			$format = \JText::_($format);
+		}
+
+		return $gregorian ? $date->format($format, true) : $date->calendar($format, true);
 	}
 
 	/**
