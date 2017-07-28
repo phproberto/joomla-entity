@@ -156,7 +156,7 @@ $modified = $article->date('modified');
 // Displays `Article was modified +2 days ago`
 if ($modified < $today)
 {
-    $ago = $article->date('modified')->diff(new \JDate);
+    $ago = $article->date('modified')->diff($today);
 
     echo "Article was modified " . $ago->format('%R%a days ago');
 }
@@ -185,13 +185,11 @@ elseif ($modified == $today)
 **Examples:**
 
 ```php
-$article = Article::instance(74);
+// Defaults for article metadata
+echo $article->registry('metadata')->get('author', 'Roberto Segura');
 
-if ($article->has('images'))
-{
-    // Display intro image and fallback to `joomla_black.png` if no image is et
-    echo '<img src="' . $article->registry('images')->get('image_intro', 'images/joomla_black.png') . '" />';
-}
+// Defaults for article images
+echo '<img src="' . $article->registry('images')->get('image_intro', 'images/joomla_black.png') . '" />';
 ```
 
 ### showDate($property, $format = 'DATE_FORMAT_LC1', array $options = array()) <a id="showDate"></a>
