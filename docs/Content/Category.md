@@ -2,10 +2,6 @@
 
 `Phproberto\Joomla\Entity\Content\Category`
 
-extends:
-
-`Phproberto\Joomla\Entity\Categories\Category`
-
 > Represents a com_content category.
 
 ## Index <a id="index"></a>

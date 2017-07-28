@@ -8,6 +8,11 @@
 
 * [Usage](#usage)
 * [Methods](#methods)
+    * [Traits](#traits)
+        * [Phproberto\Joomla\Entity\Core\Traits\HasAsset](../Core/Traits/HasAsset.md)
+        * [Phproberto\Joomla\Entity\Traits\HasAssociations](../Traits/HasAssociations.md)
+        * [Phproberto\Joomla\Entity\Traits\HasTranslations](../Traits/HasTranslations.md)
+    * [table($name = '', $prefix = null, $options = array())](#table)
 
 ## Usage <a id="usage"></a>
 
@@ -24,3 +29,40 @@ $category = Category::instance(1);
 
 ## Methods <a id="methods"></a>
 
+This entity has these methods available:
+
+### Traits <a id="traits"></a>
+
+This class allows you to use methods defined in these traits:
+
+* [Phproberto\Joomla\Entity\Core\Traits\HasAsset](../Core/Traits/HasAsset.md)
+* [Phproberto\Joomla\Entity\Traits\HasAssociations](../Traits/HasAssociations.md)
+* [Phproberto\Joomla\Entity\Traits\HasTranslations](../Traits/HasTranslations.md)
+
+### table($name = '', $prefix = null, $options = array()) <a id="table"></a>
+
+> Get a table instance. Defauts to \CategoriesTableCategory. Most of the times you don't want to access this because entity handles most stuff that requires table access.
+
+**Parameters:**
+
+* `string` *$name (optional):* Table name. Defaults to `Content`.
+* `string` *$prefix (optional):* Class prefix. Defaults to `JTable`.
+* `array`  *$options (optional):* Configuration array for the table.
+
+**Returns:**
+
+`\JTable`
+
+**Throws:**
+
+`\InvalidArgumentException` if table cannot be loaded.
+
+**Examples:**
+
+```php
+$category = Category::instance(34);
+
+// Load another category through \CategoriesTableCategory
+$table = $category->table();
+$table->load(35);
+```
