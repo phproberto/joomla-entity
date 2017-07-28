@@ -80,9 +80,11 @@ This class allows you to use methods defined in these traits:
 **Examples:**
 
 ```php
-$article = Article::instance(74);
+$article = new Article(74);
 
-// Load another article through \JTableContent
-$table = $article->table();
-$table->load(75);
+echo 'Title before `' . $article->get('title') . '`<br />';
+$article->bind(array('title' => 'My new title'));
+
+// This will show `My new title`
+echo 'Title after `' . $article->get('title') . '`<br />';
 ```
