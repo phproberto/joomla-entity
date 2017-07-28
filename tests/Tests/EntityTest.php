@@ -325,6 +325,7 @@ class EntityTest extends \TestCase
 
 		$this->assertInstanceOf(\JDate::class, $entity->date('date', false));
 		$this->assertInstanceOf(\JDate::class, $entity->date('date', null));
+		$this->assertInstanceOf(\JDate::class, $entity->date('date', 'GMT'));
 	}
 
 	/**
