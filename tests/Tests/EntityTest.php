@@ -351,6 +351,42 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * entityComponent returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testEntityComponentReturnsCorrectValue()
+	{
+		$entity = new Entity;
+
+		$this->assertSame('com_tests', $entity->entityComponent());
+
+		require_once __DIR__ . '/Stubs/TestsEntityEntity.php';
+
+		$entity = new \TestsEntityEntity;
+
+		$this->assertSame('com_tests', $entity->entityComponent());
+	}
+
+	/**
+	 * entityName returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testEntityNameReturnsCorrectValue()
+	{
+		$entity = new Entity;
+
+		$this->assertSame('entity', $entity->entityName());
+
+		require_once __DIR__ . '/Stubs/TestsEntityEntity.php';
+
+		$entity = new \TestsEntityEntity;
+
+		$this->assertSame('entity', $entity->entityName());
+	}
+
+	/**
 	 * fetch preserves previously assigned data.
 	 *
 	 * @return  void

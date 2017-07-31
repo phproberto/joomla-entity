@@ -181,6 +181,48 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get the component associated to this entity.
+	 *
+	 * @return  string
+	 */
+	public function entityComponent()
+	{
+		$class = get_class($this);
+
+		if (false !== strpos($class, '\\'))
+		{
+			$suffix = rtrim(strstr($class, 'Entity'), '\\');
+			$parts = explode("\\", $suffix);
+
+			return array_key_exists(1, $parts) ? 'com_' . strtolower($parts[1]) : null;
+		}
+
+		return  'com_' . strtolower(strstr($class, 'Entity', true));
+	}
+
+	/**
+	 * Get this entity name.
+	 *
+	 * @return  string
+	 */
+	public function entityName()
+	{
+		$class = get_class($this);
+
+		if (false !== strpos($class, '\\'))
+		{
+			$suffix = rtrim(strstr($class, 'Entity'), '\\');
+			$parts = explode("\\", $suffix);
+
+			return $parts ? strtolower(end($parts)) : null;
+		}
+
+		$parts = explode('Entity', $class, 2);
+
+		return $parts ? strtolower(end($parts)) : null;
+	}
+
+	/**
 	 * Fetch DB data.
 	 *
 	 * @return  self
