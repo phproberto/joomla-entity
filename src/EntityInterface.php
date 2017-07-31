@@ -46,6 +46,13 @@ interface EntityInterface
 	const STATE_TRASHED = -2;
 
 	/**
+	 * Get the attached database row.
+	 *
+	 * @return  array
+	 */
+	public function all();
+
+	/**
 	 * Assign a value to entity property.
 	 *
 	 * @param   string  $property  Name of the property to set
@@ -54,6 +61,13 @@ interface EntityInterface
 	 * @return  self
 	 */
 	public function assign($property, $value);
+
+	/**
+	 * Get the component associated to this entity.
+	 *
+	 * @return  string
+	 */
+	public function component();
 
 	/**
 	 * Get a property of this entity.
@@ -66,6 +80,13 @@ interface EntityInterface
 	public function get($property, $default = null);
 
 	/**
+	 * Check if this entity has an identifier.
+	 *
+	 * @return  boolean
+	 */
+	public function hasId();
+
+	/**
 	 * Get the entity identifier.
 	 *
 	 * @return  integer
@@ -73,23 +94,16 @@ interface EntityInterface
 	public function id();
 
 	/**
+	 * Get this entity name.
+	 *
+	 * @return  string
+	 */
+	public function name();
+
+	/**
 	 * Get entity primary key column.
 	 *
 	 * @return  string
 	 */
 	public function primaryKey();
-
-	/**
-	 * Get the attached database row.
-	 *
-	 * @return  array
-	 */
-	public function all();
-
-	/**
-	 * Check if this entity has an identifier.
-	 *
-	 * @return  boolean
-	 */
-	public function hasId();
 }

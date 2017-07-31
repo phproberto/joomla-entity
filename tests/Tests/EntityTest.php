@@ -252,6 +252,24 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * component returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testComponentReturnsCorrectValue()
+	{
+		$entity = new Entity;
+
+		$this->assertSame('com_tests', $entity->component());
+
+		require_once __DIR__ . '/Stubs/TestsEntityEntity.php';
+
+		$entity = new \TestsEntityEntity;
+
+		$this->assertSame('com_tests', $entity->component());
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @return  void
@@ -348,42 +366,6 @@ class EntityTest extends \TestCase
 		$rowProperty->setValue($entity, $data);
 
 		$entity->date('date');
-	}
-
-	/**
-	 * entityComponent returns correct value.
-	 *
-	 * @return  void
-	 */
-	public function testEntityComponentReturnsCorrectValue()
-	{
-		$entity = new Entity;
-
-		$this->assertSame('com_tests', $entity->entityComponent());
-
-		require_once __DIR__ . '/Stubs/TestsEntityEntity.php';
-
-		$entity = new \TestsEntityEntity;
-
-		$this->assertSame('com_tests', $entity->entityComponent());
-	}
-
-	/**
-	 * entityName returns correct value.
-	 *
-	 * @return  void
-	 */
-	public function testEntityNameReturnsCorrectValue()
-	{
-		$entity = new Entity;
-
-		$this->assertSame('entity', $entity->entityName());
-
-		require_once __DIR__ . '/Stubs/TestsEntityEntity.php';
-
-		$entity = new \TestsEntityEntity;
-
-		$this->assertSame('entity', $entity->entityName());
 	}
 
 	/**
@@ -734,6 +716,24 @@ class EntityTest extends \TestCase
 		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"bar"}'));
 
 		$this->assertEquals(array('foo' => 'bar'), $entity->json('json_column'));
+	}
+
+	/**
+	 * name returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testNameReturnsCorrectValue()
+	{
+		$entity = new Entity;
+
+		$this->assertSame('entity', $entity->name());
+
+		require_once __DIR__ . '/Stubs/TestsEntityEntity.php';
+
+		$entity = new \TestsEntityEntity;
+
+		$this->assertSame('entity', $entity->name());
 	}
 
 	/**
