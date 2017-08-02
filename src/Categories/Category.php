@@ -13,6 +13,7 @@ use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
+use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
 
 /**
  * Stub to test Entity class.
@@ -23,6 +24,27 @@ class Category extends Entity
 {
 	use CoreTraits\HasAsset;
 	use EntityTraits\HasAssociations, EntityTraits\HasTranslations;
+	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
+
+	/**
+	 * Get the name of the column that stores author id.
+	 *
+	 * @return  string
+	 */
+	protected function columnAuthor()
+	{
+		return $this->table()->getColumnAlias('created_user_id');
+	}
+
+	/**
+	 * Get the name of the column that stores editor id.
+	 *
+	 * @return  string
+	 */
+	protected function columnEditor()
+	{
+		return $this->table()->getColumnAlias('modified_user_id');
+	}
 
 	/**
 	 * Get a table.

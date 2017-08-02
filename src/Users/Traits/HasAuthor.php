@@ -44,7 +44,7 @@ trait HasAuthor
 	}
 
 	/**
-	 * Get the name of the column that stores state.
+	 * Get the name of the column that stores author id.
 	 *
 	 * @return  string
 	 */

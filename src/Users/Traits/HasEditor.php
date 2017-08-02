@@ -44,7 +44,7 @@ trait HasEditor
 	}
 
 	/**
-	 * Get the name of the column that stores state.
+	 * Get the name of the column that stores editor id.
 	 *
 	 * @return  string
 	 */
