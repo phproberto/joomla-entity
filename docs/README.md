@@ -18,10 +18,12 @@
 * core
     * Entities
         * [Asset](./Core/Asset.md)
+        * [Component](./Core/Extension/Component.md)
         * [Extension](./Core/Extension.md)
     * Traits
         * [HasAsset](./Core/Traits/HasAsset.md)
         * [HasClient](./Core/Traits/HasClient.md)
+        * [HasComponent](./Core/Traits/HasComponent.md)
 * com_categories
     * Entities
         * [Category](./Categories/Category.md)
@@ -40,4 +42,10 @@
         * [Tag](./Tags/Tag.md)
     * Traits
         * [HasTags](./Tags/Traits/HasTags.md)
+* com_users
+    * Entities
+        * [User](./Users/User.md)
+    * Traits
+        * [HasAuthor](./Users/Traits/HasAuthor.md)
+        * [HasEditor](./Users/Traits/HasEditor.md)
         
