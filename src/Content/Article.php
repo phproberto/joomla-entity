@@ -25,7 +25,8 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
  */
 class Article extends Entity
 {
-	use CategoriesTraits\HasCategory, CoreTraits\HasAsset;
+	use CategoriesTraits\HasCategory;
+	use CoreTraits\HasAsset, CoreTraits\HasComponent;
 	use TagsTraits\HasTags;
 	use EntityTraits\HasAccess, EntityTraits\HasAssociations, EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages;
 	use EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasTranslations, EntityTraits\HasUrls;

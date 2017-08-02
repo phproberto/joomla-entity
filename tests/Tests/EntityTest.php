@@ -60,13 +60,14 @@ class EntityTest extends \TestCase
 	/**
 	 * Get an entity that simulates data loading.
 	 *
-	 * @param   array   $data  Expected data loaded
+	 * @param   integer  $id    Identifier to assign
+	 * @param   array    $data  Expected data loaded
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 */
-	private function getLoadableEntityMock(array $data = array())
+	private function getLoadableEntityMock($id = null, array $data = array())
 	{
-		$tableMock = $this->getMockBuilder(\JTable::class)
+		$tableMock = $this->getMockBuilder('MockedTable')
 			->disableOriginalConstructor()
 			->setMethods(array('load', 'getProperties'))
 			->getMock();
@@ -80,12 +81,21 @@ class EntityTest extends \TestCase
 			->willReturn($data);
 
 		$mock = $this->getMockBuilder(Entity::class)
+			->disableOriginalConstructor()
 			->setMethods(array('table'))
 			->getMock();
 
 		$mock
 			->method('table')
 			->willReturn($tableMock);
+
+		if ($id)
+		{
+			$reflection = new \ReflectionClass($mock);
+			$idProperty = $reflection->getProperty('id');
+			$idProperty->setAccessible(true);
+			$idProperty->setValue($mock, $id);
+		}
 
 		return $mock;
 	}
@@ -252,24 +262,6 @@ class EntityTest extends \TestCase
 	}
 
 	/**
-	 * component returns correct value.
-	 *
-	 * @return  void
-	 */
-	public function testComponentReturnsCorrectValue()
-	{
-		$entity = new Entity;
-
-		$this->assertSame('com_tests', $entity->component());
-
-		require_once __DIR__ . '/Stubs/TestsEntityEntity.php';
-
-		$entity = new \TestsEntityEntity;
-
-		$this->assertSame('com_tests', $entity->component());
-	}
-
-	/**
 	 * Constructor.
 	 *
 	 * @return  void
@@ -380,12 +372,16 @@ class EntityTest extends \TestCase
 			'name' => 'Sample name'
 		);
 
-		$entity = $this->getLoadableEntityMock($row);
+		$entity = $this->getLoadableEntityMock(999, $row);
 
 		$reflection = new \ReflectionClass($entity);
+
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($entity, 43);
+
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-
 		$rowProperty->setValue($entity, array('foo' => 'bar'));
 
 		$entity->fetch();
@@ -411,7 +407,7 @@ class EntityTest extends \TestCase
 
 		$instances = array(
 			Entity::class => array(
-				999 => $this->getLoadableEntityMock($row)
+				999 => $this->getLoadableEntityMock(999, $row)
 			)
 		);
 
@@ -427,15 +423,52 @@ class EntityTest extends \TestCase
 	}
 
 	/**
-	 * fetchRow throws InvalidEntityData.
+	 * fetch throws InvalidEntityData exception for empty data.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException \Phproberto\Joomla\Entity\Exception\InvalidEntityData
+	 */
+	public function testFetchRowThrowsExceptionForEmptyData()
+	{
+		$entity = $this->getLoadableEntityMock(999, array());
+
+		$reflection = new \ReflectionClass(Entity::class);
+
+		$method = $reflection->getMethod('fetchRow');
+		$method->setAccessible(true);
+
+		$method->invoke($entity);
+	}
+
+	/**
+	 * fetchRow throws InvalidEntityData exception for missing primary key.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException \Phproberto\Joomla\Entity\Exception\InvalidEntityData
+	 */
+	public function testFetchRowThrowsExceptionForMissingPrimaryKey()
+	{
+		$entity = new Entity;
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('fetchRow');
+		$method->setAccessible(true);
+
+		$method->invoke($entity);
+	}
+
+	/**
+	 * fetchRow throws exception when table load fails.
 	 *
 	 * @return  void
 	 *
 	 * @expectedException \Phproberto\Joomla\Entity\Exception\LoadEntityDataError
 	 */
-	public function testFetchRowThrowsInvalidEntityData()
+	public function testFetchRowThrowsExceptionWhenTableLoadFails()
 	{
-		$tableMock = $this->getMockBuilder(\JTable::class)
+		$tableMock = $this->getMockBuilder('MockedTable')
 			->disableOriginalConstructor()
 			->setMethods(array('load', 'getError'))
 			->getMock();
@@ -446,64 +479,46 @@ class EntityTest extends \TestCase
 
 		$tableMock->expects($this->at(1))
 			->method('getError')
-			->willReturn('En un lugar de La Mancha de cuyo nombre no quiero acordarme');
+			->willReturn('En un lugar de la mancha de cuyo nombre no quiero acordarme');
 
-		$mock = $this->getMockBuilder(Entity::class)
+		$entity = $this->getMockBuilder(Entity::class)
+			->disableOriginalConstructor()
 			->setMethods(array('table'))
 			->getMock();
 
-		$mock
+		$entity
 			->method('table')
 			->willReturn($tableMock);
 
-		$mock->fetch();
+		$reflection = new \ReflectionClass($entity);
+
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($entity, 999);
+
+		$method = $reflection->getMethod('fetchRow');
+		$method->setAccessible(true);
+
+		$method->invoke($entity);
 	}
+
 	/**
-	 * fetch throws InvalidEntityData exception for empty data.
+	 * fetchRow throws exception when primary key is not in the loaded data.
 	 *
 	 * @return  void
 	 *
 	 * @expectedException \Phproberto\Joomla\Entity\Exception\InvalidEntityData
 	 */
-	public function testFetchThrowsInvalidEntityDataForEmptyData()
+	public function testFetchRowThrowsExceptionWhenPrimaryKeyIsNotInTheLoadedData()
 	{
+		$entity = $this->getLoadableEntityMock(999, array('title' => 'Sample title'));
+
 		$reflection = new \ReflectionClass(Entity::class);
-		$instancesProperty = $reflection->getProperty('instances');
-		$instancesProperty->setAccessible(true);
 
-		$instances = array(
-			Entity::class => array(
-				999 => $this->getLoadableEntityMock(array())
-			)
-		);
+		$method = $reflection->getMethod('fetchRow');
+		$method->setAccessible(true);
 
-		$instancesProperty->setValue(Entity::class, $instances);
-
-		$entity = Entity::load(999);
-	}
-
-	/**
-	 * fetch throws InvalidEntityData exception for missing primary key.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException \Phproberto\Joomla\Entity\Exception\InvalidEntityData
-	 */
-	public function testFetchThrowsInvalidEntityDataForMissingPrimaryKey()
-	{
-		$reflection = new \ReflectionClass(Entity::class);
-		$instancesProperty = $reflection->getProperty('instances');
-		$instancesProperty->setAccessible(true);
-
-		$instances = array(
-			Entity::class => array(
-				999 => $this->getLoadableEntityMock(array('name' => 'Sample name'))
-			)
-		);
-
-		$instancesProperty->setValue(Entity::class, $instances);
-
-		$entity = Entity::load(999);
+		$method->invoke($entity);
 	}
 
 	/**
@@ -519,7 +534,7 @@ class EntityTest extends \TestCase
 
 		$instances = array(
 			Entity::class => array(
-				999 => $this->getLoadableEntityMock(array(self::PRIMARY_KEY => 999))
+				999 => $this->getLoadableEntityMock(999, array(self::PRIMARY_KEY => 999))
 			)
 		);
 

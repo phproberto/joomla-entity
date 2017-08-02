@@ -125,26 +125,6 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Get the component associated to this entity.
-	 *
-	 * @return  string
-	 */
-	public function component()
-	{
-		$class = get_class($this);
-
-		if (false !== strpos($class, '\\'))
-		{
-			$suffix = rtrim(strstr($class, 'Entity'), '\\');
-			$parts = explode("\\", $suffix);
-
-			return array_key_exists(1, $parts) ? 'com_' . strtolower($parts[1]) : null;
-		}
-
-		return  'com_' . strtolower(strstr($class, 'Entity', true));
-	}
-
-	/**
 	 * Get an \JDate object from an entity date property.
 	 *
 	 * @param   string   $property   Name of the property to use as source date
@@ -204,6 +184,9 @@ abstract class Entity implements EntityInterface
 	 * Fetch DB data.
 	 *
 	 * @return  self
+	 *
+	 * @throws  LoadEntityDataError  Table error loading row
+	 * @throws  InvalidEntityData    Incorrect data received
 	 */
 	public function fetch()
 	{
@@ -222,9 +205,14 @@ abstract class Entity implements EntityInterface
 	 */
 	protected function fetchRow()
 	{
+		if (!$this->hasId())
+		{
+			throw InvalidEntityData::missingPrimaryKey($this);
+		}
+
 		$table = $this->table();
 
-		if (!$table->load($this->id))
+		if (!$table->load($this->id()))
 		{
 			throw LoadEntityDataError::tableError($this, $table->getError());
 		}
@@ -352,7 +340,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function joomlaUser($id = null)
+	protected function juser($id = null)
 	{
 		return \JFactory::getUser($id);
 	}

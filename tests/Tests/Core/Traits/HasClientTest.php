@@ -40,11 +40,33 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * getClient returns correct data.
+	 * admin changes active client.
 	 *
 	 * @return  void
 	 */
-	public function testGetClientReturnsCorrectData()
+	public function testAdminChangesActiveClient()
+	{
+		$class = new ClassWithClient(999);
+
+		$reflection = new \ReflectionClass($class);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($class, array('id' => 999, 'client_id' => '0'));
+
+		$this->assertInstanceOf(Site::class, $class->client());
+
+		$class->admin();
+
+		$this->assertInstanceOf(Administrator::class, $class->client());
+	}
+
+	/**
+	 * client returns correct data.
+	 *
+	 * @return  void
+	 */
+	public function testClientReturnsCorrectData()
 	{
 		$class = new ClassWithClient;
 
@@ -135,5 +157,27 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 		$method->setAccessible(true);
 
 		$this->assertEquals(self::CLIENT_COLUMN, $method->invoke($class));
+	}
+
+	/**
+	 * site changes active client.
+	 *
+	 * @return  void
+	 */
+	public function testSiteChangesActiveClient()
+	{
+		$class = new ClassWithClient(999);
+
+		$reflection = new \ReflectionClass($class);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($class, array('id' => 999, 'client_id' => '1'));
+
+		$this->assertInstanceOf(Administrator::class, $class->client());
+
+		$class->site();
+
+		$this->assertInstanceOf(Site::class, $class->client());
 	}
 }

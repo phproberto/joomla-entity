@@ -6,17 +6,17 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Core\Traits\HasClient;
+use Phproberto\Joomla\Entity\Traits\HasAcl;
 
 /**
- * Sample class to test HasClient trait.
+ * Sample entity to test HasAcl trait.
  *
  * @since  __DEPLOY_VERSION__
  */
-class ClassWithClient extends Entity
+class EntityWithAcl extends Entity
 {
-	use HasClient;
+	use HasAcl;
 }

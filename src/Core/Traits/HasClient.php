@@ -8,9 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
-use Phproberto\Joomla\Entity\Core\Asset;
+use Phproberto\Joomla\Client\Administrator;
 use Phproberto\Joomla\Client\Client;
 use Phproberto\Joomla\Client\ClientInterface;
+use Phproberto\Joomla\Client\Site;
 
 defined('JPATH_PLATFORM') || die;
 
@@ -27,6 +28,18 @@ trait HasClient
 	 * @var  ClientInterface
 	 */
 	protected $client;
+
+	/**
+	 * Switch to admin client.
+	 *
+	 * @return  self
+	 */
+	public function admin()
+	{
+		$this->client = new Administrator;
+
+		return $this;
+	}
 
 	/**
 	 * Get the name of the column that stores category.
@@ -71,5 +84,17 @@ trait HasClient
 		}
 
 		return (int) $data[$column] ? Client::admin() : Client::site();
+	}
+
+	/**
+	 * Switch to site client.
+	 *
+	 * @return  self
+	 */
+	public function site()
+	{
+		$this->client = new Site;
+
+		return $this;
 	}
 }

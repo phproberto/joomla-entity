@@ -216,7 +216,7 @@ class Extension extends Entity
 	 */
 	public function table($name = '', $prefix = null, $options = array())
 	{
-		$name = $name ?: 'extension';
+		$name = $name ?: 'Extension';
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::table($name, $prefix, $options);

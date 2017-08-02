@@ -86,13 +86,6 @@ class ArticleTest extends \TestCaseDatabase
 	 */
 	public function testAssetCanBeRetrieved()
 	{
-		$article = new Article;
-
-		$asset = $article->getAsset();
-
-		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
-		$this->assertSame(0, $asset->id());
-
 		$article = Article::instance(1);
 
 		$asset = $article->getAsset();

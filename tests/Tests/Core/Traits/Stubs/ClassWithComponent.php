@@ -9,14 +9,14 @@
 namespace Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Core\Traits\HasClient;
+use Phproberto\Joomla\Entity\Core\Traits\HasComponent;
 
 /**
- * Sample class to test HasClient trait.
+ * Sample class to test HasComponent trait.
  *
  * @since  __DEPLOY_VERSION__
  */
-class ClassWithClient extends Entity
+class ClassWithComponent extends Entity
 {
-	use HasClient;
+	use HasComponent;
 }

@@ -63,13 +63,6 @@ interface EntityInterface
 	public function assign($property, $value);
 
 	/**
-	 * Get the component associated to this entity.
-	 *
-	 * @return  string
-	 */
-	public function component();
-
-	/**
 	 * Get a property of this entity.
 	 *
 	 * @param   string  $property  Name of the property to get
