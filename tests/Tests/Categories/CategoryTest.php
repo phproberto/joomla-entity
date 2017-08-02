@@ -109,6 +109,38 @@ class CategoryTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * columnAuthor returns correct column.
+	 *
+	 * @return  void
+	 */
+	public function testColumnAthorReturnsCorrectColumn()
+	{
+		$category = new Category;
+
+		$reflection = new \ReflectionClass($category);
+		$method = $reflection->getMethod('columnAuthor');
+		$method->setAccessible(true);
+
+		$this->assertSame('created_user_id', $method->invoke($category));
+	}
+
+	/**
+	 * columnEditor returns correct column.
+	 *
+	 * @return  void
+	 */
+	public function testColumnEditorReturnsCorrectColumn()
+	{
+		$category = new Category;
+
+		$reflection = new \ReflectionClass($category);
+		$method = $reflection->getMethod('columnEditor');
+		$method->setAccessible(true);
+
+		$this->assertSame('modified_user_id', $method->invoke($category));
+	}
+
+	/**
 	 * loadTranslations returns empty collection for missing associations.
 	 *
 	 * @return  void
