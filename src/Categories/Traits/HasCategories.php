@@ -45,7 +45,7 @@ trait HasCategories
 	 *
 	 * @return  Collection
 	 */
-	public function getCategories($reload = false)
+	public function categories($reload = false)
 	{
 		if ($reload || null === $this->categories)
 		{
@@ -64,7 +64,7 @@ trait HasCategories
 	 */
 	public function hasCategory($id)
 	{
-		return $this->getCategories()->has($id);
+		return $this->categories()->has($id);
 	}
 
 	/**
@@ -74,7 +74,7 @@ trait HasCategories
 	 */
 	public function hasCategories()
 	{
-		return !$this->getCategories()->isEmpty();
+		return !$this->categories()->isEmpty();
 	}
 
 	/**

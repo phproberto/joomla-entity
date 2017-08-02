@@ -4,7 +4,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/phproberto/joomla-entity/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phproberto/joomla-entity/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phproberto/joomla-entity/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phproberto/joomla-entity/?branch=master)
 
-> Semantical entities for Joomla!.
+> Semantical entities for Joomla!
 
 This library is intended to help developers to use Joomla! core classes with a logical/semantical entity structure. The main goal is DX (Developer Experience) to reduce the learning curve for novice developers and save time for experienced ones.
 
@@ -55,7 +55,7 @@ Some examples of what you can do with that article entity:
 echo $article->get('title');
 
 // Use params transparently
-if ($article->getParam('show_title', '1') === '1')
+if ($article->param('show_title', '1') === '1')
 {
 	echo $article->get('title');
 }
@@ -80,7 +80,7 @@ if ($article->isPublished())
 }
 
 // Retrieve article category
-echo $article->getCategory()->get('title');
+echo $article->category()->get('title');
 
 // You can modify article properties
 $article->set('title', 'My modified title');

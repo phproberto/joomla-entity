@@ -40,7 +40,7 @@ trait HasCategory
 	 *
 	 * @return  Category
 	 */
-	public function getCategory($reload = false)
+	public function category($reload = false)
 	{
 		if ($reload || null === $this->category)
 		{

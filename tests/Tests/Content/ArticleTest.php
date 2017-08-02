@@ -109,7 +109,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($article, array('id' => 999));
 
-		$category = $article->getCategory();
+		$category = $article->category();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Content\Category', $category);
 		$this->assertSame(0, $category->id());
@@ -118,7 +118,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($article, array('id' => 999, 'catid' => 666));
 
-		$category = $article->getCategory();
+		$category = $article->category();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Content\Category', $category);
 		$this->assertSame(666, $category->id());

@@ -38,7 +38,7 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($class, array('id' => 999, 'catid' => 666));
 
-		$this->assertSame(666, $class->getCategory()->id());
+		$this->assertSame(666, $class->category()->id());
 	}
 
 	/**
@@ -56,7 +56,7 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($class, array('id' => 999, 'category_id' => 666));
 
-		$this->assertEquals(new Category(666), $class->getCategory());
+		$this->assertEquals(new Category(666), $class->category());
 	}
 
 	/**
@@ -74,12 +74,12 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($class, array('id' => 999, 'category_id' => 666));
 
-		$this->assertEquals(new Category(666), $class->getCategory());
+		$this->assertEquals(new Category(666), $class->category());
 
 		$rowProperty->setValue($class, array('id' => 999, 'category_id' => 667));
 
-		$this->assertEquals(new Category(666), $class->getCategory());
-		$this->assertEquals(new Category(667), $class->getCategory(true));
+		$this->assertEquals(new Category(666), $class->category());
+		$this->assertEquals(new Category(667), $class->category(true));
 	}
 
 	/**
@@ -97,6 +97,6 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty->setValue($class, array('id' => 999, 'name' => 'Sample class'));
 
-		$this->assertEquals(new Category, $class->getCategory());
+		$this->assertEquals(new Category, $class->category());
 	}
 }

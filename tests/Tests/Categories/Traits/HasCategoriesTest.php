@@ -83,13 +83,13 @@ class HasCategoriesTest extends \PHPUnit\Framework\TestCase
 	{
 		$entity = new ClassWithCategories;
 
-		$this->assertEquals(new Collection, $entity->getCategories());
+		$this->assertEquals(new Collection, $entity->categories());
 
 		$entity->categoriesIds = array(999);
 
 		// Previous data with no reload
-		$this->assertEquals(new Collection, $entity->getCategories());
-		$this->assertEquals(new Collection(array(new Category(999))), $entity->getCategories(true));
+		$this->assertEquals(new Collection, $entity->categories());
+		$this->assertEquals(new Collection(array(new Category(999))), $entity->categories(true));
 	}
 
 	/**
