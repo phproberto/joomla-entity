@@ -17,6 +17,7 @@ use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
+use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
 
 /**
  * Article entity.
@@ -30,6 +31,7 @@ class Article extends Entity
 	use TagsTraits\HasTags;
 	use EntityTraits\HasAccess, EntityTraits\HasAssociations, EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages;
 	use EntityTraits\HasMetadata, EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasTranslations, EntityTraits\HasUrls;
+	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
 	/**
 	 * Get an instance of the articles model.

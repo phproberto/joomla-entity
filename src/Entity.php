@@ -250,7 +250,7 @@ abstract class Entity implements EntityInterface
 
 		if (!array_key_exists($property, $data))
 		{
-			$msg = sprintf('Property `%s` does not exist', $property);
+			$msg = sprintf('Property `%s` does not exist in entity `%s` (id `%s`)', $property, get_class($this), $this->id());
 
 			throw new \InvalidArgumentException($msg);
 		}
