@@ -88,7 +88,7 @@ None
 $class = new ClassWithCategories;
 
 // This loads categories
-$categories = $class->getCategories();
+$categories = $class->categories();
 
 // But if you modify them somewhere
 $category = Category::instance(23);
@@ -98,10 +98,10 @@ $category->assign('title', 'Edited title');
 $categories->get(23)->get('title');
 
 // So you can do something like:
-$categories = $category->clearCategories()->getCategories();
+$categories = $class->clearCategories()->categories();
 
 // Or directly use reload option
-$categories = $category->getCategories(true);
+$categories = $class->categories(true);
 ```
 
 ### hasCategory($id) <a id="hasCategory"></a>
@@ -123,7 +123,7 @@ $class = new ClassWithCategories;
 
 if ($class->hasCategory(23))
 {
-	echo $class->getCategories()->get(23)->get('title');
+	echo $class->categories()->get(23)->get('title');
 }
 ```
 
