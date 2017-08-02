@@ -4,12 +4,14 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/phproberto/joomla-entity/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phproberto/joomla-entity/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phproberto/joomla-entity/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phproberto/joomla-entity/?branch=master)
 
-> Easy management of Joomla! entities.
+> Semantical entities for Joomla!.
 
-This library is intended to help developers to use Joomla! core classes with a logical entity structure. It also exposes that entity structure so it can be used and extended by any third party extension.  
+This library is intended to help developers to use Joomla! core classes with a logical/semantical entity structure. The main goal is DX (Developer Experience) to reduce the learning curve for novice developers and save time for experienced ones.
+
+It provides an API for core extensions but its structure can be used and extended by any third party extension in minutes.  
 
 Benefits:
-* Entities aren't `stdClass` objects. They expose everything you need from them.
+* Entities aren't `stdClass` objects. They are entities that expose everything you need from them in a semantical way.
 * Creates an API between core classes and extensions. 
 * Includes static caching to ensure that objects are only loaded once per page load.
 * Traits that can be reused by any entity.
