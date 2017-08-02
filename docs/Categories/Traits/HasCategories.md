@@ -9,8 +9,8 @@
 * [Requirements](#requirements)
 * [Usage](#usage)
 * [Methods](#methods)
+    * [categories($reload = false)](#categories)
     * [clearCategories()](#clearCategories)
-    * [getCategories($reload = false)](#getCategories)
     * [hasCategory($id)](#hasCategory)
     * [hasCategories()](#hasCategories)
 
@@ -41,6 +41,33 @@ Using this trait requires that your entity implements the loadCategories() metho
 
 		return new Collection($categories);
 	}
+```
+
+### categories($reload = false) <a id="categories"></a>
+
+> Get the associated categories.
+
+**Parameters:**
+
+* `boolean` *$reload (optional):* Force data reloading.
+
+**Returns:**
+
+`\Phproberto\Joomla\Entity\Collection`
+
+**Examples:**
+
+```php
+$class = new ClassWithCategories;
+
+// This loads categories first time is called
+$categories = $class->categories();
+
+// This loads cached categories
+$categories = $class->categories();
+
+// This forces data reloading
+$categories = $class->categories(true);
 ```
 
 ### clearCategories() <a id="clearCategories"></a>
@@ -75,33 +102,6 @@ $categories = $category->clearCategories()->getCategories();
 
 // Or directly use reload option
 $categories = $category->getCategories(true);
-```
-
-### getCategories($reload = false) <a id="getCategories"></a>
-
-> Get the associated categories.
-
-**Parameters:**
-
-* `boolean` *$reload (optional):* Force data reloading.
-
-**Returns:**
-
-`\Phproberto\Joomla\Entity\Collection`
-
-**Examples:**
-
-```php
-$class = new ClassWithCategories;
-
-// This loads categories first time is called
-$categories = $class->getCategories();
-
-// This loads cached categories
-$categories = $class->getCategories();
-
-// This forces data reloading
-$categories = $class->getCategories(true);
 ```
 
 ### hasCategory($id) <a id="hasCategory"></a>
