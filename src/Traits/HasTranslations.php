@@ -32,14 +32,13 @@ trait HasTranslations
 	protected $translationsByTag;
 
 	/**
-	 * Get the name of the column that stores language tag.
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
 	 *
 	 * @return  string
 	 */
-	protected function columnLanguage()
-	{
-		return $this->table()->getColumnAlias('language');
-	}
+	abstract public function columnAlias($column);
 
 	/**
 	 * Check if this entity has an associated translation.
@@ -116,7 +115,7 @@ trait HasTranslations
 
 			foreach ($this->translations() as $translation)
 			{
-				$tag = $translation->get($this->columnLanguage());
+				$tag = $translation->get($this->columnAlias('language'));
 				$this->translationsByTag[$tag] = $translation;
 			}
 		}

@@ -32,37 +32,6 @@ class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * columnLanguage returns correct value.
-	 *
-	 * @return  void
-	 */
-	public function testColumnLanguageReturnsCorrectValue()
-	{
-		$tableMock = $this->getMockBuilder('TableMock')
-			->disableOriginalConstructor()
-			->setMethods(array('getColumnAlias'))
-			->getMock();
-
-		$tableMock->expects($this->once())
-			->method('getColumnAlias')
-			->willReturn('language');
-
-		$entity = $this->getMockBuilder(EntityWithTranslations::class)
-			->setMethods(array('table'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('table')
-			->willReturn($tableMock);
-
-		$reflection = new \ReflectionClass($entity);
-		$method = $reflection->getMethod('columnLanguage');
-		$method->setAccessible(true);
-
-		$this->assertSame('language', $method->invoke($entity));
-	}
-
-	/**
 	 * hasTranslation returns correct value.
 	 *
 	 * @return  void
