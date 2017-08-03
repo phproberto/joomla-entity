@@ -20,7 +20,7 @@ use Phproberto\Joomla\Entity\Tests\Users\Traits\Stubs\EntityWithAuthorAndEditor;
 class HasAuthorTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * Name of the primary key
+	 * Name of the author column.
 	 *
 	 * @const
 	 */

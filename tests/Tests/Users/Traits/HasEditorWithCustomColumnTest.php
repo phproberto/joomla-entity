@@ -14,16 +14,16 @@ use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Tests\Users\Traits\Stubs\EntityWithAuthorAndEditor;
 
 /**
- * HasAuthor trait tests for entities with custom author column.
+ * HasEditor trait tests for entities with custom editor column.
  *
  * @since   __DEPLOY_VERSION__
  */
-class HasAuthorWithCustomColumnTest extends HasAuthorTest
+class HasEditorWithCustomColumnTest extends HasEditorTest
 {
 	/**
-	 * Name of the author column.
+	 * Name of the editor column.
 	 *
 	 * @const
 	 */
-	const AUTHOR_COLUMN = 'created_user_id';
+	const EDITOR_COLUMN = 'modified_user_id';
 }
