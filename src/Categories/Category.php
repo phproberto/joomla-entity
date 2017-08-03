@@ -22,8 +22,8 @@ use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
  */
 class Category extends Entity
 {
-	use CoreTraits\HasAsset;
-	use EntityTraits\HasAccess, EntityTraits\HasAssociations, EntityTraits\HasParams, EntityTraits\HasTranslations;
+	use CoreTraits\HasAccess, CoreTraits\HasAsset;
+	use EntityTraits\HasAssociations, EntityTraits\HasParams, EntityTraits\HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
 	/**

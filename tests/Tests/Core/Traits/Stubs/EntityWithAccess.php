@@ -6,10 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Traits\HasAccess;
+use Phproberto\Joomla\Entity\Core\Traits\HasAccess;
 
 /**
  * Sample entity to test HasAccess trait.
