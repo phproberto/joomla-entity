@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
 use Phproberto\Joomla\Entity\Core\Asset;
+use Phproberto\Joomla\Entity\Core\Column;
 
 defined('JPATH_PLATFORM') || die;
 
@@ -57,13 +58,14 @@ trait HasAsset
 	 */
 	protected function loadAsset()
 	{
+		$column = $this->columnAlias(Column::ASSET);
 		$data = $this->all();
 
-		if (empty($data['asset_id']))
+		if (empty($data[$column]))
 		{
 			return new Asset;
 		}
 
-		return Asset::instance($data['asset_id']);
+		return Asset::instance($data[$column]);
 	}
 }

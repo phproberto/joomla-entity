@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+use Phproberto\Joomla\Entity\Core\Column;
+
 /**
  * Trait for entities with access column.
  *
@@ -55,7 +57,7 @@ trait HasAccess
 	 */
 	public function access()
 	{
-		return (int) $this->get($this->columnAlias('access'));
+		return (int) $this->get($this->columnAlias(Column::ACCESS));
 	}
 
 	/**
