@@ -96,7 +96,7 @@ class Article extends Entity
 	protected function loadCategory()
 	{
 		$column = $this->columnAlias('category_id');
-		$data    = $this->all();
+		$data   = $this->all();
 
 		if (array_key_exists($column, $data))
 		{
