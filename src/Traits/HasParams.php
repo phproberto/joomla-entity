@@ -34,6 +34,15 @@ trait HasParams
 	abstract public function assign($property, $value);
 
 	/**
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
+	 *
+	 * @return  string
+	 */
+	abstract public function columnAlias($column);
+
+	/**
 	 * Get the entity identifier.
 	 *
 	 * @return  integer
