@@ -34,5 +34,5 @@ This class allows you to use methods defined in these traits:
 * [Phproberto\Joomla\Entity\Core\Traits\HasImages](../Core/Traits/HasImages.md)
 * [Phproberto\Joomla\Entity\Core\Traits\HasLink](../Core/Traits/HasLink.md)
 * [Phproberto\Joomla\Entity\Core\Traits\HasMetadata](../Core/Traits/HasMetadata.md)
-* [Phproberto\Joomla\Entity\Traits\HasParams](../Traits/HasParams.md)
+* [Phproberto\Joomla\Entity\Core\Traits\HasParams](../Core/Traits/HasParams.md)
 * [Phproberto\Joomla\Entity\Traits\HasState](../Traits/HasState.md)

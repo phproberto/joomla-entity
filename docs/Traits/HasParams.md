@@ -1,6 +1,6 @@
 # HasParams trait
 
-`Phproberto\Joomla\Entity\Traits\HasParams`
+`Phproberto\Joomla\Entity\Core\Traits\HasParams`
 
 > Trait for entities with params. Based on params | attribs columns.
 
