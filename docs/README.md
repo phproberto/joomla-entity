@@ -9,7 +9,6 @@
         * [HasFeatured](./Traits/HasFeatured.md)
         * [HasImages](./Traits/HasImages.md)
         * [HasLink](./Traits/HasLink.md)
-        * [HasMetadata](./Traits/HasMetadata.md)
         * [HasParams](./Traits/HasParams.md)
         * [HasState](./Traits/HasState.md)
         * [HasTranslations](./Traits/HasTranslations.md)
@@ -24,6 +23,7 @@
         * [HasAsset](./Core/Traits/HasAsset.md)
         * [HasClient](./Core/Traits/HasClient.md)
         * [HasComponent](./Core/Traits/HasComponent.md)
+        * [HasMetadata](./Core/Traits/HasMetadata.md)
 * com_categories
     * Entities
         * [Category](./Categories/Category.md)

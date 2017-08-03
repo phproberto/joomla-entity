@@ -8,4 +8,31 @@
 
 * [Usage](#usage)
 * [Methods](#methods)
+    * [Traits](#traits)
 
+## Usage <a id="usage"></a>
+
+To start using this entity you have to load the `phproberto_library` and add the use statement like:
+
+```php
+\JLoader::import('phproberto_entity.library');
+
+use Phproberto\Joomla\Entity\Tags\Tag;
+
+// Load the tag with id = 1
+$tag = Tag::instance(1);
+```
+
+## Methods <a id="methods"></a>
+
+This entity has these methods available:
+
+### Traits <a id="traits"></a>
+
+This class allows you to use methods defined in these traits:
+
+* [Phproberto\Joomla\Entity\Core\Traits\HasMetadata](../Core/Traits/HasMetadata.md)
+* [Phproberto\Joomla\Entity\Traits\HasLink](../Traits/HasLink.md)
+* [Phproberto\Joomla\Entity\Traits\HasImages](../Traits/HasImages.md)
+* [Phproberto\Joomla\Entity\Traits\HasParams](../Traits/HasParams.md)
+* [Phproberto\Joomla\Entity\Traits\HasState](../Traits/HasState.md)

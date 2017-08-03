@@ -1,6 +1,6 @@
 # HasMetadata trait
 
-`Phproberto\Joomla\Entity\Traits\HasMetadata`
+`Phproberto\Joomla\Entity\Core\Traits\HasMetadata`
 
 > Trait for entities with metadata. Based on metadata columns.
 
