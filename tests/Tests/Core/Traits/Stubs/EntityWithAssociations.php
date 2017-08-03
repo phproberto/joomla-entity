@@ -6,11 +6,11 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Traits\HasAssociations;
+use Phproberto\Joomla\Entity\Core\Traits\HasAssociations;
 
 /**
  * Sample entity to test HasAssociations trait.

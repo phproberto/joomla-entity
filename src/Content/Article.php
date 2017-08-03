@@ -27,9 +27,9 @@ use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
 class Article extends Entity
 {
 	use CategoriesTraits\HasCategory;
-	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasComponent, CoreTraits\HasMetadata;
+	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasComponent, CoreTraits\HasMetadata;
 	use TagsTraits\HasTags;
-	use EntityTraits\HasAssociations, EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages;
+	use EntityTraits\HasFeatured, EntityTraits\HasLink, EntityTraits\HasImages;
 	use EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasTranslations, EntityTraits\HasUrls;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 

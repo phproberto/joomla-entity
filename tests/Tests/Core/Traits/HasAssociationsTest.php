@@ -6,10 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithAssociations;
+use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithAssociations;
 
 /**
  * HasAssociations trait tests.
