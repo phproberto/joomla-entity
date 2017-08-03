@@ -11,7 +11,6 @@ namespace Phproberto\Joomla\Entity;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Traits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
-use Phproberto\Joomla\Entity\Traits as EntityTraits;
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
 

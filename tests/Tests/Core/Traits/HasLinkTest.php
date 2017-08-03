@@ -6,9 +6,9 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
-use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithLink;
+use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithLink;
 
 /**
  * HasLink trait tests.

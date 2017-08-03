@@ -6,10 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Traits\HasLink;
+use Phproberto\Joomla\Entity\Core\Traits\HasLink;
 
 /**
  * Sample entity to test HasLink trait.
