@@ -34,8 +34,8 @@ This class allows you to use methods defined in these traits:
 
 * [Phproberto\Joomla\Entity\Core\Traits\HasAccess](../Core/Traits/HasAccess.md)
 * [Phproberto\Joomla\Entity\Core\Traits\HasAsset](../Core/Traits/HasAsset.md)
+* [Phproberto\Joomla\Entity\Core\Traits\HasAssociations](../Core/Traits/HasAssociations.md)
 * [Phproberto\Joomla\Entity\Core\Traits\HasMetadata](../Core/Traits/HasMetadata.md)
-* [Phproberto\Joomla\Entity\Traits\HasAssociations](../Traits/HasAssociations.md)
 * [Phproberto\Joomla\Entity\Traits\HasParams](../Traits/HasParams.md)
 * [Phproberto\Joomla\Entity\Traits\HasTranslations](../Traits/HasTranslations.md)
 * [Phproberto\Joomla\Entity\Users\Traits\HasAuthor](../Users/Traits/HasAuthor.md)

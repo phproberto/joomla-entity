@@ -1,6 +1,6 @@
 # HasAssociations trait
 
-`Phproberto\Joomla\Entity\Traits\HasAssociations`
+`Phproberto\Joomla\Entity\Core\Traits\HasAssociations`
 
 > Trait for entities with associations.
 
@@ -20,7 +20,7 @@
 To start using this trait you have to include in your class the line:
 
 ```php
-use Phproberto\Joomla\Entity\Traits\HasAssociations;
+use Phproberto\Joomla\Entity\Core\Traits\HasAssociations;
 ```
 
 And then include the `use` statement inside the class like:
