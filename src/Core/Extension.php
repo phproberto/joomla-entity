@@ -92,13 +92,15 @@ class Extension extends Entity
 	}
 
 	/**
-	 * Get the name of the column that stores state.
+	 * Get the list of column aliases.
 	 *
-	 * @return  string
+	 * @return  array
 	 */
-	protected function columnState()
+	public function columnAliases()
 	{
-		return 'enabled';
+		return array(
+			'published' => 'enabled'
+		);
 	}
 
 	/**

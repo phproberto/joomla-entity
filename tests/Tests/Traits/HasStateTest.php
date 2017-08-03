@@ -18,36 +18,6 @@ use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithState;
 class HasStateTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * columnState returns table value.
-	 *
-	 * @return  void
-	 */
-	public function testColumnStateReturnsTableValue()
-	{
-		$tableMock = $this->getMockBuilder(\JTable::class)
-			->disableOriginalConstructor()
-			->setMethods(array('getColumnAlias'))
-			->getMock();
-
-		$tableMock->expects($this->once())
-			->method('getColumnAlias')
-			->willReturn('state');
-
-		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('table'))
-			->getMock();
-
-		$entity->method('table')
-			->willReturn($tableMock);
-
-		$reflection = new \ReflectionClass($entity);
-		$method = $reflection->getMethod('columnState');
-		$method->setAccessible(true);
-
-		$this->assertSame('state', $method->invoke($entity));
-	}
-
-	/**
 	 * getState throws RuntimeException for missing state column.
 	 *
 	 * @return  void
@@ -145,10 +115,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	public function testIsArchivedReturnsCorrectValue()
 	{
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('columnState'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$entity->method('columnState')
+		$entity->method('columnAlias')
 			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
@@ -176,10 +146,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	public function testIsDisabledReturnsCorrectValue()
 	{
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('columnState'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$entity->method('columnState')
+		$entity->method('columnAlias')
 			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
@@ -203,10 +173,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	public function testIsEnabledReturnsCorrectValue()
 	{
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('columnState'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$entity->method('columnState')
+		$entity->method('columnAlias')
 			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
@@ -230,10 +200,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	public function testIsOnStateReturnsCorrectValue()
 	{
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('columnState'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$entity->method('columnState')
+		$entity->method('columnAlias')
 			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
@@ -265,10 +235,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	public function testIsPublishedReturnsCorrectValue()
 	{
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('columnState'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$entity->method('columnState')
+		$entity->method('columnAlias')
 			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
@@ -296,10 +266,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	public function testIsUnpublishedReturnsCorrectValue()
 	{
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('columnState'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$entity->method('columnState')
+		$entity->method('columnAlias')
 			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);
@@ -327,10 +297,10 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	public function testIsTrashedReturnsCorrectValue()
 	{
 		$entity = $this->getMockBuilder(EntityWithState::class)
-			->setMethods(array('columnState'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$entity->method('columnState')
+		$entity->method('columnAlias')
 			->willReturn('state');
 
 		$reflection = new \ReflectionClass($entity);

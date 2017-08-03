@@ -30,19 +30,6 @@ trait HasState
 	abstract public function all();
 
 	/**
-	 * Get a table.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  \JTable
-	 *
-	 * @codeCoverageIgnore
-	 */
-	abstract public function table($name = '', $prefix = null, $options = array());
-
-	/**
 	 * Get a list of available states.
 	 *
 	 * @return  string
@@ -55,16 +42,6 @@ trait HasState
 			self::STATE_ARCHIVED    => \JText::_('JARCHIVEDSTATE_ARCHIVED'),
 			self::STATE_TRASHED     => \JText::_('JTRASHED')
 		);
-	}
-
-	/**
-	 * Get the name of the column that stores state.
-	 *
-	 * @return  string
-	 */
-	protected function columnState()
-	{
-		return $this->table()->getColumnAlias('published');
 	}
 
 	/**
@@ -148,7 +125,7 @@ trait HasState
 	 */
 	public function state()
 	{
-		$column = $this->columnState();
+		$column = $this->columnAlias('published');
 		$data = $this->all();
 
 		if (!array_key_exists($column, $data))
