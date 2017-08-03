@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Traits;
+namespace Phproberto\Joomla\Entity\Core\Traits;
 
 /**
  * Trait for entities with images.
@@ -48,7 +48,7 @@ trait HasImages
 	{
 		$images = $this->getImages();
 
-		return array_key_exists('full', $images) ? $images['full'] : [];
+		return array_key_exists('full', $images) ? $images['full'] : array();
 	}
 
 	/**
@@ -77,7 +77,7 @@ trait HasImages
 	{
 		$images = $this->getImages();
 
-		return array_key_exists('intro', $images) ? $images['intro'] : [];
+		return array_key_exists('intro', $images) ? $images['intro'] : array();
 	}
 
 	/**
@@ -112,12 +112,12 @@ trait HasImages
 
 		if (empty($data[$column]))
 		{
-			return [];
+			return array();
 		}
 
 		$data = (array) json_decode($data[$column]);
 
-		$images = [];
+		$images = array();
 
 		if ($introImage = $this->parseImage('intro', $data))
 		{
@@ -142,19 +142,19 @@ trait HasImages
 	 */
 	private function parseImage($name, array $data)
 	{
-		$image = [];
+		$image = array();
 
 		if (empty($data['image_' . $name]))
 		{
 			return $image;
 		}
 
-		$properties = [
+		$properties = array(
 			'url'     => 'image_' . $name,
 			'float'   => 'float_' . $name,
 			'alt'     => 'image_' . $name . '_alt',
 			'caption' => 'image_' . $name . '_caption'
-		];
+		);
 
 		foreach ($properties as $key => $property)
 		{
