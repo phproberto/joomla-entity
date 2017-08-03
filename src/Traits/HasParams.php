@@ -104,7 +104,7 @@ trait HasParams
 	public function saveParams()
 	{
 		$column = $this->columnAlias('params');
-		$data    = $this->all();
+		$data   = $this->all();
 
 		if (!array_key_exists($column, $data))
 		{
