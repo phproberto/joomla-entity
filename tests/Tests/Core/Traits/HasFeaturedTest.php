@@ -6,9 +6,9 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
-use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithFeatured;
+use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithFeatured;
 
 /**
  * HasFeatured trait tests.
@@ -44,7 +44,7 @@ class HasFeaturedTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, ['id' => 999]);
+		$rowProperty->setValue($entity, array('id' => 999));
 
 		$featuredProperty = $reflection->getProperty('featured');
 		$featuredProperty->setAccessible(true);
@@ -71,10 +71,10 @@ class HasFeaturedTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, ['id' => 999]);
+		$rowProperty->setValue($entity, array('id' => 999));
 		$this->assertFalse($entity->isFeatured());
 
-		$rowProperty->setValue($entity, ['id' => 999, 'featured' => 1]);
+		$rowProperty->setValue($entity, array('id' => 999, 'featured' => 1));
 		$this->assertFalse($entity->isFeatured());
 		$this->assertTrue($entity->isFeatured(true));
 	}
@@ -91,23 +91,23 @@ class HasFeaturedTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, ['id' => 999]);
+		$rowProperty->setValue($entity, array('id' => 999));
 
 		$this->assertFalse($entity->isFeatured());
 
-		$rowProperty->setValue($entity, ['id' => 999, 'featured' => 0]);
+		$rowProperty->setValue($entity, array('id' => 999, 'featured' => 0));
 
 		$this->assertFalse($entity->isFeatured(true));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'featured' => '0']);
+		$rowProperty->setValue($entity, array('id' => 999, 'featured' => '0'));
 
 		$this->assertFalse($entity->isFeatured(true));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'featured' => '1']);
+		$rowProperty->setValue($entity, array('id' => 999, 'featured' => '1'));
 
 		$this->assertTrue($entity->isFeatured(true));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'featured' => 1]);
+		$rowProperty->setValue($entity, array('id' => 999, 'featured' => 1));
 
 		$this->assertTrue($entity->isFeatured(true));
 	}
