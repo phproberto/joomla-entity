@@ -23,6 +23,15 @@ trait HasAccess
 	protected $access;
 
 	/**
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
+	 *
+	 * @return  string
+	 */
+	abstract public function columnAlias($column);
+
+	/**
 	 * Get a property of this entity.
 	 *
 	 * @param   string  $property  Name of the property to get
