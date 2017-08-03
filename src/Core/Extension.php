@@ -10,7 +10,6 @@ namespace Phproberto\Joomla\Entity\Core;
 
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
-use Phproberto\Joomla\Entity\Traits;
 
 /**
  * Extension entity.
@@ -19,8 +18,7 @@ use Phproberto\Joomla\Entity\Traits;
  */
 class Extension extends Entity
 {
-	use CoreTraits\HasAccess, CoreTraits\HasClient, CoreTraits\HasParams;
-	use Traits\HasState;
+	use CoreTraits\HasAccess, CoreTraits\HasClient, CoreTraits\HasParams, CoreTraits\HasState;
 
 	/**
 	 * Component extension type

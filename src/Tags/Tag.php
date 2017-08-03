@@ -9,9 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tags;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
-use Phproberto\Joomla\Entity\Traits as EntityTraits;
 
 /**
  * Tag entity.
@@ -20,9 +18,7 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
  */
 class Tag extends Entity
 {
-	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata, CoreTraits\HasParams;
-	use EntityTraits\HasState;
-
+	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasState;
 	/**
 	 * Get a table.
 	 *
