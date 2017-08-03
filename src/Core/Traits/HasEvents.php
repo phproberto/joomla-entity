@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Traits;
+namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') or die;
 
@@ -29,7 +29,7 @@ trait HasEvents
 	 *
 	 * @return  \JEventDispatcher
 	 */
-	protected function getDispatcher()
+	protected function dispatcher()
 	{
 		return \JEventDispatcher::getInstance();
 	}
@@ -39,7 +39,7 @@ trait HasEvents
 	 *
 	 * @return  array
 	 */
-	protected function getEventsPlugins()
+	protected function eventsPlugins()
 	{
 		return array('joomla_entity');
 	}
@@ -84,7 +84,7 @@ trait HasEvents
 	 */
 	private function importPlugins()
 	{
-		foreach ($this->getEventsPlugins() as $plugin)
+		foreach ($this->eventsPlugins() as $plugin)
 		{
 			$this->importPlugin($plugin);
 		}
@@ -104,6 +104,6 @@ trait HasEvents
 
 		array_unshift($params, $this);
 
-		return $this->getDispatcher()->trigger($event, $params);
+		return $this->dispatcher()->trigger($event, $params);
 	}
 }

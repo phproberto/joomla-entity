@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
 
@@ -27,7 +27,7 @@ class HasEventsTest extends \PHPUnit\Framework\TestCase
 		$entity = new Entity;
 
 		$reflection = new \ReflectionClass($entity);
-		$method = $reflection->getMethod('getDispatcher');
+		$method = $reflection->getMethod('dispatcher');
 		$method->setAccessible(true);
 
 		$this->assertInstanceOf(\JEventDispatcher::class, $method->invoke($entity));
@@ -104,13 +104,13 @@ class HasEventsTest extends \PHPUnit\Framework\TestCase
 			->willReturn($response);
 
 		$entity = $this->getMockBuilder(Entity::class)
-			->setMethods(array('importJoomlaPlugin', 'getDispatcher'))
+			->setMethods(array('importJoomlaPlugin', 'dispatcher'))
 			->getMock();
 
 		$entity->method('importJoomlaPlugin')
 			->willReturn(true);
 
-		$entity->method('getDispatcher')
+		$entity->method('dispatcher')
 			->willReturn($dispatcher);
 
 		if ($id)
