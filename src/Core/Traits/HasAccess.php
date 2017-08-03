@@ -49,6 +49,16 @@ trait HasAccess
 	abstract public function hasId();
 
 	/**
+	 * Get access level required for this entity.
+	 *
+	 * @return  integer
+	 */
+	public function access()
+	{
+		return (int) $this->get($this->columnAlias('access'));
+	}
+
+	/**
 	 * Can current user access this entity?
 	 *
 	 * @param   boolean  $reload  Force reloading
@@ -81,16 +91,6 @@ trait HasAccess
 
 		$authorised = \JAccess::getAuthorisedViewLevels(\JFactory::getUser()->get('id'));
 
-		return in_array($this->getAccess(), $authorised);
-	}
-
-	/**
-	 * Get access level required for this entity.
-	 *
-	 * @return  integer
-	 */
-	public function access()
-	{
-		return (int) $this->get($this->columnAlias('access'));
+		return in_array($this->access(), $authorised);
 	}
 }
