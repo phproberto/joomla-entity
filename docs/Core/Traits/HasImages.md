@@ -1,6 +1,6 @@
 # HasImages trait
 
-`Phproberto\Joomla\Entity\Traits\HasImages`
+`Phproberto\Joomla\Entity\Core\Traits\HasImages`
 
 > Trait for entities with images.
 
