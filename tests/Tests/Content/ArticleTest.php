@@ -255,7 +255,7 @@ class ArticleTest extends \TestCaseDatabase
 			'foo' => 'bar'
 		);
 
-		$this->assertEquals($expected, $article->getMetadata());
+		$this->assertEquals($expected, $article->metadata());
 	}
 
 	/**

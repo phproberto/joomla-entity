@@ -49,7 +49,7 @@ trait HasMetadata
 	 *
 	 * @return  array
 	 */
-	public function getMetadata($reload = false)
+	public function metadata($reload = false)
 	{
 		if ($reload || null === $this->metadata)
 		{

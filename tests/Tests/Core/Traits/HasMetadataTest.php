@@ -42,24 +42,24 @@ class HasMetadataTest extends \PHPUnit\Framework\TestCase
 		$rowProperty->setAccessible(true);
 		$rowProperty->setValue($entity, array('id' => 999));
 
-		$this->assertEquals(array(), $entity->getMetadata(true));
+		$this->assertEquals(array(), $entity->metadata(true));
 
 		$rowProperty->setValue($entity, array('id' => 999, Column::METADATA => ''));
 
-		$this->assertEquals(array(), $entity->getMetadata(true));
+		$this->assertEquals(array(), $entity->metadata(true));
 
 		$rowProperty->setValue($entity, array('id' => 999, Column::METADATA => '{}'));
 
-		$this->assertEquals(array(), $entity->getMetadata(true));
+		$this->assertEquals(array(), $entity->metadata(true));
 
 		$rowProperty->setValue($entity, array('id' => 999, Column::METADATA => '{"robots":"","author":"","rights":"","xreference":""}'));
 
-		$this->assertEquals(array(), $entity->getMetadata(true));
+		$this->assertEquals(array(), $entity->metadata(true));
 
 		$rowProperty->setValue($entity, array('id' => 999, Column::METADATA => '{"robots":"noindex, follow","author":"Roberto Segura","rights":"Creative Commons","xreference":"http:\/\/phproberto.com"}'));
 
 		// Without reload = old data
-		$this->assertEquals(array(), $entity->getMetadata());
+		$this->assertEquals(array(), $entity->metadata());
 
 		$expected = array(
 			'robots'     => 'noindex, follow',
@@ -68,7 +68,7 @@ class HasMetadataTest extends \PHPUnit\Framework\TestCase
 			'xreference' => 'http://phproberto.com'
 		);
 
-		$this->assertEquals($expected, $entity->getMetadata(true));
+		$this->assertEquals($expected, $entity->metadata(true));
 
 		$rowProperty->setValue($entity, array('id' => 999, Column::METADATA => '{"robots":"noindex, follow","author":"Roberto Segura","xreference":"http:\/\/phproberto.com"}'));
 
@@ -78,7 +78,7 @@ class HasMetadataTest extends \PHPUnit\Framework\TestCase
 			'xreference' => 'http://phproberto.com'
 		);
 
-		$this->assertEquals($expected, $entity->getMetadata(true));
+		$this->assertEquals($expected, $entity->metadata(true));
 
 		$rowProperty->setValue($entity, array('id' => 999, Column::METADATA => '{"author":"Roberto Segura","xreference":"http:\/\/phproberto.com"}'));
 
@@ -87,7 +87,7 @@ class HasMetadataTest extends \PHPUnit\Framework\TestCase
 			'xreference' => 'http://phproberto.com'
 		);
 
-		$this->assertEquals($expected, $entity->getMetadata(true));
+		$this->assertEquals($expected, $entity->metadata(true));
 
 		$rowProperty->setValue($entity, array('id' => 999, Column::METADATA => '{"author":"Roberto Segura"}'));
 
@@ -95,6 +95,6 @@ class HasMetadataTest extends \PHPUnit\Framework\TestCase
 			'author' => 'Roberto Segura'
 		);
 
-		$this->assertEquals($expected, $entity->getMetadata(true));
+		$this->assertEquals($expected, $entity->metadata(true));
 	}
 }
