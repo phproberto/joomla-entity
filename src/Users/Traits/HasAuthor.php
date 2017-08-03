@@ -27,6 +27,15 @@ trait HasAuthor
 	protected $author;
 
 	/**
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
+	 *
+	 * @return  string
+	 */
+	abstract public function columnAlias($column);
+
+	/**
 	 * Get this entity author.
 	 *
 	 * @param   boolean  $reload  Force data reloading
@@ -44,23 +53,13 @@ trait HasAuthor
 	}
 
 	/**
-	 * Get the name of the column that stores author id.
-	 *
-	 * @return  string
-	 */
-	protected function columnAuthor()
-	{
-		return $this->table()->getColumnAlias('created_by');
-	}
-
-	/**
 	 * Check if this entity has an associated author.
 	 *
 	 * @return  boolean
 	 */
 	public function hasAuthor()
 	{
-		$authorId = (int) $this->get($this->columnAuthor());
+		$authorId = (int) $this->get($this->columnAlias('created_by'));
 
 		return !empty($authorId);
 	}
@@ -74,7 +73,7 @@ trait HasAuthor
 	 */
 	protected function loadAuthor()
 	{
-		$authorId = (int) $this->get($this->columnAuthor());
+		$authorId = (int) $this->get($this->columnAlias('created_by'));
 
 		return User::instance($authorId);
 	}
