@@ -6,9 +6,9 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
-use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithUrls;
+use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithUrls;
 
 /**
  * HasUrls trait tests.
