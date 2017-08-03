@@ -1,6 +1,6 @@
 # HasAccess trait
 
-`Phproberto\Joomla\Entity\Traits\HasAccess`
+`Phproberto\Joomla\Entity\Core\Traits\HasAccess`
 
 > Trait for classes that have an `access` column to specify the entity access view level.
 
@@ -9,8 +9,8 @@
 * [Requirements](#requirements)
 * [Usage](#usage)
 * [Methods](#methods)
+    * [access()](#access)
     * [canAccess($reload = false)](#canAccess)
-    * [getAccess()](#getAccess)
 
 ## Requirements <a id="requirements"></a>
 
@@ -34,7 +34,7 @@ protected function getColumnAccess()
 To start using this trait you have to include in your class the line:
 
 ```php
-use Phproberto\Joomla\Entity\Traits\HasAccess;
+use Phproberto\Joomla\Entity\Core\Traits\HasAccess;
 ```
 
 And then include the `use` statement inside the class like:
@@ -49,6 +49,27 @@ class Article extends Entity
 ## Methods <a id="methods"></a>
 
 When implementing this trait you can start using following methods in your entity:
+
+### access() <a id="access"></a>
+
+> Get access level required for this entity.
+
+**Parameters:**
+
+None
+
+**Returns:**
+
+`integer`
+
+**Examples:**
+
+```php
+if (0 === $article->access())
+{
+	// 0 is usually public access level but this is a shit check
+}
+```
 
 ### canAccess($reload = false) <a id="canAccess"></a>
 
@@ -72,26 +93,5 @@ $link = $article->canAccess() ? $article->getLink() : JRoute::_('index.php?optio
 if ($article->canAccess())
 {
 	// Show/do something
-}
-```
-
-### getAccess() <a id="getAccess"></a>
-
-> Get access level required for this entity.
-
-**Parameters:**
-
-None
-
-**Returns:**
-
-`integer`
-
-**Examples:**
-
-```php
-if (0 === $article->getAccess())
-{
-	// 0 is usually public access level but this is a shit check
 }
 ```
