@@ -36,6 +36,18 @@ trait HasEditor
 	abstract public function columnAlias($column);
 
 	/**
+	 * Get a property of this entity.
+	 *
+	 * @param   string  $property  Name of the property to get
+	 * @param   mixed   $default   Value to use as default if property is null
+	 *
+	 * @return  mixed
+	 *
+	 * @throws  \InvalidArgumentException  Property does not exist
+	 */
+	abstract public function get($property, $default = null);
+
+	/**
 	 * Get this entity author.
 	 *
 	 * @param   boolean  $reload  Force data reloading
