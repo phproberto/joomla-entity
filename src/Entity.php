@@ -125,6 +125,35 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
+	 *
+	 * @return  string
+	 */
+	public function columnAlias($column)
+	{
+		$entityAliases = $this->columnAliases();
+
+		if (array_key_exists($column, $entityAliases))
+		{
+			return $entityAliases[$column];
+		}
+
+		return $this->table()->getColumnAlias($column);
+	}
+
+	/**
+	 * Get the list of column aliases.
+	 *
+	 * @return  array
+	 */
+	public function columnAliases()
+	{
+		return array();
+	}
+
+	/**
 	 * Get an \JDate object from an entity date property.
 	 *
 	 * @param   string   $property   Name of the property to use as source date

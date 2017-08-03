@@ -262,6 +262,65 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * columnAlias returns sent column if not alias is set.
+	 *
+	 * @return  void
+	 */
+	public function testColumnAliasReturnsSentColumnIfNoAliasIsSet()
+	{
+		$tableMock = $this->getMockBuilder('MockedTable')
+			->disableOriginalConstructor()
+			->setMethods(array('getColumnAlias'))
+			->getMock();
+
+		$tableMock->expects($this->once())
+			->method('getColumnAlias')
+			->willReturn('published');
+
+		$entity = $this->getMockBuilder(Entity::class)
+			->disableOriginalConstructor()
+			->setMethods(array('table'))
+			->getMock();
+
+		$entity
+			->method('table')
+			->willReturn($tableMock);
+
+		$this->assertSame('published', $entity->columnAlias('published'));
+	}
+
+	/**
+	 * columnAlias returns entity alias if set.
+	 *
+	 * @return  void
+	 */
+	public function testColumnAliasReturnsEntityAliasIfSet()
+	{
+		$entity = $this->getMockBuilder(Entity::class)
+			->disableOriginalConstructor()
+			->setMethods(array('columnAliases'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('columnAliases')
+			->willReturn(array('published' => 'entityValue'));
+
+		$this->assertSame('entityValue', $entity->columnAlias('published'));
+	}
+
+	/**
+	 * columnAliases returns array.
+	 *
+	 * @return  void
+	 */
+	public function testColumnAliasesReturnsAnArray()
+	{
+		$entity = new Entity;
+
+		$this->assertSame(true, is_array($entity->columnAliases()));
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @return  void
