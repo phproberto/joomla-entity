@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+use Phproberto\Joomla\Entity\Core\Column;
+
 /**
  * Trait for entities with metadata. Based on metadata columns.
  *
@@ -23,14 +25,22 @@ trait HasMetadata
 	protected $metadata;
 
 	/**
-	 * Get the name of the column that stores metadata.
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
 	 *
 	 * @return  string
 	 */
-	protected function getColumnMetadata()
-	{
-		return 'metadata';
-	}
+	abstract public function columnAlias($column);
+
+	/**
+	 * Get the content of a column with data stored in JSON.
+	 *
+	 * @param   string  $property  Name of the column storing data
+	 *
+	 * @return  array
+	 */
+	abstract public function json($property);
 
 	/**
 	 * Get article metadata.
@@ -43,18 +53,9 @@ trait HasMetadata
 	{
 		if ($reload || null === $this->metadata)
 		{
-			$this->metadata = $this->json($this->getColumnMetadata());
+			$this->metadata = $this->json($this->columnAlias(Column::METADATA));
 		}
 
 		return $this->metadata;
 	}
-
-	/**
-	 * Get the content of a column with data stored in JSON.
-	 *
-	 * @param   string  $property  Name of the column storing data
-	 *
-	 * @return  array
-	 */
-	abstract public function json($property);
 }
