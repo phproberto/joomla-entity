@@ -6,10 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Traits;
+namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Tests\Traits\Stubs\EntityWithTranslations;
+use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithTranslations;
 
 /**
  * HasTranslations trait tests.
