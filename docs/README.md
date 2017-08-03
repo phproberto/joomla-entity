@@ -2,9 +2,7 @@
 
 * common
     * [Entity (base entity)](./Entity.md)
-     * [Collection](./Collection.md)
-    * Traits
-        * [HasUrls](./Traits/HasUrls.md)
+    * [Collection](./Collection.md)
 * core
     * Entities
         * [Asset](./Core/Asset.md)
@@ -24,6 +22,7 @@
         * [HasParams](./Core/Traits/HasParams.md)
         * [HasState](./Core/Traits/HasState.md)
         * [HasTranslations](./Core/Traits/HasTranslations.md)
+        * [HasUrls](./Core/Traits/HasUrls.md)
 * com_categories
     * Entities
         * [Category](./Categories/Category.md)

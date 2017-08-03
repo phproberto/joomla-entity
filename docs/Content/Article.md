@@ -43,8 +43,8 @@ This class allows you to use methods defined in these traits:
 * [Phproberto\Joomla\Entity\Core\Traits\HasParams](../Core/Traits/HasParams.md)
 * [Phproberto\Joomla\Entity\Core\Traits\HasState](../Core/Traits/HasState.md)
 * [Phproberto\Joomla\Entity\Core\Traits\HasTranslations](../Core/Traits/HasTranslations.md)
+* [Phproberto\Joomla\Entity\Core\Traits\HasUrls](../Core/Traits/HasUrls.md)
 * [Phproberto\Joomla\Entity\Tags\Traits\HasTags](../Tags/Traits/HasTags.md)
-* [Phproberto\Joomla\Entity\Traits\HasUrls](../Traits/HasUrls.md)
 * [Phproberto\Joomla\Entity\Users\Traits\HasAuthor](../Users/Traits/HasAuthor.md)
 * [Phproberto\Joomla\Entity\Users\Traits\HasEditor](../Users/Traits/HasEditor.md)
 

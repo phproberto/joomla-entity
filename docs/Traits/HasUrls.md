@@ -1,6 +1,6 @@
 # HasUrls trait
 
-`Phproberto\Joomla\Entity\Traits\HasUrls`
+`Phproberto\Joomla\Entity\Core\Traits\HasUrls`
 
 > Trait for entities with urls column.
 
