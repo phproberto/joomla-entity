@@ -30,6 +30,13 @@ abstract class Column
 	const ASSET = 'asset_id';
 
 	/**
+	 * Default column used to store client.
+	 *
+	 * @const
+	 */
+	const CLIENT = 'client_id';
+
+	/**
 	 * Default column used to store metadata.
 	 *
 	 * @const

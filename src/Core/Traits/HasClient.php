@@ -12,6 +12,7 @@ use Phproberto\Joomla\Client\Administrator;
 use Phproberto\Joomla\Client\Client;
 use Phproberto\Joomla\Client\ClientInterface;
 use Phproberto\Joomla\Client\Site;
+use Phproberto\Joomla\Entity\Core\Column;
 
 defined('JPATH_PLATFORM') || die;
 
@@ -42,16 +43,6 @@ trait HasClient
 	}
 
 	/**
-	 * Get the name of the column that stores category.
-	 *
-	 * @return  string
-	 */
-	protected function columnClient()
-	{
-		return 'client_id';
-	}
-
-	/**
 	 * Get the associated client.
 	 *
 	 * @param   boolean  $reload  Force reloading
@@ -75,15 +66,9 @@ trait HasClient
 	 */
 	protected function loadClient()
 	{
-		$column = $this->columnClient();
-		$data = $this->all();
+		$clientId = (int) $this->get($this->columnAlias(Column::CLIENT));
 
-		if (!array_key_exists($column, $data))
-		{
-			throw new \RuntimeException(__CLASS__ . ": Cannot load entity client");
-		}
-
-		return (int) $data[$column] ? Client::admin() : Client::site();
+		return $clientId ? Client::admin() : Client::site();
 	}
 
 	/**

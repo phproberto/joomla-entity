@@ -46,19 +46,13 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testAdminChangesActiveClient()
 	{
-		$class = new ClassWithClient(999);
+		$entity = $this->getEntity(array('id' => 999, 'client_id' => '0'));
 
-		$reflection = new \ReflectionClass($class);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
+		$this->assertInstanceOf(Site::class, $entity->client());
 
-		$rowProperty->setValue($class, array('id' => 999, 'client_id' => '0'));
+		$entity->admin();
 
-		$this->assertInstanceOf(Site::class, $class->client());
-
-		$class->admin();
-
-		$this->assertInstanceOf(Administrator::class, $class->client());
+		$this->assertInstanceOf(Administrator::class, $entity->client());
 	}
 
 	/**
@@ -68,21 +62,13 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testClientReturnsCorrectData()
 	{
-		$class = new ClassWithClient;
+		$entity = $this->getEntity(array('id' => 999, self::CLIENT_COLUMN => 0));
 
-		$reflection = new \ReflectionClass($class);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
+		$this->assertInstanceOf(Site::class, $entity->client());
 
-		$rowProperty->setValue($class, array('id' => 999, self::CLIENT_COLUMN => 0));
+		$entity = $this->getEntity(array('id' => 999, self::CLIENT_COLUMN => 1));
 
-		$this->assertInstanceOf(Site::class, $class->client());
-
-		$rowProperty->setValue($class, array('id' => 999, self::CLIENT_COLUMN => 1));
-
-		// Without force it should return cached client
-		$this->assertInstanceOf(Site::class, $class->client());
-		$this->assertInstanceOf(Administrator::class, $class->client(true));
+		$this->assertInstanceOf(Administrator::class, $entity->client(true));
 	}
 
 	/**
@@ -90,21 +76,18 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  \RuntimeException
+	 * @expectedException  \InvalidArgumentException
 	 */
 	public function testLoadClientThrowsExceptionWhenClientColumnIsNotFound()
 	{
-		$class = new ClassWithClient;
+		$entity = $this->getEntity(array('id' => 999));
 
-		$reflection = new \ReflectionClass($class);
+		$reflection = new \ReflectionClass($entity);
+
 		$method = $reflection->getMethod('loadClient');
 		$method->setAccessible(true);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($class, array('id' => 999));
-
-		$method->invoke($class);
+		$method->invoke($entity);
 	}
 
 	/**
@@ -114,49 +97,30 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testLoadClientReturnsCorrectValue()
 	{
-		$class = new ClassWithClient(999);
+		$entity = $this->getEntity(array('id' => 999, 'client_id' => 0));
 
-		$reflection = new \ReflectionClass($class);
+		$reflection = new \ReflectionClass($entity);
+
 		$method = $reflection->getMethod('loadClient');
 		$method->setAccessible(true);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($class, array('id' => 999, 'client_id' => 0));
+		$this->assertInstanceOf(Site::class, $method->invoke($entity));
 
-		$this->assertInstanceOf(Site::class, $method->invoke($class));
+		$entity = $this->getEntity(array('id' => 999, 'client_id' => '0'));
 
-		$rowProperty->setValue($class, array('id' => 999, 'client_id' => '0'));
+		$this->assertInstanceOf(Site::class, $method->invoke($entity));
 
-		$this->assertInstanceOf(Site::class, $method->invoke($class));
+		$entity = $this->getEntity(array('id' => 999, 'client_id' => 'thiswillreturn0'));
 
-		$rowProperty->setValue($class, array('id' => 999, 'client_id' => 'thiswillreturn0'));
+		$this->assertInstanceOf(Site::class, $method->invoke($entity));
 
-		$this->assertInstanceOf(Site::class, $method->invoke($class));
+		$entity = $this->getEntity(array('id' => 999, 'client_id' => 1));
 
-		$rowProperty->setValue($class, array('id' => 999, 'client_id' => 1));
+		$this->assertInstanceOf(Administrator::class, $method->invoke($entity));
 
-		$this->assertInstanceOf(Administrator::class, $method->invoke($class));
+		$entity = $this->getEntity(array('id' => 999, 'client_id' => '1'));
 
-		$rowProperty->setValue($class, array('id' => 999, 'client_id' => '1'));
-
-		$this->assertInstanceOf(Administrator::class, $method->invoke($class));
-	}
-
-	/**
-	 * columnClient returns correct value.
-	 *
-	 * @return  void
-	 */
-	public function testColumnClientReturnsCorrectValue()
-	{
-		$class = new ClassWithClient;
-
-		$reflection = new \ReflectionClass($class);
-		$method = $reflection->getMethod('columnClient');
-		$method->setAccessible(true);
-
-		$this->assertEquals(self::CLIENT_COLUMN, $method->invoke($class));
+		$this->assertInstanceOf(Administrator::class, $method->invoke($entity));
 	}
 
 	/**
@@ -166,18 +130,33 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testSiteChangesActiveClient()
 	{
-		$class = new ClassWithClient(999);
+		$entity = $this->getEntity(array('id' => 999, 'client_id' => '1'));
 
-		$reflection = new \ReflectionClass($class);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
+		$this->assertInstanceOf(Administrator::class, $entity->client());
 
-		$rowProperty->setValue($class, array('id' => 999, 'client_id' => '1'));
+		$entity->site();
 
-		$this->assertInstanceOf(Administrator::class, $class->client());
+		$this->assertInstanceOf(Site::class, $entity->client());
+	}
 
-		$class->site();
+	/**
+	 * Get a mocked entity with client.
+	 *
+	 * @param   array  $row  Row returned by the entity as data
+	 *
+	 * @return  \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private function getEntity($row = array())
+	{
+		$entity = $this->getMockBuilder(ClassWithClient::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
 
-		$this->assertInstanceOf(Site::class, $class->client());
+		$entity->method('columnAlias')
+			->willReturn('client_id');
+
+		$entity->bind($row);
+
+		return $entity;
 	}
 }

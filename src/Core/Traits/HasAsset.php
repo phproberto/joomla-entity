@@ -28,11 +28,23 @@ trait HasAsset
 	protected $asset;
 
 	/**
-	 * Get the attached database row.
+	 * Get the alias for a specific DB column.
 	 *
-	 * @return  array
+	 * @param   string  $column  Name of the DB column. Example: created_by
+	 *
+	 * @return  string
 	 */
-	abstract public function all();
+	abstract public function columnAlias($column);
+
+	/**
+	 * Get a property of this entity.
+	 *
+	 * @param   string  $property  Name of the property to get
+	 * @param   mixed   $default   Value to use as default if property is not set or is null
+	 *
+	 * @return  mixed
+	 */
+	abstract public function get($property, $default = null);
 
 	/**
 	 * Get the associated asset.
@@ -58,14 +70,15 @@ trait HasAsset
 	 */
 	protected function loadAsset()
 	{
-		$column = $this->columnAlias(Column::ASSET);
-		$data = $this->all();
-
-		if (empty($data[$column]))
+		try
 		{
-			return new Asset;
+			$assetId = (int) $this->get($this->columnAlias(Column::ASSET));
+		}
+		catch (\Exception $e)
+		{
+			$assetId = 0;
 		}
 
-		return Asset::instance($data[$column]);
+		return $assetId ? Asset::instance($assetId) : new Asset;
 	}
 }
