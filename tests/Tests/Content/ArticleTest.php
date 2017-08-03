@@ -8,10 +8,11 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content;
 
-use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Content\Article;
-use Phproberto\Joomla\Entity\Tags\Tag;
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Tags\Tag;
+use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Content\Article;
 
 /**
  * Article entity tests.
@@ -92,6 +93,42 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
 		$this->assertNotSame(0, $asset->id());
+	}
+
+	/**
+	 * author retrieved.
+	 *
+	 * @return  void
+	 */
+	public function testAuthorRetrieved()
+	{
+		$article = new Article(999);
+
+		$reflection = new \ReflectionClass($article);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($article, array('id' => 999, 'created_by' => 666));
+
+		$this->assertSame(User::instance(666), $article->author());
+	}
+
+	/**
+	 * editor retrieved.
+	 *
+	 * @return  void
+	 */
+	public function testEditorRetrieved()
+	{
+		$article = new Article(999);
+
+		$reflection = new \ReflectionClass($article);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($article, array('id' => 999, 'modified_by' => 666));
+
+		$this->assertSame(User::instance(666), $article->editor());
 	}
 
 	/**
