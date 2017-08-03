@@ -1,6 +1,6 @@
 # HasEvents trait
 
-`Phproberto\Joomla\Entity\Traits\HasEvents`
+`Phproberto\Joomla\Entity\Core\Traits\HasEvents`
 
 > Trait for entities with events column.
 
@@ -93,7 +93,7 @@ If your entity is not extending `Phproberto\Joomla\Entity\Entity` you can use th
 
 
 ```php
-use Phproberto\Joomla\Entity\Traits\HasEvents;
+use Phproberto\Joomla\Entity\Core\Traits\HasEvents;
 
 class Article extends MyCustomEntity
 {
@@ -101,10 +101,10 @@ class Article extends MyCustomEntity
 }
 ```
 
-If you want to customise the plugins used for triggered events you can override the `getEventsPlugins()` method:
+If you want to customise the plugins used for triggered events you can override the `eventsPlugins()` method:
 
 ```php
-use Phproberto\Joomla\Entity\Traits\HasEvents;
+use Phproberto\Joomla\Entity\Core\Traits\HasEvents;
 
 class Article extends MyCustomEntity
 {
@@ -115,7 +115,7 @@ class Article extends MyCustomEntity
 	 *
 	 * @return  array
 	 */
-	protected function getEventsPlugins()
+	protected function eventsPlugins()
 	{
 		return array('content', 'system');
 	}
