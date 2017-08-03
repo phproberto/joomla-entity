@@ -30,6 +30,15 @@ trait HasState
 	abstract public function all();
 
 	/**
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
+	 *
+	 * @return  string
+	 */
+	abstract public function columnAlias($column);
+
+	/**
 	 * Get a list of available states.
 	 *
 	 * @return  string
