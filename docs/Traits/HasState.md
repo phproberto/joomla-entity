@@ -1,6 +1,6 @@
 # HasState trait
 
-`Phproberto\Joomla\Entity\Traits\HasState`
+`Phproberto\Joomla\Entity\Core\Traits\HasState`
 
 > Trait for entities with state.
 
