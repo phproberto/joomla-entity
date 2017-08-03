@@ -1,6 +1,6 @@
 # HasTranslations trait
 
-`Phproberto\Joomla\Entity\Traits\HasTranslations`
+`Phproberto\Joomla\Entity\Core\Traits\HasTranslations`
 
 > Trait for entities with translations support.
 
@@ -19,7 +19,7 @@
 To start using this trait you have to include in your class the line:
 
 ```php
-use Phproberto\Joomla\Entity\Traits\HasTranslations;
+use Phproberto\Joomla\Entity\Core\Traits\HasTranslations;
 ```
 
 And then include the `use` statement inside the class like:
