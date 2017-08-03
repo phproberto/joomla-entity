@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Traits;
+namespace Phproberto\Joomla\Entity\Core\Traits;
 
 use Phproberto\Joomla\Traits\HasParams as CommonHasParams;
 use Joomla\Registry\Registry;

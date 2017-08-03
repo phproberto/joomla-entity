@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Users;
 
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Traits as EntityTraits;
+use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 
 /**
  * User entity.
@@ -19,7 +19,7 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
  */
 class User extends Entity
 {
-	use EntityTraits\HasParams;
+	use CoreTraits\HasParams;
 
 	/**
 	 * Get the active joomla user.

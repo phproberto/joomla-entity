@@ -19,8 +19,8 @@ use Phproberto\Joomla\Entity\Traits;
  */
 class Extension extends Entity
 {
-	use CoreTraits\HasAccess, CoreTraits\HasClient;
-	use Traits\HasParams, Traits\HasState;
+	use CoreTraits\HasAccess, CoreTraits\HasClient, CoreTraits\HasParams;
+	use Traits\HasState;
 
 	/**
 	 * Component extension type

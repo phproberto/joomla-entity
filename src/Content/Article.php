@@ -28,9 +28,9 @@ class Article extends Entity
 {
 	use CategoriesTraits\HasCategory;
 	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasComponent, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
-	use CoreTraits\HasImages, CoreTraits\HasLink;
+	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams;
 	use TagsTraits\HasTags;
-	use EntityTraits\HasParams, EntityTraits\HasState, EntityTraits\HasTranslations, EntityTraits\HasUrls;
+	use EntityTraits\HasState, EntityTraits\HasTranslations, EntityTraits\HasUrls;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
 	/**

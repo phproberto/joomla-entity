@@ -20,8 +20,8 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
  */
 class Tag extends Entity
 {
-	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata;
-	use EntityTraits\HasParams, EntityTraits\HasState;
+	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata, CoreTraits\HasParams;
+	use EntityTraits\HasState;
 
 	/**
 	 * Get a table.
