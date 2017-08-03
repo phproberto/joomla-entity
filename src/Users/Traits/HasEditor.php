@@ -27,6 +27,15 @@ trait HasEditor
 	protected $editor;
 
 	/**
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
+	 *
+	 * @return  string
+	 */
+	abstract public function columnAlias($column);
+
+	/**
 	 * Get this entity author.
 	 *
 	 * @param   boolean  $reload  Force data reloading
@@ -44,23 +53,13 @@ trait HasEditor
 	}
 
 	/**
-	 * Get the name of the column that stores editor id.
-	 *
-	 * @return  string
-	 */
-	protected function columnEditor()
-	{
-		return $this->table()->getColumnAlias('modified_by');
-	}
-
-	/**
 	 * Check if this entity has an associated editor.
 	 *
 	 * @return  boolean
 	 */
 	public function hasEditor()
 	{
-		$editorId = (int) $this->get($this->columnEditor());
+		$editorId = (int) $this->get($this->columnAlias('modified_by'));
 
 		return !empty($editorId);
 	}
@@ -74,7 +73,7 @@ trait HasEditor
 	 */
 	protected function loadEditor()
 	{
-		$editorId = (int) $this->get($this->columnEditor());
+		$editorId = (int) $this->get($this->columnAlias('modified_by'));
 
 		return User::instance($editorId);
 	}

@@ -96,39 +96,6 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * columnEditor returns correct value.
-	 *
-	 * @return  void
-	 */
-	public function testColumnAuthorReturnsCorrectValue()
-	{
-		$table = $this->getMockBuilder('MockedTable')
-			->disableOriginalConstructor()
-			->setMethods(array('getColumnAlias'))
-			->getMock();
-
-		$table->expects($this->once())
-			->method('getColumnAlias')
-			->willReturn(self::EDITOR_COLUMN);
-
-		$class = $this->getMockBuilder(EntityWithAuthorAndEditor::class)
-			->disableOriginalConstructor()
-			->setMethods(array('table'))
-			->getMock();
-
-		$class->expects($this->once())
-			->method('table')
-			->willReturn($table);
-
-		$reflection = new \ReflectionClass($class);
-
-		$method = $reflection->getMethod('columnEditor');
-		$method->setAccessible(true);
-
-		$this->assertSame(self::EDITOR_COLUMN, $method->invoke($class));
-	}
-
-	/**
 	 * hasEditor returns correct value.
 	 *
 	 * @return  void
@@ -137,11 +104,11 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 	{
 		$class = $this->getMockBuilder(EntityWithAuthorAndEditor::class)
 			->disableOriginalConstructor()
-			->setMethods(array('columnEditor'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
 		$class->expects($this->once())
-			->method('columnEditor')
+			->method('columnAlias')
 			->willReturn(self::EDITOR_COLUMN);
 
 		$reflection = new \ReflectionClass($class);
@@ -168,11 +135,11 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 	{
 		$class = $this->getMockBuilder(EntityWithAuthorAndEditor::class)
 			->disableOriginalConstructor()
-			->setMethods(array('columnEditor'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
 		$class->expects($this->once())
-			->method('columnEditor')
+			->method('columnAlias')
 			->willReturn(self::EDITOR_COLUMN);
 
 		$reflection = new \ReflectionClass($class);
