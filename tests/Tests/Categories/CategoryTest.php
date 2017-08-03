@@ -126,7 +126,7 @@ class CategoryTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($category, array('id' => 999));
 
-		$asset = $category->getAsset();
+		$asset = $category->asset();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
 		$this->assertSame(0, $asset->id());
@@ -135,7 +135,7 @@ class CategoryTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($category, array('id' => 999, 'asset_id' => 666));
 
-		$asset = $category->getAsset();
+		$asset = $category->asset();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
 		$this->assertSame(666, $asset->id());

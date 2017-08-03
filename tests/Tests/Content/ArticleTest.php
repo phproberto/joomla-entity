@@ -121,7 +121,7 @@ class ArticleTest extends \TestCaseDatabase
 	{
 		$article = Article::instance(1);
 
-		$asset = $article->getAsset();
+		$asset = $article->asset();
 
 		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
 		$this->assertNotSame(0, $asset->id());

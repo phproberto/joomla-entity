@@ -53,7 +53,7 @@ trait HasAsset
 	 *
 	 * @return  Asset
 	 */
-	public function getAsset($reload = false)
+	public function asset($reload = false)
 	{
 		if ($reload || null === $this->asset)
 		{
