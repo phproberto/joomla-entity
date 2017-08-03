@@ -70,6 +70,37 @@ class ArticleTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * access retrieved.
+	 *
+	 * @return  void
+	 */
+	public function testAccessRetrieved()
+	{
+		$article = $this->getMockBuilder(Article::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$article->method('columnAlias')
+			->willReturn('access');
+
+		$reflection = new \ReflectionClass($article);
+
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($article, 999);
+
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+		$rowProperty->setValue($article, array('id' => 999, 'access' => 0));
+
+		$this->assertSame(0, $article->access());
+
+		$rowProperty->setValue($article, array('id' => 999, 'access' => 1));
+
+		$this->assertSame(1, $article->access());
+	}
+
+	/**
 	 * Article loaded.
 	 *
 	 * @return  void

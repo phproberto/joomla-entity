@@ -82,6 +82,37 @@ class CategoryTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * access retrieved.
+	 *
+	 * @return  void
+	 */
+	public function testAccessRetrieved()
+	{
+		$category = $this->getMockBuilder(Category::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$category->method('columnAlias')
+			->willReturn('access');
+
+		$reflection = new \ReflectionClass($category);
+
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($category, 999);
+
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+		$rowProperty->setValue($category, array('id' => 999, 'access' => 0));
+
+		$this->assertSame(0, $category->access());
+
+		$rowProperty->setValue($category, array('id' => 999, 'access' => 1));
+
+		$this->assertSame(1, $category->access());
+	}
+
+	/**
 	 * Asset can be retrieved.
 	 *
 	 * @return  void

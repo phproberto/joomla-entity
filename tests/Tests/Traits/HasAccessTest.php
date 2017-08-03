@@ -73,48 +73,56 @@ class HasAccessTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * getAccess returns correct data.
+	 * access returns correct data.
 	 *
 	 * @return  void
 	 */
-	public function testGetAccessReturnsCorrectValue()
+	public function testAccessReturnsCorrectValue()
 	{
-		$entity = new EntityWithAccess(999);
+		$entity = $this->getMockBuilder(EntityWithAccess::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('access');
 
 		$reflection = new \ReflectionClass($entity);
 
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($entity, 999);
+
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
+		$rowProperty->setValue($entity, array('id' => 999, 'access' => 0));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'access' => 0]);
+		$this->assertSame(0, $entity->access());
 
-		$this->assertSame(0, $entity->getAccess());
+		$rowProperty->setValue($entity, array('id' => 999, 'access' => 1));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'access' => 1]);
+		$this->assertSame(1, $entity->access());
 
-		$this->assertSame(1, $entity->getAccess());
+		$rowProperty->setValue($entity, array('id' => 999, 'access' => 'nein'));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'access' => 'nein']);
+		$this->assertSame(0, $entity->access());
 
-		$this->assertSame(0, $entity->getAccess());
+		$rowProperty->setValue($entity, array('id' => 999, 'access' => '1'));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'access' => '1']);
-
-		$this->assertSame(1, $entity->getAccess());
+		$this->assertSame(1, $entity->access());
 	}
 
 	/**
-	 * getAccess uses correct column.
+	 * access uses correct column.
 	 *
 	 * @return  void
 	 */
-	public function testGetAccessUsesCorrectColumn()
+	public function testAccessUsesCorrectColumn()
 	{
 		$entity = $this->getMockBuilder(EntityWithAccess::class)
-			->setMethods(array('getColumnAccess'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$entity->method('getColumnAccess')
+		$entity->method('columnAlias')
 			->willReturn('access_level');
 
 		$reflection = new \ReflectionClass($entity);
@@ -122,20 +130,20 @@ class HasAccessTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, ['id' => 999, 'access_level' => 0]);
+		$rowProperty->setValue($entity, array('id' => 999, 'access_level' => 0));
 
-		$this->assertSame(0, $entity->getAccess());
+		$this->assertSame(0, $entity->access());
 
-		$rowProperty->setValue($entity, ['id' => 999, 'access_level' => 1]);
+		$rowProperty->setValue($entity, array('id' => 999, 'access_level' => 1));
 
-		$this->assertSame(1, $entity->getAccess());
+		$this->assertSame(1, $entity->access());
 
-		$rowProperty->setValue($entity, ['id' => 999, 'access_level' => 'nein']);
+		$rowProperty->setValue($entity, array('id' => 999, 'access_level' => 'nein'));
 
-		$this->assertSame(0, $entity->getAccess());
+		$this->assertSame(0, $entity->access());
 
-		$rowProperty->setValue($entity, ['id' => 999, 'access_level' => '1']);
+		$rowProperty->setValue($entity, array('id' => 999, 'access_level' => '1'));
 
-		$this->assertSame(1, $entity->getAccess());
+		$this->assertSame(1, $entity->access());
 	}
 }

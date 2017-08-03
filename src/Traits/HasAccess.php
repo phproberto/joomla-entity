@@ -40,16 +40,6 @@ trait HasAccess
 	abstract public function hasId();
 
 	/**
-	 * Get the name of the column that stores access.
-	 *
-	 * @return  string
-	 */
-	protected function getColumnAccess()
-	{
-		return 'access';
-	}
-
-	/**
 	 * Can current user access this entity?
 	 *
 	 * @param   boolean  $reload  Force reloading
@@ -90,8 +80,8 @@ trait HasAccess
 	 *
 	 * @return  integer
 	 */
-	public function getAccess()
+	public function access()
 	{
-		return (int) $this->get($this->getColumnAccess());
+		return (int) $this->get($this->columnAlias('access'));
 	}
 }
