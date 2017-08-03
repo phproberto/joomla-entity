@@ -4,7 +4,6 @@
     * [Entity (base entity)](./Entity.md)
      * [Collection](./Collection.md)
     * Traits
-        * [HasLink](./Traits/HasLink.md)
         * [HasParams](./Traits/HasParams.md)
         * [HasState](./Traits/HasState.md)
         * [HasTranslations](./Traits/HasTranslations.md)
@@ -23,6 +22,7 @@
         * [HasEvents](./Core/Traits/HasEvents.md)
         * [HasFeatured](./Core/Traits/HasFeatured.md)
         * [HasImages](./Core/Traits/HasImages.md)
+        * [HasLink](./Core/Traits/HasLink.md)
         * [HasMetadata](./Core/Traits/HasMetadata.md)
 * com_categories
     * Entities
