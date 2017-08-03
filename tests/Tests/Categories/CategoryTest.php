@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Tests\Categories;
 
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Categories\Category;
+use Phproberto\Joomla\Entity\Users\User;
 
 /**
  * Category entity tests.
@@ -109,35 +110,39 @@ class CategoryTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * columnAuthor returns correct column.
+	 * author retrieved.
 	 *
 	 * @return  void
 	 */
-	public function testColumnAthorReturnsCorrectColumn()
+	public function testAuthorRetrieved()
 	{
-		$category = new Category;
+		$category = new Category(999);
 
 		$reflection = new \ReflectionClass($category);
-		$method = $reflection->getMethod('columnAuthor');
-		$method->setAccessible(true);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
 
-		$this->assertSame('created_user_id', $method->invoke($category));
+		$rowProperty->setValue($category, array('id' => 999, 'created_user_id' => 666));
+
+		$this->assertSame(User::instance(666), $category->author());
 	}
 
 	/**
-	 * columnEditor returns correct column.
+	 * editor retrieved.
 	 *
 	 * @return  void
 	 */
-	public function testColumnEditorReturnsCorrectColumn()
+	public function testEditorRetrieved()
 	{
-		$category = new Category;
+		$category = new Category(999);
 
 		$reflection = new \ReflectionClass($category);
-		$method = $reflection->getMethod('columnEditor');
-		$method->setAccessible(true);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
 
-		$this->assertSame('modified_user_id', $method->invoke($category));
+		$rowProperty->setValue($category, array('id' => 999, 'modified_user_id' => 666));
+
+		$this->assertSame(User::instance(666), $category->editor());
 	}
 
 	/**

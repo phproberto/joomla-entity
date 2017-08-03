@@ -27,23 +27,16 @@ class Category extends Entity
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
 	/**
-	 * Get the name of the column that stores author id.
+	 * Get the list of column aliases.
 	 *
-	 * @return  string
+	 * @return  array
 	 */
-	protected function columnAuthor()
+	public function columnAliases()
 	{
-		return $this->table()->getColumnAlias('created_user_id');
-	}
-
-	/**
-	 * Get the name of the column that stores editor id.
-	 *
-	 * @return  string
-	 */
-	protected function columnEditor()
-	{
-		return $this->table()->getColumnAlias('modified_user_id');
+		return array(
+			'created_by'  => 'created_user_id',
+			'modified_by' => 'modified_user_id'
+		);
 	}
 
 	/**
