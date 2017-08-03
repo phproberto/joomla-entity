@@ -1,6 +1,6 @@
 # HasFeatured trait
 
-`Phproberto\Joomla\Entity\Traits\HasFeatured`
+`Phproberto\Joomla\Entity\Core\Traits\HasFeatured`
 
 > Trait for entities with featured column.
 
