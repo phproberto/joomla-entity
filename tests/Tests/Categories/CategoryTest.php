@@ -8,9 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Categories;
 
+use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Categories\Category;
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Categories\Category;
 
 /**
  * Category entity tests.
@@ -183,6 +184,24 @@ class CategoryTest extends \TestCaseDatabase
 		$method->setAccessible(true);
 
 		$this->assertEquals(array(34, 35), $method->invoke($category)->ids());
+	}
+
+	/**
+	 * params returns parameters.
+	 *
+	 * @return  void
+	 */
+	public function testParamsReturnsParameters()
+	{
+		$category = new Category(999);
+
+		$reflection = new \ReflectionClass($category);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($category, array('id' => 999, 'params' => '{"foo":"var"}'));
+
+		$this->assertEquals(new Registry(array('foo' => 'var')), $category->params(true));
 	}
 
 	/**
