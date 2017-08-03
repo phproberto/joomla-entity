@@ -34,6 +34,19 @@ class Article extends Entity
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
 	/**
+	 * Get the list of column aliases.
+	 *
+	 * @return  array
+	 */
+	public function columnAliases()
+	{
+		return array(
+			'category_id' => 'catid',
+			'params'      => 'attribs'
+		);
+	}
+
+	/**
 	 * Get an instance of the articles model.
 	 *
 	 * @param   array  $state  State to populate in the model
@@ -56,26 +69,6 @@ class Article extends Entity
 		}
 
 		return $model;
-	}
-
-	/**
-	 * Get the name of the column that stores category.
-	 *
-	 * @return  string
-	 */
-	protected function getColumnCategory()
-	{
-		return 'catid';
-	}
-
-	/**
-	 * Get the name of the column that stores params.
-	 *
-	 * @return  string
-	 */
-	protected function columnParams()
-	{
-		return 'attribs';
 	}
 
 	/**
@@ -102,7 +95,7 @@ class Article extends Entity
 	 */
 	protected function loadCategory()
 	{
-		$column = $this->getColumnCategory();
+		$column = $this->columnAlias('category_id');
 		$data    = $this->all();
 
 		if (array_key_exists($column, $data))

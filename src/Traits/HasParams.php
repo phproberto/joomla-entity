@@ -68,23 +68,13 @@ trait HasParams
 	abstract public function table($name = '', $prefix = null, $options = array());
 
 	/**
-	 * Get the name of the column that stores params.
-	 *
-	 * @return  string
-	 */
-	protected function columnParams()
-	{
-		return 'params';
-	}
-
-	/**
 	 * Load parameters from database.
 	 *
 	 * @return  Registry
 	 */
 	protected function loadParams()
 	{
-		$column = $this->columnParams();
+		$column = $this->columnAlias('params');
 		$data = $this->all();
 
 		if (array_key_exists($column, $data))
@@ -104,7 +94,7 @@ trait HasParams
 	 */
 	public function saveParams()
 	{
-		$column = $this->columnParams();
+		$column = $this->columnAlias('params');
 		$data    = $this->all();
 
 		if (!array_key_exists($column, $data))
@@ -144,7 +134,7 @@ trait HasParams
 	{
 		$this->commonSetParam($name, $value);
 
-		$this->assign($this->columnParams(), $this->params()->toString());
+		$this->assign($this->columnAlias('params'), $this->params()->toString());
 
 		return $this;
 	}
@@ -160,7 +150,7 @@ trait HasParams
 	{
 		$this->commonSetParams($params);
 
-		$this->assign($this->columnParams(), $this->params()->toString());
+		$this->assign($this->columnAlias('params'), $this->params()->toString());
 
 		return $this;
 	}

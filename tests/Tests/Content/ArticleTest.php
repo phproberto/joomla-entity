@@ -13,6 +13,7 @@ use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Category;
 
 /**
  * Article entity tests.
@@ -138,27 +139,21 @@ class ArticleTest extends \TestCaseDatabase
 	 */
 	public function testCategoryCanBeRetrieved()
 	{
-		$article = new Article;
+		$article = new Article(999);
 
 		$reflection = new \ReflectionClass($article);
+
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-
 		$rowProperty->setValue($article, array('id' => 999));
 
-		$category = $article->category();
-
-		$this->assertInstanceOf('Phproberto\Joomla\Entity\Content\Category', $category);
-		$this->assertSame(0, $category->id());
-
-		$article = new Article(999);
+		$this->assertEquals(new Category, $article->category());
 
 		$rowProperty->setValue($article, array('id' => 999, 'catid' => 666));
 
-		$category = $article->category();
-
-		$this->assertInstanceOf('Phproberto\Joomla\Entity\Content\Category', $category);
-		$this->assertSame(666, $category->id());
+		// No reload = same category
+		$this->assertEquals(new Category, $article->category());
+		$this->assertEquals(Category::instance(666), $article->category(true));
 	}
 
 	/**
