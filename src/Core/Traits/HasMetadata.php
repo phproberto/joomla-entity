@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Traits;
+namespace Phproberto\Joomla\Entity\Core\Traits;
 
 /**
  * Trait for entities with metadata. Based on metadata columns.
