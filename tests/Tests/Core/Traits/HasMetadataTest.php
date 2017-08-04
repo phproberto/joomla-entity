@@ -42,8 +42,6 @@ class HasMetadataTest extends \PHPUnit\Framework\TestCase
 		$rowProperty->setAccessible(true);
 		$rowProperty->setValue($entity, array('id' => 999));
 
-		$this->assertEquals(array(), $entity->metadata(true));
-
 		$rowProperty->setValue($entity, array('id' => 999, Column::METADATA => ''));
 
 		$this->assertEquals(array(), $entity->metadata(true));

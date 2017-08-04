@@ -34,28 +34,28 @@ class TagTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999]);
+		$rowProperty->setValue($article, array('id' => 999, 'images' => ''));
 
-		$this->assertSame([], $article->getImages(true));
+		$this->assertSame(array(), $article->getImages(true));
 
-		$rowProperty->setValue($article, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text","image_intro_caption":"Caption text","image_fulltext":"images\/fulltext.png","float_fulltext":"right","image_fulltext_alt":"Alt fulltext","image_fulltext_caption":"Caption fulltext"}']);
+		$rowProperty->setValue($article, array('id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text","image_intro_caption":"Caption text","image_fulltext":"images\/fulltext.png","float_fulltext":"right","image_fulltext_alt":"Alt fulltext","image_fulltext_caption":"Caption fulltext"}'));
 
-		$this->assertSame([], $article->getImages());
+		$this->assertSame(array(), $article->getImages());
 
-		$expected = [
-			'intro' => [
+		$expected = array(
+			'intro' => array(
 				'url'     => 'images/joomla_black.png',
 				'float'   => 'left',
 				'alt'     => 'Alt text',
 				'caption' => 'Caption text'
-			],
-			'full' => [
+			),
+			'full' => array(
 				'url'     => 'images/fulltext.png',
 				'float'   => 'right',
 				'alt'     => 'Alt fulltext',
 				'caption' => 'Caption fulltext'
-			]
-		];
+			)
+		);
 		$images = $article->getImages(true);
 
 		$this->assertEquals($expected, $article->getImages(true));
@@ -74,11 +74,11 @@ class TagTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999, 'metadata' => '{"foo":"bar"}']);
+		$rowProperty->setValue($article, array('id' => 999, 'metadata' => '{"foo":"bar"}'));
 
-		$expected = [
+		$expected = array(
 			'foo' => 'bar'
-		];
+		);
 
 		$this->assertEquals($expected, $article->metadata());
 	}
@@ -96,9 +96,9 @@ class TagTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, ['id' => 999, 'params' => '{"foo":"var"}']);
+		$rowProperty->setValue($article, array('id' => 999, 'params' => '{"foo":"var"}'));
 
-		$this->assertEquals(new Registry(['foo' => 'var']), $article->params());
+		$this->assertEquals(new Registry(array('foo' => 'var')), $article->params());
 	}
 
 	/**
@@ -114,11 +114,11 @@ class TagTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($tag, ['id' => 999, 'published' => '0']);
+		$rowProperty->setValue($tag, array('id' => 999, 'published' => '0'));
 
 		$this->assertEquals(0, $tag->state());
 
-		$rowProperty->setValue($tag, ['id' => 999, 'published' => '1']);
+		$rowProperty->setValue($tag, array('id' => 999, 'published' => '1'));
 
 		$this->assertEquals(1, $tag->state());
 	}

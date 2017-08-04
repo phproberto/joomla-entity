@@ -44,6 +44,13 @@ abstract class Column
 	const FEATURED = 'featured';
 
 	/**
+	 * Default column used to store images.
+	 *
+	 * @const
+	 */
+	const IMAGES = 'images';
+
+	/**
 	 * Default column used to store metadata.
 	 *
 	 * @const

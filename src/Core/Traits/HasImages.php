@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+use Phproberto\Joomla\Entity\Core\Column;
+
 /**
  * Trait for entities with images.
  *
@@ -23,21 +25,22 @@ trait HasImages
 	protected $images;
 
 	/**
-	 * Get the attached database row.
+	 * Get the alias for a specific DB column.
 	 *
-	 * @return  array
-	 */
-	abstract public function all();
-
-	/**
-	 * Get the name of the column that stores images.
+	 * @param   string  $column  Name of the DB column. Example: created_by
 	 *
 	 * @return  string
 	 */
-	protected function getColumnImages()
-	{
-		return 'images';
-	}
+	abstract public function columnAlias($column);
+
+	/**
+	 * Get the content of a column with data stored in JSON.
+	 *
+	 * @param   string  $property  Name of the column storing data
+	 *
+	 * @return  array
+	 */
+	abstract public function json($property);
 
 	/**
 	 * Get the full text image.
@@ -107,15 +110,7 @@ trait HasImages
 	 */
 	protected function loadImages()
 	{
-		$column = $this->getColumnImages();
-		$data = $this->all();
-
-		if (empty($data[$column]))
-		{
-			return array();
-		}
-
-		$data = (array) json_decode($data[$column]);
+		$data = (array) $this->json($this->columnAlias(Column::IMAGES));
 
 		$images = array();
 

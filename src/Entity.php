@@ -384,14 +384,14 @@ abstract class Entity implements EntityInterface
 	public function json($property)
 	{
 		$data = array();
-		$row  = $this->all();
+		$storedData = (array) json_decode($this->get($property));
 
-		if (empty($row[$property]))
+		if (empty($storedData))
 		{
 			return $data;
 		}
 
-		foreach ((array) json_decode($row[$property]) as $property => $value)
+		foreach ($storedData as $property => $value)
 		{
 			if ($value === '')
 			{

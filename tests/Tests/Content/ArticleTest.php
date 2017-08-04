@@ -204,7 +204,7 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, array('id' => 999));
+		$rowProperty->setValue($article, array('id' => 999, 'images' => ''));
 
 		$this->assertSame(array(), $article->getImages(true));
 
@@ -305,11 +305,6 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, array('id' => 999));
-
-		$this->assertEquals(array(), $article->getUrls());
-
-		$article = Article::freshInstance(999);
 		$rowProperty->setValue($article, array('id' => 999, 'urls' => ''));
 
 		$this->assertEquals(array(), $article->getUrls());
@@ -407,7 +402,7 @@ class ArticleTest extends \TestCaseDatabase
 		$this->assertTrue($article->hasFullTextImage());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, array('id' => 999));
+		$rowProperty->setValue($article, array('id' => 999, 'images' => ''));
 
 		$this->assertFalse($article->hasFullTextImage());
 
@@ -452,7 +447,7 @@ class ArticleTest extends \TestCaseDatabase
 		$this->assertTrue($article->hasIntroImage());
 
 		$article = Article::freshInstance(999);
-		$rowProperty->setValue($article, array('id' => 999));
+		$rowProperty->setValue($article, array('id' => 999, 'images' => ''));
 
 		$this->assertFalse($article->hasIntroImage());
 

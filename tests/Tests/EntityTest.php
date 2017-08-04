@@ -775,7 +775,7 @@ class EntityTest extends \TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999));
+		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => ''));
 
 		$this->assertEquals(array(), $entity->json('json_column'));
 

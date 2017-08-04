@@ -24,30 +24,17 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetFullTextImageReturnsCorrectValue()
 	{
-		$entity = new EntityWithImages(999);
+		$entity = $this->getEntity(array('id' => 999, 'images' => ''));
 
-		$reflection = new \ReflectionClass($entity);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
+		$this->assertEquals(array(), $entity->getFullTextImage());
 
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png"}'));
 
-		$this->assertEquals([], $entity->getFullTextImage());
+		$this->assertEquals(array('url' => 'images/joomla_black.png'), $entity->getFullTextImage());
 
-		$entity = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}'));
 
-		$this->assertEquals(['url' => 'images/joomla_black.png'], $entity->getFullTextImage());
-
-		$entity = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($entity, ['id' => 999]);
-
-		$this->assertEquals([], $entity->getFullTextImage());
-
-		$entity = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}']);
-
-		$this->assertEquals([], $entity->getFullTextImage());
+		$this->assertEquals(array(), $entity->getFullTextImage());
 	}
 
 	/**
@@ -60,13 +47,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 		$_SERVER['HTTP_HOST'] = 'joomla-entity.test.com';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$entity = new EntityWithImages(999);
-
-		$reflection = new \ReflectionClass($entity);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png"}'));
 
 		$images = $entity->getImages(true);
 
@@ -75,7 +56,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 		$this->assertFalse(isset($images['full']['alt']));
 		$this->assertFalse(isset($images['full']['caption']));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png","float_fulltext":"left"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png","float_fulltext":"left"}'));
 
 		$images = $entity->getImages(true);
 
@@ -84,7 +65,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 		$this->assertFalse(isset($images['full']['alt']));
 		$this->assertFalse(isset($images['full']['caption']));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png","float_fulltext":"left","image_fulltext_alt":"Alt text"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png","float_fulltext":"left","image_fulltext_alt":"Alt text"}'));
 
 		$images = $entity->getImages(true);
 
@@ -93,7 +74,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals("Alt text", $images['full']['alt']);
 		$this->assertFalse(isset($images['full']['caption']));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png","float_fulltext":"left","image_fulltext_alt":"Alt text","image_fulltext_caption":"Caption text"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_fulltext":"images\/joomla_black.png","float_fulltext":"left","image_fulltext_alt":"Alt text","image_fulltext_caption":"Caption text"}'));
 
 		$images = $entity->getImages(true);
 
@@ -113,13 +94,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 		$_SERVER['HTTP_HOST'] = 'joomla-entity.test.com';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$entity = new EntityWithImages(999);
-
-		$reflection = new \ReflectionClass($entity);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png"}'));
 
 		$images = $entity->getImages(true);
 
@@ -129,7 +104,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 		$this->assertFalse(isset($images['intro']['alt']));
 		$this->assertFalse(isset($images['intro']['caption']));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left"}'));
 
 		$images = $entity->getImages(true);
 
@@ -139,7 +114,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 		$this->assertFalse(isset($images['intro']['alt']));
 		$this->assertFalse(isset($images['intro']['caption']));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text"}'));
 
 		$images = $entity->getImages(true);
 
@@ -149,7 +124,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals("Alt text", $images['intro']['alt']);
 		$this->assertFalse(isset($images['intro']['caption']));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text","image_intro_caption":"Caption text"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text","image_intro_caption":"Caption text"}'));
 
 		$images = $entity->getImages(true);
 
@@ -167,30 +142,17 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetIntroImageReturnsCorrectValue()
 	{
-		$entity = new EntityWithImages(999);
+		$entity = $this->getEntity(array('id' => 999, 'images' => ''));
 
-		$reflection = new \ReflectionClass($entity);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
+		$this->assertEquals(array(), $entity->getIntroImage());
 
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png"}'));
 
-		$this->assertEquals([], $entity->getIntroImage());
+		$this->assertEquals(array('url' => 'images/joomla_black.png'), $entity->getIntroImage());
 
-		$entity = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"images\/joomla_black.png"}']);
+		$entity = $this->getEntity(array('id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}'));
 
-		$this->assertEquals(['url' => 'images/joomla_black.png'], $entity->getIntroImage());
-
-		$entity = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($entity, ['id' => 999]);
-
-		$this->assertEquals([], $entity->getIntroImage());
-
-		$entity = EntityWithImages::freshInstance(999);
-		$rowProperty->setValue($entity, ['id' => 999, 'images' => '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}']);
-
-		$this->assertEquals([], $entity->getIntroImage());
+		$this->assertEquals(array(), $entity->getIntroImage());
 	}
 
 	/**
@@ -201,27 +163,48 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 	public function testGetImagesWorksWithCustomColumn()
 	{
 		$mock = $this->getMockBuilder(EntityWithImages::class)
-			->setMethods(array('getColumnImages'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
 		$mock->expects($this->once())
-			->method('getColumnImages')
+			->method('columnAlias')
 			->willReturn('img');
 
 		$reflection = new \ReflectionClass($mock);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($mock, ['id' => 999, 'img' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text","image_intro_caption":"Caption text"}']);
+		$rowProperty->setValue($mock, array('id' => 999, 'img' => '{"image_intro":"images\/joomla_black.png","float_intro":"left","image_intro_alt":"Alt text","image_intro_caption":"Caption text"}'));
 
-		$expected = [
-			'intro' => [
+		$expected = array(
+			'intro' => array(
 				'url'     => 'images/joomla_black.png',
 				'float'   => 'left',
 				'alt'     => 'Alt text',
 				'caption' => 'Caption text'
-			]
-		];
+			)
+		);
 		$this->assertEquals($expected, $mock->getImages());
+	}
+
+	/**
+	 * Get a mocked entity with client.
+	 *
+	 * @param   array  $row  Row returned by the entity as data
+	 *
+	 * @return  \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private function getEntity($row = array())
+	{
+		$entity = $this->getMockBuilder(EntityWithImages::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('images');
+
+		$entity->bind($row);
+
+		return $entity;
 	}
 }

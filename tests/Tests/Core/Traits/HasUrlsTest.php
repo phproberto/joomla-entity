@@ -43,55 +43,51 @@ class HasUrlsTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, ['id' => 999]);
+		$rowProperty->setValue($entity, array('id' => 999, 'urls' => ''));
 
-		$this->assertEquals([], $entity->getUrls());
+		$this->assertEquals(array(), $entity->getUrls(true));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'urls' => '']);
+		$rowProperty->setValue($entity, array('id' => 999, 'urls' => '{}'));
 
-		$this->assertEquals([], $entity->getUrls(true));
+		$this->assertEquals(array(), $entity->getUrls(true));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'urls' => '{}']);
+		$rowProperty->setValue($entity, array('id' => 999, 'urls' => '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}'));
 
-		$this->assertEquals([], $entity->getUrls(true));
+		$this->assertEquals(array(), $entity->getUrls(true));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'urls' => '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}']);
-
-		$this->assertEquals([], $entity->getUrls(true));
-
-		$rowProperty->setValue($entity, ['id' => 999, 'urls' => '{"urla":"http://google.com","urlatext":"Google","targeta":"0"}']);
+		$rowProperty->setValue($entity, array('id' => 999, 'urls' => '{"urla":"http://google.com","urlatext":"Google","targeta":"0"}'));
 
 		// With no reload returns old data
-		$this->assertEquals([], $entity->getUrls());
+		$this->assertEquals(array(), $entity->getUrls());
 
-		$expected = [
-			'a' => [
+		$expected = array(
+			'a' => array(
 				'url'    => 'http://google.com',
 				'text'   => 'Google',
 				'target' => '0'
-			]
-		];
+			)
+		);
 
 		$this->assertEquals($expected, $entity->getUrls(true));
 
-		$rowProperty->setValue($entity, ['id' => 999, 'urls' => '{"urla":"http:\/\/google.es","urlatext":"Google","targeta":"1","urlb":"http:\/\/yahoo.com","urlbtext":"Yahoo","targetb":"0","urlc":"http://www.phproberto.com","urlctext":"Phproberto","targetc":""}']);
+		$rowProperty->setValue($entity, array('id' => 999, 'urls' => '{"urla":"http:\/\/google.es","urlatext":"Google","targeta":"1","urlb":"http:\/\/yahoo.com","urlbtext":"Yahoo","targetb":"0","urlc":"http://www.phproberto.com","urlctext":"Phproberto","targetc":""}'));
 
-		$expected = [
-			'a' => [
+		$expected = array(
+			'a' => array(
 				'url'    => 'http://google.es',
 				'text'   => 'Google',
 				'target' => '1'
-			],
-			'b' => [
+			),
+			'b' => array(
 				'url'    => 'http://yahoo.com',
 				'text'   => 'Yahoo',
 				'target' => '0'
-			],
-			'c' => [
+			),
+			'c' => array(
 				'url'    => 'http://www.phproberto.com',
 				'text'   => 'Phproberto'
-			]
-		];
+			)
+		);
 
 		$this->assertEquals($expected, $entity->getUrls(true));
 	}
@@ -114,30 +110,30 @@ class HasUrlsTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, ['id' => 999]);
+		$rowProperty->setValue($entity, array('id' => 999, 'links' => ''));
 
-		$this->assertEquals([], $entity->getUrls());
+		$this->assertEquals(array(), $entity->getUrls());
 
-		$rowProperty->setValue($entity, ['id' => 999, 'links' => '{"urla":"http:\/\/google.es","urlatext":"Google","targeta":"1","urlb":"http:\/\/yahoo.com","urlbtext":"Yahoo","targetb":"0","urlc":"http://www.phproberto.com","urlctext":"Phproberto","targetc":""}']);
+		$rowProperty->setValue($entity, array('id' => 999, 'links' => '{"urla":"http:\/\/google.es","urlatext":"Google","targeta":"1","urlb":"http:\/\/yahoo.com","urlbtext":"Yahoo","targetb":"0","urlc":"http://www.phproberto.com","urlctext":"Phproberto","targetc":""}'));
 
-		$this->assertEquals([], $entity->getUrls());
+		$this->assertEquals(array(), $entity->getUrls());
 
-		$expected = [
-			'a' => [
+		$expected = array(
+			'a' => array(
 				'url'    => 'http://google.es',
 				'text'   => 'Google',
 				'target' => '1'
-			],
-			'b' => [
+			),
+			'b' => array(
 				'url'    => 'http://yahoo.com',
 				'text'   => 'Yahoo',
 				'target' => '0'
-			],
-			'c' => [
+			),
+			'c' => array(
 				'url'    => 'http://www.phproberto.com',
 				'text'   => 'Phproberto'
-			]
-		];
+			)
+		);
 
 		$this->assertEquals($expected, $entity->getUrls(true));
 	}
