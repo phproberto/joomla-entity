@@ -12,6 +12,7 @@ use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Content\Category;
 
@@ -480,23 +481,19 @@ class ArticleTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($article, array('id' => 999));
+		$rowProperty->setValue($article, array('id' => 999, CoreColumn::FEATURED => 0));
 
 		$this->assertFalse($article->isFeatured(true));
 
-		$rowProperty->setValue($article, array('id' => 999, 'featured' => 0));
+		$rowProperty->setValue($article, array('id' => 999, CoreColumn::FEATURED => '0'));
 
 		$this->assertFalse($article->isFeatured(true));
 
-		$rowProperty->setValue($article, array('id' => 999, 'featured' => '0'));
-
-		$this->assertFalse($article->isFeatured(true));
-
-		$rowProperty->setValue($article, array('id' => 999, 'featured' => '1'));
+		$rowProperty->setValue($article, array('id' => 999, CoreColumn::FEATURED => '1'));
 
 		$this->assertTrue($article->isFeatured(true));
 
-		$rowProperty->setValue($article, array('id' => 999, 'featured' => 1));
+		$rowProperty->setValue($article, array('id' => 999, CoreColumn::FEATURED => 1));
 
 		$this->assertTrue($article->isFeatured(true));
 	}

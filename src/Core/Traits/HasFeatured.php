@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+use Phproberto\Joomla\Entity\Core\Column;
+
 /**
  * Trait for entities with featured column.
  *
@@ -20,57 +22,36 @@ trait HasFeatured
 	 *
 	 * @var  boolean
 	 */
-	private $featured;
+	protected $featured;
 
 	/**
-	 * Get the name of the column that stores featured.
+	 * Get the alias for a specific DB column.
+	 *
+	 * @param   string  $column  Name of the DB column. Example: created_by
 	 *
 	 * @return  string
 	 */
-	protected function getColumnFeatured()
-	{
-		return 'featured';
-	}
+	abstract public function columnAlias($column);
 
 	/**
-	 * Get the attached database row.
+	 * Get a property of this entity.
 	 *
-	 * @return  array
+	 * @param   string  $property  Name of the property to get
+	 * @param   mixed   $default   Value to use as default if property is not set or is null
+	 *
+	 * @return  mixed
 	 */
-	abstract public function all();
+	abstract public function get($property, $default = null);
 
 	/**
 	 * Is this article featured?
 	 *
-	 * @param   boolean  $reload  Force reloading
-	 *
 	 * @return  boolean
 	 */
-	public function isFeatured($reload = false)
+	public function isFeatured()
 	{
-		if ($reload || null === $this->featured)
-		{
-			$this->featured = $this->loadFeatured();
-		}
+		$featured = (int) $this->get($this->columnAlias(Column::FEATURED));
 
-		return $this->featured;
-	}
-
-	/**
-	 * Check if this entity is featured.
-	 *
-	 * @return  boolean
-	 */
-	private function loadFeatured()
-	{
-		$column = $this->getColumnFeatured();
-		$data = $this->all();
-
-		if (empty($data[$column]))
-		{
-			return false;
-		}
-
-		return 1 === (int) $data[$column];
+		return $featured ? true : false;
 	}
 }

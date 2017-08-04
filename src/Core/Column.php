@@ -37,6 +37,13 @@ abstract class Column
 	const CLIENT = 'client_id';
 
 	/**
+	 * Default column used to store featured.
+	 *
+	 * @const
+	 */
+	const FEATURED = 'featured';
+
+	/**
 	 * Default column used to store metadata.
 	 *
 	 * @const

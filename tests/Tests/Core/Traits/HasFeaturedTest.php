@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
+use Phproberto\Joomla\Entity\Core\Column;
 use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithFeatured;
 
 /**
@@ -31,84 +32,51 @@ class HasFeaturedTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * isFeatured returns cached value.
-	 *
-	 * @return  void
-	 */
-	public function testIsFeaturedReturnsCachedValue()
-	{
-		$entity = new EntityWithFeatured(999);
-
-		$reflection = new \ReflectionClass($entity);
-
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$rowProperty->setValue($entity, array('id' => 999));
-
-		$featuredProperty = $reflection->getProperty('featured');
-		$featuredProperty->setAccessible(true);
-
-		$this->assertFalse($entity->isFeatured());
-		$this->assertSame(false, $featuredProperty->getValue($entity));
-
-		$featuredProperty->setValue($entity, true);
-
-		$this->assertTrue($entity->isFeatured());
-	}
-
-	/**
-	 * isFeatured reloads data.
-	 *
-	 * @return  void
-	 */
-	public function testIsFeaturedReloadsData()
-	{
-		$entity = new EntityWithFeatured(999);
-
-		$reflection = new \ReflectionClass($entity);
-
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$rowProperty->setValue($entity, array('id' => 999));
-		$this->assertFalse($entity->isFeatured());
-
-		$rowProperty->setValue($entity, array('id' => 999, 'featured' => 1));
-		$this->assertFalse($entity->isFeatured());
-		$this->assertTrue($entity->isFeatured(true));
-	}
-	/**
 	 * isFeatured returns correct value.
 	 *
 	 * @return  void
 	 */
 	public function testIsFeaturedReturnsCorrectValue()
 	{
-		$entity = new EntityWithFeatured(999);
+		$entity = $this->getEntity(array('id' => 999, Column::FEATURED => 0));
 
 		$reflection = new \ReflectionClass($entity);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($entity, array('id' => 999));
+		$this->assertFalse($entity->isFeatured(true));
 
-		$this->assertFalse($entity->isFeatured());
-
-		$rowProperty->setValue($entity, array('id' => 999, 'featured' => 0));
+		$rowProperty->setValue($entity, array('id' => 999, Column::FEATURED => '0'));
 
 		$this->assertFalse($entity->isFeatured(true));
 
-		$rowProperty->setValue($entity, array('id' => 999, 'featured' => '0'));
-
-		$this->assertFalse($entity->isFeatured(true));
-
-		$rowProperty->setValue($entity, array('id' => 999, 'featured' => '1'));
+		$rowProperty->setValue($entity, array('id' => 999, Column::FEATURED => '1'));
 
 		$this->assertTrue($entity->isFeatured(true));
 
-		$rowProperty->setValue($entity, array('id' => 999, 'featured' => 1));
+		$rowProperty->setValue($entity, array('id' => 999, Column::FEATURED => 1));
 
 		$this->assertTrue($entity->isFeatured(true));
+	}
+
+	/**
+	 * Get a mocked entity.
+	 *
+	 * @param   array  $row  Row returned by the entity as data
+	 *
+	 * @return  \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private function getEntity($row = array())
+	{
+		$entity = $this->getMockBuilder(EntityWithFeatured::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('featured');
+
+		$entity->bind($row);
+
+		return $entity;
 	}
 }
