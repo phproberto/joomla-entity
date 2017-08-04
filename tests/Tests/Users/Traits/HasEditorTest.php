@@ -109,7 +109,7 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 
 		$class->expects($this->once())
 			->method('columnAlias')
-			->willReturn(self::EDITOR_COLUMN);
+			->willReturn(static::EDITOR_COLUMN);
 
 		$reflection = new \ReflectionClass($class);
 
@@ -121,7 +121,7 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($class, array('id' => 999, self::EDITOR_COLUMN => 22));
+		$rowProperty->setValue($class, array('id' => 999, static::EDITOR_COLUMN => 22));
 
 		$this->assertSame(true, $class->hasEditor());
 	}
@@ -140,7 +140,7 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 
 		$class->expects($this->once())
 			->method('columnAlias')
-			->willReturn(self::EDITOR_COLUMN);
+			->willReturn(static::EDITOR_COLUMN);
 
 		$reflection = new \ReflectionClass($class);
 
@@ -150,7 +150,7 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($class, array('id' => 999, self::EDITOR_COLUMN => 22));
+		$rowProperty->setValue($class, array('id' => 999, static::EDITOR_COLUMN => 22));
 
 		$method = $reflection->getMethod('loadEditor');
 		$method->setAccessible(true);

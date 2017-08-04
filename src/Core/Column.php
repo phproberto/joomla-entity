@@ -63,4 +63,11 @@ abstract class Column
 	 * @const
 	 */
 	const PARAMS = 'params';
+
+	/**
+	 * Default column used to store state.
+	 *
+	 * @const
+	 */
+	const STATE = 'published';
 }

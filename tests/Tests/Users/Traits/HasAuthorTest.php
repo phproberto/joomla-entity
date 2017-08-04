@@ -109,7 +109,7 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 
 		$class->expects($this->once())
 			->method('columnAlias')
-			->willReturn(self::AUTHOR_COLUMN);
+			->willReturn(static::AUTHOR_COLUMN);
 
 		$reflection = new \ReflectionClass($class);
 
@@ -121,7 +121,7 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($class, array('id' => 999, self::AUTHOR_COLUMN => 22));
+		$rowProperty->setValue($class, array('id' => 999, static::AUTHOR_COLUMN => 22));
 
 		$this->assertSame(true, $class->hasAuthor());
 	}
@@ -140,7 +140,7 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 
 		$class->expects($this->once())
 			->method('columnAlias')
-			->willReturn(self::AUTHOR_COLUMN);
+			->willReturn(static::AUTHOR_COLUMN);
 
 		$reflection = new \ReflectionClass($class);
 
@@ -150,7 +150,7 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($class, array('id' => 999, self::AUTHOR_COLUMN => 22));
+		$rowProperty->setValue($class, array('id' => 999, static::AUTHOR_COLUMN => 22));
 
 		$method = $reflection->getMethod('loadAuthor');
 		$method->setAccessible(true);

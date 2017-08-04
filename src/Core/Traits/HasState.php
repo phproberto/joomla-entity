@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+use Phproberto\Joomla\Entity\Core\Column;
+
 /**
  * Trait for entities with state.
  *
@@ -23,13 +25,6 @@ trait HasState
 	protected $state;
 
 	/**
-	 * Get the attached database row.
-	 *
-	 * @return  array
-	 */
-	abstract public function all();
-
-	/**
 	 * Get the alias for a specific DB column.
 	 *
 	 * @param   string  $column  Name of the DB column. Example: created_by
@@ -37,6 +32,16 @@ trait HasState
 	 * @return  string
 	 */
 	abstract public function columnAlias($column);
+
+	/**
+	 * Get a property of this entity.
+	 *
+	 * @param   string  $property  Name of the property to get
+	 * @param   mixed   $default   Value to use as default if property is not set or is null
+	 *
+	 * @return  mixed
+	 */
+	abstract public function get($property, $default = null);
 
 	/**
 	 * Get a list of available states.
@@ -134,14 +139,6 @@ trait HasState
 	 */
 	public function state()
 	{
-		$column = $this->columnAlias('published');
-		$data = $this->all();
-
-		if (!array_key_exists($column, $data))
-		{
-			throw new \RuntimeException("Entity (" . get_class($this) . ") does not have a state column", 500);
-		}
-
-		return (int) $data[$column];
+		return (int) $this->get($this->columnAlias(Column::STATE));
 	}
 }
