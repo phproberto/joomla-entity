@@ -40,6 +40,6 @@ class InvalidEntityData extends \RuntimeException implements ExceptionInterface
 	 */
 	public static function missingPrimaryKey(EntityInterface $entity)
 	{
-		return new static('Data for entity ' . get_class($entity) . ' (id: `' . $entity->id() . '`) does not contain primary key.', 500);
+		return new static('Data for entity ' . get_class($entity) . ' (id: `' . $entity->id() . '`) does not contain primary key (column: ' . $entity->primaryKey().')', 500);
 	}
 }

@@ -51,7 +51,7 @@ class HasArticleTest extends \PHPUnit\Framework\TestCase
 		$method = $reflection->getMethod('getColumnArticle');
 		$method->setAccessible(true);
 
-		$this->assertEquals(self::ARTICLE_COLUMN, $method->invoke($class));
+		$this->assertEquals(static::ARTICLE_COLUMN, $method->invoke($class));
 	}
 
 	/**
@@ -73,7 +73,7 @@ class HasArticleTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(new Article, $method->invoke($class));
 
-		$rowProperty->setValue($class, array('id' => 999, self::ARTICLE_COLUMN => 666));
+		$rowProperty->setValue($class, array('id' => 999, static::ARTICLE_COLUMN => 666));
 
 		$this->assertEquals(new Article(666), $method->invoke($class));
 	}
@@ -125,7 +125,7 @@ class HasArticleTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(new Article, $class->getArticle());
 
-		$rowProperty->setValue($class, array('id' => 999, self::ARTICLE_COLUMN => 666));
+		$rowProperty->setValue($class, array('id' => 999, static::ARTICLE_COLUMN => 666));
 
 		$this->assertEquals(new Article, $class->getArticle());
 		$this->assertEquals(new Article(666), $class->getArticle(true));
@@ -150,7 +150,7 @@ class HasArticleTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertFalse($class->hasArticle());
 
-		$rowProperty->setValue($class, array('id' => 999, self::ARTICLE_COLUMN => 666));
+		$rowProperty->setValue($class, array('id' => 999, static::ARTICLE_COLUMN => 666));
 
 		// Cached data
 		$this->assertFalse($class->hasArticle());

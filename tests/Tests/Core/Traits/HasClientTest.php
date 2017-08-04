@@ -62,11 +62,11 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testClientReturnsCorrectData()
 	{
-		$entity = $this->getEntity(array('id' => 999, self::CLIENT_COLUMN => 0));
+		$entity = $this->getEntity(array('id' => 999, static::CLIENT_COLUMN => 0));
 
 		$this->assertInstanceOf(Site::class, $entity->client());
 
-		$entity = $this->getEntity(array('id' => 999, self::CLIENT_COLUMN => 1));
+		$entity = $this->getEntity(array('id' => 999, static::CLIENT_COLUMN => 1));
 
 		$this->assertInstanceOf(Administrator::class, $entity->client(true));
 	}

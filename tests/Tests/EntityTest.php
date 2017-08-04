@@ -58,6 +58,27 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * Get a mocked entity.
+	 *
+	 * @param   array  $row  Row returned by the entity as data
+	 *
+	 * @return  \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private function getEntity($row = array())
+	{
+		$entity = $this->getMockBuilder(Entity::class)
+			->setMethods(array('primaryKey'))
+			->getMock();
+
+		$entity->method('primaryKey')
+			->willReturn(static::PRIMARY_KEY);
+
+		$entity->bind($row);
+
+		return $entity;
+	}
+
+	/**
 	 * Get an entity that simulates data loading.
 	 *
 	 * @param   integer  $id    Identifier to assign
@@ -82,12 +103,15 @@ class EntityTest extends \TestCase
 
 		$mock = $this->getMockBuilder(Entity::class)
 			->disableOriginalConstructor()
-			->setMethods(array('table'))
+			->setMethods(array('table', 'primaryKey'))
 			->getMock();
 
 		$mock
 			->method('table')
 			->willReturn($tableMock);
+
+		$mock->method('primaryKey')
+			->willReturn(static::PRIMARY_KEY);
 
 		if ($id)
 		{
@@ -127,15 +151,15 @@ class EntityTest extends \TestCase
 	 */
 	public function testAssignSetsCorrectId()
 	{
-		$entity = new Entity;
+		$entity = $this->getEntity(array(static::PRIMARY_KEY => '666'));
 
 		$reflection = new \ReflectionClass($entity);
 		$idProperty = $reflection->getProperty('id');
 		$idProperty->setAccessible(true);
 
-		$this->assertSame(0, $idProperty->getValue($entity));
+		$this->assertSame(666, $idProperty->getValue($entity));
 
-		$entity->assign(self::PRIMARY_KEY, '999');
+		$entity->assign(static::PRIMARY_KEY, '999');
 
 		$this->assertSame(999, $idProperty->getValue($entity));
 	}
@@ -147,16 +171,16 @@ class EntityTest extends \TestCase
 	 */
 	public function testBindSetsCorrectData()
 	{
-		$entity = new Entity;
+		$entity = $this->getEntity();
 
 		$reflection = new \ReflectionClass($entity);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$this->assertSame(null, $rowProperty->getValue($entity));
+		$this->assertSame(array(), $rowProperty->getValue($entity));
 
 		$data = array(
-			self::PRIMARY_KEY => 999,
+			static::PRIMARY_KEY => 999,
 			'name' => 'Roberto Segura'
 		);
 
@@ -165,7 +189,7 @@ class EntityTest extends \TestCase
 		$this->assertSame($data, $rowProperty->getValue($entity));
 
 		$data = (object) array(
-			self::PRIMARY_KEY => 999,
+			static::PRIMARY_KEY => 999,
 			'name' => 'Sample Name'
 		);
 
@@ -243,7 +267,7 @@ class EntityTest extends \TestCase
 	 */
 	public function testBindSetsCorrectId()
 	{
-		$entity = new Entity;
+		$entity = $this->getEntity();
 
 		$reflection = new \ReflectionClass($entity);
 		$idProperty = $reflection->getProperty('id');
@@ -252,7 +276,7 @@ class EntityTest extends \TestCase
 		$this->assertSame(0, $idProperty->getValue($entity));
 
 		$data = array(
-			self::PRIMARY_KEY => '999',
+			static::PRIMARY_KEY => '999',
 			'name' => 'Roberto Segura'
 		);
 
@@ -427,7 +451,7 @@ class EntityTest extends \TestCase
 	public function testFetchPreservesPreviouslyAssignedData()
 	{
 		$row = array(
-			self::PRIMARY_KEY => 999,
+			static::PRIMARY_KEY => 999,
 			'name' => 'Sample name'
 		);
 
@@ -460,7 +484,7 @@ class EntityTest extends \TestCase
 		$instancesProperty->setAccessible(true);
 
 		$row = array(
-			self::PRIMARY_KEY => 999,
+			static::PRIMARY_KEY => 999,
 			'name' => 'Sample name'
 		);
 
@@ -593,7 +617,7 @@ class EntityTest extends \TestCase
 
 		$instances = array(
 			Entity::class => array(
-				999 => $this->getLoadableEntityMock(999, array(self::PRIMARY_KEY => 999))
+				999 => $this->getLoadableEntityMock(999, array(static::PRIMARY_KEY => 999))
 			)
 		);
 
@@ -635,21 +659,15 @@ class EntityTest extends \TestCase
 	 */
 	public function testGetReturnsCorrectValue()
 	{
-		$entity = new Entity;
-
-		$reflection = new \ReflectionClass($entity);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
 		$row = array(
-			self::PRIMARY_KEY => 999,
+			static::PRIMARY_KEY => 999,
 			'name' => 'Roberto Segura',
 			'age' => null
 		);
 
-		$rowProperty->setValue($entity, $row);
+		$entity = $this->getEntity($row);
 
-		$this->assertSame(999, $entity->get(self::PRIMARY_KEY));
+		$this->assertSame(999, $entity->get(static::PRIMARY_KEY));
 		$this->assertSame('Roberto Segura', $entity->get('name'));
 		$this->assertSame('Roberto Segura', $entity->get('name', 'Isidro Baquero'));
 		$this->assertSame(null, $entity->get('age'));
@@ -665,14 +683,14 @@ class EntityTest extends \TestCase
 	 */
 	public function testGetThrowsExceptionForMissingProperty()
 	{
-		$entity = new Entity;
+		$entity = new Entity(999);
 
 		$reflection = new \ReflectionClass($entity);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
 		$row = array(
-			self::PRIMARY_KEY => 999,
+			static::PRIMARY_KEY => 999,
 			'name' => 'Roberto Segura'
 		);
 
@@ -689,7 +707,7 @@ class EntityTest extends \TestCase
 	public function testGetAllForcesFetchRow()
 	{
 		$row = array(
-			self::PRIMARY_KEY => 999,
+			static::PRIMARY_KEY => 999,
 			'name' => 'Roberto Segura'
 		);
 
@@ -711,21 +729,15 @@ class EntityTest extends \TestCase
 	 */
 	public function testHasReturnsCorrectValue()
 	{
-		$entity = new Entity;
+		$entity = $this->getEntity(array(static::PRIMARY_KEY => 999));
 
-		$reflection = new \ReflectionClass($entity);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999));
-
-		$this->assertTrue($entity->has(self::PRIMARY_KEY));
+		$this->assertTrue($entity->has(static::PRIMARY_KEY));
 		$this->assertFalse($entity->has('name'));
 		$this->assertFalse($entity->has('age'));
 
-		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'));
+		$entity = $this->getEntity(array(static::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'));
 
-		$this->assertTrue($entity->has(self::PRIMARY_KEY));
+		$this->assertTrue($entity->has(static::PRIMARY_KEY));
 		$this->assertTrue($entity->has('name'));
 		$this->assertFalse($entity->has('age'));
 	}
@@ -757,7 +769,7 @@ class EntityTest extends \TestCase
 
 		$this->assertFalse($entity->isLoaded());
 
-		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'));
+		$rowProperty->setValue($entity, array(static::PRIMARY_KEY => 999, 'name' => 'Roberto Segura'));
 
 		$this->assertTrue($entity->isLoaded());
 	}
@@ -769,25 +781,19 @@ class EntityTest extends \TestCase
 	 */
 	public function testJsonReturnsCorrectData()
 	{
-		$entity = new Entity;
-
-		$reflection = new \ReflectionClass($entity);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => ''));
+		$entity = $this->getEntity(array(static::PRIMARY_KEY => 999, 'json_column' => ''));
 
 		$this->assertEquals(array(), $entity->json('json_column'));
 
-		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => '{"foo":""}'));
+		$entity = $this->getEntity(array(static::PRIMARY_KEY => 999, 'json_column' => '{"foo":""}'));
 
 		$this->assertEquals(array(), $entity->json('json_column'));
 
-		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"0"}'));
+		$entity = $this->getEntity(array(static::PRIMARY_KEY => 999, 'json_column' => '{"foo":"0"}'));
 
 		$this->assertEquals(array('foo' => '0'), $entity->json('json_column'));
 
-		$rowProperty->setValue($entity, array(self::PRIMARY_KEY => 999, 'json_column' => '{"foo":"bar"}'));
+		$entity = $this->getEntity(array(static::PRIMARY_KEY => 999, 'json_column' => '{"foo":"bar"}'));
 
 		$this->assertEquals(array('foo' => 'bar'), $entity->json('json_column'));
 	}
@@ -939,7 +945,7 @@ class EntityTest extends \TestCase
 		$rowProperty->setAccessible(true);
 
 		$row = array(
-			self::PRIMARY_KEY => 999,
+			static::PRIMARY_KEY => 999,
 			'name' => 'Isidro Baquero'
 		);
 
@@ -947,7 +953,7 @@ class EntityTest extends \TestCase
 
 		$this->assertSame($row, $rowProperty->getValue($entity));
 
-		$entity->unassign(self::PRIMARY_KEY);
+		$entity->unassign(static::PRIMARY_KEY);
 
 		$this->assertSame(array('name' => 'Isidro Baquero'), $rowProperty->getValue($entity));
 
