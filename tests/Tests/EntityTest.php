@@ -633,7 +633,7 @@ class EntityTest extends \TestCase
 	}
 
 	/**
-	 * getId returns the correct identifier.
+	 * id returns the correct identifier.
 	 *
 	 * @return  void
 	 */
@@ -645,11 +645,11 @@ class EntityTest extends \TestCase
 		$idProperty = $reflection->getProperty('id');
 		$idProperty->setAccessible(true);
 
-		$this->assertSame(0, $idProperty->getValue($entity));
+		$this->assertSame(0, $entity->id());
 
 		$idProperty->setValue($entity, 999);
 
-		$this->assertSame(999, $idProperty->getValue($entity));
+		$this->assertSame(999, $entity->id());
 	}
 
 	/**
