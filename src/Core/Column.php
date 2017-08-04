@@ -51,6 +51,13 @@ abstract class Column
 	const IMAGES = 'images';
 
 	/**
+	 * Default column used to store language.
+	 *
+	 * @const
+	 */
+	const LANGUAGE = 'language';
+
+	/**
 	 * Default column used to store metadata.
 	 *
 	 * @const

@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Core\Column;
 
 /**
  * Trait for entities with translations.
@@ -115,7 +116,7 @@ trait HasTranslations
 
 			foreach ($this->translations() as $translation)
 			{
-				$tag = $translation->get($this->columnAlias('language'));
+				$tag = $translation->get($this->columnAlias(Column::LANGUAGE));
 				$this->translationsByTag[$tag] = $translation;
 			}
 		}
