@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Tests\Users;
 
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 
 /**
  * User entity tests.
@@ -278,11 +279,11 @@ class UserTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$rowProperty->setValue($user, array('id' => 999));
+		$rowProperty->setValue($user, array('id' => 999, CoreColumn::PARAMS => ''));
 
 		$this->assertEquals(new Registry, $user->params());
 
-		$rowProperty->setValue($user, array('id' => 999, 'params' => '{"timezone":"Europe\/Madrid"}'));
+		$rowProperty->setValue($user, array('id' => 999, CoreColumn::PARAMS => '{"timezone":"Europe\/Madrid"}'));
 
 		$this->assertEquals(new Registry(array('timezone' => 'Europe/Madrid')), $user->params(true));
 	}

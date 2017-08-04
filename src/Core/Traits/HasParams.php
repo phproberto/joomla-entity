@@ -8,8 +8,9 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
-use Phproberto\Joomla\Traits\HasParams as CommonHasParams;
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Traits\HasParams as CommonHasParams;
 
 /**
  * Trait for entities with params. Based on params | attribs columns.
@@ -83,15 +84,9 @@ trait HasParams
 	 */
 	protected function loadParams()
 	{
-		$column = $this->columnAlias('params');
-		$data = $this->all();
+		$params = trim($this->get($this->columnAlias(Column::PARAMS)));
 
-		if (array_key_exists($column, $data))
-		{
-			return new Registry($data[$column]);
-		}
-
-		return new Registry;
+		return empty($params) ? new Registry : new Registry($params);
 	}
 
 	/**
@@ -103,14 +98,6 @@ trait HasParams
 	 */
 	public function saveParams()
 	{
-		$column = $this->columnAlias('params');
-		$data   = $this->all();
-
-		if (!array_key_exists($column, $data))
-		{
-			throw new \RuntimeException("Error saving entity parameters: Cannot find entity parameters column", 500);
-		}
-
 		$table = $this->table();
 
 		if ($this->id())
@@ -120,7 +107,7 @@ trait HasParams
 
 		$saveData = array(
 			$this->primaryKey() => $this->id(),
-			$column             => $this->params()->toString()
+			$this->columnAlias(Column::PARAMS) => $this->params()->toString()
 		);
 
 		if (!$table->save($saveData))
@@ -143,7 +130,7 @@ trait HasParams
 	{
 		$this->commonSetParam($name, $value);
 
-		$this->assign($this->columnAlias('params'), $this->params()->toString());
+		$this->assign($this->columnAlias(Column::PARAMS), $this->params()->toString());
 
 		return $this;
 	}
@@ -159,7 +146,7 @@ trait HasParams
 	{
 		$this->commonSetParams($params);
 
-		$this->assign($this->columnAlias('params'), $this->params()->toString());
+		$this->assign($this->columnAlias(Column::PARAMS), $this->params()->toString());
 
 		return $this;
 	}

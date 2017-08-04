@@ -56,4 +56,11 @@ abstract class Column
 	 * @const
 	 */
 	const METADATA = 'metadata';
+
+	/**
+	 * Default column used to store params.
+	 *
+	 * @const
+	 */
+	const PARAMS = 'params';
 }

@@ -25,23 +25,7 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testParamReturnsCorrectValue()
 	{
-		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('columnAlias'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('columnAlias')
-			->willReturn('params');
-
-		$reflection = new \ReflectionClass($entity);
-
-		$idProperty = $reflection->getProperty('id');
-		$idProperty->setAccessible(true);
-		$idProperty->setValue($entity, 999);
-
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($entity, array('id' => 999, 'params' => '{"foo":"var"}'));
+		$entity = $this->getEntity(array('id' => 999, 'params' => '{"foo":"var"}'));
 
 		$this->assertSame('var', $entity->param('foo'));
 		$this->assertSame(null, $entity->param('unknown'));
@@ -79,19 +63,7 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testParamsWorksForUnsetParams()
 	{
-		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('columnAlias'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('columnAlias')
-			->willReturn('params');
-
-		$reflection = new \ReflectionClass($entity);
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$rowProperty->setValue($entity, array('id' => 999, 'name' => 'Roberto Segura'));
+		$entity = $this->getEntity(array('id' => 999, 'name' => 'Roberto Segura', 'params' => ' '));
 
 		$this->assertEquals(new Registry, $entity->params());
 	}
@@ -103,22 +75,7 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testParamsWorksWithParamsColumn()
 	{
-		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('columnAlias'))
-			->getMock();
-
-		$entity->method('columnAlias')
-			->willReturn('params');
-
-		$reflection = new \ReflectionClass($entity);
-
-		$idProperty = $reflection->getProperty('id');
-		$idProperty->setAccessible(true);
-		$idProperty->setValue($entity, 999);
-
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($entity, array('id' => 999, 'params' => '{"foo":"bar"}'));
+		$entity = $this->getEntity(array('id' => 999, 'params' => '{"foo":"bar"}'));
 
 		$this->assertEquals(new Registry(array('foo' => 'bar')), $entity->params());
 	}
@@ -130,22 +87,12 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testParamsReloadWorks()
 	{
-		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('columnAlias'))
-			->getMock();
-
-		$entity->method('columnAlias')
-			->willReturn('params');
+		$entity = $this->getEntity(array('id' => 999, 'params' => '{"foo":"bar"}'));
 
 		$reflection = new \ReflectionClass($entity);
 
-		$idProperty = $reflection->getProperty('id');
-		$idProperty->setAccessible(true);
-		$idProperty->setValue($entity, 999);
-
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($entity, array('id' => 999, 'params' => '{"foo":"bar"}'));
 
 		$this->assertEquals(new Registry(array('foo' => 'bar')), $entity->params());
 
@@ -160,7 +107,7 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException \RuntimeException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSaveParamsThrowsExceptionIfParamsColumnIsNotPresentInRow()
 	{
@@ -264,24 +211,13 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testSetParamSetsCorrectParamValue()
 	{
-		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('columnAlias'))
-			->getMock();
-
-		$entity->method('columnAlias')
-			->willReturn('params');
+		$entity = $this->getEntity(array('id' => 999, 'params' => '{"test":"var"}'));
 
 		$reflection = new \ReflectionClass($entity);
-
-		$idProperty = $reflection->getProperty('id');
-		$idProperty->setAccessible(true);
-		$idProperty->setValue($entity, 999);
 
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($entity, array('id' => 999, 'params' => '{"test":"var"}'));
 
-		$reflection = new \ReflectionClass($entity);
 		$paramsProperty = $reflection->getProperty('params');
 		$paramsProperty->setAccessible(true);
 
@@ -344,25 +280,13 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testSetParamsSetsCorrectValue()
 	{
-		$entity = $this->getMockBuilder(EntityWithParams::class)
-			->setMethods(array('columnAlias'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('columnAlias')
-			->willReturn('params');
+		$entity = $this->getEntity(array('id' => 999, 'params' => '{"test":"var"}'));
 
 		$reflection = new \ReflectionClass($entity);
-
-		$idProperty = $reflection->getProperty('id');
-		$idProperty->setAccessible(true);
-		$idProperty->setValue($entity, 999);
 
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($entity, array('id' => 999, 'params' => '{"test":"var"}'));
 
-		$reflection = new \ReflectionClass($entity);
 		$paramsProperty = $reflection->getProperty('params');
 		$paramsProperty->setAccessible(true);
 
@@ -407,5 +331,26 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals($expectedParams, $paramsProperty->getValue($entity));
 		$this->assertEquals($expectedParams->toString(), $rowProperty->getValue($entity)['attribs']);
+	}
+
+	/**
+	 * Get a mocked entity.
+	 *
+	 * @param   array  $row  Row returned by the entity as data
+	 *
+	 * @return  \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private function getEntity($row = array())
+	{
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('params');
+
+		$entity->bind($row);
+
+		return $entity;
 	}
 }
