@@ -26,6 +26,13 @@ use Phproberto\Joomla\Entity\Traits;
 class Component extends Extension
 {
 	/**
+	 * Component option.
+	 *
+	 * @var  string
+	 */
+	protected $option;
+
+	/**
 	 * Component prefix for classes, etc.
 	 *
 	 * @var  string
@@ -168,7 +175,12 @@ class Component extends Extension
 	 */
 	public function option()
 	{
-		return $this->get('element');
+		if (null === $this->option)
+		{
+			$this->option = $this->get('element');
+		}
+
+		return $this->option;
 	}
 
 	/**

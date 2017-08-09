@@ -221,6 +221,7 @@ class ComponentTest extends \TestCaseDatabase
 
 		$this->assertSame('com_phproberto', $component->option());
 
+		$component = new Component(999);
 		$rowProperty->setValue($component, array('extension_id' => 999, 'element' => 'com_contact'));
 
 		$this->assertSame('com_contact', $component->option());
