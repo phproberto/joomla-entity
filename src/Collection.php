@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity;
 
-use Phproberto\Joomla\Entity\EntityInterface;
+use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**
  * Represents a collection of entities.

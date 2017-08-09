@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Users;
 
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Entity;
+use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 
 /**
@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
  *
  * @since   __DEPLOY_VERSION__
  */
-class User extends Entity
+class User extends ComponentEntity
 {
 	use CoreTraits\HasParams;
 

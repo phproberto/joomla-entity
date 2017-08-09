@@ -9,25 +9,28 @@
 namespace Phproberto\Joomla\Entity\Content;
 
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Content\Category;
+use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Tags\Tag;
-use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
+use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Fields\Field;
+use Phproberto\Joomla\Entity\Content\Category;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
 use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
+use Phproberto\Joomla\Entity\Fields\Traits as FieldsTraits;
+use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
 
 /**
  * Article entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class Article extends Entity
+class Article extends ComponentEntity
 {
 	use CategoriesTraits\HasCategory;
-	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasComponent, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
+	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
 	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams, CoreTraits\HasState, CoreTraits\HasTranslations, CoreTraits\HasUrls;
+	use FieldsTraits\HasFields;
 	use TagsTraits\HasTags;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 

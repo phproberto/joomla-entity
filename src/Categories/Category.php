@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Categories;
 
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Entity;
+use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
 use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
@@ -20,7 +20,7 @@ use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
  *
  * @since   __DEPLOY_VERSION__
  */
-class Category extends Entity
+class Category extends ComponentEntity
 {
 	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasMetadata, CoreTraits\HasParams;
 	use CoreTraits\HasTranslations;

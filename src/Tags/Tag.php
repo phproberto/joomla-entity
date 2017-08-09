@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tags;
 
-use Phproberto\Joomla\Entity\Entity;
+use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 
 /**
@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
  *
  * @since   __DEPLOY_VERSION__
  */
-class Tag extends Entity
+class Tag extends ComponentEntity
 {
 	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasState;
 	/**
