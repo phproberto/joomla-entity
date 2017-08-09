@@ -119,6 +119,33 @@ class CollectionTest extends \TestCase
 	}
 
 	/**
+	 * arrayAccess implementation.
+	 *
+	 * @return  void
+	 */
+	public function testArrayAccessImplementation()
+	{
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001),
+			1002 => new Entity(1002)
+		);
+
+		$collection = new Collection($entities);
+
+		$this->assertTrue(isset($collection[1000]));
+		$this->assertFalse(isset($collection[1003]));
+
+		$collection[1003] = new Entity(1003);
+
+		$this->assertTrue(isset($collection[1003]));
+		$this->assertEquals(new Entity(1002), $collection[1002]);
+
+		unset($collection[1003]);
+		$this->assertFalse(isset($collection[1003]));
+	}
+
+	/**
 	 * clear empties entities array.
 	 *
 	 * @return  void
@@ -176,12 +203,22 @@ class CollectionTest extends \TestCase
 	 */
 	public function testCurrentReturnsCorrectValue()
 	{
-		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001),
+			1002 => new Entity(1002)
+		);
 
-		foreach ($collection as $entity)
+		$collection = new Collection($entities);
+
+		while ($collection->key())
 		{
-			$this->assertSame($collection->current(), $entity);
+			$this->assertEquals(current($entities), $collection->current());
+			next($entities);
+			$collection->next();
 		}
+
+		reset($entities);
 
 		$reflection = new \ReflectionClass($collection);
 		$entitiesProperty = $reflection->getProperty('entities');
@@ -189,19 +226,13 @@ class CollectionTest extends \TestCase
 
 		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
 
-		$entities = array(
-			1000 => new Entity(1000),
-			1001 => new Entity(1001),
-			1002 => new Entity(1002)
-		);
-
 		$entitiesProperty->setValue($collection, $entities);
 
 		$this->assertEquals(new Entity(1000), $collection->current());
 
 		while (key($entities) !== 1001)
 		{
-		    next($entities);
+			next($entities);
 		}
 
 		$entitiesProperty->setValue($collection, $entities);
@@ -235,6 +266,24 @@ class CollectionTest extends \TestCase
 		$returnedEntities[1000]->publicProperty = 'test me';
 
 		$this->assertSame($entities, $returnedEntities);
+	}
+
+	/**
+	 * getIterator returns correct iterator.
+	 *
+	 * @return  void
+	 */
+	public function testGetIteratorReturnsCorrectIterator()
+	{
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001),
+			1002 => new Entity(1002)
+		);
+
+		$collection = new Collection($entities);
+
+		$this->assertEquals(new \ArrayIterator($entities), $collection->getIterator());
 	}
 
 	/**
@@ -413,24 +462,28 @@ class CollectionTest extends \TestCase
 
 		$this->assertSame(null, $collection->key());
 
-		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
-
-		foreach ($collection as $entity)
-		{
-			$this->assertSame($collection->key(), $entity->id());
-		}
-
-		$reflection = new \ReflectionClass($collection);
-		$entitiesProperty = $reflection->getProperty('entities');
-		$entitiesProperty->setAccessible(true);
-
-		$collection = new Collection(array(new Entity(1000), new Entity(1001), new Entity(1002)));
-
 		$entities = array(
 			1000 => new Entity(1000),
 			1001 => new Entity(1001),
 			1002 => new Entity(1002)
 		);
+
+		$collection = new Collection($entities);
+
+		while ($collection->key())
+		{
+			$this->assertEquals(key($entities), $collection->key());
+			next($entities);
+			$collection->next();
+		}
+
+		reset($entities);
+
+		$reflection = new \ReflectionClass($collection);
+		$entitiesProperty = $reflection->getProperty('entities');
+		$entitiesProperty->setAccessible(true);
+
+		$collection = new Collection($entities);
 
 		$entitiesProperty->setValue($collection, $entities);
 
@@ -674,6 +727,93 @@ class CollectionTest extends \TestCase
 		$entitiesProperty->setValue($collection, $entities);
 
 		$this->assertSame($entities[1002], $collection->next());
+	}
+
+	/**
+	 * offsetExists returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testOffsetExistsReturnsCorrectValue()
+	{
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001),
+			1002 => new Entity(1002)
+		);
+
+		$collection = new Collection($entities);
+
+		$this->assertFalse($collection->offsetExists(1003));
+		$this->assertTrue($collection->offsetExists(1000));
+		$this->assertFalse($collection->offsetExists(999));
+		$this->assertTrue($collection->offsetExists(1001));
+		$this->assertFalse($collection->offsetExists(1004));
+		$this->assertTrue($collection->offsetExists(1002));
+	}
+
+	/**
+	 * offsetGet returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testOffsetGetReturnsCorrectValue()
+	{
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001),
+			1002 => new Entity(1002)
+		);
+
+		$collection = new Collection($entities);
+
+		$this->assertInstanceOf(Entity::class, $collection->offsetGet(1000));
+		$this->assertInstanceOf(Entity::class, $collection->offsetGet(1002));
+		$this->assertInstanceOf(Entity::class, $collection->offsetGet(1001));
+	}
+
+	/**
+	 * offsetSet sets correct value.
+	 *
+	 * @return  void
+	 */
+	public function testOffsetSetSetsCorrectValue()
+	{
+		$collection = new Collection;
+
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001),
+			1002 => new Entity(1002)
+		);
+
+		foreach ($entities as $id => $entity)
+		{
+			$collection->offsetSet($id, $entity);
+			$this->assertSame($entity, $collection[$id]);
+		}
+	}
+
+	/**
+	 * ofssetUnset unsets entity.
+	 *
+	 * @return  void
+	 */
+	public function testOffsetUnsetUnsetsEntity()
+	{
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001),
+			1002 => new Entity(1002)
+		);
+
+		$collection = new Collection($entities);
+
+		$collection->offsetUnset(1001);
+		$this->assertEquals($collection, new Collection(array($entities[1000], $entities[1002])));
+
+		$collection->offsetUnset(1002);
+		$this->assertEquals($collection, new Collection(array($entities[1000])));
 	}
 
 	/**

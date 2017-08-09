@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\EntityInterface;
  *
  * @since   __DEPLOY_VERSION__
  */
-class Collection implements \Countable, \Iterator
+class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 	/**
 	 * Ascending direction for sorting.
@@ -160,6 +160,16 @@ class Collection implements \Countable, \Iterator
 		}
 
 		return $this->entities[$id];
+	}
+
+	/**
+	 * Get an iterator for the entities.
+	 *
+	 * @return  \ArrayIterator
+	 */
+	public function getIterator()
+	{
+		return new \ArrayIterator($this->entities);
 	}
 
 	/**
@@ -314,6 +324,58 @@ class Collection implements \Countable, \Iterator
 	public function next()
 	{
 		return next($this->entities);
+	}
+
+	/**
+	 * Determine if an entity exists at an offset.
+	 * Part of the ArrayAccess implementation.
+	 *
+	 * @param   integer  $id  Entity identifier
+	 *
+	 * @return  boolean
+	 */
+	public function offsetExists($id)
+	{
+		return array_key_exists($id, $this->entities);
+	}
+
+	/**
+	 * Get entity on the given offset.
+	 * Part of the ArrayAccess implementation.
+	 *
+	 * @param   integer  $id  Entity identifier
+	 *
+	 * @return   EntityInterface
+	 */
+	public function offsetGet($id)
+	{
+		return $this->entities[$id];
+	}
+
+	/**
+	 * Set the entity at a given offset.
+	 * Part of the ArrayAccess implementation.
+	 *
+	 * @param   integer          $id      Entity identifier
+	 * @param   EntityInterface  $entity  Entity
+	 *
+	 * @return  void
+	 */
+	public function offsetSet($id, $entity)
+	{
+		$this->write($entity);
+	}
+
+	/**
+	 * Unset the entity at a given offset.
+	 *
+	 * @param   integer  $id  Entity identifier
+	 *
+	 * @return void
+	 */
+	public function offsetUnset($id)
+	{
+		unset($this->entities[$id]);
 	}
 
 	/**
