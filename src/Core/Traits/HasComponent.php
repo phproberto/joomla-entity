@@ -25,6 +25,13 @@ trait HasComponent
 	protected $component;
 
 	/**
+	 * Component option.
+	 *
+	 * @var string
+	 */
+	protected $componentOption;
+
+	/**
 	 * Retrieve the associated component.
 	 *
 	 * @return  Component
@@ -45,6 +52,21 @@ trait HasComponent
 	 * @return  mixed  null (not found) | string (found)
 	 */
 	protected function componentOption()
+	{
+		if (null === $this->componentOption)
+		{
+			$this->componentOption = $this->componentOptionFromClass();
+		}
+
+		return $this->componentOption;
+	}
+
+	/**
+	 * Try to guess component option from class.
+	 *
+	 * @return  string
+	 */
+	protected function componentOptionFromClass()
 	{
 		$class = get_class($this);
 
