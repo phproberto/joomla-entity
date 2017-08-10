@@ -30,6 +30,46 @@ trait HasAcl
 	abstract public function component();
 
 	/**
+	 * Get a property of this entity.
+	 *
+	 * @param   string  $property  Name of the property to get
+	 * @param   mixed   $default   Value to use as default if property is not set or is null
+	 *
+	 * @return  mixed
+	 */
+	abstract public function get($property, $default = null);
+
+	/**
+	 * Check if entity has a property.
+	 *
+	 * @param   string   $property  Entity property name
+	 *
+	 * @return  boolean
+	 */
+	abstract public function has($property);
+
+	/**
+	 * Check if this entity has an id.
+	 *
+	 * @return  boolean
+	 */
+	abstract public function hasId();
+
+	/**
+	 * Get the entity identifier.
+	 *
+	 * @return  integer
+	 */
+	abstract public function id();
+
+	/**
+	 * Get this entity name.
+	 *
+	 * @return  string
+	 */
+	abstract public function name();
+
+	/**
 	 * Get the ACL prefix applied to this entity
 	 *
 	 * @return  string
