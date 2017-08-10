@@ -28,7 +28,7 @@ use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
 class Article extends ComponentEntity
 {
 	use CategoriesTraits\HasCategory;
-	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
+	use CoreTraits\HasAccess, CoreTraits\HasAcl, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
 	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams, CoreTraits\HasState, CoreTraits\HasTranslations, CoreTraits\HasUrls;
 	use FieldsTraits\HasFields;
 	use TagsTraits\HasTags;
