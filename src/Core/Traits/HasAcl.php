@@ -95,6 +95,51 @@ trait HasAcl
 	}
 
 	/**
+	 * Check if current user can create an entity.
+	 *
+	 * @return  boolean
+	 */
+	public function canCreate()
+	{
+		if ($this->canDo($this->aclPrefix() . '.create'))
+		{
+			return true;
+		}
+
+		if ($this->isOwner() && $this->canDo($this->aclPrefix() . '.create.own'))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if current user can delete this entity.
+	 *
+	 * @return  boolean
+	 */
+	public function canDelete()
+	{
+		if (!$this->hasId())
+		{
+			return false;
+		}
+
+		if ($this->canDo($this->aclPrefix() . '.delete'))
+		{
+			return true;
+		}
+
+		if ($this->isOwner() && $this->canDo($this->aclPrefix() . '.delete.own'))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check if current user has permission to perform an action
 	 *
 	 * @param   string  $action  The action. Example: core.create
@@ -123,12 +168,12 @@ trait HasAcl
 			return true;
 		}
 
-		if (!$this->isOwner())
+		if ($this->isOwner() && $this->canDo($this->aclPrefix() . '.edit.own'))
 		{
-			return false;
+			return true;
 		}
 
-		return $this->canDo($this->aclPrefix() . '.edit.own');
+		return false;
 	}
 
 	/**

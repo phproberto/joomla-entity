@@ -101,6 +101,244 @@ class HasAclTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * canCreate returns false if cannot create and not owner.
+	 *
+	 * @return  void
+	 */
+	public function testCanCreateReturnsFalseIfCannotCreateAndNotOwner()
+	{
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('canDo', 'aclPrefix', 'isOwner'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('aclPrefix')
+			->willReturn('core');
+
+		$entity->expects($this->once())
+			->method('canDo')
+			->with($this->equalTo('core.create'))
+			->willReturn(false);
+
+		$entity->expects($this->once())
+			->method('isOwner')
+			->willReturn(false);
+
+		$this->assertFalse($entity->canCreate());
+	}
+
+	/**
+	 * canCreate returns true for create permission.
+	 *
+	 * @return  void
+	 */
+	public function testCanCreateReturnsTrueForCreatePermission()
+	{
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('canDo', 'aclPrefix', 'isOwner'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('aclPrefix')
+			->willReturn('core');
+
+		$entity->expects($this->once())
+			->method('canDo')
+			->with($this->equalTo('core.create'))
+			->willReturn(true);
+
+		$entity->expects($this->exactly(0))
+			->method('isOwner')
+			->willReturn(false);
+
+		$this->assertTrue($entity->canCreate());
+	}
+
+	/**
+	 * canCreate returns true when owner and create own allowed.
+	 *
+	 * @return  void
+	 */
+	public function testCanCreateReturnsTrueWhenOwnerAndCreateOwnAllowed()
+	{
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('canDo', 'aclPrefix', 'isOwner'))
+			->getMock();
+
+		$entity->expects($this->exactly(2))
+			->method('aclPrefix')
+			->willReturn('core');
+
+		$entity->expects($this->at(1))
+			->method('canDo')
+			->with($this->equalTo('core.create'))
+			->willReturn(false);
+
+		$entity->expects($this->once())
+			->method('isOwner')
+			->willReturn(true);
+
+		$entity->expects($this->at(4))
+			->method('canDo')
+			->with($this->equalTo('core.create.own'))
+			->willReturn(true);
+
+		$this->assertTrue($entity->canCreate());
+	}
+
+	/**
+	 * canDelete returns false for missing id.
+	 *
+	 * @return  void
+	 */
+	public function testCanDeleteReturnsFalseForMissingId()
+	{
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(false);
+
+		$this->assertFalse($entity->canDelete());
+	}
+
+	/**
+	 * canDelete returns false when no delete and not owner.
+	 *
+	 * @return  void
+	 */
+	public function testCanDeleteReturnsFalseWhenNoDeleteAllowedAndNotOwner()
+	{
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId', 'canDo', 'aclPrefix', 'isOwner'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('aclPrefix')
+			->willReturn('core');
+
+		$entity->expects($this->once())
+			->method('canDo')
+			->with($this->equalTo('core.delete'))
+			->willReturn(false);
+
+		$entity->expects($this->once())
+			->method('isOwner')
+			->willReturn(false);
+
+		$this->assertFalse($entity->canDelete());
+	}
+
+	/**
+	 * canDelete returns false when owner and delete own not allowed.
+	 *
+	 * @return  void
+	 */
+	public function testCanDeleteReturnsFalseWhenOwnerAndDeleteOwnNotAllowed()
+	{
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId', 'canDo', 'aclPrefix', 'isOwner'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(true);
+
+		$entity->expects($this->exactly(2))
+			->method('aclPrefix')
+			->willReturn('core');
+
+		$entity->expects($this->at(2))
+			->method('canDo')
+			->with($this->equalTo('core.delete'))
+			->willReturn(false);
+
+		$entity->expects($this->once())
+			->method('isOwner')
+			->willReturn(true);
+
+		$entity->expects($this->at(5))
+			->method('canDo')
+			->with($this->equalTo('core.delete.own'))
+			->willReturn(false);
+
+		$this->assertFalse($entity->canDelete());
+	}
+
+	/**
+	 * canDelete returns true when delete allowed.
+	 *
+	 * @return  void
+	 */
+	public function testCanDeleteReturnsTrueWhenDeleteAllowed()
+	{
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId', 'canDo', 'aclPrefix', 'isOwner'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('aclPrefix')
+			->willReturn('core');
+
+		$entity->expects($this->once())
+			->method('canDo')
+			->with($this->equalTo('core.delete'))
+			->willReturn(true);
+
+		$entity->expects($this->exactly(0))
+			->method('isOwner')
+			->willReturn(false);
+
+		$this->assertTrue($entity->canDelete());
+	}
+
+	/**
+	 * canDelete returns true when owner and delete own allowed.
+	 *
+	 * @return  void
+	 */
+	public function testCanDeleteReturnsTrueWhenOwnerAndDeleteOwnAllowed()
+	{
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId', 'canDo', 'aclPrefix', 'isOwner'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(true);
+
+		$entity->expects($this->exactly(2))
+			->method('aclPrefix')
+			->willReturn('core');
+
+		$entity->expects($this->at(2))
+			->method('canDo')
+			->with($this->equalTo('core.delete'))
+			->willReturn(false);
+
+		$entity->expects($this->once())
+			->method('isOwner')
+			->willReturn(true);
+
+		$entity->expects($this->at(5))
+			->method('canDo')
+			->with($this->equalTo('core.delete.own'))
+			->willReturn(true);
+
+		$this->assertTrue($entity->canDelete());
+	}
+
+	/**
 	 * canDo returns true when is admin.
 	 *
 	 * @return  void
