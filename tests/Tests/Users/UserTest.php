@@ -87,6 +87,88 @@ class UserTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * authorise returns true for root.
+	 *
+	 * @return  void
+	 */
+	public function testAuthoriseReturnsTrueForRoot()
+	{
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('isRoot', 'joomlaUser'))
+			->getMock();
+
+		$user->expects($this->once())
+			->method('isRoot')
+			->willReturn(true);
+
+		$user->expects($this->exactly(0))
+			->method('joomlaUser')
+			->willReturn(null);
+
+		$this->assertTrue($user->authorise('sample.action'));
+	}
+
+	/**
+	 * authorise returns juser authorise.
+	 *
+	 * @return  void
+	 */
+	public function testAuthoriseReturnsJUserAuthorise()
+	{
+		$joomlaUser = $this->getMockBuilder('MockeJoomlaUser')
+			->setMethods(array('authorise'))
+			->getMock();
+
+		$joomlaUser->expects($this->once())
+			->method('authorise')
+			->willReturn(true);
+
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('isRoot', 'joomlaUser'))
+			->getMock();
+
+		$user->expects($this->once())
+			->method('isRoot')
+			->willReturn(false);
+
+		$user->expects($this->once())
+			->method('joomlaUser')
+			->willReturn($joomlaUser);
+
+		$this->assertTrue($user->authorise('sample.action'));
+	}
+
+	/**
+	 * authorise will return false if joomlaUser throws exception.
+	 *
+	 * @return  void
+	 */
+	public function testAuthoriseWillReturnFalseIfJoomlaUserThrowsException()
+	{
+		$joomlaUser = $this->getMockBuilder('MockeJoomlaUser')
+			->setMethods(array('authorise'))
+			->getMock();
+
+		$joomlaUser->expects($this->once())
+			->method('authorise')
+			->will($this->throwException(new \Exception('User failure')));
+
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('isRoot', 'joomlaUser'))
+			->getMock();
+
+		$user->expects($this->once())
+			->method('isRoot')
+			->willReturn(false);
+
+		$user->expects($this->once())
+			->method('joomlaUser')
+			->willReturn($joomlaUser);
+
+		$this->assertFalse($user->authorise('sample.action'));
+	}
+
+	/**
 	 * entity instance can be retrieved.
 	 *
 	 * @return  void
@@ -208,6 +290,48 @@ class UserTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * canAdmin returns true for root.
+	 *
+	 * @return  void
+	 */
+	public function testCanAdminReturnsTrueForRoot()
+	{
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('isRoot'))
+			->getMock();
+
+		$user->expects($this->once())
+			->method('isRoot')
+			->willReturn(true);
+
+		$this->assertTrue($user->canAdmin('com_phproberto'));
+	}
+
+	/**
+	 * canAdmin returns authorise result.
+	 *
+	 * @return  void
+	 */
+	public function testCanAdminReturnsAuthoriseResult()
+	{
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('isRoot', 'authorise'))
+			->getMock();
+
+		$user->expects($this->exactly(3))
+			->method('isRoot')
+			->willReturn(false);
+
+		$user->method('authorise')
+			->with($this->equalTo('core.admin'), $this->equalTo('com_phproberto'))
+			->will($this->onConsecutiveCalls(false, true, false));
+
+		$this->assertFalse($user->canAdmin('com_phproberto'));
+		$this->assertTrue($user->canAdmin('com_phproberto'));
+		$this->assertFalse($user->canAdmin('com_phproberto'));
+	}
+
+	/**
 	 * juser returns correct instance.
 	 *
 	 * @return  void
@@ -239,17 +363,79 @@ class UserTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * joomlaUser throws exception for no primary key.
+	 * isRoot returns cached value.
 	 *
 	 * @return  void
-	 *
-	 * @expectedException \InvalidArgumentException
 	 */
-	public function testJoomlaUserThrowsExceptionForNoPrimaryKey()
+	public function testIsRootReturnsCachedValue()
+	{
+		$user = new User(999);
+
+		$reflection = new \ReflectionClass($user);
+		$isRootProperty = $reflection->getProperty('isRoot');
+		$isRootProperty->setAccessible(true);
+
+		$isRootProperty->setValue($user, true);
+		$this->assertTrue($user->isRoot());
+
+		$isRootProperty->setValue($user, false);
+		$this->assertFalse($user->isRoot());
+
+		$isRootProperty->setValue($user, true);
+		$this->assertTrue($user->isRoot());
+	}
+
+	/**
+	 * isRoot returns authorise result.
+	 *
+	 * @return  void
+	 */
+	public function testIsRootReturnsAuthoriseResult()
+	{
+		$joomlaUser = $this->getMockBuilder('MockeJoomlaUser')
+			->setMethods(array('authorise'))
+			->getMock();
+
+		$joomlaUser->method('authorise')
+			->with('core.admin')
+			->will($this->onConsecutiveCalls(true, false, true));
+
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('joomlaUser'))
+			->getMock();
+
+		$user->expects($this->exactly(3))
+			->method('joomlaUser')
+			->willReturn($joomlaUser);
+
+		$reflection = new \ReflectionClass($user);
+		$isRootProperty = $reflection->getProperty('isRoot');
+		$isRootProperty->setAccessible(true);
+
+		$isRootProperty->setValue($user, null);
+		$this->assertTrue($user->isRoot());
+
+		$isRootProperty->setValue($user, null);
+		$this->assertFalse($user->isRoot());
+
+		$isRootProperty->setValue($user, null);
+		$this->assertTrue($user->isRoot());
+	}
+
+	/**
+	 * joomlaUser returns guest for missing primary key.
+	 *
+	 * @return  void
+	 */
+	public function testJoomlaUserReturnsGuestForMissingPrimaryKey()
 	{
 		$user = new User;
 
 		$joomlaUser = $user->joomlaUser();
+
+		$this->assertInstanceOf(\JUser::class, $joomlaUser);
+		$this->assertSame(0, (int) $joomlaUser->get('id'));
+		$this->assertSame(1, $joomlaUser->get('guest'));
 	}
 
 	/**
@@ -259,7 +445,7 @@ class UserTest extends \TestCaseDatabase
 	 *
 	 * @expectedException \RuntimeException
 	 */
-	public function testJoomlaUserThrowsExceptionForNonExistinUser()
+	public function testJoomlaUserThrowsExceptionForNonExistingUser()
 	{
 		$user = new User(999);
 

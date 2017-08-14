@@ -22,6 +22,13 @@ class User extends ComponentEntity
 	use CoreTraits\HasParams;
 
 	/**
+	 * Is this user root/super user?
+	 *
+	 * @var  boolean
+	 */
+	protected $isRoot;
+
+	/**
 	 * Get the active joomla user.
 	 *
 	 * @return  static
@@ -31,6 +38,48 @@ class User extends ComponentEntity
 		$userId = (int) \JFactory::getUser()->get('id');
 
 		return $userId ? static::instance($userId) : new static;
+	}
+
+	/**
+	 * Proxy to JUser::authorise().
+	 *
+	 * @param   string  $action     The name of the action to check for permission.
+	 * @param   string  $assetname  The name of the asset on which to perform the action.
+	 *
+	 * @return  boolean
+	 */
+	public function authorise($action, $assetname = null)
+	{
+		if ($this->isRoot())
+		{
+			return true;
+		}
+
+		try
+		{
+			return $this->joomlaUser()->authorise($action, $assetname);
+		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Can this user administrate a component?
+	 *
+	 * @param   string  $component  Component to check for admin permission
+	 *
+	 * @return  boolean
+	 */
+	public function canAdmin($component)
+	{
+		if ($this->isRoot())
+		{
+			return true;
+		}
+
+		return $this->authorise('core.admin', $component);
 	}
 
 	/**
@@ -89,17 +138,27 @@ class User extends ComponentEntity
 	}
 
 	/**
+	 * Check if this user is super user.
+	 *
+	 * @return  boolean
+	 */
+	public function isRoot()
+	{
+		if (null === $this->isRoot)
+		{
+			$this->isRoot = $this->joomlaUser()->authorise('core.admin');
+		}
+
+		return $this->isRoot;
+	}
+
+	/**
 	 * \JFactory::getUser() proxy for testing purposes
 	 *
 	 * @return  \JUser object
 	 */
 	public function joomlaUser()
 	{
-		if (!$this->hasId())
-		{
-			throw new \InvalidArgumentException("Error trying to load non-existing user");
-		}
-
 		$joomlaUser = $this->juser($this->id());
 
 		if ((int) $joomlaUser->get('id') !== $this->id())
