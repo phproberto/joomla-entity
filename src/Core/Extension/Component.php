@@ -8,15 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Extension;
 
-use Phproberto\Joomla\Client\Client;
-use Phproberto\Joomla\Client\Site;
-use Phproberto\Joomla\Client\Administrator;
-use Phproberto\Joomla\Client\ClientInterface;
 use Phproberto\Joomla\Entity\Core\Extension;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
-use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
-use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
-use Phproberto\Joomla\Entity\Traits;
 
 /**
  * Component entity.
@@ -25,6 +18,8 @@ use Phproberto\Joomla\Entity\Traits;
  */
 class Component extends Extension
 {
+	use CoreTraits\HasAcl;
+
 	/**
 	 * Component option.
 	 *
@@ -54,6 +49,16 @@ class Component extends Extension
 	public function __construct($id = null)
 	{
 		parent::__construct($id);
+	}
+
+	/**
+	 * Get the identifier of the asset asset
+	 *
+	 * @return  string
+	 */
+	public function aclAssetName()
+	{
+		return $this->option();
 	}
 
 	/**
@@ -133,7 +138,7 @@ class Component extends Extension
 		if (!$model instanceof \JModel && !$model instanceof \JModelLegacy)
 		{
 			throw new \InvalidArgumentException(
-				sprintf("Cannot find the model `%s` in `%s` component's %s folder.", $name, $this->option(), $this->client->getName())
+				sprintf("Cannot find the model `%s` in `%s` component's %s folder.", $name, $this->option(), $this->client()->getName())
 			);
 		}
 
@@ -164,7 +169,7 @@ class Component extends Extension
 		}
 
 		throw new \RuntimeException(
-			sprintf("Cannot find the models folder for `%s` component in `%s` folder.", $this->option(), $this->client->getName())
+			sprintf("Cannot find the models folder for `%s` component in `%s` folder.", $this->option(), $this->client()->getName())
 		);
 	}
 
@@ -248,7 +253,7 @@ class Component extends Extension
 		}
 
 		throw new \RuntimeException(
-			sprintf("Cannot find the tables folder for `%s` component in `%s` folder.", $this->option(), $this->client->getName())
+			sprintf("Cannot find the tables folder for `%s` component in `%s` folder.", $this->option(), $this->client()->getName())
 		);
 	}
 }

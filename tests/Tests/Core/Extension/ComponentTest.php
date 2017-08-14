@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Core\Extension;
 
+use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Core\Decorator\Acl;
 use Phproberto\Joomla\Entity\Core\Extension\Component;
 
 /**
@@ -60,6 +62,47 @@ class ComponentTest extends \TestCaseDatabase
 		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 
 		return $dataSet;
+	}
+
+	/**
+	 * aclAssetName returns option.
+	 *
+	 * @return  void
+	 */
+	public function testAclAssetNameReturnsOption()
+	{
+		$component = $this->getMockBuilder(Component::class)
+			->setMethods(array('option'))
+			->getMock();
+
+		$component->expects($this->once())
+			->method('option')
+			->willReturn('com_phproberto');
+
+		$this->assertSame('com_phproberto', $component->aclAssetName());
+	}
+
+	/**
+	 * Acl can be retrieved.
+	 *
+	 * @return  void
+	 */
+	public function testAclCanBeRetrieved()
+	{
+		$entity = new Component(666);
+		$user = new User(999);
+
+		$acl = $entity->acl($user);
+
+		$reflection = new \ReflectionClass($acl);
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$userProperty = $reflection->getProperty('user');
+		$userProperty->setAccessible(true);
+
+		$this->assertInstanceOf(Acl::class, $acl);
+		$this->assertSame($user, $userProperty->getValue($acl));
+		$this->assertSame($entity, $entityProperty->getValue($acl));
 	}
 
 	/**
