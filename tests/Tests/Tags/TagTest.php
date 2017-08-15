@@ -8,8 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Tags;
 
-use Phproberto\Joomla\Entity\Tags\Tag;
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Tags\Tag;
+use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Core\Decorator\Acl;
 
 /**
  * Tag entity tests.
@@ -18,6 +20,29 @@ use Joomla\Registry\Registry;
  */
 class TagTest extends \TestCaseDatabase
 {
+	/**
+	 * Acl can be retrieved.
+	 *
+	 * @return  void
+	 */
+	public function testAclCanBeRetrieved()
+	{
+		$entity = new Tag(666);
+		$user = new User(999);
+
+		$acl = $entity->acl($user);
+
+		$reflection = new \ReflectionClass($acl);
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$userProperty = $reflection->getProperty('user');
+		$userProperty->setAccessible(true);
+
+		$this->assertInstanceOf(Acl::class, $acl);
+		$this->assertSame($user, $userProperty->getValue($acl));
+		$this->assertSame($entity, $entityProperty->getValue($acl));
+	}
+
 	/**
 	 * getImages returns correct value.
 	 *

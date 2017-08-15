@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
  */
 class Tag extends ComponentEntity
 {
-	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasState;
+	use CoreTraits\HasAcl, CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasState;
 	/**
 	 * Get a table.
 	 *
