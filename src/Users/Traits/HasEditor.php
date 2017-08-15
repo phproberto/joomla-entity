@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Users\Traits;
 
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Users\Column;
 
 defined('JPATH_PLATFORM') || die;
 
@@ -71,7 +72,7 @@ trait HasEditor
 	 */
 	public function hasEditor()
 	{
-		$editorId = (int) $this->get($this->columnAlias('modified_by'));
+		$editorId = (int) $this->get($this->columnAlias(Column::EDITOR));
 
 		return !empty($editorId);
 	}
@@ -85,7 +86,7 @@ trait HasEditor
 	 */
 	protected function loadEditor()
 	{
-		$editorId = (int) $this->get($this->columnAlias('modified_by'));
+		$editorId = (int) $this->get($this->columnAlias(Column::EDITOR));
 
 		return User::instance($editorId);
 	}

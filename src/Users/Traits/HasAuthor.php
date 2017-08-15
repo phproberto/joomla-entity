@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Users\Traits;
 
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Users\Column;
 
 defined('JPATH_PLATFORM') || die;
 
@@ -71,7 +72,7 @@ trait HasAuthor
 	 */
 	public function hasAuthor()
 	{
-		$authorId = (int) $this->get($this->columnAlias('created_by'));
+		$authorId = (int) $this->get($this->columnAlias(Column::AUTHOR));
 
 		return !empty($authorId);
 	}
@@ -85,7 +86,7 @@ trait HasAuthor
 	 */
 	protected function loadAuthor()
 	{
-		$authorId = (int) $this->get($this->columnAlias('created_by'));
+		$authorId = (int) $this->get($this->columnAlias(Column::AUTHOR));
 
 		return User::instance($authorId);
 	}
