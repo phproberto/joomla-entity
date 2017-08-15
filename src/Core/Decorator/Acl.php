@@ -164,12 +164,7 @@ class Acl extends Decorator
 			return false;
 		}
 
-		if (!$this->entity->has(Column::ACCESS))
-		{
-			return true;
-		}
-
-		return in_array($this->entity->get(Column::ACCESS), $this->user->getAuthorisedViewLevels());
+		return !$this->entity->has(Column::ACCESS) || in_array($this->entity->get(Column::ACCESS), $this->user->getAuthorisedViewLevels());
 	}
 
 	/**
