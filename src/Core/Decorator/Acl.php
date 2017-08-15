@@ -143,6 +143,36 @@ class Acl extends Decorator
 	}
 
 	/**
+	 * Check if user can view this entity.
+	 *
+	 * @return  boolean
+	 */
+	public function canView()
+	{
+		if (!$this->entity->hasId())
+		{
+			return false;
+		}
+
+		if ($this->canEdit() || $this->canEditState())
+		{
+			return true;
+		}
+
+		if (method_exists($this->entity, 'isPublished') && !$this->entity->isPublished())
+		{
+			return false;
+		}
+
+		if (!$this->entity->has(Column::ACCESS))
+		{
+			return true;
+		}
+
+		return in_array($this->entity->get(Column::ACCESS), $this->user->getAuthorisedViewLevels());
+	}
+
+	/**
 	 * Check if user is the owner of the entity.
 	 *
 	 * @return  boolean

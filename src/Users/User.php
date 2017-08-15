@@ -96,6 +96,27 @@ class User extends ComponentEntity
 	}
 
 	/**
+	 * Get an array of the authorised access levels for this user.
+	 *
+	 * @return  array
+	 */
+	public function getAuthorisedViewLevels()
+	{
+		try
+		{
+			return array_values(
+				array_unique(
+					$this->joomlaUser()->getAuthorisedViewLevels()
+				)
+			);
+		}
+		catch (\Exception $e)
+		{
+			return array();
+		}
+	}
+
+	/**
 	 * Check if current user has been activated.
 	 *
 	 * @return  boolean

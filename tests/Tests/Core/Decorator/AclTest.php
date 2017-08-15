@@ -729,6 +729,243 @@ class AclTest extends \TestCase
 		$this->assertTrue($acl->canEditState());
 	}
 
+	/**
+	 * canView returns false for no id.
+	 *
+	 * @return  void
+	 */
+	public function testCanViewReturnsFalseForNoId()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->setMethods(array('can'))
+			->getMock();
+
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(false);
+
+		$reflection = new \ReflectionClass($acl);
+		$aclProperty = $reflection->getProperty('entity');
+		$aclProperty->setAccessible(true);
+		$aclProperty->setValue($acl, $entity);
+
+		$this->assertFalse($acl->canView());
+	}
+
+	/**
+	 * canView returns true for canEdit permission.
+	 *
+	 * @return  void
+	 */
+	public function testCanViewReturnsTrueForCanEditPermission()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->setMethods(array('canEdit'))
+			->getMock();
+
+		$acl->expects($this->once())
+			->method('canEdit')
+			->willReturn(true);
+
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(true);
+
+		$reflection = new \ReflectionClass($acl);
+		$aclProperty = $reflection->getProperty('entity');
+		$aclProperty->setAccessible(true);
+		$aclProperty->setValue($acl, $entity);
+
+		$this->assertTrue($acl->canView());
+	}
+
+	/**
+	 * canView returns true for canEdit permission.
+	 *
+	 * @return  void
+	 */
+	public function testCanViewReturnsTrueForCanEditStatePermission()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->setMethods(array('canEdit', 'canEditState'))
+			->getMock();
+
+		$acl->expects($this->once())
+			->method('canEdit')
+			->willReturn(false);
+
+		$acl->expects($this->once())
+			->method('canEditState')
+			->willReturn(true);
+
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId'))
+			->getMock();
+
+		$entity->method('hasId')
+			->willReturn(true);
+
+		$reflection = new \ReflectionClass($acl);
+		$aclProperty = $reflection->getProperty('entity');
+		$aclProperty->setAccessible(true);
+		$aclProperty->setValue($acl, $entity);
+
+		$this->assertTrue($acl->canView());
+	}
+
+	/**
+	 * canView returns false if entity not published.
+	 *
+	 * @return  void
+	 */
+	public function testCanViewReturnsFalseIfEntityNotPublished()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->setMethods(array('canEdit', 'canEditState'))
+			->getMock();
+
+		$acl->expects($this->once())
+			->method('canEdit')
+			->willReturn(false);
+
+		$acl->expects($this->once())
+			->method('canEditState')
+			->willReturn(false);
+
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId', 'isPublished'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublished')
+			->willReturn(false);
+
+		$reflection = new \ReflectionClass($acl);
+		$aclProperty = $reflection->getProperty('entity');
+		$aclProperty->setAccessible(true);
+		$aclProperty->setValue($acl, $entity);
+
+		$this->assertFalse($acl->canView());
+	}
+
+	/**
+	 * canView returns tre for no access column.
+	 *
+	 * @return  void
+	 */
+	public function testCanViewReturnsTrueForNoAccessColumn()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->setMethods(array('canEdit', 'canEditState'))
+			->getMock();
+
+		$acl->expects($this->once())
+			->method('canEdit')
+			->willReturn(false);
+
+		$acl->expects($this->once())
+			->method('canEditState')
+			->willReturn(false);
+
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId', 'isPublished', 'has'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('hasId')
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublished')
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('has')
+			->with($this->equalTo('access'))
+			->willReturn(false);
+
+		$reflection = new \ReflectionClass($acl);
+		$aclProperty = $reflection->getProperty('entity');
+		$aclProperty->setAccessible(true);
+		$aclProperty->setValue($acl, $entity);
+
+		$this->assertTrue($acl->canView());
+	}
+
+	/**
+	 * canView returns false if access not in viewLevels.
+	 *
+	 * @return  void
+	 */
+	public function testCanViewReturnsFalseIfAccessNotInViewLevels()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->setMethods(array('canEdit', 'canEditState'))
+			->getMock();
+
+		$acl->method('canEdit')
+			->willReturn(false);
+
+		$acl->method('canEditState')
+			->willReturn(false);
+
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('hasId', 'isPublished', 'has', 'get'))
+			->getMock();
+
+		$entity->method('hasId')
+			->willReturn(true);
+
+		$entity->method('isPublished')
+			->willReturn(true);
+
+		$entity->method('has')
+			->with($this->equalTo('access'))
+			->willReturn(true);
+
+		$entity
+			->method('get')
+			->with($this->equalTo('access'))
+			->will($this->onConsecutiveCalls(5, 7, 12));
+
+		$reflection = new \ReflectionClass($acl);
+		$aclProperty = $reflection->getProperty('entity');
+		$aclProperty->setAccessible(true);
+		$aclProperty->setValue($acl, $entity);
+
+		$user = $this->getMockBuilder('MockedUser')
+			->setMethods(array('getAuthorisedViewLevels'))
+			->getMock();
+
+		$user->method('getAuthorisedViewLevels')
+			->willReturn(array(2, 5, 12));
+
+		$userProperty = $reflection->getProperty('user');
+		$userProperty->setAccessible(true);
+		$userProperty->setValue($acl, $user);
+
+		$this->assertTrue($acl->canView());
+		$this->assertFalse($acl->canView());
+		$this->assertTrue($acl->canView());
+	}
 
 	/**
 	 * Constructor sets entity.

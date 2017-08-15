@@ -356,6 +356,55 @@ class UserTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * getAuthorisedViewLevels returns correct values.
+	 *
+	 * @return  void
+	 */
+	public function testGetAuthorisedViewLevelsReturnsCorrectValue()
+	{
+		$joomlaUser = $this->getMockBuilder('MockeJoomlaUser')
+			->setMethods(array('getAuthorisedViewLevels'))
+			->getMock();
+
+		$joomlaUser->method('getAuthorisedViewLevels')
+			->will(
+				$this->onConsecutiveCalls(
+					array(1, 1, 5),
+					array(1, 12, 25),
+					array(11, 21, 21)
+				)
+			);
+
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('joomlaUser'))
+			->getMock();
+
+		$user->method('joomlaUser')
+			->willReturn($joomlaUser);
+
+		$this->assertSame(array(1, 5), $user->getAuthorisedViewLevels());
+		$this->assertSame(array(1, 12, 25), $user->getAuthorisedViewLevels());
+		$this->assertSame(array(11, 21), $user->getAuthorisedViewLevels());
+	}
+
+	/**
+	 * getAuthorisedViewLevels returns empty array on joomlaUser exception.
+	 *
+	 * @return  void
+	 */
+	public function testgetAuthorisedViewLevelsReturnsEmptyArrayOnJoomlaUserException()
+	{
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('joomlaUser'))
+			->getMock();
+
+		$user->method('joomlaUser')
+			->will($this->throwException(new \Exception('User failure')));
+
+		$this->assertSame(array(), $user->getAuthorisedViewLevels());
+	}
+
+	/**
 	 * juser returns correct instance.
 	 *
 	 * @return  void
