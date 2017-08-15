@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Tests\Users;
 
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Core\Decorator\Acl;
 use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 
 /**
@@ -62,6 +63,29 @@ class UserTest extends \TestCaseDatabase
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
 
 		return $dataSet;
+	}
+
+	/**
+	 * Acl can be retrieved.
+	 *
+	 * @return  void
+	 */
+	public function testAclCanBeRetrieved()
+	{
+		$entity = new User(666);
+		$user = new User(999);
+
+		$acl = $entity->acl($user);
+
+		$reflection = new \ReflectionClass($acl);
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$userProperty = $reflection->getProperty('user');
+		$userProperty->setAccessible(true);
+
+		$this->assertInstanceOf(Acl::class, $acl);
+		$this->assertSame($user, $userProperty->getValue($acl));
+		$this->assertSame($entity, $entityProperty->getValue($acl));
 	}
 
 	/**

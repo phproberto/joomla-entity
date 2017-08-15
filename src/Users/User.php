@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Users;
 
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 
@@ -19,7 +20,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
  */
 class User extends ComponentEntity
 {
-	use CoreTraits\HasParams;
+	use CoreTraits\HasAcl, CoreTraits\HasParams;
 
 	/**
 	 * Is this user root/super user?
@@ -80,6 +81,18 @@ class User extends ComponentEntity
 		}
 
 		return $this->authorise('core.admin', $component);
+	}
+
+	/**
+	 * Get the list of column aliases.
+	 *
+	 * @return  array
+	 */
+	public function columnAliases()
+	{
+		return array(
+			CoreColumn::OWNER  => 'id'
+		);
 	}
 
 	/**
