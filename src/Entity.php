@@ -272,7 +272,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @throws  \InvalidArgumentException  Property does not exist
+	 * @throws  \InvalidArgumentException  Column does not exist
 	 */
 	public function get($property, $default = null)
 	{
@@ -280,7 +280,7 @@ abstract class Entity implements EntityInterface
 
 		if (!array_key_exists($property, $data))
 		{
-			$msg = sprintf('Property `%s` does not exist in entity `%s` (id `%s`)', $property, get_class($this), $this->id());
+			$msg = sprintf('Column `%s` does not exist in entity `%s` (id `%s`)', $property, get_class($this), $this->id());
 
 			throw new \InvalidArgumentException($msg);
 		}

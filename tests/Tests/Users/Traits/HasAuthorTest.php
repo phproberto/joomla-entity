@@ -9,7 +9,6 @@
 namespace Phproberto\Joomla\Entity\Tests\Users\Traits;
 
 use Phproberto\Joomla\Entity\Users\User;
-
 use Phproberto\Joomla\Entity\Tests\Users\Traits\Stubs\EntityWithAuthorAndEditor;
 
 /**
@@ -82,13 +81,9 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 			->setMethods(array('loadAuthor'))
 			->getMock();
 
-		$class->expects($this->at(0))
+		$class
 			->method('loadAuthor')
-			->willReturn($author);
-
-		$class->expects($this->at(1))
-			->method('loadAuthor')
-			->willReturn($reloadedAuthor);
+			->will($this->onConsecutiveCalls($author, $reloadedAuthor));
 
 		$this->assertSame($author, $class->author());
 		$this->assertSame($reloadedAuthor, $class->author(true));
@@ -115,12 +110,10 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 
 		$idProperty = $reflection->getProperty('id');
 		$idProperty->setAccessible(true);
-
 		$idProperty->setValue($class, 999);
 
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-
 		$rowProperty->setValue($class, array('id' => 999, static::AUTHOR_COLUMN => 22));
 
 		$this->assertSame(true, $class->hasAuthor());

@@ -11,8 +11,8 @@ namespace Phproberto\Joomla\Entity\Tests\Core\Decorator;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Core\Decorator\Acl;
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
-use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithAcl;
-use Phproberto\Joomla\Entity\Tests\Core\Decorator\Stubs\EntityWithIsOwnerMethod;
+use Phproberto\Joomla\Entity\Tests\Core\Decorator\Stubs\EntityWithAcl;
+use Phproberto\Joomla\Entity\Tests\Core\Decorator\Stubs\OwnerableEntityWithAcl;
 
 /**
  * Acl decorator tests.
@@ -993,18 +993,24 @@ class AclTest extends \TestCase
 	}
 
 	/**
-	 * isOwner uses entity method if present.
+	 * isOwner returns false if no Ownerable instance.
 	 *
 	 * @return  void
 	 */
-	public function testIsOwnerUsesEntityMethodIfPresent()
+	public function testIsOwnerReturnsFalseIfNoOwnerableInstance()
 	{
 		$acl = $this->getMockBuilder(Acl::class)
 			->disableOriginalConstructor()
 			->setMethods(array('can'))
 			->getMock();
 
-		$entity = new EntityWithIsOwnerMethod(999);
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->setMethods(array('isOwner'))
+			->getMock();
+
+		$entity->expects($this->exactly(0))
+			->method('isOwner')
+			->willReturn(true);
 
 		$reflection = new \ReflectionClass($acl);
 		$entityProperty = $reflection->getProperty('entity');
@@ -1012,231 +1018,35 @@ class AclTest extends \TestCase
 		$entityProperty->setValue($acl, $entity);
 
 		$this->assertFalse($acl->isOwner());
+	}
 
-		$entity->expectedIsOwner = true;
+	/**
+	 * isOwner returns entity isOwner if Ownerable.
+	 *
+	 * @return  void
+	 */
+	public function testIsOwnerReturnsEntityIsOwnerIfOwnerable()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->setMethods(array('can'))
+			->getMock();
 
+		$entity = $this->getMockBuilder(OwnerableEntityWithAcl::class)
+			->setMethods(array('isOwner'))
+			->getMock();
+
+		$entity
+			->method('isOwner')
+			->will($this->onConsecutiveCalls(false, true, false));
+
+		$reflection = new \ReflectionClass($acl);
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$entityProperty->setValue($acl, $entity);
+
+		$this->assertFalse($acl->isOwner());
 		$this->assertTrue($acl->isOwner());
-
-		$entity->expectedIsOwner = false;
-
 		$this->assertFalse($acl->isOwner());
-	}
-
-	/**
-	 * isOwner returns false for missing id.
-	 *
-	 * @return  void
-	 */
-	public function testIsOwnerReturnsFalseForMissingId()
-	{
-		$acl = $this->getMockBuilder(Acl::class)
-			->disableOriginalConstructor()
-			->setMethods(array('can'))
-			->getMock();
-
-		$entity = $this->getMockBuilder(EntityWithAcl::class)
-			->setMethods(array('hasId'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('hasId')
-			->willReturn(false);
-
-		$reflection = new \ReflectionClass($acl);
-		$entityProperty = $reflection->getProperty('entity');
-		$entityProperty->setAccessible(true);
-		$entityProperty->setValue($acl, $entity);
-
-		$this->assertFalse($acl->isOwner());
-	}
-
-	/**
-	 * isOwner returns false for guests.
-	 *
-	 * @return  void
-	 */
-	public function testIsOwnerReturnsFalseForGuests()
-	{
-		$acl = $this->getMockBuilder(Acl::class)
-			->disableOriginalConstructor()
-			->setMethods(array('can'))
-			->getMock();
-
-		$user = $this->getMockBuilder('MockedUser')
-			->setMethods(array('isGuest'))
-			->getMock();
-
-		$user->expects($this->once())
-			->method('isGuest')
-			->willReturn(true);
-
-		$reflection = new \ReflectionClass($acl);
-		$userProperty = $reflection->getProperty('user');
-		$userProperty->setAccessible(true);
-		$userProperty->setValue($acl, $user);
-
-		$entity = $this->getMockBuilder(EntityWithAcl::class)
-			->setMethods(array('hasId'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('hasId')
-			->willReturn(true);
-
-		$reflection = new \ReflectionClass($acl);
-		$entityProperty = $reflection->getProperty('entity');
-		$entityProperty->setAccessible(true);
-		$entityProperty->setValue($acl, $entity);
-
-		$this->assertFalse($acl->isOwner());
-	}
-
-	/**
-	 * isOwner returns false for guests.
-	 *
-	 * @return  void
-	 */
-	public function testIsOwnerReturnsFalseForEntitiesWithoutCreatedColumn()
-	{
-		$acl = $this->getMockBuilder(Acl::class)
-			->disableOriginalConstructor()
-			->setMethods(array('can'))
-			->getMock();
-
-		$user = $this->getMockBuilder('MockedUser')
-			->setMethods(array('isGuest'))
-			->getMock();
-
-		$user->expects($this->once())
-			->method('isGuest')
-			->willReturn(false);
-
-		$reflection = new \ReflectionClass($acl);
-		$userProperty = $reflection->getProperty('user');
-		$userProperty->setAccessible(true);
-		$userProperty->setValue($acl, $user);
-
-		$entity = $this->getMockBuilder(EntityWithAcl::class)
-			->setMethods(array('columnAlias', 'hasId'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('columnAlias')
-			->willReturn('created_by');
-
-		$entity->expects($this->once())
-			->method('hasId')
-			->willReturn(true);
-
-		$entity->bind(array('id' => 999, 'modified_by' => 999));
-
-		$reflection = new \ReflectionClass($acl);
-		$entityProperty = $reflection->getProperty('entity');
-		$entityProperty->setAccessible(true);
-		$entityProperty->setValue($acl, $entity);
-
-		$this->assertFalse($acl->isOwner());
-	}
-
-	/**
-	 * isOwner returns false for guests.
-	 *
-	 * @return  void
-	 */
-	public function testIsOwnerReturnsFalseForCreatedNotUserId()
-	{
-		$acl = $this->getMockBuilder(Acl::class)
-			->disableOriginalConstructor()
-			->setMethods(array('can'))
-			->getMock();
-
-		$user = $this->getMockBuilder('MockedUser')
-			->setMethods(array('id', 'isGuest'))
-			->getMock();
-
-		$user->expects($this->once())
-			->method('isGuest')
-			->willReturn(false);
-
-		$user->expects($this->once())
-			->method('id')
-			->willReturn(666);
-
-		$reflection = new \ReflectionClass($acl);
-		$userProperty = $reflection->getProperty('user');
-		$userProperty->setAccessible(true);
-		$userProperty->setValue($acl, $user);
-
-		$entity = $this->getMockBuilder(EntityWithAcl::class)
-			->setMethods(array('columnAlias', 'hasId'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('columnAlias')
-			->willReturn('created_by');
-
-		$entity->expects($this->once())
-			->method('hasId')
-			->willReturn(true);
-
-		$entity->bind(array('id' => 999, 'created_by' => 999));
-
-		$reflection = new \ReflectionClass($acl);
-		$entityProperty = $reflection->getProperty('entity');
-		$entityProperty->setAccessible(true);
-		$entityProperty->setValue($acl, $entity);
-
-		$this->assertFalse($acl->isOwner());
-	}
-
-	/**
-	 * isOwner returns false for guests.
-	 *
-	 * @return  void
-	 */
-	public function testIsOwnerReturnsTrueForEqualCreatedUserId()
-	{
-		$acl = $this->getMockBuilder(Acl::class)
-			->disableOriginalConstructor()
-			->setMethods(array('can'))
-			->getMock();
-
-		$user = $this->getMockBuilder('MockedUser')
-			->setMethods(array('id', 'isGuest'))
-			->getMock();
-
-		$user->expects($this->once())
-			->method('isGuest')
-			->willReturn(false);
-
-		$user->expects($this->once())
-			->method('id')
-			->willReturn(999);
-
-		$reflection = new \ReflectionClass($acl);
-		$userProperty = $reflection->getProperty('user');
-		$userProperty->setAccessible(true);
-		$userProperty->setValue($acl, $user);
-
-		$entity = $this->getMockBuilder(EntityWithAcl::class)
-			->setMethods(array('columnAlias', 'hasId'))
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('columnAlias')
-			->willReturn('created_by');
-
-		$entity->expects($this->once())
-			->method('hasId')
-			->willReturn(true);
-
-		$entity->bind(array('id' => 999, 'created_by' => 999));
-
-		$reflection = new \ReflectionClass($acl);
-		$entityProperty = $reflection->getProperty('entity');
-		$entityProperty->setAccessible(true);
-		$entityProperty->setValue($acl, $entity);
-
-		$this->assertTrue($acl->isOwner());
 	}
 }

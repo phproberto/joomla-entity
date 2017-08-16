@@ -65,13 +65,6 @@ abstract class Column
 	const METADATA = 'metadata';
 
 	/**
-	 * Default column used to store owner.
-	 *
-	 * @const
-	 */
-	const OWNER = 'created_by';
-
-	/**
 	 * Default column used to store params.
 	 *
 	 * @const

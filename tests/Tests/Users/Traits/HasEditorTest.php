@@ -9,7 +9,6 @@
 namespace Phproberto\Joomla\Entity\Tests\Users\Traits;
 
 use Phproberto\Joomla\Entity\Users\User;
-
 use Phproberto\Joomla\Entity\Tests\Users\Traits\Stubs\EntityWithAuthorAndEditor;
 
 /**

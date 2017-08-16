@@ -28,4 +28,11 @@ abstract class Column
 	 * @const
 	 */
 	const EDITOR = 'modified_by';
+
+	/**
+	 * Default column used to store owner.
+	 *
+	 * @const
+	 */
+	const OWNER = 'created_by';
 }

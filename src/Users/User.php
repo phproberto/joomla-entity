@@ -9,7 +9,6 @@
 namespace Phproberto\Joomla\Entity\Users;
 
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 
@@ -91,7 +90,7 @@ class User extends ComponentEntity
 	public function columnAliases()
 	{
 		return array(
-			CoreColumn::OWNER  => 'id'
+			Column::OWNER  => 'id'
 		);
 	}
 

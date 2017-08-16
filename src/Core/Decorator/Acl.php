@@ -11,7 +11,9 @@ namespace Phproberto\Joomla\Entity\Core\Decorator;
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
+use Phproberto\Joomla\Entity\Users\Column as UsersColumn;
 
 /**
  * Represents a collection of entities.
@@ -174,23 +176,11 @@ class Acl extends Decorator
 	 */
 	public function isOwner()
 	{
-		if (method_exists($this->entity, 'isOwner'))
-		{
-			return $this->entity->isOwner();
-		}
-
-		if (!$this->entity->hasId() || $this->user->isGuest())
+		if (!$this->entity instanceof Ownerable)
 		{
 			return false;
 		}
 
-		$ownerColumn = $this->entity->columnAlias(Column::OWNER);
-
-		if ($this->entity->has($ownerColumn))
-		{
-			return (int) $this->entity->get($ownerColumn) === $this->user->id();
-		}
-
-		return false;
+		return $this->entity->isOwner();
 	}
 }

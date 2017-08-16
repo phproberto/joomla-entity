@@ -10,30 +10,15 @@ namespace Phproberto\Joomla\Entity\Tests\Core\Decorator\Stubs;
 
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits\HasAcl;
+use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
+use Phproberto\Joomla\Entity\Users\Traits\HasOwner;
 
 /**
  * Entity to test Acl decorator.
  *
  * @since  __DEPLOY_VERSION__
  */
-class EntityWithIsOwnerMethod extends ComponentEntity
+class OwnerableEntityWithAcl extends ComponentEntity implements Ownerable
 {
-	use HasAcl;
-
-	/**
-	 * Value isOwner will return.
-	 *
-	 * @var  boolean
-	 */
-	public $expectedIsOwner = false;
-
-	/**
-	 * Overriden isOwner method at entity level.
-	 *
-	 * @return  boolean
-	 */
-	public function isOwner()
-	{
-		return $this->expectedIsOwner;
-	}
+	use HasAcl, HasOwner;
 }
