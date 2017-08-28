@@ -92,48 +92,6 @@ class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * translate returns translation property.
-	 *
-	 * @return  void
-	 */
-	private function TranslateReturnsTranslationProperty()
-	{
-		$activeLanguage = $this->getMockBuilder('MockedLanguage')
-			->setMethods(array('getTag'))
-			->getMock();
-
-		$activeLanguage->method('getTag')
-			->willReturn('es-ES');
-
-		$spanishTranslation = $this->getMockBuilder('MockedTranslation')
-			->setMethods(array('get'))
-			->getMock();
-
-		$spanishTranslation->method('get')
-			->with($this->equalTo('property'))
-			->will($this->onConsecutiveCalls('translatedValue', $this->returnArgument(1)));
-
-		$entity = $this->getMockBuilder(EntityWithTranslations::class)
-			->setMethods(array('activeLanguage', 'columnAlias', 'translation'))
-			->getMock();
-
-		$entity->method('activeLanguage')
-			->willReturn($activeLanguage);
-
-		$entity->method('columnAlias')
-			->willReturn('language');
-
-		$entity->method('translation')
-			->with($this->equalTo('es-ES'))
-			->willReturn($spanishTranslation);
-
-		$entity->bind(array('id' => 999, 'language' => 'en-GB', 'property' => 'value'));
-
-		$this->assertSame('translatedValue', $entity->translate('property'));
-		$this->assertSame('defaultValue', $entity->translate('property', 'defaultValue'));
-	}
-
-	/**
 	 * translation returns correct value.
 	 *
 	 * @return  void
