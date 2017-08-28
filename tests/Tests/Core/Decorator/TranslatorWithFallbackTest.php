@@ -24,7 +24,7 @@ class TranslatorWithFallbackTest extends \TestCase
 	 *
 	 * @return  void
 	 */
-	public function testTranslateIfReturnsCorrectValue()
+	public function testTranslateReturnsCorrectValue()
 	{
 		$spanishTranslation = $this->getMockBuilder('MockedTranslation')
 			->setMethods(array('get'))
@@ -46,18 +46,28 @@ class TranslatorWithFallbackTest extends \TestCase
 
 		$translator = new TranslatorWithFallback($entity, 'es-ES');
 
-		$condition = function ($value) {
-			return in_array($value, array('validValue'), true);
-		};
+		$translator->addRule(
+			function ($value) {
+				return in_array($value, array('validValue'), true);
+			},
+			'property',
+			'testValidValue'
+		);
 
-		$this->assertSame('defaultValue', $translator->translateIf($condition, 'property', 'defaultValue'));
-		$this->assertSame('validValue', $translator->translateIf($condition, 'property', 'defaultValue'));
+		$this->assertSame('defaultValue', $translator->translate('property', 'defaultValue'));
+		$this->assertSame('validValue', $translator->translate('property', 'defaultValue'));
 
-		$condition = function ($value) {
-			return in_array($value, array('validValue', 'entityValue'), true);
-		};
+		$translator = new TranslatorWithFallback($entity, 'es-ES');
 
-		$this->assertSame('entityValue', $translator->translateIf($condition, 'property', 'defaultValue'));
-		$this->assertSame('validValue', $translator->translateIf($condition, 'property', 'defaultValue'));
+		$translator->addRule(
+			function ($value) {
+				return in_array($value, array('validValue', 'entityValue'), true);
+			},
+			'property',
+			'testValidValue'
+		);
+
+		$this->assertSame('entityValue', $translator->translate('property', 'defaultValue'));
+		$this->assertSame('validValue', $translator->translate('property', 'defaultValue'));
 	}
 }

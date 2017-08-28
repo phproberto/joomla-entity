@@ -16,25 +16,22 @@ namespace Phproberto\Joomla\Entity\Core\Decorator;
 class TranslatorWithFallback extends Translator
 {
 	/**
-	 * Translate a column if a condition is met.
+	 * Translate a column.
 	 *
-	 * @param   callable  $condition  Condition to apply
-	 * @param   string    $column     Column to translate
-	 * @param   mixed     $default    Default value
+	 * @param   string  $column   Column to translate
+	 * @param   mixed   $default  Default value
 	 *
 	 * @return  mixed
 	 */
-	public function translateIf(callable $condition, $column, $default = null)
+	public function translate($column, $default = null)
 	{
 		$value = $this->translation()->get($column);
 
-		if ($condition($value))
+		if (!$this->isValidValue($value, $column))
 		{
-			return $value;
+			$value = $this->entity->get($column);
 		}
 
-		$value = $this->entity->get($column);
-
-		return $condition($value) ? $value : $default;
+		return $this->isValidValue($value, $column) ? $value : $default;
 	}
 }
