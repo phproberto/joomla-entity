@@ -10,6 +10,8 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\Decorator\Translator;
+use Phproberto\Joomla\Entity\Core\Decorator\TranslatorWithFallback;
 
 /**
  * Trait for entities with translations.

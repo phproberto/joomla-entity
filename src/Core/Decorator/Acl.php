@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Users\Column as UsersColumn;
 
 /**
- * Represents a collection of entities.
+ * Entity ACL.
  *
  * @since   __DEPLOY_VERSION__
  */
