@@ -377,6 +377,71 @@ class TranslatorTest extends \TestCase
 	}
 
 	/**
+	 * isValidColumnValue returns false when global rule returns false.
+	 *
+	 * @return  void
+	 */
+	public function testIsValidColumnValueReturnsFalseWhenGlobalRuleReturnsFalse()
+	{
+		$translator = new Translator(new TranslatableEntity, 'es-ES');
+
+		$reflection = new \ReflectionClass($translator);
+		$rules = array(
+			'test' => function ($value)
+			{
+				return $value !== 'test1';
+			},
+			'test two' => function ($value)
+			{
+				return $value !== 'test2';
+			}
+		);
+
+		$globalRulesProperty = $reflection->getProperty('globalRules');
+		$globalRulesProperty->setAccessible(true);
+		$globalRulesProperty->setValue($translator, $rules);
+
+		$this->assertFalse($translator->isValidColumnValue('test1', 'property'));
+		$this->assertFalse($translator->isValidColumnValue('test2', 'property'));
+		$this->assertTrue($translator->isValidColumnValue('test3', 'property'));
+	}
+
+	/**
+	 * isValidColumnValue returns false when column rule fails.
+	 *
+	 * @return  void
+	 */
+	public function testIsValidColumnValueReturnsFalseWhenColumnRuleFails()
+	{
+		$translator = new Translator(new TranslatableEntity, 'es-ES');
+
+		$reflection = new \ReflectionClass($translator);
+		$rules = array(
+			'sample_column' => array(
+				'test' => function ($value)
+				{
+					return $value !== 'test1';
+				}
+			),
+			'sample_column2' => array(
+				'test two' => function ($value)
+				{
+					return $value !== 'test2';
+				}
+			)
+		);
+
+		$rulesProperty = $reflection->getProperty('rules');
+		$rulesProperty->setAccessible(true);
+		$rulesProperty->setValue($translator, $rules);
+
+		$this->assertFalse($translator->isValidColumnValue('test1', 'sample_column'));
+		$this->assertFalse($translator->isValidColumnValue('test2', 'sample_column2'));
+		$this->assertTrue($translator->isValidColumnValue('test3', 'sample_column'));
+		$this->assertTrue($translator->isValidColumnValue('test3', 'sample_column2'));
+	}
+
+	/**
 	 * noEmptyColumnValues adds rule.
 	 *
 	 * @return  void

@@ -27,11 +27,13 @@ class TranslatorWithFallback extends Translator
 	{
 		$value = $this->translation()->get($column);
 
-		if (!$this->isValidValue($value, $column))
+		if ($this->isValidColumnValue($value, $column))
 		{
-			$value = $this->entity->get($column);
+			return $value;
 		}
 
-		return $this->isValidValue($value, $column) ? $value : $default;
+		$value = $this->entity->get($column);
+
+		return $this->isValidColumnValue($value, $column) ? $value : $default;
 	}
 }

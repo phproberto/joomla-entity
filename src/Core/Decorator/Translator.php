@@ -201,6 +201,35 @@ class Translator extends Decorator implements TranslatorInterface
 	}
 
 	/**
+	 * Check if a value is valid for a specific column.
+	 *
+	 * @param   mixed   $value   Value to check
+	 * @param   string  $column  Column to validate against
+	 *
+	 * @return  boolean
+	 */
+	public function isValidColumnValue($value, $column)
+	{
+		foreach ($this->globalRules() as $rule)
+		{
+			if (!$rule($value))
+			{
+				return false;
+			}
+		}
+
+		foreach ($this->rules($column) as $rule)
+		{
+			if (!$rule($value))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Prevent that empty values are returned by the translator for a specific column.
 	 *
 	 * @param   string  $column  Column where empty values will be disabled
@@ -323,7 +352,7 @@ class Translator extends Decorator implements TranslatorInterface
 	{
 		$value = $this->translation()->get($column);
 
-		return $this->isValidValue($value, $column) ? $value : $default;
+		return $this->isValidColumnValue($value, $column) ? $value : $default;
 	}
 
 	/**
@@ -334,34 +363,5 @@ class Translator extends Decorator implements TranslatorInterface
 	protected function translation()
 	{
 		return $this->entity->translation($this->langTag);
-	}
-
-	/**
-	 * Check if a value is valid for a specific column.
-	 *
-	 * @param   mixed   $value   Value to check
-	 * @param   string  $column  Column to validate against
-	 *
-	 * @return  boolean
-	 */
-	protected function isValidValue($value, $column)
-	{
-		foreach ($this->globalRules() as $rule)
-		{
-			if (!$rule($value))
-			{
-				return false;
-			}
-		}
-
-		foreach ($this->rules($column) as $rule)
-		{
-			if (!$rule($value))
-			{
-				return false;
-			}
-		}
-
-		return true;
 	}
 }
