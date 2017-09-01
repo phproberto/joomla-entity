@@ -377,6 +377,40 @@ class TranslatorTest extends \TestCase
 	}
 
 	/**
+	 * isEntityLanguage returns true when translator uses entity language.
+	 *
+	 * @return  void
+	 */
+	public function testIsEntityLanguageReturnsTrueWhenTranslatorUsesEntityLanguage()
+	{
+		$entity = $this->getMockBuilder(TranslatableEntity::class)
+			->disableOriginalConstructor()
+			->setMethods(array('columnAlias', 'get'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('language');
+
+		$entity->method('get')
+			->with('language')
+			->willReturn('es-ES');
+
+
+		$translator = new Translator($entity, 'es-ES');
+
+		$reflection = new \ReflectionClass($translator);
+
+		$method = $reflection->getMethod('isEntityLanguage');
+		$method->setAccessible(true);
+
+		$this->assertTrue($method->invoke($translator));
+
+		$translator = new Translator($entity, 'en-GB');
+
+		$this->assertFalse($method->invoke($translator));
+	}
+
+	/**
 	 * isValidColumnValue returns false when global rule returns false.
 	 *
 	 * @return  void
@@ -521,6 +555,38 @@ class TranslatorTest extends \TestCase
 	}
 
 	/**
+	 * removeGlobalRules removes all the rules.
+	 *
+	 * @return  void
+	 */
+	public function testRemoveGlobalRulesRemovesAllTheRules()
+	{
+		$translator = new Translator(new TranslatableEntity, 'es-ES');
+
+		$reflection = new \ReflectionClass($translator);
+		$rules = array(
+			'test' => function ($value)
+			{
+				return $value === 'test1';
+			},
+			'test two' => function ($value)
+			{
+				return $value === 'test2';
+			}
+		);
+
+		$globalRulesProperty = $reflection->getProperty('globalRules');
+		$globalRulesProperty->setAccessible(true);
+		$globalRulesProperty->setValue($translator, $rules);
+
+		$this->assertSame($rules, $globalRulesProperty->getValue($translator));
+
+		$translator->removeGlobalRules();
+
+		$this->assertSame(array(), $globalRulesProperty->getValue($translator));
+	}
+
+	/**
 	 * removeRule removes rule.
 	 *
 	 * @return  void
@@ -559,6 +625,42 @@ class TranslatorTest extends \TestCase
 		$translator->removeRule('test two', 'sample_column2');
 
 		$this->assertSame(array('sample_column' => array(), 'sample_column2' => array()), $rulesProperty->getValue($translator));
+	}
+
+	/**
+	 * removeRules removes all the rules.
+	 *
+	 * @return  void
+	 */
+	public function testRemoveRulesRemovesAllTheRules()
+	{
+		$translator = new Translator(new TranslatableEntity, 'es-ES');
+
+		$reflection = new \ReflectionClass($translator);
+		$rules = array(
+			'sample_column' => array(
+				'test' => function ($value)
+				{
+					return $value === 'test1';
+				}
+			),
+			'sample_column2' => array(
+				'test two' => function ($value)
+				{
+					return $value === 'test2';
+				}
+			)
+		);
+
+		$rulesProperty = $reflection->getProperty('rules');
+		$rulesProperty->setAccessible(true);
+		$rulesProperty->setValue($translator, $rules);
+
+		$this->assertSame($rules, $rulesProperty->getValue($translator));
+
+		$translator->removeRules();
+
+		$this->assertSame(array(), $rulesProperty->getValue($translator));
 	}
 
 	/**
@@ -696,11 +798,14 @@ class TranslatorTest extends \TestCase
 
 		$translator = $this->getMockBuilder(Translator::class)
 			->disableOriginalConstructor()
-			->setMethods(array('translation'))
+			->setMethods(array('translation', 'isEntityLanguage'))
 			->getMock();
 
 		$translator->method('translation')
 			->willReturn($spanishTranslation);
+
+		$translator->method('isEntityLanguage')
+			->willReturn(false);
 
 		$translator->setEmptyValues($emptyValues)->noEmptyValues();
 
@@ -732,11 +837,14 @@ class TranslatorTest extends \TestCase
 
 		$translator = $this->getMockBuilder(Translator::class)
 			->disableOriginalConstructor()
-			->setMethods(array('translation'))
+			->setMethods(array('translation', 'isEntityLanguage'))
 			->getMock();
 
 		$translator->method('translation')
 			->willReturn($spanishTranslation);
+
+		$translator->method('isEntityLanguage')
+			->willReturn(false);
 
 		$translator->setEmptyValues($emptyValues)->noEmptyColumnValues('property');
 
@@ -757,11 +865,14 @@ class TranslatorTest extends \TestCase
 
 		$translator = $this->getMockBuilder(Translator::class)
 			->disableOriginalConstructor()
-			->setMethods(array('translation'))
+			->setMethods(array('translation', 'isEntityLanguage'))
 			->getMock();
 
 		$translator->method('translation')
 			->willReturn($spanishTranslation);
+
+		$translator->method('isEntityLanguage')
+			->willReturn(false);
 
 		$translator->setEmptyValues($emptyValues)->noEmptyColumnValues('property');
 
@@ -783,11 +894,11 @@ class TranslatorTest extends \TestCase
 		$nullDate = '1976-11-16 16:00:00';
 		$emptyValues = array(null, '', $nullDate);
 
-		$spanishTranslation = $this->getMockBuilder('MockedTranslation')
+		$entity = $this->getMockBuilder('MockedTranslation')
 			->setMethods(array('translation'))
 			->getMock();
 
-		$spanishTranslation->method('translation')
+		$entity->method('translation')
 			->with($this->equalTo('es-ES'))
 			->willReturn(new TranslatableEntity(999));
 
@@ -799,7 +910,7 @@ class TranslatorTest extends \TestCase
 
 		$entityProperty = $reflection->getProperty('entity');
 		$entityProperty->setAccessible(true);
-		$entityProperty->setValue($translator, $spanishTranslation);
+		$entityProperty->setValue($translator, $entity);
 
 		$langTagProperty = $reflection->getProperty('langTag');
 		$langTagProperty->setAccessible(true);

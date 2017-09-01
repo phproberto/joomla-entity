@@ -9,9 +9,10 @@
 namespace Phproberto\Joomla\Entity\Core\Decorator;
 
 use Phproberto\Joomla\Entity\Decorator;
+use Phproberto\Joomla\Entity\Core\Column;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
-use Phproberto\Joomla\Entity\Core\Contracts\Translator as TranslatorInterface;
 use Phproberto\Joomla\Entity\Core\Contracts\Translatable;
+use Phproberto\Joomla\Entity\Core\Contracts\Translator as TranslatorInterface;
 
 /**
  * Entity translation.
@@ -201,6 +202,18 @@ class Translator extends Decorator implements TranslatorInterface
 	}
 
 	/**
+	 * Check if entity language is the translation language.
+	 *
+	 * @return  boolean
+	 */
+	public function isEntityLanguage()
+	{
+		$languageColumn = $this->entity->columnAlias(Column::LANGUAGE);
+
+		return $this->entity->get($languageColumn) === $this->langTag;
+	}
+
+	/**
 	 * Check if a value is valid for a specific column.
 	 *
 	 * @param   mixed   $value   Value to check
@@ -295,6 +308,18 @@ class Translator extends Decorator implements TranslatorInterface
 	}
 
 	/**
+	 * Remove all the global rules.
+	 *
+	 * @return  self
+	 */
+	public function removeGlobalRules()
+	{
+		$this->globalRules = array();
+
+		return $this;
+	}
+
+	/**
 	 * Unset a rule by its name.
 	 *
 	 * @param   string  $name    Name of the rule to unset
@@ -305,6 +330,18 @@ class Translator extends Decorator implements TranslatorInterface
 	public function removeRule($name, $column)
 	{
 		unset($this->rules[$column][$name]);
+
+		return $this;
+	}
+
+	/**
+	 * Remove all the column translation rules.
+	 *
+	 * @return  self
+	 */
+	public function removeRules()
+	{
+		$this->rules = array();
 
 		return $this;
 	}
@@ -350,7 +387,7 @@ class Translator extends Decorator implements TranslatorInterface
 	 */
 	public function translate($column, $default = null)
 	{
-		$value = $this->translation()->get($column);
+		$value = $this->isEntityLanguage() ? $this->entity->get($column) : $this->translation()->get($column);
 
 		return $this->isValidColumnValue($value, $column) ? $value : $default;
 	}

@@ -34,17 +34,29 @@ class TranslatorWithFallbackTest extends \TestCase
 			->with($this->equalTo('property'))
 			->will($this->onConsecutiveCalls('translatedValue', 'validValue', 'invalidValue', 'validValue'));
 
-		$entity = $this->getMockBuilder(TranslatableEntity::class)
-			->disableOriginalConstructor()
-			->setMethods(array('translation'))
-			->getMock();
-
-		$entity->method('translation')
-			->willReturn($spanishTranslation);
-
+		$entity = new TranslatableEntity;
 		$entity->bind(array('id' => 999, 'language' => 'en-GB', 'property' => 'entityValue'));
 
-		$translator = new TranslatorWithFallback($entity, 'es-ES');
+		$translator = $this->getMockBuilder(TranslatorWithFallback::class)
+			->disableOriginalConstructor()
+			->setMethods(array('translation', 'isEntityLanguage'))
+			->getMock();
+
+		$translator->method('translation')
+			->willReturn($spanishTranslation);
+
+		$translator->method('isEntityLanguage')
+			->willReturn(false);
+
+		$reflection = new \ReflectionClass($translator);
+
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$entityProperty->setValue($translator, $entity);
+
+		$langTagProperty = $reflection->getProperty('langTag');
+		$langTagProperty->setAccessible(true);
+		$langTagProperty->setValue($translator, 'es-ES');
 
 		$translator->addRule(
 			function ($value) {
@@ -57,7 +69,9 @@ class TranslatorWithFallbackTest extends \TestCase
 		$this->assertSame('defaultValue', $translator->translate('property', 'defaultValue'));
 		$this->assertSame('validValue', $translator->translate('property', 'defaultValue'));
 
-		$translator = new TranslatorWithFallback($entity, 'es-ES');
+		$rulesProperty = $reflection->getProperty('rules');
+		$rulesProperty->setAccessible(true);
+		$rulesProperty->setValue($translator, array());
 
 		$translator->addRule(
 			function ($value) {

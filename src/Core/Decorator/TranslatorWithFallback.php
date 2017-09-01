@@ -25,7 +25,7 @@ class TranslatorWithFallback extends Translator
 	 */
 	public function translate($column, $default = null)
 	{
-		$value = $this->translation()->get($column);
+		$value = $this->isEntityLanguage() ? $this->entity->get($column) : $this->translation()->get($column);
 
 		if ($this->isValidColumnValue($value, $column))
 		{
