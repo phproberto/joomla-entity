@@ -295,7 +295,7 @@ class Validator extends Decorator implements ValidatorContract
 			{
 				$this->validateColumnValue($column, $value);
 			}
-			catch (\Exception $e)
+			catch (ValidationException $e)
 			{
 				$errors[] = $e->getMessage();
 			}

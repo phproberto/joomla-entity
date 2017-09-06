@@ -30,7 +30,7 @@ class IsEmptyStringTest extends \TestCase
 		$this->assertTrue($rule->passes(''));
 		$this->assertFalse($rule->passes('  my string'));
 		$this->assertFalse($rule->passes(0));
-		$this->assertFalse($rule->passes(null));
-		$this->assertFalse($rule->passes(' '));
+		$this->assertTrue($rule->passes(null));
+		$this->assertTrue($rule->passes(' '));
 	}
 }

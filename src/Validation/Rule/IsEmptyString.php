@@ -27,6 +27,11 @@ class IsEmptyString extends IsString implements RuleContract
 	 */
 	public function passes($value)
 	{
-		return parent::passes($value) && '' === $value;
+		if (in_array($value, array('', null), true))
+		{
+			return true;
+		}
+
+		return '' === trim((string) $value);
 	}
 }
