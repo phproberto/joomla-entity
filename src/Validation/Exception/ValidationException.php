@@ -33,7 +33,7 @@ class ValidationException extends \RuntimeException implements ExceptionInterfac
 	{
 		$msg = sprintf("Entity `%s` is not valid:\n\t* ", $entity->name() . '::' . $entity->id());
 
-		if ($errors)
+		if (count($errors))
 		{
 			$msg .= implode("\n\t* ", $errors);
 		}
