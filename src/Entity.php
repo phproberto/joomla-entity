@@ -56,7 +56,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function all()
 	{
-		if ($this->hasId() && null === $this->row)
+		if ($this->hasId() && empty($this->row[$this->primaryKey()]))
 		{
 			$this->fetch();
 		}
