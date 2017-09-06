@@ -8,14 +8,14 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule\IsPositiveInteger;
+use Phproberto\Joomla\Entity\Validation\Rule\IsNegativeInteger;
 
 /**
- * IsPositiveInteger tests.
+ * IsNegativeInteger tests.
  *
  * @since   __DEPLOY_VERSION__
  */
-class IsPositiveIntegerTest extends \TestCase
+class IsNegativeIntegerTest extends \TestCase
 {
 	/**
 	 * passes returns correct value.
@@ -24,22 +24,21 @@ class IsPositiveIntegerTest extends \TestCase
 	 */
 	public function testPassesReturnsCorrectValue()
 	{
-		$rule = new IsPositiveInteger;
+		$rule = new IsNegativeInteger;
 
 		$this->assertFalse($rule->passes(''));
 		$this->assertFalse($rule->passes('#aa'));
 		$this->assertFalse($rule->passes(0));
-		$this->assertFalse($rule->passes(-1));
 		$this->assertFalse($rule->passes(0.1));
 		$this->assertFalse($rule->passes(1.1));
 		$this->assertFalse($rule->passes('1.1'));
 		$this->assertFalse($rule->passes('12,000'));
 
-		$this->assertTrue($rule->passes('12'));
-		$this->assertTrue($rule->passes(1));
-		$this->assertTrue($rule->passes(' 12'));
-		$this->assertTrue($rule->passes(12));
-		$this->assertTrue($rule->passes('12.000'));
-		$this->assertTrue($rule->passes(12.000));
+		$this->assertTrue($rule->passes('-12'));
+		$this->assertTrue($rule->passes(-1));
+		$this->assertTrue($rule->passes(' -12'));
+		$this->assertTrue($rule->passes(-12));
+		$this->assertTrue($rule->passes('-12.000'));
+		$this->assertTrue($rule->passes(-12.000));
 	}
 }
