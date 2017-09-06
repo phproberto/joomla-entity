@@ -8,15 +8,15 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule\IsNull;
+use Phproberto\Joomla\Entity\Validation\Rule;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
- * Check that a column is not null.
+ * Check that a date is empty.
  *
  * @since   __DEPLOY_VERSION__
  */
-class IsNotNull extends IsNull implements RuleContract
+class IsEmptyDate extends Rule implements RuleContract
 {
 	/**
 	 * Check if a value is valid.
@@ -27,6 +27,18 @@ class IsNotNull extends IsNull implements RuleContract
 	 */
 	public function passes($value)
 	{
-		return !parent::passes($value);
+		return in_array($value, array(null, '', $this->nullDate()));
+	}
+
+	/**
+	 * Get the empty date for the active DB driver.
+	 *
+	 * @return  string
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function nullDate()
+	{
+		return \JFactory::getDbo()->getNullDate();
 	}
 }

@@ -8,15 +8,14 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule\IsNull;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
- * Check that a column is not null.
+ * Check that a date is not empty.
  *
  * @since   __DEPLOY_VERSION__
  */
-class IsNotNull extends IsNull implements RuleContract
+class IsNotEmptyDate extends IsEmptyDate implements RuleContract
 {
 	/**
 	 * Check if a value is valid.

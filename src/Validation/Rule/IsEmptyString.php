@@ -8,15 +8,15 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule;
+use Phproberto\Joomla\Entity\Validation\Rule\IsString;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
- * Check that a date is not empty.
+ * Check that a string is empty.
  *
  * @since   __DEPLOY_VERSION__
  */
-class NotEmptyDate extends EmptyDate
+class IsEmptyString extends IsString implements RuleContract
 {
 	/**
 	 * Check if a value is valid.
@@ -27,6 +27,6 @@ class NotEmptyDate extends EmptyDate
 	 */
 	public function passes($value)
 	{
-		return !parent::passes($value);
+		return parent::passes($value) && '' === $value;
 	}
 }

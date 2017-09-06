@@ -10,8 +10,7 @@ namespace Phproberto\Joomla\Entity\Content\Validation;
 
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Validation\Validator;
-use Phproberto\Joomla\Entity\Validation\Rule\NotEmptyString;
-use Phproberto\Joomla\Entity\Validation\Rule\PositiveInteger;
+use Phproberto\Joomla\Entity\Validation\Rule;
 
 defined('JPATH_PLATFORM') || die;
 
@@ -31,7 +30,7 @@ class ArticleValidator extends Validator
 	{
 		parent::__construct($article);
 
-		$this->addRule(new NotEmptyString, array('title'), 'Not empty title');
-		$this->addRule(new PositiveInteger, array('catid'), 'Valid category identifier');
+		$this->addRule(new Rule\IsNotEmptyString, array('title'), 'Not empty title');
+		$this->addRule(new Rule\IsPositiveInteger, array('catid'), 'Valid category identifier');
 	}
 }

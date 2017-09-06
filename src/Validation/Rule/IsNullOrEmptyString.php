@@ -12,11 +12,11 @@ use Phproberto\Joomla\Entity\Validation\Rule;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
- * Check that a date is empty.
+ * Check that a column is null or an empty string.
  *
  * @since   __DEPLOY_VERSION__
  */
-class EmptyDate extends Rule implements RuleContract
+class IsNullOrEmptyString extends Rule implements RuleContract
 {
 	/**
 	 * Check if a value is valid.
@@ -27,18 +27,9 @@ class EmptyDate extends Rule implements RuleContract
 	 */
 	public function passes($value)
 	{
-		return in_array($value, array(null, '', $this->nullDate()));
-	}
+		$isNullValidator = new IsNull;
+		$emptyStringValidator = new EmptyString;
 
-	/**
-	 * Get the empty date for the active DB driver.
-	 *
-	 * @return  string
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function nullDate()
-	{
-		return \JFactory::getDbo()->getNullDate();
+		return $isNullValidator->passes($value) || $emptyStringValidator->passes($value);
 	}
 }

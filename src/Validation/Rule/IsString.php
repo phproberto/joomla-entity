@@ -12,11 +12,11 @@ use Phproberto\Joomla\Entity\Validation\Rule;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
- * Empty string rule.
+ * Check that a value is a string.
  *
  * @since   __DEPLOY_VERSION__
  */
-class NotEmptyString extends EmptyString
+class IsString extends Rule implements RuleContract
 {
 	/**
 	 * Check if a value is valid.
@@ -27,6 +27,6 @@ class NotEmptyString extends EmptyString
 	 */
 	public function passes($value)
 	{
-		return !parent::passes($value);
+		return is_string($value);
 	}
 }

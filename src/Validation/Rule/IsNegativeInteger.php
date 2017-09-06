@@ -8,15 +8,15 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule;
+use Phproberto\Joomla\Entity\Validation\Rule\IsInteger;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
- * Check that value is a positive integer.
+ * Check that value is a negative integer.
  *
  * @since   __DEPLOY_VERSION__
  */
-class PositiveInteger extends Rule implements RuleContract
+class IsNegativeInteger extends IsInteger implements RuleContract
 {
 	/**
 	 * Check if a value is valid.
@@ -27,6 +27,6 @@ class PositiveInteger extends Rule implements RuleContract
 	 */
 	public function passes($value)
 	{
-		return is_numeric($value) && $value == (int) $value && (int) $value > 0;
+		return parent::passes($value) && (int) $value < 0;
 	}
 }

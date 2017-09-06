@@ -8,14 +8,14 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule\NotEmptyString;
+use Phproberto\Joomla\Entity\Validation\Rule\IsNotEmptyString;
 
 /**
- * NotEmptyString tests.
+ * IsNotEmptyString tests.
  *
  * @since   __DEPLOY_VERSION__
  */
-class NotEmptyStringTest extends \TestCase
+class IsNotEmptyStringTest extends \TestCase
 {
 	/**
 	 * passes returns correct value.
@@ -24,13 +24,13 @@ class NotEmptyStringTest extends \TestCase
 	 */
 	public function testPassesReturnsCorrectValue()
 	{
-		$rule = new NotEmptyString;
+		$rule = new IsNotEmptyString;
 
 		$this->assertTrue($rule->passes('mytest'));
 		$this->assertFalse($rule->passes(''));
 		$this->assertTrue($rule->passes('  my string'));
 		$this->assertTrue($rule->passes(0));
-		$this->assertFalse($rule->passes(null));
-		$this->assertFalse($rule->passes(' '));
+		$this->assertTrue($rule->passes(null));
+		$this->assertTrue($rule->passes(' '));
 	}
 }

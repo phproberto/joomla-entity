@@ -8,15 +8,15 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule;
+use Phproberto\Joomla\Entity\Validation\Rule\IsEmptyString;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
- * Check that a string is empty.
+ * Check that value is not an empty string.
  *
  * @since   __DEPLOY_VERSION__
  */
-class EmptyString extends Rule implements RuleContract
+class IsNotEmptyString extends IsEmptyString implements RuleContract
 {
 	/**
 	 * Check if a value is valid.
@@ -27,6 +27,6 @@ class EmptyString extends Rule implements RuleContract
 	 */
 	public function passes($value)
 	{
-		return in_array(trim($value), array(null, ''));
+		return !parent::passes($value);
 	}
 }

@@ -254,8 +254,14 @@ class Validator extends Decorator implements ValidatorContract
 	{
 		$errors = array();
 
-		foreach ($this->entity->all() as $column => $value)
+		$data = $this->entity->all();
+
+		$validableColumns = array_merge(array_keys($data), array_keys($this->rules));
+
+		foreach ($validableColumns as $column)
 		{
+			$value = isset($data[$column]) ? $data[$column] : null;
+
 			try
 			{
 				$this->validateColumnValue($column, $value);

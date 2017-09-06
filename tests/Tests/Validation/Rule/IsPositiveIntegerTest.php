@@ -8,14 +8,14 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule\PositiveInteger;
+use Phproberto\Joomla\Entity\Validation\Rule\IsPositiveInteger;
 
 /**
- * PositiveInteger tests.
+ * IsPositiveInteger tests.
  *
  * @since   __DEPLOY_VERSION__
  */
-class PositiveIntegerTest extends \TestCase
+class IsPositiveIntegerTest extends \TestCase
 {
 	/**
 	 * passes returns correct value.
@@ -24,7 +24,7 @@ class PositiveIntegerTest extends \TestCase
 	 */
 	public function testPassesReturnsCorrectValue()
 	{
-		$rule = new PositiveInteger;
+		$rule = new IsPositiveInteger;
 
 		$this->assertFalse($rule->passes(''));
 		$this->assertFalse($rule->passes('#aa'));

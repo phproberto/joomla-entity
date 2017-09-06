@@ -711,15 +711,21 @@ class EntityTest extends \TestCase
 			'name' => 'Roberto Segura'
 		);
 
-		$mock = $this->getMockBuilder(Entity::class)
+		$entity = $this->getMockBuilder(Entity::class)
 			->setMethods(array('fetchRow'))
 			->getMock();
 
-		$mock->expects($this->once())
+		$entity->expects($this->once())
 			->method('fetchRow')
 			->willReturn($row);
 
-		$this->assertSame($row, $mock->all());
+		$reflection = new \ReflectionClass($entity);
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+
+		$idProperty->setValue($entity, 999);
+
+		$this->assertSame($row, $entity->all());
 	}
 
 	/**

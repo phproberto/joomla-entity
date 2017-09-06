@@ -8,14 +8,14 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule\EmptyDate;
+use Phproberto\Joomla\Entity\Validation\Rule\IsNotEmptyDate;
 
 /**
- * EmptyDate tests.
+ * IsNotEmptyDate tests.
  *
  * @since   __DEPLOY_VERSION__
  */
-class EmptyDateTest extends \TestCase
+class IsNotEmptyDateTest extends \TestCase
 {
 	/**
 	 * passes returns correct value.
@@ -24,16 +24,16 @@ class EmptyDateTest extends \TestCase
 	 */
 	public function testPassesReturnsCorrectValue()
 	{
-		$rule = $this->getMockBuilder(EmptyDate::class)
+		$rule = $this->getMockBuilder(IsNotEmptyDate::class)
 			->setMethods(array('nullDate'))
 			->getMock();
 
 		$rule->method('nullDate')
 			->will($this->onConsecutiveCalls('0000-00-00 00:00:00', '1976-11-16 16:00:00', '0000-00-00 00:00:00', '1976-11-16 16:00:00'));
 
-		$this->assertTrue($rule->passes('0000-00-00 00:00:00'));
-		$this->assertTrue($rule->passes('1976-11-16 16:00:00'));
-		$this->assertFalse($rule->passes('1976-11-16 16:00:00'));
 		$this->assertFalse($rule->passes('0000-00-00 00:00:00'));
+		$this->assertFalse($rule->passes('1976-11-16 16:00:00'));
+		$this->assertTrue($rule->passes('1976-11-16 16:00:00'));
+		$this->assertTrue($rule->passes('0000-00-00 00:00:00'));
 	}
 }
