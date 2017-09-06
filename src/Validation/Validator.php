@@ -110,7 +110,7 @@ class Validator extends Decorator implements ValidatorContract
 	/**
 	 * Retrieve global translation rules.
 	 *
-	 * @return  array
+	 * @return  RuleContract[]
 	 */
 	public function globalRules()
 	{
