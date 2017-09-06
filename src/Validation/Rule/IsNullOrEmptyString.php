@@ -9,6 +9,8 @@
 namespace Phproberto\Joomla\Entity\Validation\Rule;
 
 use Phproberto\Joomla\Entity\Validation\Rule;
+use Phproberto\Joomla\Entity\Validation\Rule\IsNull;
+use Phproberto\Joomla\Entity\Validation\Rule\IsEmptyString;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
@@ -28,7 +30,7 @@ class IsNullOrEmptyString extends Rule implements RuleContract
 	public function passes($value)
 	{
 		$isNullValidator = new IsNull;
-		$emptyStringValidator = new EmptyString;
+		$emptyStringValidator = new IsEmptyString;
 
 		return $isNullValidator->passes($value) || $emptyStringValidator->passes($value);
 	}
