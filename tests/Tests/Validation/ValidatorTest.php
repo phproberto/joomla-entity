@@ -68,6 +68,47 @@ class ValidatorTest extends \TestCase
 	}
 
 	/**
+	 * addGlobalRules adds rules.
+	 *
+	 * @return  void
+	 */
+	public function testAddGlobalRulesAddsRules()
+	{
+		$validator = new Validator(new Entity);
+
+		$rules = array(
+			new CustomRule(
+				function ($value)
+				{
+					return $value !== 'test';
+				},
+				'Custom rule test'
+			),
+			new CustomRule(
+				function ($value)
+				{
+					return $value !== 'test2';
+				},
+				'Custom rule test2'
+			)
+		);
+
+		$validator->addGlobalRules($rules);
+
+		$reflection = new \ReflectionClass($validator);
+
+		$globalRulesProperty = $reflection->getProperty('globalRules');
+		$globalRulesProperty->setAccessible(true);
+
+		$expected = array(
+			$rules[0]->id() => $rules[0],
+			$rules[1]->id() => $rules[1]
+		);
+
+		$this->assertSame($expected, $globalRulesProperty->getValue($validator));
+	}
+
+	/**
 	 * addRule adds column rule.
 	 *
 	 * @return  void
@@ -113,6 +154,49 @@ class ValidatorTest extends \TestCase
 			),
 			'sample_column2' => array(
 				$rule2->id() => $rule2
+			)
+		);
+
+		$this->assertSame($expected, $rulesProperty->getValue($validator));
+	}
+
+	/**
+	 * addRules adds rules.
+	 *
+	 * @return  void
+	 */
+	public function testAddRulesAddsRules()
+	{
+		$validator = new Validator(new Entity);
+
+		$rules = array(
+			'sample_column' => new CustomRule(
+				function ($value)
+				{
+					return $value !== 'test';
+				}
+			),
+			'sample_column2' => new CustomRule(
+				function ($value)
+				{
+					return $value !== 'test2';
+				}
+			)
+		);
+
+		$validator->addRules($rules);
+
+		$reflection = new \ReflectionClass($validator);
+
+		$rulesProperty = $reflection->getProperty('rules');
+		$rulesProperty->setAccessible(true);
+
+		$expected = array(
+			'sample_column' => array(
+				$rules['sample_column']->id() => $rules['sample_column']
+			),
+			'sample_column2' => array(
+				$rules['sample_column2']->id() => $rules['sample_column2']
 			)
 		);
 

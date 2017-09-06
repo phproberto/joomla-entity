@@ -49,6 +49,23 @@ class Validator extends Decorator implements ValidatorContract
 	}
 
 	/**
+	 * Add an array of global rules.
+	 *
+	 * @param   array  $rules  Rules to add
+	 *
+	 * @return  self
+	 */
+	public function addGlobalRules(array $rules)
+	{
+		foreach ($rules as $rule)
+		{
+			$this->addGlobalRule($rule);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Add a validation rule for a column.
 	 *
 	 * @param   RuleContract  $rule     Rule
@@ -68,6 +85,23 @@ class Validator extends Decorator implements ValidatorContract
 			}
 
 			$this->rules[$column][$rule->id()] = $rule;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add an array of rules.
+	 *
+	 * @param   array  $rules  Rules to add
+	 *
+	 * @return  self
+	 */
+	public function addRules(array $rules)
+	{
+		foreach ($rules as $column => $rule)
+		{
+			$this->addRule($rule, array($column));
 		}
 
 		return $this;
