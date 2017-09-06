@@ -31,6 +31,8 @@ class IsNotEmptyDateTest extends \TestCase
 		$rule->method('nullDate')
 			->will($this->onConsecutiveCalls('0000-00-00 00:00:00', '1976-11-16 16:00:00', '0000-00-00 00:00:00', '1976-11-16 16:00:00'));
 
+		$this->assertFalse($rule->passes(''));
+		$this->assertFalse($rule->passes(null));
 		$this->assertFalse($rule->passes('0000-00-00 00:00:00'));
 		$this->assertFalse($rule->passes('1976-11-16 16:00:00'));
 		$this->assertTrue($rule->passes('1976-11-16 16:00:00'));
