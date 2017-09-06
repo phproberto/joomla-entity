@@ -27,13 +27,20 @@ class TranslatorWithFallback extends Translator
 	{
 		$value = $this->isEntityLanguage() ? $this->entity->get($column) : $this->translation()->get($column);
 
-		if ($this->isValidColumnValue($value, $column))
+		if ($this->validator()->isValidColumnValue($column, $value))
 		{
 			return $value;
 		}
 
+		if ($this->isEntityLanguage())
+		{
+			return $default;
+		}
+
 		$value = $this->entity->get($column);
 
-		return $this->isValidColumnValue($value, $column) ? $value : $default;
+		$isValid = $this->validator()->isValidColumnValue($column, $value);
+
+		return $isValid ? $value : $default;
 	}
 }

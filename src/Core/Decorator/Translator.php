@@ -10,24 +10,20 @@ namespace Phproberto\Joomla\Entity\Core\Decorator;
 
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Validation\Validator;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
+use Phproberto\Joomla\Entity\Validation\Rule\IsNotNull;
 use Phproberto\Joomla\Entity\Core\Contracts\Translatable;
-use Phproberto\Joomla\Entity\Core\Contracts\Translator as TranslatorInterface;
+use Phproberto\Joomla\Entity\Core\Contracts\Translator as TranslatorContract;
+use Phproberto\Joomla\Entity\Validation\Contracts\Validator as ValidatorContract;
 
 /**
  * Entity translation.
  *
  * @since   __DEPLOY_VERSION__
  */
-class Translator extends Decorator implements TranslatorInterface
+class Translator extends Decorator implements TranslatorContract
 {
-	/**
-	 * Values that will be detected as empty.
-	 *
-	 * @var  array
-	 */
-	protected $emptyValues;
-
 	/**
 	 * Translation language tag.
 	 *
@@ -36,25 +32,18 @@ class Translator extends Decorator implements TranslatorInterface
 	protected $langTag;
 
 	/**
-	 * Global translation rules.
-	 *
-	 * @var  array
-	 */
-	protected $globalRules = array();
-
-	/**
-	 * Column specific translation rules.
-	 *
-	 * @var  array
-	 */
-	protected $rules = array();
-
-	/**
 	 * Entity translation.
 	 *
 	 * @var  EntityInterface
 	 */
 	protected $translation;
+
+	/**
+	 * Translation validator.
+	 *
+	 * @var  Validator
+	 */
+	protected $validator;
 
 	/**
 	 * Constructor.
@@ -82,126 +71,6 @@ class Translator extends Decorator implements TranslatorInterface
 	}
 
 	/**
-	 * Fast proxy to
-	 *
-	 * @param   callable  $rule  Translation rule
-	 * @param   string    $name  [optional] Name for this rule. Defaults to object hash
-	 *
-	 * @return  self
-	 */
-	public function addGlobalRule(callable $rule, $name = null)
-	{
-		$name = $name ?: spl_object_hash($rule);
-
-		$this->globalRules[$name] = $rule;
-
-		return $this;
-	}
-
-	/**
-	 * Add a translation rule for a column.
-	 *
-	 * @param   callable  $rule    Translation rule
-	 * @param   string    $column  Column name
-	 * @param   string    $name    [optional] Name for this rule. Defaults to object hash
-	 *
-	 * @return  self
-	 */
-	public function addRule(callable $rule, $column, $name = null)
-	{
-		if (!isset($this->rules[$column]))
-		{
-			$this->rules[$column] = array();
-		}
-
-		$name = $name ?: spl_object_hash($rule);
-
-		$this->rules[$column][$name] = $rule;
-
-		return $this;
-	}
-
-	/**
-	 * Default values recognised as empty by the translator.
-	 *
-	 * @return  array
-	 */
-	protected function defaultEmptyValues()
-	{
-		return array(null, '', $this->nullDate());
-	}
-
-	/**
-	 * Values that will cause translation to return default.
-	 *
-	 * @return  array
-	 */
-	protected function emptyValues()
-	{
-		if (null === $this->emptyValues)
-		{
-			return $this->defaultEmptyValues();
-		}
-
-		return $this->emptyValues;
-	}
-
-	/**
-	 * Retrieve global translation rules.
-	 *
-	 * @return  array
-	 */
-	public function globalRules()
-	{
-		return $this->globalRules;
-	}
-
-	/**
-	 * Check if there is a global translation rule with a specific name.
-	 *
-	 * @param   string  $name  Name of the rule
-	 *
-	 * @return  boolean
-	 */
-	public function hasGlobalRule($name)
-	{
-		return isset($this->globalRules[$name]);
-	}
-
-	/**
-	 * Check if there are global rules.
-	 *
-	 * @return  boolean
-	 */
-	public function hasGlobalRules()
-	{
-		return !empty($this->globalRules);
-	}
-
-	/**
-	 * Check if column has a translation rule.
-	 *
-	 * @param   string  $name    Name of the rule
-	 * @param   string  $column  Column to check for rule
-	 *
-	 * @return  boolean
-	 */
-	public function hasRule($name, $column)
-	{
-		return !empty($this->rules[$column][$name]);
-	}
-
-	/**
-	 * Check if there are rules set.
-	 *
-	 * @return  boolean
-	 */
-	public function hasRules()
-	{
-		return !empty($this->rules);
-	}
-
-	/**
 	 * Check if entity language is the translation language.
 	 *
 	 * @return  boolean
@@ -214,165 +83,15 @@ class Translator extends Decorator implements TranslatorInterface
 	}
 
 	/**
-	 * Check if a value is valid for a specific column.
+	 * Set the active validator for the translations.
 	 *
-	 * @param   mixed   $value   Value to check
-	 * @param   string  $column  Column to validate against
-	 *
-	 * @return  boolean
-	 */
-	public function isValidColumnValue($value, $column)
-	{
-		foreach ($this->globalRules() as $rule)
-		{
-			if (!$rule($value))
-			{
-				return false;
-			}
-		}
-
-		foreach ($this->rules($column) as $rule)
-		{
-			if (!$rule($value))
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Prevent that empty values are returned by the translator for a specific column.
-	 *
-	 * @param   string  $column  Column where empty values will be disabled
+	 * @param   ValidatorContract  $validator  Desired validator
 	 *
 	 * @return  self
 	 */
-	public function noEmptyColumnValues($column)
+	public function setValidator(ValidatorContract $validator)
 	{
-		$this->addRule(
-			function ($value)
-			{
-				return !in_array($value, $this->emptyValues(), true);
-			},
-			$column,
-			'noEmptyColumnValues'
-		);
-
-		return $this;
-	}
-
-	/**
-	 * Prevent globally that empty values are returned by the translator.
-	 *
-	 * @return  self
-	 */
-	public function noEmptyValues()
-	{
-		$this->addGlobalRule(
-			function ($value)
-			{
-				return !in_array($value, $this->emptyValues(), true);
-			},
-			'noEmptyValues'
-		);
-
-		return $this;
-	}
-
-	/**
-	 * Get the empty driver for the active DB driver.
-	 *
-	 * @return  string
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function nullDate()
-	{
-		return \JFactory::getDbo()->getNullDate();
-	}
-
-	/**
-	 * Remove a global translation rule by its name.
-	 *
-	 * @param   string  $name  Name of the rule to unset
-	 *
-	 * @return  self
-	 */
-	public function removeGlobalRule($name)
-	{
-		unset($this->globalRules[$name]);
-
-		return $this;
-	}
-
-	/**
-	 * Remove all the global rules.
-	 *
-	 * @return  self
-	 */
-	public function removeGlobalRules()
-	{
-		$this->globalRules = array();
-
-		return $this;
-	}
-
-	/**
-	 * Unset a rule by its name.
-	 *
-	 * @param   string  $name    Name of the rule to unset
-	 * @param   string  $column  Specific column to unset rules
-	 *
-	 * @return  self
-	 */
-	public function removeRule($name, $column)
-	{
-		unset($this->rules[$column][$name]);
-
-		return $this;
-	}
-
-	/**
-	 * Remove all the column translation rules.
-	 *
-	 * @return  self
-	 */
-	public function removeRules()
-	{
-		$this->rules = array();
-
-		return $this;
-	}
-
-	/**
-	 * Retrieve translation rules.
-	 *
-	 * @param   string  $column  [optional] Only retrieve rules for specified column
-	 *
-	 * @return  array
-	 */
-	public function rules($column = null)
-	{
-		if (!$column)
-		{
-			return $this->rules;
-		}
-
-		return isset($this->rules[$column]) ? $this->rules[$column] : array();
-	}
-
-	/**
-	 * Set the values that will be detected as empty.
-	 *
-	 * @param   array  $values  Values to use as empty
-	 *
-	 * @return  self
-	 */
-	public function setEmptyValues(array $values)
-	{
-		$this->emptyValues = $values;
+		$this->validator = $validator;
 
 		return $this;
 	}
@@ -389,7 +108,12 @@ class Translator extends Decorator implements TranslatorInterface
 	{
 		$value = $this->isEntityLanguage() ? $this->entity->get($column) : $this->translation()->get($column);
 
-		return $this->isValidColumnValue($value, $column) ? $value : $default;
+		if ($this->validator()->isValidColumnValue($column, $value))
+		{
+			return $value;
+		}
+
+		return $default;
 	}
 
 	/**
@@ -400,5 +124,21 @@ class Translator extends Decorator implements TranslatorInterface
 	protected function translation()
 	{
 		return $this->entity->translation($this->langTag);
+	}
+
+	/**
+	 * Retrieve the translation validator.
+	 *
+	 * @return  ValidatorContract
+	 */
+	public function validator()
+	{
+		if (null === $this->validator)
+		{
+			$this->validator = new Validator($this->entity);
+			$this->validator->addGlobalRule(new IsNotNull, 'Is not null');
+		}
+
+		return $this->validator;
 	}
 }
