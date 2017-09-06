@@ -280,7 +280,7 @@ class Validator extends Decorator implements ValidatorContract
 			throw new \Exception($msg);
 		}
 
-		return empty($error);
+		return empty($errors);
 	}
 
 	/**
