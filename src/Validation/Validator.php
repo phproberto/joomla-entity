@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Validation;
 
 use Phproberto\Joomla\Entity\Decorator;
-use Phproberto\Joomla\Entity\Validation\Contracts\Rule;
+use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 use Phproberto\Joomla\Entity\Validation\Contracts\Validator as ValidatorContract;
 
 /**
@@ -22,7 +22,7 @@ class Validator extends Decorator implements ValidatorContract
 	/**
 	 * Validation rules applicable to all columns.
 	 *
-	 * @var  array
+	 * @var  RuleContract[]
 	 */
 	protected $globalRules = array();
 
@@ -36,12 +36,12 @@ class Validator extends Decorator implements ValidatorContract
 	/**
 	 * Fast proxy to
 	 *
-	 * @param   Rule    $rule  Translation rule
-	 * @param   string  $name  [optional] Name for this rule. Defaults to object hash
+	 * @param   RuleContract  $rule  Translation rule
+	 * @param   string        $name  [optional] Name for this rule. Defaults to object hash
 	 *
 	 * @return  self
 	 */
-	public function addGlobalRule(Rule $rule, $name = null)
+	public function addGlobalRule(RuleContract $rule, $name = null)
 	{
 		$name = $name ?: get_class($rule);
 
@@ -53,13 +53,13 @@ class Validator extends Decorator implements ValidatorContract
 	/**
 	 * Add a validation rule for a column.
 	 *
-	 * @param   Rule      $rule     Rule
-	 * @param   mixed     $columns  String | Array. Columns to apply rule
-	 * @param   string    $name     [optional] Name for this rule. Defaults to object hash
+	 * @param   RuleContract  $rule     Rule
+	 * @param   mixed         $columns  String | Array. Columns to apply rule
+	 * @param   string        $name     [optional] Name for this rule. Defaults to object hash
 	 *
 	 * @return  self
 	 */
-	public function addRule(Rule $rule, $columns, $name = null)
+	public function addRule(RuleContract $rule, $columns, $name = null)
 	{
 		$columns = (array) $columns;
 
