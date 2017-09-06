@@ -29,9 +29,12 @@ class SubstrCount extends Rule implements RuleContract
 	 * Constructor
 	 *
 	 * @param   string  $substr  String to search for
+	 * @param   mixed   $name    Name of this rule
 	 */
-	public function __construct($substr)
+	public function __construct($substr, $name = null)
 	{
+		parent::__construct($name);
+
 		$this->substr = $substr;
 	}
 

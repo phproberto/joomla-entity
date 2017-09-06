@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Contracts;
 
+use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
+
 /**
  * Validator requirements.
  *
@@ -20,7 +22,7 @@ interface Validator
 	 *
 	 * @return  boolean
 	 *
-	 * @throws  \Exception
+	 * @throws  ValidationException
 	 */
 	public function validate();
 
@@ -32,7 +34,7 @@ interface Validator
 	 *
 	 * @return  boolean
 	 *
-	 * @throws  \Exception
+	 * @throws  ValidationException
 	 */
 	public function validateColumnValue($column, $value);
 

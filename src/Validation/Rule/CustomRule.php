@@ -29,9 +29,12 @@ class CustomRule extends Rule implements RuleContract
 	 * Constructor
 	 *
 	 * @param   callable  $validator  Closure to execute
+	 * @param   mixed     $name       Name of this rule
 	 */
-	public function __construct(callable $validator)
+	public function __construct(callable $validator, $name = null)
 	{
+		parent::__construct($name);
+
 		$this->validator = $validator;
 	}
 

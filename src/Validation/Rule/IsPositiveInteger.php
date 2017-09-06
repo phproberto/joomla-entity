@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Validation\Rule;
 
 use Phproberto\Joomla\Entity\Validation\Rule\IsInteger;
+use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**

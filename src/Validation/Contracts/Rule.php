@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Contracts;
 
+use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
+
 /**
  * Rule requirements.
  *
@@ -15,6 +17,20 @@ namespace Phproberto\Joomla\Entity\Validation\Contracts;
  */
 interface Rule
 {
+	/**
+	 * Id of this rule.
+	 *
+	 * @return  string
+	 */
+	public function id();
+
+	/**
+	 * Name of this rule.
+	 *
+	 * @return  string
+	 */
+	public function name();
+
 	/**
 	 * Check if a value is valid.
 	 *

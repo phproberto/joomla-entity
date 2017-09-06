@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Validation;
 
 use Phproberto\Joomla\Entity\Decorator;
+use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 use Phproberto\Joomla\Entity\Validation\Contracts\Validator as ValidatorContract;
 
@@ -37,15 +38,12 @@ class Validator extends Decorator implements ValidatorContract
 	 * Fast proxy to
 	 *
 	 * @param   RuleContract  $rule  Translation rule
-	 * @param   string        $name  [optional] Name for this rule. Defaults to object hash
 	 *
 	 * @return  self
 	 */
-	public function addGlobalRule(RuleContract $rule, $name = null)
+	public function addGlobalRule(RuleContract $rule)
 	{
-		$name = $name ?: get_class($rule);
-
-		$this->globalRules[$name] = $rule;
+		$this->globalRules[$rule->id()] = $rule;
 
 		return $this;
 	}
@@ -55,11 +53,10 @@ class Validator extends Decorator implements ValidatorContract
 	 *
 	 * @param   RuleContract  $rule     Rule
 	 * @param   mixed         $columns  String | Array. Columns to apply rule
-	 * @param   string        $name     [optional] Name for this rule. Defaults to object hash
 	 *
 	 * @return  self
 	 */
-	public function addRule(RuleContract $rule, $columns, $name = null)
+	public function addRule(RuleContract $rule, $columns)
 	{
 		$columns = (array) $columns;
 
@@ -70,9 +67,7 @@ class Validator extends Decorator implements ValidatorContract
 				$this->rules[$column] = array();
 			}
 
-			$name = $name ?: get_class($rule);
-
-			$this->rules[$column][$name] = $rule;
+			$this->rules[$column][$rule->id()] = $rule;
 		}
 
 		return $this;
@@ -143,7 +138,7 @@ class Validator extends Decorator implements ValidatorContract
 		{
 			$this->validate();
 		}
-		catch (\Exception $e)
+		catch (ValidationException $e)
 		{
 			return false;
 		}
@@ -274,10 +269,7 @@ class Validator extends Decorator implements ValidatorContract
 
 		if (!empty($errors))
 		{
-			$msg = sprintf("Entity `%s` is not valid:\n\t* ", $this->entity->name() . '::' . $this->entity->id())
-				. implode("\n\t* ", $errors);
-
-			throw new \Exception($msg);
+			throw ValidationException::invalidEntity($this->entity, $errors);
 		}
 
 		return empty($errors);
@@ -291,27 +283,23 @@ class Validator extends Decorator implements ValidatorContract
 	 *
 	 * @return  boolean
 	 *
-	 * @throws  \Exception
+	 * @throws  ValidationException
 	 */
 	public function validateColumnValue($column, $value)
 	{
-		foreach ($this->globalRules() as $name => $rule)
+		foreach ($this->globalRules() as $rule)
 		{
 			if (!$rule->passes($value))
 			{
-				$msg = sprintf("Column `%s` value does not pass `%s` validation rule", $column, $name);
-
-				throw new \Exception($msg);
+				throw ValidationException::columnRuleFailed($column, $rule);
 			}
 		}
 
-		foreach ($this->rules($column) as $name => $rule)
+		foreach ($this->rules($column) as $rule)
 		{
 			if (!$rule->passes($value))
 			{
-				$msg = sprintf("Column `%s` value does not pass `%s` validation rule", $column, $name);
-
-				throw new \Exception($msg);
+				throw ValidationException::columnRuleFailed($column, $rule);
 			}
 		}
 

@@ -8,9 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Validation;
 
+use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
 use Phproberto\Joomla\Entity\Validation\Validator;
 use Phproberto\Joomla\Entity\Validation\Rule\CustomRule;
-use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
+use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 
 /**
  * Validator tests.
@@ -32,17 +33,20 @@ class ValidatorTest extends \TestCase
 			function ($value)
 			{
 				return $value !== 'test';
-			}
+			},
+			'Custom rule test'
 		);
 
-		$validator->addGlobalRule($rule, 'Custom rule test');
+		$validator->addGlobalRule($rule);
 
 		$reflection = new \ReflectionClass($validator);
 
 		$globalRulesProperty = $reflection->getProperty('globalRules');
 		$globalRulesProperty->setAccessible(true);
 
-		$expected = array('Custom rule test' => $rule);
+		$expected = array(
+			$rule->id() => $rule
+		);
 
 		$this->assertSame($expected, $globalRulesProperty->getValue($validator));
 
@@ -56,8 +60,8 @@ class ValidatorTest extends \TestCase
 		$validator->addGlobalRule($rule2);
 
 		$expected = array(
-			'Custom rule test' => $rule,
-			CustomRule::class  => $rule2
+			$rule->id()  => $rule,
+			$rule2->id() => $rule2
 		);
 
 		$this->assertSame($expected, $globalRulesProperty->getValue($validator));
@@ -88,7 +92,7 @@ class ValidatorTest extends \TestCase
 
 		$expected = array(
 			'sample_column' => array(
-				CustomRule::class => $rule
+				$rule->id() => $rule
 			)
 		);
 
@@ -105,10 +109,10 @@ class ValidatorTest extends \TestCase
 
 		$expected = array(
 			'sample_column' => array(
-				CustomRule::class => $rule
+				$rule->id() => $rule
 			),
 			'sample_column2' => array(
-				'Rule name' => $rule2
+				$rule2->id() => $rule2
 			)
 		);
 
@@ -315,7 +319,7 @@ class ValidatorTest extends \TestCase
 
 		$validator->expects($this->once())
 			->method('validate')
-			->will($this->throwException(new \Exception('Validation failure')));
+			->will($this->throwException(new ValidationException('Validation failure')));
 
 		$this->assertFalse($validator->isValid());
 	}
@@ -653,7 +657,7 @@ class ValidatorTest extends \TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  \Exception
+	 * @expectedException  \Phproberto\Joomla\Entity\Validation\Exception\ValidationException
 	 */
 	public function testValidateThrowsExceptionForInvalidColumnValue()
 	{

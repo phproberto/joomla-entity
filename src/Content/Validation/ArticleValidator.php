@@ -30,7 +30,7 @@ class ArticleValidator extends Validator
 	{
 		parent::__construct($article);
 
-		$this->addRule(new Rule\IsNotEmptyString, array('title'), 'Not empty title');
-		$this->addRule(new Rule\IsPositiveInteger, array('catid'), 'Valid category identifier');
+		$this->addRule(new Rule\IsNotEmptyString('Not empty title'), array('title'));
+		$this->addRule(new Rule\IsPositiveInteger('Valid category identifier'), array('catid'));
 	}
 }
