@@ -136,7 +136,7 @@ class Translator extends Decorator implements TranslatorContract
 		if (null === $this->validator)
 		{
 			$this->validator = new Validator($this->entity);
-			$this->validator->addGlobalRule(new IsNotNull, 'Is not null');
+			$this->validator->addGlobalRule(new IsNotNull);
 		}
 
 		return $this->validator;
