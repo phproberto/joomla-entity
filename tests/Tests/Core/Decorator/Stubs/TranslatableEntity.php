@@ -15,6 +15,8 @@ use Phproberto\Joomla\Entity\Core\Contracts\Translatable;
  * Entity to test Acl decorator.
  *
  * @since  __DEPLOY_VERSION__
+ *
+ * @codeCoverageIgnore
  */
 class TranslatableEntity extends ComponentEntity implements Translatable
 {

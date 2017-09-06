@@ -17,6 +17,8 @@ use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
  * Sample class to test HasOwner trait.
  *
  * @since  __DEPLOY_VERSION__
+ *
+ * @codeCoverageIgnore
  */
 class EntityWithOwner extends Entity implements Ownerable
 {
