@@ -21,7 +21,7 @@ class CustomRule extends Rule implements RuleContract
 	/**
 	 * String to search for.
 	 *
-	 * @var  \Closure
+	 * @var  callable
 	 */
 	protected $validator;
 
