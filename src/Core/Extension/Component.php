@@ -226,7 +226,7 @@ class Component extends Extension
 	 */
 	public function table($name = '', $prefix = null, $options = array())
 	{
-		if (!empty($name) && !$prefix)
+		if (!empty($name) && null === $prefix)
 		{
 			$prefix = $this->prefix() . 'Table';
 
