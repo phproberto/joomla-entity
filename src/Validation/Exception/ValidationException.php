@@ -44,17 +44,20 @@ class ValidationException extends \RuntimeException implements ExceptionInterfac
 	/**
 	 * Entity did not pass validation.
 	 *
-	 * @param   string        $column  Entity with empty data
-	 * @param   RuleContract  $rule    Rule failed
+	 * @param   string          $column       Entity with empty data
+	 * @param   RuleContract[]  $failedRules  Rule failed
 	 *
 	 * @return  static
 	 */
-	public static function columnRuleFailed($column, RuleContract $rule)
+	public static function invalidColumn($column, array $failedRules)
 	{
-		$msg = sprintf("`%s` does not pass `%s` validation rule", $column, $rule->name());
+		$errors = array();
 
-		return new static($msg, 500);
+		foreach ($failedRules as $rule)
+		{
+			$errors[] = sprintf("`%s` does not pass `%s` validation rule", $column, $rule->name());
+		}
+
+		return new static(implode("\n\t* ", $errors), 500);
 	}
-
-
 }

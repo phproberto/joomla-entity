@@ -328,27 +328,20 @@ class Validator extends Decorator implements ValidatorContract
 	 */
 	public function validateColumnValue($column, $value)
 	{
-		$errors = array();
+		$failedRules = array();
 		$rules = array_merge($this->globalRules(), $this->rules($column));
 
 		foreach ($rules as $rule)
 		{
-			try
+			if (!$rule->passes($value))
 			{
-				if (!$rule->passes($value))
-				{
-					throw ValidationException::columnRuleFailed($column, $rule);
-				}
-			}
-			catch (ValidationException $e)
-			{
-				$errors[] = $e->getMessage();
+				$failedRules[] = $rule;
 			}
 		}
 
-		if (!empty($errors))
+		if (!empty($failedRules))
 		{
-			throw new ValidationException(implode("\n\t*", $errors));
+			throw ValidationException::invalidColumn($column, $failedRules);
 		}
 
 		return true;

@@ -749,8 +749,6 @@ class ValidatorTest extends \TestCase
 	 * validate throws exception for invalid column value.
 	 *
 	 * @return  void
-	 *
-	 * @expectedException  \Phproberto\Joomla\Entity\Validation\Exception\ValidationException
 	 */
 	public function testValidateThrowsExceptionForInvalidColumnValue()
 	{
@@ -767,7 +765,17 @@ class ValidatorTest extends \TestCase
 			),
 			array('sample_column')
 		);
-		$validator->validate();
+
+		try
+		{
+			$validator->validate();
+		}
+		catch (ValidationException $e)
+		{
+		}
+
+		$this->assertInstanceOf(ValidationException::class, $e);
+		$this->assertTrue(strlen($e->getMessage()) > 0);
 	}
 
 	/**
