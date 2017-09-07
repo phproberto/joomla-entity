@@ -294,6 +294,8 @@ class Validator extends Decorator implements ValidatorContract
 			array_merge(array_keys($data), array_keys($this->rules))
 		);
 
+		sort($validableColumns);
+
 		foreach ($validableColumns as $column)
 		{
 			$value = isset($data[$column]) ? $data[$column] : null;
