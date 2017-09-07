@@ -9,27 +9,30 @@
 namespace Phproberto\Joomla\Entity\Content;
 
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
-use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Fields\Field;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Content\Category;
+use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
-use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
-use Phproberto\Joomla\Entity\Users\Contracts as UsersContracts;
-use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
-use Phproberto\Joomla\Entity\Fields\Traits as FieldsTraits;
 use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
+use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
+use Phproberto\Joomla\Entity\Fields\Field;
+use Phproberto\Joomla\Entity\Fields\Traits as FieldsTraits;
+use Phproberto\Joomla\Entity\Tags\Tag;
+use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
 use Phproberto\Joomla\Entity\Translation\Contracts as TranslationContracts;
 use Phproberto\Joomla\Entity\Translation\Traits as TranslationTraits;
+use Phproberto\Joomla\Entity\Validation\Contracts\Validable;
+use Phproberto\Joomla\Entity\Validation\Traits\HasValidation;
+use Phproberto\Joomla\Entity\Users\Contracts as UsersContracts;
+use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
 
 /**
  * Article entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class Article extends ComponentEntity implements UsersContracts\Ownerable, TranslationContracts\Translatable
+class Article extends ComponentEntity implements UsersContracts\Ownerable, TranslationContracts\Translatable, Validable
 {
 	use AclTraits\HasAcl;
 	use CategoriesTraits\HasCategory;
@@ -39,6 +42,7 @@ class Article extends ComponentEntity implements UsersContracts\Ownerable, Trans
 	use TagsTraits\HasTags;
 	use TranslationTraits\HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor, UsersTraits\HasOwner;
+	use HasValidation;
 
 	/**
 	 * Get the list of column aliases.
@@ -205,5 +209,20 @@ class Article extends ComponentEntity implements UsersContracts\Ownerable, Trans
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::table($name, $prefix, $options);
+	}
+
+	/**
+	 * Retrieve entity validator.
+	 *
+	 * @return  ArticleValidator
+	 */
+	public function validator()
+	{
+		if (null === $this->validator)
+		{
+			$this->validator = new ArticleValidator($this);
+		}
+
+		return $this->validator;
 	}
 }

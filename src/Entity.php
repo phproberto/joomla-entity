@@ -10,10 +10,13 @@ namespace Phproberto\Joomla\Entity;
 
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Traits;
+use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
+use Phproberto\Joomla\Entity\Validation\Contracts\Validable;
+use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 
 /**
  * Entity class.
@@ -455,14 +458,28 @@ abstract class Entity implements EntityInterface
 	 * Save entity to the database.
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  SaveException
 	 */
 	public function save()
 	{
 		$table = $this->table();
 
+		if ($this instanceof Validable)
+		{
+			try
+			{
+				$this->validate();
+			}
+			catch (ValidationException $e)
+			{
+				throw SaveException::validation($this, $e);
+			}
+		}
+
 		if (!$table->save($this->row))
 		{
-			throw new \RuntimeException($table->getError());
+			throw SaveException::table($this, $table);
 		}
 
 		return true;

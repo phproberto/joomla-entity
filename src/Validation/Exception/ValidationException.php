@@ -31,11 +31,12 @@ class ValidationException extends \RuntimeException implements ExceptionInterfac
 	 */
 	public static function invalidEntity(EntityInterface $entity, array $errors = array())
 	{
-		$msg = sprintf("Entity `%s` is not valid:\n\t* ", $entity->name() . '::' . $entity->id());
+		$entityName = $entity->name() . ($entity->hasId() ? '::' . $entity->id() : null);
+		$msg = sprintf("`%s` is not valid:</br>* ", $entityName);
 
 		if (count($errors))
 		{
-			$msg .= implode("\n\t* ", $errors);
+			$msg .= implode("</br>* ", $errors);
 		}
 
 		return new static($msg, 500);
@@ -58,6 +59,6 @@ class ValidationException extends \RuntimeException implements ExceptionInterfac
 			$errors[] = sprintf("`%s` does not pass `%s` validation rule", $column, $rule->name());
 		}
 
-		return new static(implode("\n\t* ", $errors), 500);
+		return new static(implode("</br>* ", $errors), 500);
 	}
 }
