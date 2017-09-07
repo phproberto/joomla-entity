@@ -99,9 +99,14 @@ class Validator extends Decorator implements ValidatorContract
 	 */
 	public function addRules(array $rules)
 	{
-		foreach ($rules as $column => $rule)
+		foreach ($rules as $column => $columnRules)
 		{
-			$this->addRule($rule, array($column));
+			$columnRules = is_array($columnRules) ? $columnRules : array($columnRules);
+
+			foreach ($columnRules as $rule)
+			{
+				$this->addRule($rule, array($column));
+			}
 		}
 
 		return $this;
@@ -285,7 +290,9 @@ class Validator extends Decorator implements ValidatorContract
 
 		$data = $this->entity->all();
 
-		$validableColumns = array_merge(array_keys($data), array_keys($this->rules));
+		$validableColumns = array_unique(
+			array_merge(array_keys($data), array_keys($this->rules))
+		);
 
 		foreach ($validableColumns as $column)
 		{
@@ -321,14 +328,27 @@ class Validator extends Decorator implements ValidatorContract
 	 */
 	public function validateColumnValue($column, $value)
 	{
+		$errors = array();
 		$rules = array_merge($this->globalRules(), $this->rules($column));
 
 		foreach ($rules as $rule)
 		{
-			if (!$rule->passes($value))
+			try
 			{
-				throw ValidationException::columnRuleFailed($column, $rule);
+				if (!$rule->passes($value))
+				{
+					throw ValidationException::columnRuleFailed($column, $rule);
+				}
 			}
+			catch (ValidationException $e)
+			{
+				$errors[] = $e->getMessage();
+			}
+		}
+
+		if (!empty($errors))
+		{
+			throw new ValidationException(implode("\n\t*", $errors));
 		}
 
 		return true;

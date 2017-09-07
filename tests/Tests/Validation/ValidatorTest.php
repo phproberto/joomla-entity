@@ -176,11 +176,19 @@ class ValidatorTest extends \TestCase
 					return $value !== 'test';
 				}
 			),
-			'sample_column2' => new CustomRule(
-				function ($value)
-				{
-					return $value !== 'test2';
-				}
+			'sample_column2' => array(
+				new CustomRule(
+					function ($value)
+					{
+						return $value !== 'test2';
+					}
+				),
+				new CustomRule(
+					function ($value)
+					{
+						return $value !== 'test3';
+					}
+				)
 			)
 		);
 
@@ -196,7 +204,8 @@ class ValidatorTest extends \TestCase
 				$rules['sample_column']->id() => $rules['sample_column']
 			),
 			'sample_column2' => array(
-				$rules['sample_column2']->id() => $rules['sample_column2']
+				$rules['sample_column2'][0]->id() => $rules['sample_column2'][0],
+				$rules['sample_column2'][1]->id() => $rules['sample_column2'][1]
 			)
 		);
 
