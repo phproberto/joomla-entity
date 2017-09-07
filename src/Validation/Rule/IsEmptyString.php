@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Rule;
 
-use Phproberto\Joomla\Entity\Validation\Rule\IsString;
+use Phproberto\Joomla\Entity\Validation\Rule;
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 
 /**
@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
  *
  * @since   __DEPLOY_VERSION__
  */
-class IsEmptyString extends IsString implements RuleContract
+class IsEmptyString extends Rule implements RuleContract
 {
 	/**
 	 * Check if a value is valid.
