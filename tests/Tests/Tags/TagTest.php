@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\Tags;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Core\Decorator\Acl;
+use Phproberto\Joomla\Entity\Acl\Acl;
 
 /**
  * Tag entity tests.

@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Users;
 
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 
@@ -19,7 +20,8 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
  */
 class User extends ComponentEntity
 {
-	use CoreTraits\HasAcl, CoreTraits\HasParams;
+	use AclTraits\HasAcl;
+	use CoreTraits\HasParams;
 
 	/**
 	 * Is this user root/super user?

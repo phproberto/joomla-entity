@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Content;
 
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Fields\Field;
@@ -30,8 +31,9 @@ use Phproberto\Joomla\Entity\Translation\Traits as TranslationTraits;
  */
 class Article extends ComponentEntity implements UsersContracts\Ownerable, TranslationContracts\Translatable
 {
+	use AclTraits\HasAcl;
 	use CategoriesTraits\HasCategory;
-	use CoreTraits\HasAccess, CoreTraits\HasAcl, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
+	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
 	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams, CoreTraits\HasState, CoreTraits\HasUrls;
 	use FieldsTraits\HasFields;
 	use TagsTraits\HasTags;

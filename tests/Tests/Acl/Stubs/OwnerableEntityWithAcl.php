@@ -6,10 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core\Decorator\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\Acl\Stubs;
 
 use Phproberto\Joomla\Entity\ComponentEntity;
-use Phproberto\Joomla\Entity\Core\Traits\HasAcl;
+use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 use Phproberto\Joomla\Entity\Users\Traits\HasOwner;
 

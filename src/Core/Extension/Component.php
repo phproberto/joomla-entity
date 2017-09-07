@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Core\Extension;
 
 use Phproberto\Joomla\Entity\Core\Extension;
-use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
 
 /**
  * Component entity.
@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
  */
 class Component extends Extension
 {
-	use CoreTraits\HasAcl;
+	use AclTraits\HasAcl;
 
 	/**
 	 * Component option.

@@ -6,11 +6,11 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
+namespace Phproberto\Joomla\Entity\Tests\Acl\Traits;
 
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Core\Decorator\Acl;
-use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithAcl;
+use Phproberto\Joomla\Entity\Acl\Acl;
+use Phproberto\Joomla\Entity\Tests\Acl\Traits\Stubs\EntityWithAcl;
 
 /**
  * HasAcl trait tests.

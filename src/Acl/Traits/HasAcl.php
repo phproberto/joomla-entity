@@ -6,10 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Core\Traits;
+namespace Phproberto\Joomla\Entity\Acl\Traits;
 
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Core\Decorator\Acl;
+use Phproberto\Joomla\Entity\Acl\Acl;
 
 /**
  * Trait for entities with ACL.

@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Core\Decorator;
+namespace Phproberto\Joomla\Entity\Acl;
 
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Users\User;
