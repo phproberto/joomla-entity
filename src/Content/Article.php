@@ -14,26 +14,28 @@ use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Fields\Field;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Content\Category;
-use Phproberto\Joomla\Entity\Core\Contracts as CoreContracts;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
 use Phproberto\Joomla\Entity\Users\Contracts as UsersContracts;
 use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
 use Phproberto\Joomla\Entity\Fields\Traits as FieldsTraits;
 use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
+use Phproberto\Joomla\Entity\Translation\Contracts as TranslationContracts;
+use Phproberto\Joomla\Entity\Translation\Traits as TranslationTraits;
 
 /**
  * Article entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class Article extends ComponentEntity implements UsersContracts\Ownerable, CoreContracts\Translatable
+class Article extends ComponentEntity implements UsersContracts\Ownerable, TranslationContracts\Translatable
 {
 	use CategoriesTraits\HasCategory;
 	use CoreTraits\HasAccess, CoreTraits\HasAcl, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
-	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams, CoreTraits\HasState, CoreTraits\HasTranslations, CoreTraits\HasUrls;
+	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams, CoreTraits\HasState, CoreTraits\HasUrls;
 	use FieldsTraits\HasFields;
 	use TagsTraits\HasTags;
+	use TranslationTraits\HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor, UsersTraits\HasOwner;
 
 	/**

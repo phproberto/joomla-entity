@@ -6,15 +6,15 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Core\Decorator;
+namespace Phproberto\Joomla\Entity\Translation;
 
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Core\Column;
 use Phproberto\Joomla\Entity\Validation\Validator;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Validation\Rule\IsNotNull;
-use Phproberto\Joomla\Entity\Core\Contracts\Translatable;
-use Phproberto\Joomla\Entity\Core\Contracts\Translator as TranslatorContract;
+use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
+use Phproberto\Joomla\Entity\Translation\Contracts\Translator as TranslatorContract;
 use Phproberto\Joomla\Entity\Validation\Contracts\Validator as ValidatorContract;
 
 /**

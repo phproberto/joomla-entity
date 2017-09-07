@@ -11,8 +11,8 @@ namespace Phproberto\Joomla\Entity\Tests\Core\Decorator;
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
 use Phproberto\Joomla\Entity\Validation\Validator;
 use Phproberto\Joomla\Entity\Validation\Rule\CustomRule;
-use Phproberto\Joomla\Entity\Core\Decorator\TranslatorWithFallback;
-use Phproberto\Joomla\Entity\Tests\Core\Decorator\Stubs\TranslatableEntity;
+use Phproberto\Joomla\Entity\Translation\TranslatorWithFallback;
+use Phproberto\Joomla\Entity\Tests\Translation\Stubs\TranslatableEntity;
 
 /**
  * TranslatorWithFallback decorator tests.

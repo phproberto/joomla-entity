@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Core\Decorator;
+namespace Phproberto\Joomla\Entity\Translation;
 
 /**
  * Represents a collection of entities.

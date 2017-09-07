@@ -6,11 +6,11 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core\Decorator;
+namespace Phproberto\Joomla\Entity\Tests\Translation;
 
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
-use Phproberto\Joomla\Entity\Core\Decorator\Translator;
-use Phproberto\Joomla\Entity\Tests\Core\Decorator\Stubs\TranslatableEntity;
+use Phproberto\Joomla\Entity\Translation\Translator;
+use Phproberto\Joomla\Entity\Tests\Translation\Stubs\TranslatableEntity;
 
 /**
  * Translator decorator tests.

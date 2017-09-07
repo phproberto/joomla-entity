@@ -6,10 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core\Decorator\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\Translation\Stubs;
 
 use Phproberto\Joomla\Entity\ComponentEntity;
-use Phproberto\Joomla\Entity\Core\Contracts\Translatable;
+use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
 
 /**
  * Entity to test Acl decorator.
