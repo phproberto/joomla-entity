@@ -57,5 +57,13 @@ class SaveExceptionTest extends \TestCase
 
 		$this->assertInstanceOf(SaveException::class, $exception);
 		$this->assertTrue(strlen($exception->getMessage()) > 0);
+
+		$entity = new Entity;
+		$validationException = new ValidationException('Something went wrong');
+
+		$exception = SaveException::validation($entity, $validationException);
+
+		$this->assertInstanceOf(SaveException::class, $exception);
+		$this->assertTrue(strlen($exception->getMessage()) > 0);
 	}
 }
