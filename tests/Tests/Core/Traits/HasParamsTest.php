@@ -19,6 +19,58 @@ use Joomla\Registry\Registry;
 class HasParamsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * loadParams returns row params if they are already there as string.
+	 *
+	 * @return  void
+	 */
+	public function testLoadParamsReturnsRowParamsIfTheyAreAlreadyThereAsString()
+	{
+		$row = array('id' => 999, 'title' => 'test entity', 'attribs' => '{"foo":"var"}', 'params' => '{"bar":"foo"}');
+
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('attribs');
+
+		$entity->bind($row);
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadParams');
+		$method->setAccessible(true);
+
+		$this->assertSame('foo', $method->invoke($entity)->get('bar'));
+	}
+
+	/**
+	 * loadParams returns row params if they are already there as Registry.
+	 *
+	 * @return  void
+	 */
+	public function testLoadParamsReturnsRowParamsIfTheyAreAlreadyThereAsRegistry()
+	{
+		$params = new Registry('{"bar":"foo"}');
+
+		$row = array('id' => 999, 'title' => 'test entity', 'attribs' => '{"foo":"var"}', 'params' => $params);
+
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('attribs');
+
+		$entity->bind($row);
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadParams');
+		$method->setAccessible(true);
+
+		$this->assertSame($params, $method->invoke($entity));
+	}
+
+	/**
 	 * param returns correct value.
 	 *
 	 * @return  void
@@ -63,7 +115,7 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testParamsWorksForUnsetParams()
 	{
-		$entity = $this->getEntity(array('id' => 999, 'name' => 'Roberto Segura', 'params' => ' '));
+		$entity = $this->getEntity(array('id' => 999, 'name' => 'Roberto Segura', 'params' => ''));
 
 		$this->assertEquals(new Registry, $entity->params());
 	}

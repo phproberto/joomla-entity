@@ -87,6 +87,12 @@ trait HasParams
 	 */
 	protected function loadParams()
 	{
+		// Avoid loading params if they are already loaded in the row
+		if (!empty($this->row['params']))
+		{
+			return $this->row['params'] instanceof Registry ? $this->row['params'] : new Registry($this->row['params']);
+		}
+
 		$params = trim($this->get($this->columnAlias(Column::PARAMS)));
 
 		return empty($params) ? new Registry : new Registry($params);
