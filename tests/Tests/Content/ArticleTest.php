@@ -12,9 +12,10 @@ use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Content\Category;
+use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
+use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
 
 /**
  * Article entity tests.
@@ -713,5 +714,29 @@ class ArticleTest extends \TestCaseDatabase
 			->willReturn($items);
 
 		return $mock;
+	}
+
+	/**
+	 * validator returns validator variable.
+	 *
+	 * @return  void
+	 */
+	public function testValidatorReturnsValidatorVariable()
+	{
+		$article = new Article;
+
+		$reflection = new \ReflectionClass($article);
+		$validatorProperty = $reflection->getProperty('validator');
+		$validatorProperty->setAccessible(true);
+
+		$this->assertSame(null, $validatorProperty->getValue($article));
+
+		$validator = new ArticleValidator($article);
+
+		$this->assertNotSame($validator, $article->validator());
+
+		$validatorProperty->setValue($article, $validator);
+
+		$this->assertSame($validator, $article->validator());
 	}
 }
