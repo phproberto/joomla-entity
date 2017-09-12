@@ -10,6 +10,9 @@ namespace Phproberto\Joomla\Entity\Tests;
 
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
+use Phproberto\Joomla\Entity\Exception\SaveException;
+use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
+use Phproberto\Joomla\Entity\Tests\Validation\Traits\Stubs\EntityWithValidation;
 
 /**
  * Base entity tests.
@@ -874,9 +877,9 @@ class EntityTest extends \TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException \RuntimeException
+	 * @expectedException \Phproberto\Joomla\Entity\Exception\SaveException
 	 */
-	public function testSaveThrowsRuntimeExceptionWhenErrorsHappen()
+	public function testSaveThrowsExceptionWhenTableErrorsHappen()
 	{
 		$tableMock = $this->getMockBuilder(\JTable::class)
 			->disableOriginalConstructor()
@@ -900,6 +903,34 @@ class EntityTest extends \TestCase
 			->willReturn($tableMock);
 
 		$mock->save();
+	}
+
+	/**
+	 * save throws exception when validable entities throw validation exceptions.
+	 *
+	 * @return  void
+	 */
+	public function testSaveThrowsExceptionWhenValidableEntitiesThrowValidationExceptions()
+	{
+		$entity = $this->getMockBuilder(EntityWithValidation::class)
+			->disableOriginalConstructor()
+			->setMethods(array('validate'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('validate')
+			->will($this->throwException(new ValidationException('Validation error happened')));
+
+		try
+		{
+			$entity->save();
+		}
+		catch (SaveException $exception)
+		{
+		}
+
+		$this->assertInstanceOf(SaveException::class, $exception);
+		$this->assertTrue(strlen($exception->getMessage()) > 0);
 	}
 
 	/**

@@ -463,8 +463,6 @@ abstract class Entity implements EntityInterface
 	 */
 	public function save()
 	{
-		$table = $this->table();
-
 		if ($this instanceof Validable)
 		{
 			try
@@ -476,6 +474,8 @@ abstract class Entity implements EntityInterface
 				throw SaveException::validation($this, $e);
 			}
 		}
+
+		$table = $this->table();
 
 		if (!$table->save($this->row))
 		{
