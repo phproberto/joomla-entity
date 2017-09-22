@@ -20,6 +20,15 @@ defined('JPATH_PLATFORM') || die;
 trait HasPublishUp
 {
 	/**
+	 * Get the empty date for the active DB driver.
+	 *
+	 * @return  string
+	 *
+	 * @codeCoverageIgnore
+	 */
+	abstract protected function nullDate();
+
+	/**
 	 * Get the publish up date.
 	 *
 	 * @return  string
@@ -54,17 +63,5 @@ trait HasPublishUp
 		}
 
 		return \JFactory::getDate($this->getPublishUp()) <= \JFactory::getDate();
-	}
-
-	/**
-	 * Get the empty date for the active DB driver.
-	 *
-	 * @return  string
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function nullDate()
-	{
-		return \JFactory::getDbo()->getNullDate();
 	}
 }

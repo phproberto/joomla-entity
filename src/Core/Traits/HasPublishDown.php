@@ -20,6 +20,15 @@ defined('JPATH_PLATFORM') || die;
 trait HasPublishDown
 {
 	/**
+	 * Get the empty date for the active DB driver.
+	 *
+	 * @return  string
+	 *
+	 * @codeCoverageIgnore
+	 */
+	abstract protected function nullDate();
+
+	/**
 	 * Get the publish down date.
 	 *
 	 * @return  string

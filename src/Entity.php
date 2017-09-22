@@ -473,6 +473,18 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Get the empty date for the active DB driver.
+	 *
+	 * @return  string
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function nullDate()
+	{
+		return \JFactory::getDbo()->getNullDate();
+	}
+
+	/**
 	 * Get entity primary key column.
 	 *
 	 * @return  string
