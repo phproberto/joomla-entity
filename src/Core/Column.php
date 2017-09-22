@@ -72,6 +72,20 @@ abstract class Column
 	const PARAMS = 'params';
 
 	/**
+	 * Default column used to store publish down date.
+	 *
+	 * @const
+	 */
+	const PUBLISH_DOWN = 'publish_down';
+
+	/**
+	 * Default column used to store publish up date.
+	 *
+	 * @const
+	 */
+	const PUBLISH_UP = 'publish_up';
+
+	/**
 	 * Default column used to store state.
 	 *
 	 * @const
