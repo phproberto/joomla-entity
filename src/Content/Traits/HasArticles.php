@@ -45,7 +45,7 @@ trait HasArticles
 	 *
 	 * @return  Collection
 	 */
-	public function getArticles($reload = false)
+	public function articles($reload = false)
 	{
 		if ($reload || null === $this->articles)
 		{
@@ -64,7 +64,7 @@ trait HasArticles
 	 */
 	public function hasArticle($id)
 	{
-		return $this->getArticles()->has($id);
+		return $this->articles()->has($id);
 	}
 
 	/**
@@ -74,7 +74,7 @@ trait HasArticles
 	 */
 	public function hasArticles()
 	{
-		return !$this->getArticles()->isEmpty();
+		return !$this->articles()->isEmpty();
 	}
 
 	/**

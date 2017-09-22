@@ -75,21 +75,21 @@ class HasArticlesTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * getArticles returns correct data.
+	 * articles returns correct data.
 	 *
 	 * @return  void
 	 */
-	public function testGetArticlesReturnsCorrectData()
+	public function testArticlesReturnsCorrectData()
 	{
 		$entity = new ClassWithArticles;
 
-		$this->assertEquals(new Collection, $entity->getArticles());
+		$this->assertEquals(new Collection, $entity->articles());
 
 		$entity->articlesIds = array(999);
 
 		// Previous data with no reload
-		$this->assertEquals(new Collection, $entity->getArticles());
-		$this->assertEquals(new Collection(array(new Article(999))), $entity->getArticles(true));
+		$this->assertEquals(new Collection, $entity->articles());
+		$this->assertEquals(new Collection(array(new Article(999))), $entity->articles(true));
 	}
 
 	/**

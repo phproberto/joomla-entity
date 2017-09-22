@@ -8,10 +8,12 @@
 
 namespace Phproberto\Joomla\Entity\Content;
 
-use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
+use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
-use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Tags\Traits as HasTraits;
+use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
 
 /**
  * Content category entity.
@@ -20,6 +22,7 @@ use Joomla\Registry\Registry;
  */
 class Category extends BaseCategory
 {
+	use CoreTraits\HasLink;
 	use Traits\HasArticles;
 
 	/**
@@ -43,6 +46,18 @@ class Category extends BaseCategory
 		);
 
 		return new Collection($articles);
+	}
+
+	/**
+	 * Load the link to this entity.
+	 *
+	 * @return  string
+	 */
+	protected function loadLink()
+	{
+		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+
+		return \JRoute::_(\ContentHelperRoute::getCategoryRoute($this->slug()));
 	}
 
 	/**
