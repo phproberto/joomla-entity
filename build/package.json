@@ -1,7 +1,7 @@
 {
-  "name": "joomla-component",
-  "version": "0.0.1",
-  "description": "Library to interact with Joomla! components",
+  "name": "joomla-entity",
+  "version": "1.0.0",
+  "description": "Semantical entities for Joomla!",
   "main": "gulpfile.js",
   "directories": {
     "doc": "docs"
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/phproberto/joomla-component"
+    "url": "git://github.com/phproberto/joomla-entity"
   },
   "keywords": [
     "joomla",
