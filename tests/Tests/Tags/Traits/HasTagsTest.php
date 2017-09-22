@@ -91,21 +91,21 @@ class HasTagsTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * getTags returns correct data.
+	 * tags returns correct data.
 	 *
 	 * @return  void
 	 */
-	public function testGetTagsReturnsCorrectData()
+	public function testTagsReturnsCorrectData()
 	{
 		$entity = new ClassWithTags;
 
-		$this->assertEquals(new Collection, $entity->getTags());
+		$this->assertEquals(new Collection, $entity->tags());
 
 		$entity->tagsIds = array(999);
 
 		// Previous data with no reload
-		$this->assertEquals(new Collection, $entity->getTags());
-		$this->assertEquals(new Collection(array(new Tag(999))), $entity->getTags(true));
+		$this->assertEquals(new Collection, $entity->tags());
+		$this->assertEquals(new Collection(array(new Tag(999))), $entity->tags(true));
 	}
 
 	/**

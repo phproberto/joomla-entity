@@ -46,7 +46,7 @@ trait HasTags
 	 *
 	 * @return  Collection
 	 */
-	public function getTags($reload = false)
+	public function tags($reload = false)
 	{
 		if ($reload || null === $this->tags)
 		{
@@ -76,7 +76,7 @@ trait HasTags
 	 */
 	public function hasTag($id)
 	{
-		return $this->getTags()->has($id);
+		return $this->tags()->has($id);
 	}
 
 	/**
@@ -86,7 +86,7 @@ trait HasTags
 	 */
 	public function hasTags()
 	{
-		return !$this->getTags()->isEmpty();
+		return !$this->tags()->isEmpty();
 	}
 
 	/**
