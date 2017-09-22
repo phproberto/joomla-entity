@@ -9,10 +9,11 @@
 namespace Phproberto\Joomla\Entity\Content;
 
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
-use Phproberto\Joomla\Entity\Tags\Traits as HasTraits;
+use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
 use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
 
 /**
@@ -23,6 +24,7 @@ use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
 class Category extends BaseCategory
 {
 	use CoreTraits\HasLink;
+	use TagsTraits\HasTags;
 	use Traits\HasArticles;
 
 	/**
@@ -58,6 +60,31 @@ class Category extends BaseCategory
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return \JRoute::_(\ContentHelperRoute::getCategoryRoute($this->slug()));
+	}
+
+	/**
+	 * Load associated tags from DB.
+	 *
+	 * @return  Collection
+	 */
+	protected function loadTags()
+	{
+		if (!$this->hasId())
+		{
+			return new Collection;
+		}
+
+		$items = $this->getTagsHelperInstance()->getItemTags('com_content.category', $this->id()) ?: array();
+
+		$tags = array_map(
+			function ($tag)
+			{
+				return Tag::instance($tag->id)->bind($tag);
+			},
+			$items
+		);
+
+		return new Collection($tags);
 	}
 
 	/**
