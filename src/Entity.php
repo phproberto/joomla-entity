@@ -53,6 +53,20 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Proxy entity properties
+	 *
+	 * @param   string  $property  Property tried to access
+	 *
+	 * @return  mixed   Property if it exists
+	 *
+	 * @throws  \InvalidArgumentException  Column does not exist
+	 */
+	public function __get($property)
+	{
+		return $this->get($property);
+	}
+
+	/**
 	 * Get all the entity properties.
 	 *
 	 * @return  array
