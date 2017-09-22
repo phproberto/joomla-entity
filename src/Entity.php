@@ -310,14 +310,56 @@ abstract class Entity implements EntityInterface
 	 * Check if entity has a property.
 	 *
 	 * @param   string   $property  Entity property name
+	 * @param   mixed    $callback  Callable to execute for further verifications
 	 *
 	 * @return  boolean
 	 */
-	public function has($property)
+	public function has($property, callable $callback = null)
 	{
 		$row = $this->all();
 
-		return $row && array_key_exists($property, $row);
+		if (!array_key_exists($property, $row))
+		{
+			return false;
+		}
+
+		return $callback ? call_user_func($callback, $row[$property]) : true;
+	}
+
+	/**
+	 * Check if a property exists and is empty.
+	 *
+	 * @param   string   $property  Entity property name
+	 *
+	 * @return  boolean
+	 */
+	public function hasEmpty($property)
+	{
+		return $this->has(
+			$property,
+			function ($value)
+			{
+				return empty($value);
+			}
+		);
+	}
+
+	/**
+	 * Check if a property exists and is not empty.
+	 *
+	 * @param   string   $property  Entity property name
+	 *
+	 * @return  boolean
+	 */
+	public function hasNotEmpty($property)
+	{
+		return $this->has(
+			$property,
+			function ($value)
+			{
+				return !empty($value);
+			}
+		);
 	}
 
 	/**

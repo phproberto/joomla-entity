@@ -752,6 +752,78 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * hasEmpty returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testHasEmptyReturnsCorrectValue()
+	{
+		$entity = $this->getEntity(
+			array(
+				static::PRIMARY_KEY => 999,
+				'name' => 'Roberto Segura',
+				'empty_int' => 0,
+				'empty_array' => array(),
+				'empty_null' => null,
+				'empty_false' => false,
+				'empty_string' => '',
+				'not_empty_int' => 1,
+				'not_empty_array' => array(0),
+				'not_empty_boolean' => true,
+				'not_empty_float' => 0.123
+			)
+		);
+
+		$this->assertFalse($entity->hasEmpty('name'));
+		$this->assertFalse($entity->hasEmpty('unexistent'));
+		$this->assertTrue($entity->hasEmpty('empty_int'));
+		$this->assertFalse($entity->hasEmpty('not_empty_int'));
+		$this->assertTrue($entity->hasEmpty('empty_array'));
+		$this->assertFalse($entity->hasEmpty('not_empty_array'));
+		$this->assertTrue($entity->hasEmpty('empty_null'));
+		$this->assertFalse($entity->hasEmpty('not_empty_boolean'));
+		$this->assertTrue($entity->hasEmpty('empty_false'));
+		$this->assertFalse($entity->hasEmpty('not_empty_float'));
+		$this->assertTrue($entity->hasEmpty('empty_string'));
+	}
+
+	/**
+	 * hasNotEmpty returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testHasNotEmptyReturnsCorrectValue()
+	{
+		$entity = $this->getEntity(
+			array(
+				static::PRIMARY_KEY => 999,
+				'name' => 'Roberto Segura',
+				'empty_int' => 0,
+				'empty_array' => array(),
+				'empty_null' => null,
+				'empty_false' => false,
+				'empty_string' => '',
+				'not_empty_int' => 1,
+				'not_empty_array' => array(0),
+				'not_empty_boolean' => true,
+				'not_empty_float' => 0.123
+			)
+		);
+
+		$this->assertTrue($entity->hasNotEmpty('name'));
+		$this->assertFalse($entity->hasNotEmpty('unexistent'));
+		$this->assertFalse($entity->hasNotEmpty('empty_int'));
+		$this->assertTrue($entity->hasNotEmpty('not_empty_int'));
+		$this->assertFalse($entity->hasNotEmpty('empty_array'));
+		$this->assertTrue($entity->hasNotEmpty('not_empty_array'));
+		$this->assertFalse($entity->hasNotEmpty('empty_null'));
+		$this->assertTrue($entity->hasNotEmpty('not_empty_boolean'));
+		$this->assertFalse($entity->hasNotEmpty('empty_false'));
+		$this->assertTrue($entity->hasNotEmpty('not_empty_float'));
+		$this->assertFalse($entity->hasNotEmpty('empty_string'));
+	}
+
+	/**
 	 * isLoaded returns correct value.
 	 *
 	 * @return  void
