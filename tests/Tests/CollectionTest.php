@@ -880,6 +880,42 @@ class CollectionTest extends \TestCase
 	}
 
 	/**
+	 * toArray returns correct data.
+	 *
+	 * @return  void
+	 */
+	public function testToArrayReturnsCorrectData()
+	{
+		$collection = new Collection;
+
+		$this->assertEquals(array(), $collection->toObjects());
+
+		$entity1 = new Entity(1000);
+		$entity2 = new Entity(1001);
+
+		$reflection = new \ReflectionClass($entity1);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$row1 = array('id' => 1000, 'name' => 'Vicente Monroig');
+		$row2 = array('id' => 1001, 'name' => 'Jorge Pomer');
+
+		$rowProperty->setValue($entity1, $row1);
+		$rowProperty->setValue($entity2, $row2);
+
+		$entities = array($entity1, $entity2);
+
+		$collection = new Collection($entities);
+
+		$expected = array(
+			$row1['id'] => $row1,
+			$row2['id'] => $row2
+		);
+
+		$this->assertEquals($expected, $collection->toArray());
+	}
+
+	/**
 	 * toObjects returns correct data.
 	 *
 	 * @return  void

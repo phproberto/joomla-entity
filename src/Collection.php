@@ -463,6 +463,23 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 	}
 
 	/**
+	 * Convert the collection into an array of arrays.
+	 *
+	 * @return  array
+	 */
+	public function toArray()
+	{
+		$result = array();
+
+		foreach ($this->entities as $id => $entity)
+		{
+			$result[$id] = $entity->all();
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Get all data from all the entities as objects.
 	 *
 	 * @return  \stdClass[]  An array of stdClass objects
