@@ -37,7 +37,8 @@ class Article extends ComponentEntity implements UsersContracts\Ownerable, Trans
 	use AclTraits\HasAcl;
 	use CategoriesTraits\HasCategory;
 	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
-	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams, CoreTraits\HasState, CoreTraits\HasUrls;
+	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams, CoreTraits\HasPublishDown, CoreTraits\HasPublishUp, CoreTraits\HasState;
+	use CoreTraits\HasUrls;
 	use FieldsTraits\HasFields;
 	use TagsTraits\HasTags;
 	use TranslationTraits\HasTranslations;
