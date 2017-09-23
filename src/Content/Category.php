@@ -12,8 +12,11 @@ use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
+use Phproberto\Joomla\Entity\Core\Traits\HasLink;
+use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
-use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
+use Phproberto\Joomla\Entity\Content\Traits\HasArticles;
 use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
 
 /**
@@ -23,9 +26,7 @@ use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
  */
 class Category extends BaseCategory
 {
-	use CoreTraits\HasLink;
-	use TagsTraits\HasTags;
-	use Traits\HasArticles;
+	use HasArticles, HasAcl, HasLink, HasTags;
 
 	/**
 	 * Load associated articles from DB.

@@ -11,10 +11,10 @@ namespace Phproberto\Joomla\Entity\Categories;
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;
-use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
+use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
-use Phproberto\Joomla\Entity\Translation\Traits as TranslationTraits;
+use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
 
 /**
  * Stub to test Entity class.
@@ -24,7 +24,7 @@ use Phproberto\Joomla\Entity\Translation\Traits as TranslationTraits;
 class Category extends ComponentEntity
 {
 	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasMetadata, CoreTraits\HasParams;
-	use TranslationTraits\HasTranslations;
+	use HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
 	/**
