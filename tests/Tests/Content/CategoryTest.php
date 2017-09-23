@@ -8,8 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content;
 
+use Phproberto\Joomla\Entity\Acl\Acl;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Content\Category;
 
@@ -31,6 +33,29 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 		Category::clearAllInstances();
 
 		parent::tearDown();
+	}
+
+	/**
+	 * Acl can be retrieved.
+	 *
+	 * @return  void
+	 */
+	public function testAclCanBeRetrieved()
+	{
+		$entity = new Category(666);
+		$user = new User(999);
+
+		$acl = $entity->acl($user);
+
+		$reflection = new \ReflectionClass($acl);
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$userProperty = $reflection->getProperty('user');
+		$userProperty->setAccessible(true);
+
+		$this->assertInstanceOf(Acl::class, $acl);
+		$this->assertSame($user, $userProperty->getValue($acl));
+		$this->assertSame($entity, $entityProperty->getValue($acl));
 	}
 
 	/**
