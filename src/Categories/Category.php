@@ -23,7 +23,7 @@ use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
  */
 class Category extends ComponentEntity
 {
-	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasMetadata, CoreTraits\HasParams;
+	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasState;
 	use HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
