@@ -9,9 +9,11 @@
 namespace Phproberto\Joomla\Entity\Users;
 
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;
+use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Users\Traits\HasUserGroups;
 
 /**
  * User entity.
@@ -22,6 +24,7 @@ class User extends ComponentEntity
 {
 	use AclTraits\HasAcl;
 	use CoreTraits\HasParams;
+	use HasUserGroups;
 
 	/**
 	 * Is this user root/super user?
@@ -202,6 +205,45 @@ class User extends ComponentEntity
 		}
 
 		return $joomlaUser;
+	}
+
+	/**
+	 * Load associated user groups from DB.
+	 *
+	 * @return  Collection
+	 */
+	protected function loadUserGroups()
+	{
+		$userGroups = new Collection;
+
+		if (!$this->hasId())
+		{
+			echo '<pre>'; print_r('no'); echo '</pre>';
+			return $userGroups;
+		}
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('ug.*')
+			->from($db->qn('#__usergroups', 'ug'))
+			->innerJoin(
+				$db->qn('#__user_usergroup_map', 'ugm')
+				. ' ON ' . $db->qn('ugm.group_id') . ' = ' . $db->qn('ug.id')
+			)
+			->where($db->qn('ugm.user_id') . ' = ' . (int) $this->id);
+
+		$db->setQuery($query);
+
+		$items = $db->loadObjectList() ?: array();
+
+		foreach ($items as $item)
+		{
+			$userGroup = UserGroup::instance($item->id)->bind($item);
+
+			$userGroups->add($userGroup);
+		}
+
+		return $userGroups;
 	}
 
 	/**
