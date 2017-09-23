@@ -218,7 +218,6 @@ class User extends ComponentEntity
 
 		if (!$this->hasId())
 		{
-			echo '<pre>'; print_r('no'); echo '</pre>';
 			return $userGroups;
 		}
 

@@ -35,4 +35,11 @@ abstract class Column
 	 * @const
 	 */
 	const OWNER = 'created_by';
+
+	/**
+	 * Default column used to store user.
+	 *
+	 * @const
+	 */
+	const USER = 'user_id';
 }
