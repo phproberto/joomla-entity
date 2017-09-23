@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content;
 
+use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Content\Category;
@@ -144,5 +145,70 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 		}
 
 		return $category;
+	}
+
+	/**
+	 * loadTags returns empty collection for missing id.
+	 *
+	 * @return  void
+	 */
+	public function testLoadTagsReturnsEmptyCollectionForMissingId()
+	{
+		$category = new Category;
+
+		$reflection = new \ReflectionClass($category);
+		$method = $reflection->getMethod('loadTags');
+		$method->setAccessible(true);
+
+		$this->assertEquals(new Collection, $method->invoke($category));
+	}
+
+	/**
+	 * loadTags loads correct data for existing id.
+	 *
+	 * @return  void
+	 */
+	public function testLoadTagsReturnsCorrectDataForExistingId()
+	{
+		$helperMock = $this->getMockBuilder(\JHelperTags::class)
+			->disableOriginalConstructor()
+			->setMethods(array('getItemTags'))
+			->getMock();
+
+		$helperMock->method('getItemTags')
+			->willReturn(
+				array(
+					(object) array(
+						'id' => 23,
+						'title' => 'Sample tag'
+					)
+				)
+			);
+
+		$entity = $this->getMockBuilder(Category::class)
+			->setMethods(array('getTagsHelperInstance'))
+			->getMock();
+
+		$entity
+			->method('getTagsHelperInstance')
+			->willReturn($helperMock);
+
+		$reflection = new \ReflectionClass($entity);
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+
+		$idProperty->setValue($entity, 999);
+
+		$method = $reflection->getMethod('loadTags');
+		$method->setAccessible(true);
+
+		$tag = new Tag(23);
+
+		$tagReflection = new \ReflectionClass($tag);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+		$rowProperty->setValue($tag, array('id' => 23, 'title' => 'Sample tag'));
+
+		$this->assertEquals(new Collection(array($tag)), $method->invoke($entity));
 	}
 }
