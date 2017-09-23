@@ -128,6 +128,26 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * Test magic __get method calls get.
+	 *
+	 * @return  void
+	 */
+	public function testMagicGetReturnsGet()
+	{
+		$entity = $this->getMockBuilder(Entity::class)
+			->disableOriginalConstructor()
+			->setMethods(array('get'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('get')
+			->with($this->equalTo('property'))
+			->willReturn('fake value');
+
+		$this->assertSame('fake value', $entity->property);
+	}
+
+	/**
 	 * Assign sets the correct value.
 	 *
 	 * @return  void
