@@ -55,12 +55,21 @@ class Category extends BaseCategory
 	 * Load the link to this entity.
 	 *
 	 * @return  string
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function loadLink()
 	{
+		$slug = $this->slug();
+
+		if (!$slug)
+		{
+			return null;
+		}
+
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
-		return \JRoute::_(\ContentHelperRoute::getCategoryRoute($this->slug()));
+		return \JRoute::_(\ContentHelperRoute::getCategoryRoute($slug));
 	}
 
 	/**
