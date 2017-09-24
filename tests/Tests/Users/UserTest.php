@@ -9,8 +9,10 @@
 namespace Phproberto\Joomla\Entity\Tests\Users;
 
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Acl\Acl;
+use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Users\UserGroup;
 use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 
 /**
@@ -61,6 +63,8 @@ class UserTest extends \TestCaseDatabase
 	{
 		$dataSet = new \PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
+		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
+		$dataSet->addTable('jos_user_usergroup_map', JPATH_TEST_DATABASE . '/jos_user_usergroup_map.csv');
 
 		return $dataSet;
 	}
@@ -523,6 +527,58 @@ class UserTest extends \TestCaseDatabase
 		$user = new User(999);
 
 		$joomlaUser = $user->joomlaUser();
+	}
+
+	/**
+	 * loadUserGroups returns empty collection for entities without id.
+	 *
+	 * @return  void
+	 */
+	public function testLoadUserGroupsReturnsEmptyCollectionForEntitiesWithoutId()
+	{
+		$entity = new User;
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadUserGroups');
+		$method->setAccessible(true);
+
+		$this->assertEquals(new Collection, $method->invoke($entity));
+	}
+
+	/**
+	 * loadUserGroupss returns correct collection for entities with id.
+	 *
+	 * @return  void
+	 */
+	public function testLoadUserGroupsReturnsCorrectCollectionForEntitiesWithId()
+	{
+		$relationships = array(
+			42 => array(8),
+			43 => array(5),
+			44 => array(6)
+		);
+
+		foreach ($relationships as $userId => $groupsIds)
+		{
+			$user = new User($userId);
+
+			$reflection = new \ReflectionClass($user);
+
+			$method = $reflection->getMethod('loadUserGroups');
+			$method->setAccessible(true);
+
+			$expected = new Collection(
+				array_map(
+					function ($groupId)
+					{
+						return UserGroup::load($groupId);
+					},
+					$groupsIds
+				)
+			);
+
+			$this->assertEquals($expected, $method->invoke($user));
+		}
 	}
 
 	/**
