@@ -39,13 +39,11 @@ trait HasUserGroups
 	/**
 	 * Get the associated user groups.
 	 *
-	 * @param   boolean  $reload  Force data reloading
-	 *
 	 * @return  Collection
 	 */
-	public function userGroups($reload = false)
+	public function userGroups()
 	{
-		if ($reload || null === $this->userGroups)
+		if (null === $this->userGroups)
 		{
 			$this->userGroups = $this->loadUserGroups();
 		}
