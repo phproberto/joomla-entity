@@ -49,6 +49,16 @@ trait HasUser
 	abstract public function get($property, $default = null);
 
 	/**
+	 * Check if entity has a property.
+	 *
+	 * @param   string   $property  Entity property name
+	 * @param   mixed    $callback  Callable to execute for further verifications
+	 *
+	 * @return  boolean
+	 */
+	abstract public function has($property, callable $callback = null);
+
+	/**
 	 * Get this entity author.
 	 *
 	 * @return  User
