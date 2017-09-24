@@ -39,13 +39,11 @@ trait HasUsers
 	/**
 	 * Get the associated users.
 	 *
-	 * @param   boolean  $reload  Force data reloading
-	 *
 	 * @return  Collection
 	 */
-	public function users($reload = false)
+	public function users()
 	{
-		if ($reload || null === $this->users)
+		if (null === $this->users)
 		{
 			$this->users = $this->loadUsers();
 		}
