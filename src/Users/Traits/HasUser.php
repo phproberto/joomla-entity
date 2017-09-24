@@ -51,13 +51,11 @@ trait HasUser
 	/**
 	 * Get this entity author.
 	 *
-	 * @param   boolean  $reload  Force data reloading
-	 *
 	 * @return  User
 	 */
-	public function user($reload = false)
+	public function user()
 	{
-		if ($reload || null === $this->user)
+		if (null === $this->user)
 		{
 			$this->user = $this->loadUser();
 		}
@@ -72,7 +70,14 @@ trait HasUser
 	 */
 	public function hasUser()
 	{
-		$userId = (int) $this->get($this->columnAlias(Column::USER));
+		$column = $this->columnAlias(Column::USER);
+
+		if (!$this->has($column))
+		{
+			return false;
+		}
+
+		$userId = (int) $this->get($column);
 
 		return !empty($userId);
 	}
