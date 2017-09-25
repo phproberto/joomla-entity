@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Core;
 
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 
 /**
  * Extension entity.
