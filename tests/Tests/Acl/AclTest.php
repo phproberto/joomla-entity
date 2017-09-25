@@ -8,11 +8,12 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Acl;
 
-use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Acl\Acl;
+use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
 use Phproberto\Joomla\Entity\Tests\Acl\Stubs\EntityWithAcl;
 use Phproberto\Joomla\Entity\Tests\Acl\Stubs\OwnerableEntityWithAcl;
+use Phproberto\Joomla\Entity\Tests\Acl\Stubs\PublishableEntityWithAcl;
 
 /**
  * Acl decorator tests.
@@ -825,11 +826,11 @@ class AclTest extends \TestCase
 	}
 
 	/**
-	 * canView returns false if entity not published.
+	 * canView returns false if publishable entity not published.
 	 *
 	 * @return  void
 	 */
-	public function testCanViewReturnsFalseIfEntityNotPublished()
+	public function testCanViewReturnsFalseIfPublishableEntityNotPublished()
 	{
 		$acl = $this->getMockBuilder(Acl::class)
 			->disableOriginalConstructor()
@@ -844,7 +845,7 @@ class AclTest extends \TestCase
 			->method('canEditState')
 			->willReturn(false);
 
-		$entity = $this->getMockBuilder(EntityWithAcl::class)
+		$entity = $this->getMockBuilder(PublishableEntityWithAcl::class)
 			->setMethods(array('hasId', 'isPublished'))
 			->getMock();
 
@@ -885,15 +886,11 @@ class AclTest extends \TestCase
 			->willReturn(false);
 
 		$entity = $this->getMockBuilder(EntityWithAcl::class)
-			->setMethods(array('hasId', 'isPublished', 'has'))
+			->setMethods(array('hasId', 'has'))
 			->getMock();
 
 		$entity->expects($this->once())
 			->method('hasId')
-			->willReturn(true);
-
-		$entity->expects($this->once())
-			->method('isPublished')
 			->willReturn(true);
 
 		$entity->expects($this->once())

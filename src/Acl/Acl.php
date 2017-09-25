@@ -11,8 +11,9 @@ namespace Phproberto\Joomla\Entity\Acl;
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Core\Column;
-use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
+use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
+use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 use Phproberto\Joomla\Entity\Users\Column as UsersColumn;
 
 /**
@@ -161,7 +162,7 @@ class Acl extends Decorator
 			return true;
 		}
 
-		if (method_exists($this->entity, 'isPublished') && !$this->entity->isPublished())
+		if ($this->entity instanceof Publishable && !$this->entity->isPublished())
 		{
 			return false;
 		}

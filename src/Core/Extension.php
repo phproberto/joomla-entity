@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
  *
  * @since   __DEPLOY_VERSION__
  */
-class Extension extends Entity
+class Extension extends Entity implements Publishable
 {
 	use CoreTraits\HasAccess, CoreTraits\HasClient, CoreTraits\HasParams, CoreTraits\HasState;
 

@@ -9,41 +9,37 @@
 namespace Phproberto\Joomla\Entity\Content;
 
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Fields\Field;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Content\Category;
-use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
+use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
+use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
+use Phproberto\Joomla\Entity\Fields\Traits\HasFields;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
-use Phproberto\Joomla\Entity\Categories\Traits as CategoriesTraits;
-use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
-use Phproberto\Joomla\Entity\Fields\Field;
-use Phproberto\Joomla\Entity\Fields\Traits as FieldsTraits;
-use Phproberto\Joomla\Entity\Tags\Tag;
-use Phproberto\Joomla\Entity\Tags\Traits as TagsTraits;
-use Phproberto\Joomla\Entity\Translation\Contracts as TranslationContracts;
-use Phproberto\Joomla\Entity\Translation\Traits as TranslationTraits;
+use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
+use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
+use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
+use Phproberto\Joomla\Entity\Categories\Traits\HasCategory;
 use Phproberto\Joomla\Entity\Validation\Contracts\Validable;
 use Phproberto\Joomla\Entity\Validation\Traits\HasValidation;
-use Phproberto\Joomla\Entity\Users\Contracts as UsersContracts;
-use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
+use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
+use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
+use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
 
 /**
  * Article entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class Article extends ComponentEntity implements UsersContracts\Ownerable, TranslationContracts\Translatable, Validable
+class Article extends ComponentEntity implements Ownerable, Publishable, Translatable, Validable
 {
-	use AclTraits\HasAcl;
-	use CategoriesTraits\HasCategory;
+	use HasAcl, HasCategory, HasFields, HasTags, HasTranslations, HasValidation;
 	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;
 	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasParams, CoreTraits\HasPublishDown, CoreTraits\HasPublishUp, CoreTraits\HasState;
 	use CoreTraits\HasUrls;
-	use FieldsTraits\HasFields;
-	use TagsTraits\HasTags;
-	use TranslationTraits\HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor, UsersTraits\HasOwner;
-	use HasValidation;
 
 	/**
 	 * Get the list of column aliases.

@@ -10,13 +10,14 @@ namespace Phproberto\Joomla\Entity\Fields;
 
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 
 /**
  * Field entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class Field extends ComponentEntity
+class Field extends ComponentEntity implements Publishable
 {
 	use CoreTraits\HasParams, CoreTraits\HasState;
 

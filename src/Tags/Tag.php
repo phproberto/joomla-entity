@@ -8,18 +8,19 @@
 
 namespace Phproberto\Joomla\Entity\Tags;
 
-use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
 use Phproberto\Joomla\Entity\ComponentEntity;
+use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 
 /**
  * Tag entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class Tag extends ComponentEntity
+class Tag extends ComponentEntity implements Publishable
 {
-	use AclTraits\HasAcl;
+	use HasAcl;
 	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasState;
 	/**
 	 * Get a table.
