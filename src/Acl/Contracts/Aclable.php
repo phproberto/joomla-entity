@@ -8,9 +8,9 @@
 
 namespace Phproberto\Joomla\Entity\Acl\Contracts;
 
-use Phproberto\Joomla\Entity\Contracts\EntityInterface;
-
 defined('_JEXEC') || die;
+
+use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**
  * Describes methods required by entities with ACL support.

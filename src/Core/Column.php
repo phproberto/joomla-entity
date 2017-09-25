@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core;
 
+defined('_JEXEC') || die;
+
 /**
  * Columns supported by core.
  *

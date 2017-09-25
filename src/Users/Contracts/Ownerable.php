@@ -8,9 +8,9 @@
 
 namespace Phproberto\Joomla\Entity\Users\Contracts;
 
-use Phproberto\Joomla\Entity\Users\User;
-
 defined('_JEXEC') || die;
+
+use Phproberto\Joomla\Entity\Users\User;
 
 /**
  * Describes methods required by entities with an owner.

@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Users;
 
+defined('_JEXEC') || die;
+
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;

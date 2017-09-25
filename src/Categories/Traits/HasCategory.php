@@ -8,9 +8,9 @@
 
 namespace Phproberto\Joomla\Entity\Categories\Traits;
 
-use Phproberto\Joomla\Entity\Categories\Category;
+defined('_JEXEC') || die;
 
-defined('JPATH_PLATFORM') || die;
+use Phproberto\Joomla\Entity\Categories\Category;
 
 /**
  * Trait for entities that have an asset. Based on category_id|catid column.

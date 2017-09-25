@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
-defined('JPATH_PLATFORM') || die;
+defined('_JEXEC') || die;
 
 /**
  * Classes using multiple singleton instances.

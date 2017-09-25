@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Validation;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Validation\Contracts\Validator as ValidatorContract;
 

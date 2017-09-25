@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**

@@ -8,11 +8,11 @@
 
 namespace Phproberto\Joomla\Entity\Fields\Traits;
 
+defined('_JEXEC') || die;
+
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Fields\Field;
-
-defined('JPATH_PLATFORM') || die;
 
 /**
  * Trait for entities that have associated fields.

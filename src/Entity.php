@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity;
 
+defined('_JEXEC') || die;
+
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;

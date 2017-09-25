@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+defined('_JEXEC') || die;
+
 /**
  * Trait for entities with urls column.
  *
@@ -65,7 +67,7 @@ trait HasUrls
 	 */
 	protected function loadUrls()
 	{
-		$urls = [];
+		$urls = array();
 		$data = $this->json($this->getColumnUrls());
 
 		if (empty($data))
@@ -94,18 +96,18 @@ trait HasUrls
 	 */
 	private function parseUrl($position, array $data)
 	{
-		$url = [];
+		$url = array();
 
 		if (empty($data['url' . $position]))
 		{
 			return $url;
 		}
 
-		$properties = [
+		$properties = array(
 			'url'    => 'url' . $position,
 			'text'   => 'url' . $position . 'text',
 			'target' => 'target' . $position
-		];
+		);
 
 		foreach ($properties as $key => $property)
 		{

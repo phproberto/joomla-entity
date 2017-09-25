@@ -8,11 +8,11 @@
 
 namespace Phproberto\Joomla\Entity\Content\Validation;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Validation\Validator;
 use Phproberto\Joomla\Entity\Validation\Rule;
-
-defined('JPATH_PLATFORM') || die;
 
 /**
  * ArticleValidator validator.

@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Users\Traits;
 
-defined('JPATH_PLATFORM') || die;
+defined('_JEXEC') || die;
 
 /**
  * Trait for entities that have associated user groups.

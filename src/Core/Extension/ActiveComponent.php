@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Extension;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
 

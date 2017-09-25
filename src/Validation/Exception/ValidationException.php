@@ -8,11 +8,11 @@
 
 namespace Phproberto\Joomla\Entity\Validation\Exception;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Contracts\ExceptionInterface;
-
-defined('_JEXEC') || die;
 
 /**
  * Validation errors.

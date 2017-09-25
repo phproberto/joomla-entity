@@ -8,10 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Core\Asset;
 use Phproberto\Joomla\Entity\Core\Column;
-
-defined('JPATH_PLATFORM') || die;
 
 /**
  * Trait for entities that have an asset. Based on asset_id column.

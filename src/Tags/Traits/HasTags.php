@@ -8,10 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Tags\Traits;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
-
-defined('JPATH_PLATFORM') || die;
 
 /**
  * Trait for entities that have associated tags.

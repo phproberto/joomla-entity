@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+defined('_JEXEC') || die;
+
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Core\Column;
 

@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Users;
 
+defined('_JEXEC') || die;
+
 /**
  * Columns supported by users.
  *

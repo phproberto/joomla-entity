@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;

@@ -8,13 +8,13 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Core\Client\Administrator;
 use Phproberto\Joomla\Entity\Core\Client\Client;
 use Phproberto\Joomla\Entity\Core\Client\ClientInterface;
 use Phproberto\Joomla\Entity\Core\Client\Site;
 use Phproberto\Joomla\Entity\Core\Column;
-
-defined('JPATH_PLATFORM') || die;
 
 /**
  * Trait for entities that have an associated client.

@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Contracts;
 
+defined('_JEXEC') || die;
+
 /**
  * Publishable entities requirements.
  *

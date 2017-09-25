@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Acl\Traits;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Acl\Acl;
 

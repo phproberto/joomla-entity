@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Translation;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Core\Column;
 use Phproberto\Joomla\Entity\Validation\Validator;

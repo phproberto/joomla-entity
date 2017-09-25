@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Core\Extension\Component;
 
 /**

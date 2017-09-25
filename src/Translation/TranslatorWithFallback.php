@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Translation;
 
+defined('_JEXEC') || die;
+
 /**
  * Represents a collection of entities.
  *

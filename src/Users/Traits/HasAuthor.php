@@ -8,10 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Users\Traits;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Users\Column;
-
-defined('JPATH_PLATFORM') || die;
 
 /**
  * Trait for entities that have an associated author.

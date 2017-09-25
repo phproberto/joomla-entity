@@ -8,9 +8,9 @@
 
 namespace Phproberto\Joomla\Entity\Content\Traits;
 
-use Phproberto\Joomla\Entity\Content\Article;
+defined('_JEXEC') || die;
 
-defined('JPATH_PLATFORM') || die;
+use Phproberto\Joomla\Entity\Content\Article;
 
 /**
  * Trait for entities that have associated articles.

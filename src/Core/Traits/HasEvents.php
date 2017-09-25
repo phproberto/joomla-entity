@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 /**
  * Methods for entities that have events.

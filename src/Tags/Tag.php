@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Tags;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;

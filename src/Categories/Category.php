@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Categories;
 
+defined('_JEXEC') || die;
+
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;

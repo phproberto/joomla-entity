@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Acl;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Core\Column;

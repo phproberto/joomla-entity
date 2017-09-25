@@ -8,9 +8,9 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
-use Phproberto\Joomla\Entity\Core\Column;
+defined('_JEXEC') || die;
 
-defined('JPATH_PLATFORM') || die;
+use Phproberto\Joomla\Entity\Core\Column;
 
 /**
  * Trait for entities that have an associated publish down column.

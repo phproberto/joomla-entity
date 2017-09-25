@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Core\Extension;
 
+defined('_JEXEC') || die;
+
 use Phproberto\Joomla\Entity\Core\Extension;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
