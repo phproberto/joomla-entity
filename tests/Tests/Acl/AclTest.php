@@ -818,9 +818,10 @@ class AclTest extends \TestCase
 			->willReturn(true);
 
 		$reflection = new \ReflectionClass($acl);
-		$aclProperty = $reflection->getProperty('entity');
-		$aclProperty->setAccessible(true);
-		$aclProperty->setValue($acl, $entity);
+
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$entityProperty->setValue($acl, $entity);
 
 		$this->assertTrue($acl->canView());
 	}
@@ -834,33 +835,26 @@ class AclTest extends \TestCase
 	{
 		$acl = $this->getMockBuilder(Acl::class)
 			->disableOriginalConstructor()
-			->setMethods(array('canEdit', 'canEditState'))
+			->setMethods(array('isPublishedEntity'))
 			->getMock();
 
 		$acl->expects($this->once())
-			->method('canEdit')
-			->willReturn(false);
-
-		$acl->expects($this->once())
-			->method('canEditState')
+			->method('isPublishedEntity')
 			->willReturn(false);
 
 		$entity = $this->getMockBuilder(PublishableEntityWithAcl::class)
-			->setMethods(array('hasId', 'isPublished'))
+			->setMethods(array('hasId'))
 			->getMock();
 
 		$entity->expects($this->once())
 			->method('hasId')
 			->willReturn(true);
 
-		$entity->expects($this->once())
-			->method('isPublished')
-			->willReturn(false);
-
 		$reflection = new \ReflectionClass($acl);
-		$aclProperty = $reflection->getProperty('entity');
-		$aclProperty->setAccessible(true);
-		$aclProperty->setValue($acl, $entity);
+
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$entityProperty->setValue($acl, $entity);
 
 		$this->assertFalse($acl->canView());
 	}
@@ -971,7 +965,7 @@ class AclTest extends \TestCase
 	 */
 	public function testConstructorSetsEntityAndUser()
 	{
-		$entity = new Entity(666);
+		$entity = new EntityWithAcl(666);
 
 		$user = new User(999);
 
@@ -1010,11 +1004,15 @@ class AclTest extends \TestCase
 			->willReturn(true);
 
 		$reflection = new \ReflectionClass($acl);
+
 		$entityProperty = $reflection->getProperty('entity');
 		$entityProperty->setAccessible(true);
 		$entityProperty->setValue($acl, $entity);
 
-		$this->assertFalse($acl->isOwner());
+		$isOwnerMethod = $reflection->getMethod('isOwner');
+		$isOwnerMethod->setAccessible(true);
+
+		$this->assertFalse($isOwnerMethod->invoke($acl));
 	}
 
 	/**
@@ -1038,12 +1036,16 @@ class AclTest extends \TestCase
 			->will($this->onConsecutiveCalls(false, true, false));
 
 		$reflection = new \ReflectionClass($acl);
+
 		$entityProperty = $reflection->getProperty('entity');
 		$entityProperty->setAccessible(true);
 		$entityProperty->setValue($acl, $entity);
 
-		$this->assertFalse($acl->isOwner());
-		$this->assertTrue($acl->isOwner());
-		$this->assertFalse($acl->isOwner());
+		$isOwnerMethod = $reflection->getMethod('isOwner');
+		$isOwnerMethod->setAccessible(true);
+
+		$this->assertFalse($isOwnerMethod->invoke($acl));
+		$this->assertTrue($isOwnerMethod->invoke($acl));
+		$this->assertFalse($isOwnerMethod->invoke($acl));
 	}
 }

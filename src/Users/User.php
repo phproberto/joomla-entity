@@ -11,8 +11,9 @@ namespace Phproberto\Joomla\Entity\Users;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;
-use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
-use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
+use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
+use Phproberto\Joomla\Entity\Core\Traits\HasParams;
 use Phproberto\Joomla\Entity\Users\Traits\HasUserGroups;
 
 /**
@@ -20,11 +21,9 @@ use Phproberto\Joomla\Entity\Users\Traits\HasUserGroups;
  *
  * @since   __DEPLOY_VERSION__
  */
-class User extends ComponentEntity
+class User extends ComponentEntity implements Aclable
 {
-	use AclTraits\HasAcl;
-	use CoreTraits\HasParams;
-	use HasUserGroups;
+	use HasAcl, HasParams, HasUserGroups;
 
 	/**
 	 * Is this user root/super user?

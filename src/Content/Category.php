@@ -15,6 +15,7 @@ use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Core\Traits\HasLink;
 use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
+use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Content\Traits\HasArticles;
 use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
@@ -24,7 +25,7 @@ use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
  *
  * @since   __DEPLOY_VERSION__
  */
-class Category extends BaseCategory
+class Category extends BaseCategory implements Aclable
 {
 	use HasArticles, HasAcl, HasLink, HasTags;
 

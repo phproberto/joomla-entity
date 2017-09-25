@@ -11,9 +11,9 @@ namespace Phproberto\Joomla\Entity\Acl;
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Core\Column;
-use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
+use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Users\Column as UsersColumn;
 
 /**
@@ -47,10 +47,10 @@ class Acl extends Decorator
 	/**
 	 * Constructor.
 	 *
-	 * @param   EntityInterface  $entity  Entity to decorate.
-	 * @param   User             $user    User to check permissions.
+	 * @param   Aclable  $entity  Entity to decorate.
+	 * @param   User     $user    User to check permissions.
 	 */
-	public function __construct(EntityInterface $entity, User $user = null)
+	public function __construct(Aclable $entity, User $user = null)
 	{
 		$this->entity = $entity;
 		$this->user = $user ?: User::active();
@@ -152,7 +152,7 @@ class Acl extends Decorator
 	 */
 	public function canView()
 	{
-		if (!$this->entity->hasId())
+		if (!$this->entity->hasId() || !$this->isPublishedEntity())
 		{
 			return false;
 		}
@@ -160,11 +160,6 @@ class Acl extends Decorator
 		if ($this->canEdit() || $this->canEditState())
 		{
 			return true;
-		}
-
-		if ($this->entity instanceof Publishable && !$this->entity->isPublished())
-		{
-			return false;
 		}
 
 		return !$this->entity->has(Column::ACCESS) || in_array($this->entity->get(Column::ACCESS), $this->user->getAuthorisedViewLevels());
@@ -175,7 +170,7 @@ class Acl extends Decorator
 	 *
 	 * @return  boolean
 	 */
-	public function isOwner()
+	protected function isOwner()
 	{
 		if (!$this->entity instanceof Ownerable)
 		{
@@ -183,5 +178,20 @@ class Acl extends Decorator
 		}
 
 		return $this->entity->isOwner();
+	}
+
+	/**
+	 * Check if the entity is published.
+	 *
+	 * @return  boolean
+	 */
+	protected function isPublishedEntity()
+	{
+		if (!$this->entity instanceof Publishable)
+		{
+			return true;
+		}
+
+		return $this->entity->isPublished();
 	}
 }

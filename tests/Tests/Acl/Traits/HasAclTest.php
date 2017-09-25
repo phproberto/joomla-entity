@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Tests\Acl\Traits;
 
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Acl\Acl;
-use Phproberto\Joomla\Entity\Tests\Acl\Traits\Stubs\EntityWithAcl;
+use Phproberto\Joomla\Entity\Tests\Acl\Stubs\EntityWithAcl;
 
 /**
  * HasAcl trait tests.

@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\Acl\Stubs;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Core\Traits\HasState;
+use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 
 /**
@@ -18,7 +19,7 @@ use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PublishableEntityWithAcl extends ComponentEntity implements Publishable
+class PublishableEntityWithAcl extends ComponentEntity implements Aclable, Publishable
 {
 	use HasAcl, HasState;
 }

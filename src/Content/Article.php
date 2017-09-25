@@ -16,6 +16,7 @@ use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Content\Category;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
+use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Fields\Traits\HasFields;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
@@ -33,7 +34,7 @@ use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
  *
  * @since   __DEPLOY_VERSION__
  */
-class Article extends ComponentEntity implements Ownerable, Publishable, Translatable, Validable
+class Article extends ComponentEntity implements Aclable, Ownerable, Publishable, Translatable, Validable
 {
 	use HasAcl, HasCategory, HasFields, HasTags, HasTranslations, HasValidation;
 	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasFeatured, CoreTraits\HasMetadata;

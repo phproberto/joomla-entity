@@ -9,16 +9,17 @@
 namespace Phproberto\Joomla\Entity\Core\Extension;
 
 use Phproberto\Joomla\Entity\Core\Extension;
-use Phproberto\Joomla\Entity\Acl\Traits as AclTraits;
+use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
+use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 
 /**
  * Component entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class Component extends Extension
+class Component extends Extension implements Aclable
 {
-	use AclTraits\HasAcl;
+	use HasAcl;
 
 	/**
 	 * Component option.
