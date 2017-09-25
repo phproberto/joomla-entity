@@ -8,10 +8,10 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
-use Phproberto\Joomla\Client\Administrator;
-use Phproberto\Joomla\Client\Client;
-use Phproberto\Joomla\Client\ClientInterface;
-use Phproberto\Joomla\Client\Site;
+use Phproberto\Joomla\Entity\Core\Client\Administrator;
+use Phproberto\Joomla\Entity\Core\Client\Client;
+use Phproberto\Joomla\Entity\Core\Client\ClientInterface;
+use Phproberto\Joomla\Entity\Core\Client\Site;
 use Phproberto\Joomla\Entity\Core\Column;
 
 defined('JPATH_PLATFORM') || die;

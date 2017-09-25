@@ -9,8 +9,8 @@
 namespace Phproberto\Joomla\Entity\Tests\Core;
 
 use Phproberto\Joomla\Entity\Core\Extension;
-use Phproberto\Joomla\Client\Administrator;
-use Phproberto\Joomla\Client\Site;
+use Phproberto\Joomla\Entity\Core\Client\Administrator;
+use Phproberto\Joomla\Entity\Core\Client\Site;
 
 /**
  * Extension entity tests.
