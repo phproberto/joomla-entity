@@ -9,7 +9,6 @@
 namespace Phproberto\Joomla\Entity;
 
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Traits;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
@@ -25,8 +24,7 @@ use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
  */
 abstract class Entity implements EntityInterface
 {
-	use CoreTraits\HasEvents;
-	use Traits\HasInstances;
+	use CoreTraits\HasEvents, CoreTraits\HasInstances;
 
 	/**
 	 * Identifier.
