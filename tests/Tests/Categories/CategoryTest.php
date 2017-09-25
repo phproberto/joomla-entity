@@ -59,7 +59,7 @@ class CategoryTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		Category::clearAllInstances();
+		Category::clearAll();
 
 		$this->restoreFactoryState();
 
@@ -156,7 +156,7 @@ class CategoryTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($category, array('id' => 999, 'created_user_id' => 666));
 
-		$this->assertSame(User::instance(666), $category->author());
+		$this->assertSame(User::find(666), $category->author());
 	}
 
 	/**
@@ -174,7 +174,7 @@ class CategoryTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($category, array('id' => 999, 'modified_user_id' => 666));
 
-		$this->assertSame(User::instance(666), $category->editor());
+		$this->assertSame(User::find(666), $category->editor());
 	}
 
 	/**

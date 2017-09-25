@@ -106,7 +106,7 @@ class Category extends ComponentEntity implements Publishable
 		$categories = array_map(
 			function ($item)
 			{
-				return static::instance($item->id)->bind($item);
+				return static::find($item->id)->bind($item);
 			},
 			$db->loadObjectList() ?: array()
 		);

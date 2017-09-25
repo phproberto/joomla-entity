@@ -79,6 +79,6 @@ trait HasAsset
 			$assetId = 0;
 		}
 
-		return $assetId ? Asset::instance($assetId) : new Asset;
+		return $assetId ? Asset::find($assetId) : new Asset;
 	}
 }

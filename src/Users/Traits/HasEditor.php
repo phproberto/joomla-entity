@@ -88,6 +88,6 @@ trait HasEditor
 	{
 		$editorId = (int) $this->get($this->columnAlias(Column::EDITOR));
 
-		return User::instance($editorId);
+		return User::find($editorId);
 	}
 }

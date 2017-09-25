@@ -51,7 +51,7 @@ class HasOwnerTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		EntityWithOwner::clearAllInstances();
+		EntityWithOwner::clearAll();
 
 		$this->restoreFactoryState();
 
@@ -212,7 +212,7 @@ class HasOwnerTest extends \TestCaseDatabase
 		$method = $reflection->getMethod('loadOwner');
 		$method->setAccessible(true);
 
-		$this->assertSame(User::instance(22), $method->invoke($class));
+		$this->assertSame(User::find(22), $method->invoke($class));
 	}
 
 	/**

@@ -72,7 +72,7 @@ trait HasCategory
 
 		if (array_key_exists($column, $data))
 		{
-			return Category::instance($data[$column]);
+			return Category::find($data[$column]);
 		}
 
 		return new Category;

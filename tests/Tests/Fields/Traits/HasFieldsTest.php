@@ -27,7 +27,7 @@ class HasFieldsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testFieldReturnsCorrectField()
 	{
-		$fields = new Collection(array(Field::instance(999), Field::instance(1000)));
+		$fields = new Collection(array(Field::find(999), Field::find(1000)));
 
 		$entity = $this->getMockBuilder(EntityWithFields::class)
 			->setMethods(array('fields'))
@@ -50,7 +50,7 @@ class HasFieldsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testFieldThrowsExceptionForMissingField()
 	{
-		$fields = new Collection(array(Field::instance(999), Field::instance(1000)));
+		$fields = new Collection(array(Field::find(999), Field::find(1000)));
 
 		$entity = $this->getMockBuilder(EntityWithFields::class)
 			->setMethods(array('fields'))
@@ -104,7 +104,7 @@ class HasFieldsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testFieldsLoadFields()
 	{
-		$reloadCollection = new Collection(array(Field::instance(999), Field::instance(1000)));
+		$reloadCollection = new Collection(array(Field::find(999), Field::find(1000)));
 
 		$entity = $this->getMockBuilder(EntityWithFields::class)
 			->setMethods(array('loadFields'))
@@ -276,7 +276,7 @@ class HasFieldsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testHasFieldReturnsCorrectValue()
 	{
-		$fields = new Collection(array(Field::instance(999), Field::instance(1000)));
+		$fields = new Collection(array(Field::find(999), Field::find(1000)));
 
 		$entity = $this->getMockBuilder(EntityWithFields::class)
 			->setMethods(array('fields'))
@@ -328,6 +328,6 @@ class HasFieldsTest extends \PHPUnit\Framework\TestCase
 		$idProperty->setAccessible(true);
 		$idProperty->setValue($entity, 444);
 
-		$this->assertEquals(new Collection(array(Field::instance(666))), $method->invoke($entity));
+		$this->assertEquals(new Collection(array(Field::find(666))), $method->invoke($entity));
 	}
 }

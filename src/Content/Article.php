@@ -131,7 +131,7 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 
 		if (array_key_exists($column, $data))
 		{
-			return Category::instance($data[$column]);
+			return Category::find($data[$column]);
 		}
 
 		return new Category;
@@ -175,7 +175,7 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 		$tags = array_map(
 			function ($tag)
 			{
-				return Tag::instance($tag->id)->bind($tag);
+				return Tag::find($tag->id)->bind($tag);
 			},
 			$items
 		);
@@ -204,7 +204,7 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 		$articles = array_map(
 			function ($item)
 			{
-				return static::instance($item->id)->bind($item);
+				return static::find($item->id)->bind($item);
 			},
 			$this->getArticlesModel($state)->getItems() ?: array()
 		);

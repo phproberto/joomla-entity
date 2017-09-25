@@ -82,7 +82,7 @@ trait HasArticle
 
 		if (array_key_exists($column, $data))
 		{
-			return Article::instance($data[$column]);
+			return Article::find($data[$column]);
 		}
 
 		return new Article;

@@ -25,7 +25,7 @@ class HasUrlsTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		EntityWithUrls::clearAllInstances();
+		EntityWithUrls::clearAll();
 
 		parent::tearDown();
 	}

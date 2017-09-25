@@ -26,7 +26,7 @@ class HasFeaturedTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		EntityWithFeatured::clearAllInstances();
+		EntityWithFeatured::clearAll();
 
 		parent::tearDown();
 	}

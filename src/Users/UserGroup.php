@@ -39,7 +39,7 @@ class UserGroup extends ComponentEntity
 		$users = array_map(
 			function ($item)
 			{
-				return User::instance($item->id)->bind($item);
+				return User::find($item->id)->bind($item);
 			},
 			$this->usersModel()->getItems() ?: array()
 		);

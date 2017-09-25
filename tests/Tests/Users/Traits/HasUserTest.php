@@ -142,6 +142,6 @@ class HasUserTest extends \PHPUnit\Framework\TestCase
 		$method = $reflection->getMethod('loadUser');
 		$method->setAccessible(true);
 
-		$this->assertEquals(User::instance(666), $method->invoke($entity));
+		$this->assertEquals(User::find(666), $method->invoke($entity));
 	}
 }

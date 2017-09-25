@@ -27,7 +27,7 @@ class HasArticlesTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		ClassWithArticles::clearAllInstances();
+		ClassWithArticles::clearAll();
 
 		parent::tearDown();
 	}

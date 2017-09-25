@@ -28,7 +28,7 @@ class FieldTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		Field::clearAllInstances();
+		Field::clearAll();
 
 		parent::tearDown();
 	}

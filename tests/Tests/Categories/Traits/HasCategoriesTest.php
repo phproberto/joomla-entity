@@ -27,7 +27,7 @@ class HasCategoriesTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		ClassWithCategories::clearAllInstances();
+		ClassWithCategories::clearAll();
 
 		parent::tearDown();
 	}

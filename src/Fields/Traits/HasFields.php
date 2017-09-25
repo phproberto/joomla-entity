@@ -159,7 +159,7 @@ trait HasFields
 			array_map(
 				function ($field)
 				{
-					return Field::instance($field->id)->bind($field);
+					return Field::find($field->id)->bind($field);
 				},
 				$this->getFieldsThroughHelper($this->fieldsContext())
 			)

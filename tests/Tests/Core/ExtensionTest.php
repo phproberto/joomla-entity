@@ -27,7 +27,7 @@ class ExtensionTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		Extension::clearAllInstances();
+		Extension::clearAll();
 
 		parent::tearDown();
 	}

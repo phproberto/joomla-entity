@@ -148,6 +148,6 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 		$method = $reflection->getMethod('loadAuthor');
 		$method->setAccessible(true);
 
-		$this->assertSame(User::instance(22), $method->invoke($class));
+		$this->assertSame(User::find(22), $method->invoke($class));
 	}
 }

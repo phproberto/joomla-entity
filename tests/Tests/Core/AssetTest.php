@@ -24,7 +24,7 @@ class AssetTest extends \TestCase
 	 */
 	public function testInstanceLoadsAnAsset()
 	{
-		$asset = Asset::instance(1);
+		$asset = Asset::find(1);
 
 		$this->assertEquals(1, $asset->id());
 	}

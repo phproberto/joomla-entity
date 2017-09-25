@@ -154,6 +154,6 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 		$method = $reflection->getMethod('loadEditor');
 		$method->setAccessible(true);
 
-		$this->assertSame(User::instance(22), $method->invoke($class));
+		$this->assertSame(User::find(22), $method->invoke($class));
 	}
 }

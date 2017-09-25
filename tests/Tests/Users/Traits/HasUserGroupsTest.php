@@ -35,7 +35,7 @@ class HasUserGroupsTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertSame(null, $userGroupsProperty->getValue($entity));
 
-		$userGroups = new Collection(array(UserGroup::instance(333)));
+		$userGroups = new Collection(array(UserGroup::find(333)));
 
 		$userGroupsProperty->setValue($entity, $userGroups);
 
@@ -62,7 +62,7 @@ class HasUserGroupsTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertSame(null, $userGroupsProperty->getValue($entity));
 
-		$userGroups = new Collection(array(UserGroup::instance(333)));
+		$userGroups = new Collection(array(UserGroup::find(333)));
 
 		$userGroupsProperty->setValue($entity, $userGroups);
 
@@ -78,8 +78,8 @@ class HasUserGroupsTest extends \PHPUnit\Framework\TestCase
 	{
 		$userGroups = new Collection(
 			array(
-				UserGroup::instance(333),
-				UserGroup::instance(666)
+				UserGroup::find(333),
+				UserGroup::find(666)
 			)
 		);
 
@@ -103,8 +103,8 @@ class HasUserGroupsTest extends \PHPUnit\Framework\TestCase
 	{
 		$userGroups = new Collection(
 			array(
-				UserGroup::instance(666),
-				UserGroup::instance(999)
+				UserGroup::find(666),
+				UserGroup::find(999)
 			)
 		);
 
@@ -129,8 +129,8 @@ class HasUserGroupsTest extends \PHPUnit\Framework\TestCase
 	{
 		$userGroups = new Collection(
 			array(
-				UserGroup::instance(333),
-				UserGroup::instance(666)
+				UserGroup::find(333),
+				UserGroup::find(666)
 			)
 		);
 

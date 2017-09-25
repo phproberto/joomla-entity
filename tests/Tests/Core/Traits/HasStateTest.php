@@ -32,7 +32,7 @@ class HasStateTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		EntityWithState::clearAllInstances();
+		EntityWithState::clearAll();
 
 		parent::tearDown();
 	}

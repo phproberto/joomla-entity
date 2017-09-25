@@ -49,7 +49,7 @@ class ArticleTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		Article::clearAllInstances();
+		Article::clearAll();
 
 		$this->restoreFactoryState();
 
@@ -121,7 +121,7 @@ class ArticleTest extends \TestCaseDatabase
 	 */
 	public function testAssetCanBeRetrieved()
 	{
-		$article = Article::instance(1);
+		$article = Article::find(1);
 
 		$asset = $article->asset();
 
@@ -144,7 +144,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($article, array('id' => 999, 'created_by' => 666));
 
-		$this->assertSame(User::instance(666), $article->author());
+		$this->assertSame(User::find(666), $article->author());
 	}
 
 	/**
@@ -162,7 +162,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$rowProperty->setValue($article, array('id' => 999, 'modified_by' => 666));
 
-		$this->assertSame(User::instance(666), $article->editor());
+		$this->assertSame(User::find(666), $article->editor());
 	}
 
 	/**
@@ -186,7 +186,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		// No reload = same category
 		$this->assertEquals(new Category, $article->category());
-		$this->assertEquals(Category::instance(666), $article->category(true));
+		$this->assertEquals(Category::find(666), $article->category(true));
 	}
 
 	/**
@@ -310,12 +310,12 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertEquals(array(), $article->getUrls());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue($article, array('id' => 999, 'urls' => '{}'));
 
 		$this->assertEquals(array(), $article->getUrls());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue(
 			$article,
 			array(
@@ -326,7 +326,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertEquals(array(), $article->getUrls());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue(
 			$article,
 			array(
@@ -345,7 +345,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertEquals($expected, $article->getUrls());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue(
 			$article,
 			array(
@@ -391,7 +391,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertFalse($article->hasFullTextImage());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue(
 			$article,
 			array(
@@ -402,12 +402,12 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertTrue($article->hasFullTextImage());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue($article, array('id' => 999, 'images' => ''));
 
 		$this->assertFalse($article->hasFullTextImage());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue(
 			$article,
 			array(
@@ -436,7 +436,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertFalse($article->hasIntroImage());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue(
 			$article,
 			array(
@@ -447,12 +447,12 @@ class ArticleTest extends \TestCaseDatabase
 
 		$this->assertTrue($article->hasIntroImage());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue($article, array('id' => 999, 'images' => ''));
 
 		$this->assertFalse($article->hasIntroImage());
 
-		$article = Article::freshInstance(999);
+		$article = Article::fresh(999);
 		$rowProperty->setValue(
 			$article,
 			array(
