@@ -16,7 +16,6 @@ use Phproberto\Joomla\Entity\Core\Column;
 use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
-use Phproberto\Joomla\Entity\Users\Column as UsersColumn;
 
 /**
  * Entity ACL.

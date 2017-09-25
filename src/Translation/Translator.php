@@ -50,8 +50,8 @@ class Translator extends Decorator implements TranslatorContract
 	/**
 	 * Constructor.
 	 *
-	 * @param   EntityInterface  $entity   Entity to decorate.
-	 * @param   string           $langTag  Language tag. Example: es-ES
+	 * @param   Translatable  $entity   Entity to decorate.
+	 * @param   string        $langTag  Language tag. Example: es-ES
 	 */
 	public function __construct(Translatable $entity, $langTag = null)
 	{

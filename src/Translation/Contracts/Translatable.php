@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Translation\Contracts;
 
+use Phproberto\Joomla\Entity\Contracts\EntityInterface;
+
 defined('_JEXEC') || die;
 
 /**
@@ -15,7 +17,7 @@ defined('_JEXEC') || die;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface Translatable
+interface Translatable extends EntityInterface
 {
 	/**
 	 * Get a translation.

@@ -10,8 +10,6 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Collection;
-
 /**
  * Trait for entities with associations.
  *
@@ -31,7 +29,7 @@ trait HasAssociations
 	 *
 	 * @param   string  $langTag  Language tag
 	 *
-	 * @return  static
+	 * @return  \stdClass
 	 */
 	public function association($langTag)
 	{

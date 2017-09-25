@@ -10,7 +10,6 @@ namespace Phproberto\Joomla\Entity\Fields\Traits;
 
 defined('_JEXEC') || die;
 
-use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Fields\Field;
 
