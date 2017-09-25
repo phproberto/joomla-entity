@@ -1048,4 +1048,63 @@ class AclTest extends \TestCase
 		$this->assertTrue($isOwnerMethod->invoke($acl));
 		$this->assertFalse($isOwnerMethod->invoke($acl));
 	}
+
+	/**
+	 * isPublishedEntity returns true when entity does not implement Publishable.
+	 *
+	 * @return  void
+	 */
+	public function testIsPublishedEntityReturnsTrueWhenEntityDoesNotImplementPublishable()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$entity = $this->getMockBuilder(EntityWithAcl::class)
+			->getMock();
+
+		$reflection = new \ReflectionClass($acl);
+
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$entityProperty->setValue($acl, $entity);
+
+		$isPublishedEntityMethod = $reflection->getMethod('isPublishedEntity');
+		$isPublishedEntityMethod->setAccessible(true);
+
+		$this->assertTrue($isPublishedEntityMethod->invoke($acl));
+	}
+
+	/**
+	 * isPublishedEntity returns entity isPublished for Publishable entities.
+	 *
+	 * @return  void
+	 */
+	public function testIsPublishedEntityReturnsEntityIsPublishedIfPublishableEntities()
+	{
+		$acl = $this->getMockBuilder(Acl::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$entity = $this->getMockBuilder(PublishableEntityWithAcl::class)
+			->setMethods(array('isPublished'))
+			->getMock();
+
+		$entity
+			->method('isPublished')
+			->will($this->onConsecutiveCalls(false, true, false));
+
+		$reflection = new \ReflectionClass($acl);
+
+		$entityProperty = $reflection->getProperty('entity');
+		$entityProperty->setAccessible(true);
+		$entityProperty->setValue($acl, $entity);
+
+		$isPublishedEntityMethod = $reflection->getMethod('isPublishedEntity');
+		$isPublishedEntityMethod->setAccessible(true);
+
+		$this->assertFalse($isPublishedEntityMethod->invoke($acl));
+		$this->assertTrue($isPublishedEntityMethod->invoke($acl));
+		$this->assertFalse($isPublishedEntityMethod->invoke($acl));
+	}
 }
