@@ -495,6 +495,152 @@ class ArticleTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * isPublished returns correct value.
+	 *
+	 * @return  void
+	 */
+	public function testIsPublishedReturnsFalseIfHasUnpublishedState()
+	{
+		$entity = $this->getMockBuilder(Article::class)
+			->setMethods(array('isOnState'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('isOnState')
+			->willReturn(false);
+
+		$this->assertFalse($entity->isPublished());
+	}
+
+	/**
+	 * isPublished returns false when article is not published up.
+	 *
+	 * @return  void
+	 */
+	public function testIsPublishedReturnsFalseWhenArticleIsNotPublishedUp()
+	{
+		$entity = $this->getMockBuilder(Article::class)
+			->setMethods(array('isOnState', 'isPublishedUp'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('isOnState')
+			->with($this->equalTo(Article::STATE_PUBLISHED))
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublishedUp')
+			->willReturn(false);
+
+		$this->assertFalse($entity->isPublished());
+	}
+
+	/**
+	 * isPublished returns false when article is published down.
+	 *
+	 * @return  void
+	 */
+	public function testIsPublishedReturnsFalseWhenArticleIsPublishedDow()
+	{
+		$entity = $this->getMockBuilder(Article::class)
+			->setMethods(array('isOnState', 'isPublishedUp', 'isPublishedDown'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('isOnState')
+			->with($this->equalTo(Article::STATE_PUBLISHED))
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublishedUp')
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublishedDown')
+			->willReturn(true);
+
+		$this->assertFalse($entity->isPublished());
+	}
+
+	/**
+	 * isPublished returns false when category is unpublished.
+	 *
+	 * @return  void
+	 */
+	public function testIsPublishedReturnsFalseWhenCategoryIsUnpublished()
+	{
+		$categoryMock = $this->getMockBuilder('MockedCategory')
+			->setMethods(array('isPublished'))
+			->getMock();
+
+		$categoryMock->expects($this->once())
+			->method('isPublished')
+			->willReturn(false);
+
+		$entity = $this->getMockBuilder(Article::class)
+			->setMethods(array('category', 'isOnState', 'isPublishedUp', 'isPublishedDown'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('isOnState')
+			->with($this->equalTo(Article::STATE_PUBLISHED))
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublishedUp')
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublishedDown')
+			->willReturn(false);
+
+		$entity->expects($this->once())
+			->method('category')
+			->willReturn($categoryMock);
+
+		$this->assertFalse($entity->isPublished());
+	}
+
+	/**
+	 * isPublished returns true when everything is ok.
+	 *
+	 * @return  void
+	 */
+	public function testIsPublishedReturnsTrueWhenEverythingIsOk()
+	{
+		$categoryMock = $this->getMockBuilder('MockedCategory')
+			->setMethods(array('isPublished'))
+			->getMock();
+
+		$categoryMock->expects($this->once())
+			->method('isPublished')
+			->willReturn(true);
+
+		$entity = $this->getMockBuilder(Article::class)
+			->setMethods(array('category', 'isOnState', 'isPublishedUp', 'isPublishedDown'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('isOnState')
+			->with($this->equalTo(Article::STATE_PUBLISHED))
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublishedUp')
+			->willReturn(true);
+
+		$entity->expects($this->once())
+			->method('isPublishedDown')
+			->willReturn(false);
+
+		$entity->expects($this->once())
+			->method('category')
+			->willReturn($categoryMock);
+
+		$this->assertTrue($entity->isPublished());
+	}
+
+	/**
 	 * loadTags returns empty collection for missing id.
 	 *
 	 * @return  void

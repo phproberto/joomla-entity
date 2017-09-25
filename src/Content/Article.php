@@ -84,6 +84,26 @@ class Article extends ComponentEntity implements UsersContracts\Ownerable, Trans
 	}
 
 	/**
+	 * Check if this entity is published.
+	 *
+	 * @return  boolean
+	 */
+	public function isPublished()
+	{
+		if (!$this->isOnState(self::STATE_PUBLISHED))
+		{
+			return false;
+		}
+
+		if (!$this->isPublishedUp() || $this->isPublishedDown())
+		{
+			return false;
+		}
+
+		return $this->category()->isPublished();
+	}
+
+	/**
 	 * Load associations from DB.
 	 *
 	 * @return  \stdClass[]
