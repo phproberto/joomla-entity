@@ -24,7 +24,6 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8.35",
-    "phproberto/joomla-common": "@dev",
     "joomla/registry": "^1.4.5"
   }
 }
