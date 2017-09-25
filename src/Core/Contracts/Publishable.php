@@ -21,11 +21,4 @@ interface Publishable
 	 * @return  boolean
 	 */
 	public function isPublished();
-
-	/**
-	 * Check if this entity is unpublished.
-	 *
-	 * @return  boolean
-	 */
-	public function isUnpublished();
 }
