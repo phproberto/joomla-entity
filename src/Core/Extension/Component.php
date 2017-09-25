@@ -95,7 +95,7 @@ class Component extends Extension implements Aclable
 
 		if (isset(self::$optionIdXref[$option]))
 		{
-			return self::instance(static::$optionIdXref[$option]);
+			return self::find(static::$optionIdXref[$option]);
 		}
 
 		$component = new static;
@@ -108,7 +108,7 @@ class Component extends Extension implements Aclable
 
 		static::$optionIdXref[$option] = (int) $table->extension_id;
 
-		return self::instance($table->extension_id)->bind($table->getProperties(true));
+		return self::find($table->extension_id)->bind($table->getProperties(true));
 	}
 
 	/**

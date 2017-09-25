@@ -27,7 +27,7 @@ class TranslatorTest extends \TestCase
 	 */
 	protected function tearDown()
 	{
-		Entity::clearAllInstances();
+		Entity::clearAll();
 
 		parent::tearDown();
 	}

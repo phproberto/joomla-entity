@@ -26,7 +26,7 @@ class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		EntityWithTranslations::clearAllInstances();
+		EntityWithTranslations::clearAll();
 
 		parent::tearDown();
 	}
@@ -45,8 +45,8 @@ class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 		$this->assertSame(false, $entity->hasTranslation('pt-BR'));
 
 		$translations = array(
-			'es-ES' => EntityWithTranslations::instance(666),
-			'pt-BR' => EntityWithTranslations::instance(999)
+			'es-ES' => EntityWithTranslations::find(666),
+			'pt-BR' => EntityWithTranslations::find(999)
 		);
 
 		$entity = $this->getMockBuilder(EntityWithTranslations::class)
@@ -75,8 +75,8 @@ class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 
 		$translations = new Collection(
 			array(
-				EntityWithTranslations::instance(666),
-				EntityWithTranslations::instance(999)
+				EntityWithTranslations::find(666),
+				EntityWithTranslations::find(999)
 			)
 		);
 
@@ -99,8 +99,8 @@ class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 	public function testTranslationRetursnCorrectValue()
 	{
 		$translations = array(
-			'es-ES' => EntityWithTranslations::instance(666),
-			'pt-BR' => EntityWithTranslations::instance(999)
+			'es-ES' => EntityWithTranslations::find(666),
+			'pt-BR' => EntityWithTranslations::find(999)
 		);
 
 		$entity = new EntityWithTranslations;
@@ -110,7 +110,7 @@ class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 		$translationsProperty->setAccessible(true);
 		$translationsProperty->setValue($entity, $translations);
 
-		$this->assertSame(EntityWithTranslations::instance(666), $entity->translation('es-ES'));
+		$this->assertSame(EntityWithTranslations::find(666), $entity->translation('es-ES'));
 	}
 
 	/**
@@ -200,8 +200,8 @@ class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 
 		$expected = new Collection(
 			array(
-				EntityWithTranslations::instance(666),
-				EntityWithTranslations::instance(999)
+				EntityWithTranslations::find(666),
+				EntityWithTranslations::find(999)
 			)
 		);
 

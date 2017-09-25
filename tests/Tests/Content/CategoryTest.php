@@ -30,7 +30,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		Category::clearAllInstances();
+		Category::clearAll();
 
 		parent::tearDown();
 	}

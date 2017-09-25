@@ -46,7 +46,7 @@ class Category extends BaseCategory implements Aclable
 		$articles = array_map(
 			function ($item)
 			{
-				return Article::instance($item->id)->bind($item);
+				return Article::find($item->id)->bind($item);
 			},
 			$this->getArticlesModel()->getItems() ?: array()
 		);
@@ -92,7 +92,7 @@ class Category extends BaseCategory implements Aclable
 		$tags = array_map(
 			function ($tag)
 			{
-				return Tag::instance($tag->id)->bind($tag);
+				return Tag::find($tag->id)->bind($tag);
 			},
 			$items
 		);

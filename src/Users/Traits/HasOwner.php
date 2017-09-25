@@ -93,6 +93,6 @@ trait HasOwner
 			throw new \InvalidArgumentException($msg);
 		}
 
-		return User::instance($ownerId);
+		return User::find($ownerId);
 	}
 }

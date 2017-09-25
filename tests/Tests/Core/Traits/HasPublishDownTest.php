@@ -32,7 +32,7 @@ class HasPublishDownTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		EntityWithPublishDown::clearAllInstances();
+		EntityWithPublishDown::clearAll();
 
 		parent::tearDown();
 	}

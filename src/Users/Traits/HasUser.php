@@ -103,6 +103,6 @@ trait HasUser
 	{
 		$userId = (int) $this->get($this->columnAlias(Column::USER));
 
-		return User::instance($userId);
+		return User::find($userId);
 	}
 }

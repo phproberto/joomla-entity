@@ -46,7 +46,7 @@ class UserGroupTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		UserGroup::clearAllInstances();
+		UserGroup::clearAll();
 
 		$this->restoreFactoryState();
 

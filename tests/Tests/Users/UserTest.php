@@ -47,7 +47,7 @@ class UserTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		User::clearAllInstances();
+		User::clearAll();
 
 		$this->restoreFactoryState();
 
@@ -111,7 +111,7 @@ class UserTest extends \TestCaseDatabase
 
 		\JFactory::$session = $mockSession;
 
-		$this->assertEquals(User::instance(42), User::active());
+		$this->assertEquals(User::find(42), User::active());
 	}
 
 	/**

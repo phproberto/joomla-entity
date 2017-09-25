@@ -405,7 +405,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public static function load($id)
 	{
-		return static::instance($id)->fetch();
+		return static::find($id)->fetch();
 	}
 
 	/**

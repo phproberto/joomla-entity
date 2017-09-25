@@ -35,7 +35,7 @@ class HasUsersTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertSame(null, $usersProperty->getValue($entity));
 
-		$users = new Collection(array(User::instance(333)));
+		$users = new Collection(array(User::find(333)));
 
 		$usersProperty->setValue($entity, $users);
 
@@ -62,7 +62,7 @@ class HasUsersTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertSame(null, $usersProperty->getValue($entity));
 
-		$users = new Collection(array(User::instance(333)));
+		$users = new Collection(array(User::find(333)));
 
 		$usersProperty->setValue($entity, $users);
 
@@ -78,8 +78,8 @@ class HasUsersTest extends \PHPUnit\Framework\TestCase
 	{
 		$users = new Collection(
 			array(
-				User::instance(333),
-				User::instance(666)
+				User::find(333),
+				User::find(666)
 			)
 		);
 
@@ -103,8 +103,8 @@ class HasUsersTest extends \PHPUnit\Framework\TestCase
 	{
 		$users = new Collection(
 			array(
-				User::instance(666),
-				User::instance(999)
+				User::find(666),
+				User::find(999)
 			)
 		);
 
@@ -129,8 +129,8 @@ class HasUsersTest extends \PHPUnit\Framework\TestCase
 	{
 		$users = new Collection(
 			array(
-				User::instance(333),
-				User::instance(666)
+				User::find(333),
+				User::find(666)
 			)
 		);
 

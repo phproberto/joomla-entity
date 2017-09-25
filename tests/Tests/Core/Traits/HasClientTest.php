@@ -34,7 +34,7 @@ class HasClientTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		ClassWithClient::clearAllInstances();
+		ClassWithClient::clearAll();
 
 		parent::tearDown();
 	}

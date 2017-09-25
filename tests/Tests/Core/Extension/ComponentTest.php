@@ -44,7 +44,7 @@ class ComponentTest extends \TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		Component::clearAllInstances();
+		Component::clearAll();
 
 		$this->restoreFactoryState();
 

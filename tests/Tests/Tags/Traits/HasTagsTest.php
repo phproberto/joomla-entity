@@ -27,7 +27,7 @@ class HasTagsTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		ClassWithTags::clearAllInstances();
+		ClassWithTags::clearAll();
 
 		parent::tearDown();
 	}

@@ -43,7 +43,7 @@ class User extends ComponentEntity implements Aclable
 	{
 		$userId = (int) \JFactory::getUser()->get('id');
 
-		return $userId ? static::instance($userId) : new static;
+		return $userId ? static::find($userId) : new static;
 	}
 
 	/**
@@ -238,7 +238,7 @@ class User extends ComponentEntity implements Aclable
 
 		foreach ($items as $item)
 		{
-			$userGroup = UserGroup::instance($item->id)->bind($item);
+			$userGroup = UserGroup::find($item->id)->bind($item);
 
 			$userGroups->add($userGroup);
 		}

@@ -55,7 +55,7 @@ class EntityTest extends \TestCase
 	{
 		$this->restoreFactoryState();
 
-		Entity::clearAllInstances();
+		Entity::clearAll();
 
 		parent::tearDown();
 	}

@@ -88,6 +88,6 @@ trait HasAuthor
 	{
 		$authorId = (int) $this->get($this->columnAlias(Column::AUTHOR));
 
-		return User::instance($authorId);
+		return User::find($authorId);
 	}
 }

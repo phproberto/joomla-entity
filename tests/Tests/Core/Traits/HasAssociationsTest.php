@@ -26,7 +26,7 @@ class HasAssociationsTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		EntityWithAssociations::clearAllInstances();
+		EntityWithAssociations::clearAll();
 
 		parent::tearDown();
 	}
