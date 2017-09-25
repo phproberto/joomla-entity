@@ -591,14 +591,16 @@ class UserTest extends \TestCaseDatabase
 		$user = new User(999);
 
 		$reflection = new \ReflectionClass($user);
+
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-
 		$rowProperty->setValue($user, array('id' => 999, CoreColumn::PARAMS => ''));
 
 		$this->assertEquals(new Registry, $user->params());
 
-		$rowProperty->setValue($user, array('id' => 999, CoreColumn::PARAMS => '{"timezone":"Europe\/Madrid"}'));
+		$user = new User(666);
+
+		$rowProperty->setValue($user, array('id' => 666, CoreColumn::PARAMS => '{"timezone":"Europe\/Madrid"}'));
 
 		$this->assertEquals(new Registry(array('timezone' => 'Europe/Madrid')), $user->params(true));
 	}

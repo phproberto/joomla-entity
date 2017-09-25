@@ -10,7 +10,6 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Core\Column;
-use Phproberto\Joomla\Traits\HasParams as CommonHasParams;
 
 /**
  * Trait for entities with params. Based on params | attribs columns.
@@ -19,10 +18,12 @@ use Phproberto\Joomla\Traits\HasParams as CommonHasParams;
  */
 trait HasParams
 {
-	use CommonHasParams {
-		setParam as protected commonSetParam;
-		setParams as protected commonSetParams;
-	}
+	/**
+	 * Entity parameters.
+	 *
+	 * @var  Registry
+	 */
+	protected $params;
 
 	/**
 	 * Assign a value to entity property.
@@ -81,6 +82,47 @@ trait HasParams
 	abstract public function table($name = '', $prefix = null, $options = array());
 
 	/**
+	 * Clear entity params.
+	 *
+	 * @return  self
+	 */
+	public function clearParams()
+	{
+		$this->params = null;
+
+		return $this;
+	}
+
+	/**
+	 * Get a param value.
+	 *
+	 * @param   string  $name     Parameter name
+	 * @param   mixed   $default  Optional default value, returned if the internal value is null.
+	 *
+	 * @return  mixed
+	 */
+	public function param($name, $default = null)
+	{
+		return $this->params()->get($name, $default);
+	}
+
+	/**
+	 * Get the parameters.
+	 *
+	 * @return  Registry
+	 */
+	public function params()
+	{
+		if (null === $this->params)
+		{
+			$this->params = $this->loadParams();
+		}
+
+		return clone $this->params;
+	}
+
+
+	/**
 	 * Load parameters from database.
 	 *
 	 * @return  Registry
@@ -137,7 +179,12 @@ trait HasParams
 	 */
 	public function setParam($name, $value)
 	{
-		$this->commonSetParam($name, $value);
+		if (null === $this->params)
+		{
+			$this->params = $this->loadParams();
+		}
+
+		$this->params->set($name, $value);
 
 		$this->assign($this->columnAlias(Column::PARAMS), $this->params()->toString());
 
@@ -153,7 +200,7 @@ trait HasParams
 	 */
 	public function setParams(Registry $params)
 	{
-		$this->commonSetParams($params);
+		$this->params = $params;
 
 		$this->assign($this->columnAlias(Column::PARAMS), $this->params()->toString());
 

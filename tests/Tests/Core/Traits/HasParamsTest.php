@@ -19,6 +19,32 @@ use Joomla\Registry\Registry;
 class HasParamsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * clearParmas sets params property to null.
+	 *
+	 * @return  void
+	 */
+	public function testClearParamsSetsParamsPropertyToNull()
+	{
+		$entity = $this->getEntity(array('id' => 999, 'params' => '{"foo":"bar"}'));
+
+		$reflection = new \ReflectionClass($entity);
+
+		$paramsProperty = $reflection->getProperty('params');
+		$paramsProperty->setAccessible(true);
+
+		$this->assertSame(null, $paramsProperty->getValue($entity));
+
+		$loadedParams = new Registry('{"foo":"bar-modified"}');
+		$paramsProperty->setValue($entity, $loadedParams);
+
+		$this->assertSame($loadedParams, $paramsProperty->getValue($entity));
+
+		$entity->clearParams();
+
+		$this->assertSame(null, $paramsProperty->getValue($entity));
+	}
+
+	/**
 	 * loadParams returns row params if they are already there as string.
 	 *
 	 * @return  void
@@ -130,28 +156,6 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 		$entity = $this->getEntity(array('id' => 999, 'params' => '{"foo":"bar"}'));
 
 		$this->assertEquals(new Registry(array('foo' => 'bar')), $entity->params());
-	}
-
-	/**
-	 * params reload works.
-	 *
-	 * @return  void
-	 */
-	public function testParamsReloadWorks()
-	{
-		$entity = $this->getEntity(array('id' => 999, 'params' => '{"foo":"bar"}'));
-
-		$reflection = new \ReflectionClass($entity);
-
-		$rowProperty = $reflection->getProperty('row');
-		$rowProperty->setAccessible(true);
-
-		$this->assertEquals(new Registry(array('foo' => 'bar')), $entity->params());
-
-		$rowProperty->setValue($entity, array('id' => 999, 'params' => '{"foo":"bar-modified"}'));
-
-		$this->assertEquals(new Registry(array('foo' => 'bar')), $entity->params());
-		$this->assertEquals(new Registry(array('foo' => 'bar-modified')), $entity->params(true));
 	}
 
 	/**
