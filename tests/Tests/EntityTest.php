@@ -473,12 +473,17 @@ class EntityTest extends \TestCase
 	 */
 	public function testFetchPreservesPreviouslyAssignedData()
 	{
-		$row = array(
+		$dataFromDb = array(
 			static::PRIMARY_KEY => 999,
 			'name' => 'Sample name'
 		);
 
-		$entity = $this->getLoadableEntityMock(999, $row);
+		$assignedData = array(
+			'foo' => 'bar',
+			'name' => 'Modified name'
+		);
+
+		$entity = $this->getLoadableEntityMock(999, $dataFromDb);
 
 		$reflection = new \ReflectionClass($entity);
 
@@ -488,19 +493,20 @@ class EntityTest extends \TestCase
 
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($entity, array('foo' => 'bar'));
+		$rowProperty->setValue($entity, $assignedData);
 
 		$entity->fetch();
 
-		$this->assertEquals(array_merge(array('foo' => 'bar'), $row), $rowProperty->getValue($entity));
+		$this->assertEquals(array_merge($dataFromDb, $assignedData), $rowProperty->getValue($entity));
+		$this->assertSame($assignedData['name'], $entity->get('name'));
 	}
 
 	/**
-	 * fetch loads correct data.
+	 * load loads correct data.
 	 *
 	 * @return  void
 	 */
-	public function testFetchLoadsCorrectData()
+	public function testLoadLoadsCorrectData()
 	{
 		$reflection = new \ReflectionClass(Entity::class);
 		$instancesProperty = $reflection->getProperty('instances');
@@ -628,11 +634,11 @@ class EntityTest extends \TestCase
 	}
 
 	/**
-	 * fetch sets the correct id.
+	 * load sets the correct id.
 	 *
 	 * @return  void
 	 */
-	public function testFetchSetsCorrectId()
+	public function testLoadSetsCorrectId()
 	{
 		$reflection = new \ReflectionClass(Entity::class);
 		$instancesProperty = $reflection->getProperty('instances');
@@ -938,12 +944,17 @@ class EntityTest extends \TestCase
 	}
 
 	/**
-	 * save returns true.
+	 * save returns saved instance.
 	 *
 	 * @return  void
 	 */
-	public function testSaveReturnsTrue()
+	public function testSaveReturnsSavedInstance()
 	{
+		$data = array(
+			self::PRIMARY_KEY => 999,
+			'name'            => 'Anibal Sánchez'
+		);
+
 		$tableMock = $this->getMockBuilder(\JTable::class)
 			->disableOriginalConstructor()
 			->setMethods(array('save'))
@@ -953,15 +964,32 @@ class EntityTest extends \TestCase
 			->method('save')
 			->willReturn(true);
 
-		$mock = $this->getMockBuilder(Entity::class)
+		foreach ($data as $property => $value)
+		{
+			$tableMock->{$property} = $value;
+		}
+
+		$entity = $this->getMockBuilder(Entity::class)
 			->setMethods(array('table'))
 			->getMock();
 
-		$mock
+		$entity
 			->method('table')
 			->willReturn($tableMock);
 
-		$this->assertTrue($mock->save());
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+		$rowProperty->setValue($entity, $data);
+
+		$newEntity = $entity->save();
+
+		$this->assertInstanceOf(get_class($entity), $newEntity);
+
+		foreach ($data as $property => $value)
+		{
+			$this->assertSame($data[$property], $newEntity->{$property});
+		}
 	}
 
 	/**

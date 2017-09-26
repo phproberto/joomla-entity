@@ -237,7 +237,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function fetch()
 	{
-		$this->row = array_merge((array) $this->row, $this->fetchRow());
+		$this->row = array_merge($this->fetchRow(), (array) $this->row);
 
 		return $this;
 	}
@@ -525,7 +525,7 @@ abstract class Entity implements EntityInterface
 	/**
 	 * Save entity to the database.
 	 *
-	 * @return  boolean
+	 * @return  self
 	 *
 	 * @throws  SaveException
 	 */
@@ -545,12 +545,14 @@ abstract class Entity implements EntityInterface
 
 		$table = $this->table();
 
-		if (!$table->save($this->row))
+		if (!$table->save($this->all()))
 		{
 			throw SaveException::table($this, $table);
 		}
 
-		return true;
+		$this->bind($table->getProperties(true));
+
+		return $this;
 	}
 
 	/**
