@@ -282,6 +282,20 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Fast method to create an instance from an array of data.
+	 *
+	 * @param   array   $data  Data to bind to the instance
+	 *
+	 * @return  static
+	 */
+	public static function fromArray(array $data)
+	{
+		$entity = new static;
+
+		return $entity->bind($data);
+	}
+
+	/**
 	 * Get a property of this entity.
 	 *
 	 * @param   string  $property  Name of the property to get

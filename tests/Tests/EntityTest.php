@@ -634,6 +634,24 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * fromArray returns entity with data binded.
+	 *
+	 * @return  void
+	 */
+	public function testFromArrayReturnsEntityWithDataBinded()
+	{
+		$data = array(
+			self::PRIMARY_KEY => 333,
+			'name' => 'Hello world'
+		);
+
+		$entity = Entity::fromArray($data);
+
+		$this->assertInstanceOf(Entity::class, $entity);
+		$this->assertSame($data, $entity->all());
+	}
+
+	/**
 	 * load sets the correct id.
 	 *
 	 * @return  void
