@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
 use Phproberto\Joomla\Entity\Exception\SaveException;
+use Phproberto\Joomla\Entity\Tests\Stubs\EntityWithFakeSave;
 use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 use Phproberto\Joomla\Entity\Tests\Validation\Traits\Stubs\EntityWithValidation;
 
@@ -400,6 +401,29 @@ class EntityTest extends \TestCase
 	}
 
 	/**
+	 * create returns saved instance.
+	 *
+	 * @return  void
+	 */
+	public function testCreateReturnsSavedInstance()
+	{
+		$data = array(
+			self::PRIMARY_KEY => 34,
+			'name'            => 'My name',
+			'age'             => 25
+		);
+
+		$entity = EntityWithFakeSave::create($data);
+
+		$this->assertTrue($entity->saved);
+		$this->assertNotSame($data, $entity->savedData);
+
+		unset($data[self::PRIMARY_KEY]);
+
+		$this->assertSame($data, $entity->savedData);
+	}
+
+	/**
 	 * date returns correct value.
 	 *
 	 * @return  void
@@ -634,18 +658,18 @@ class EntityTest extends \TestCase
 	}
 
 	/**
-	 * fromArray returns entity with data binded.
+	 * fromData returns entity with data binded.
 	 *
 	 * @return  void
 	 */
-	public function testFromArrayReturnsEntityWithDataBinded()
+	public function testFromDataReturnsEntityWithDataBinded()
 	{
 		$data = array(
 			self::PRIMARY_KEY => 333,
 			'name' => 'Hello world'
 		);
 
-		$entity = Entity::fromArray($data);
+		$entity = Entity::fromData($data);
 
 		$this->assertInstanceOf(Entity::class, $entity);
 		$this->assertSame($data, $entity->all());

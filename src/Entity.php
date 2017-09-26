@@ -172,6 +172,25 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Fast creation method.
+	 *
+	 * @param   array|\stdClass  $data  Data to store
+	 *
+	 * @return  static
+	 */
+	public static function create($data)
+	{
+		$entity = new static;
+
+		// Remove primary key if present to force a new row
+		$data = (array) $data;
+
+		unset($data[$entity->primaryKey()]);
+
+		return static::fromData($data)->save();
+	}
+
+	/**
 	 * Get an \JDate object from an entity date property.
 	 *
 	 * @param   string   $property   Name of the property to use as source date
@@ -282,13 +301,13 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
-	 * Fast method to create an instance from an array of data.
+	 * Fast method to create an instance from an array|object of data.
 	 *
-	 * @param   array   $data  Data to bind to the instance
+	 * @param   array|\stdClass  $data  Data to bind to the instance
 	 *
 	 * @return  static
 	 */
-	public static function fromArray(array $data)
+	public static function fromData($data)
 	{
 		$entity = new static;
 
