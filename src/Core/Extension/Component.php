@@ -45,16 +45,6 @@ class Component extends Extension implements Aclable
 	protected static $optionIdXref = array();
 
 	/**
-	 * Constructor.
-	 *
-	 * @param   integer  $id  Identifier
-	 */
-	public function __construct($id = null)
-	{
-		parent::__construct($id);
-	}
-
-	/**
 	 * Get the identifier of the asset asset
 	 *
 	 * @return  string
