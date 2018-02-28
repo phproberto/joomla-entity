@@ -65,6 +65,16 @@ class Component extends Extension implements Aclable
 	}
 
 	/**
+	 * Return folder where this component is.
+	 *
+	 * @return  string
+	 */
+	public function folder()
+	{
+		return $this->client()->getFolder() . '/components/' . $this->option();
+	}
+
+	/**
 	 * Load a component by its option
 	 *
 	 * @param   string  $option  Component option. Example: com_content
@@ -147,14 +157,14 @@ class Component extends Extension implements Aclable
 	 */
 	public function modelsFolder()
 	{
-		$folder = $this->client()->getFolder() . '/components/' . $this->option() . '/models';
+		$folder = $this->folder() . '/models';
 
 		if (is_dir($folder))
 		{
 			return $folder;
 		}
 
-		$folder = $this->client()->getFolder() . '/components/' . $this->option() . '/model';
+		$folder = $this->folder() . '/model';
 
 		if (is_dir($folder))
 		{
@@ -238,7 +248,7 @@ class Component extends Extension implements Aclable
 	 */
 	public function tablesFolder()
 	{
-		$folder = $this->client()->getFolder() . '/components/' . $this->option() . '/tables';
+		$folder = $this->folder() . '/tables';
 
 		if (is_dir($folder))
 		{
