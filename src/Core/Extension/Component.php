@@ -106,9 +106,9 @@ class Component extends Extension implements Aclable
 			throw new \RuntimeException(sprintf('Unable to load component from option `%s`', $option));
 		}
 
-		static::$optionIdXref[$option] = (int) $table->extension_id;
+		static::$optionIdXref[$option] = (int) $table->{'extension_id'};
 
-		return self::find($table->extension_id)->bind($table->getProperties(true));
+		return self::find($table->{'extension_id'})->bind($table->getProperties(true));
 	}
 
 	/**
