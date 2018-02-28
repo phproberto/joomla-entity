@@ -76,7 +76,15 @@ class Category extends ComponentEntity implements Publishable
 			return array();
 		}
 
-		return \JLanguageAssociations::getAssociations($this->get('extension'), '#__categories', 'com_categories.item', $this->id(), 'id', 'alias', '');
+		return \JLanguageAssociations::getAssociations(
+			$this->get('extension'),
+			'#__categories',
+			'com_categories.item',
+			$this->id(),
+			'id',
+			'alias',
+			''
+		);
 	}
 
 
