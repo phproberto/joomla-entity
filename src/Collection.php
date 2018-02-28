@@ -250,11 +250,11 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 	 */
 	public function krsort()
 	{
-		$entities = $this->clonedEntities();
+		$sortedEntities = $this->clonedEntities();
 
-		krsort($entities);
+		krsort($sortedEntities);
 
-		return new static($entities);
+		return new static($sortedEntities);
 	}
 
 	/**
@@ -264,11 +264,11 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 	 */
 	public function ksort()
 	{
-		$entities = $this->clonedEntities();
+		$sortedEntities = $this->clonedEntities();
 
-		ksort($entities);
+		ksort($sortedEntities);
 
-		return new static($entities);
+		return new static($sortedEntities);
 	}
 
 	/**
@@ -419,11 +419,11 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 	 */
 	public function sort(callable $function)
 	{
-		$entities = $this->clonedEntities();
+		$sortedEntities = $this->clonedEntities();
 
-		uasort($entities, $function);
+		uasort($sortedEntities, $function);
 
-		return new static($entities);
+		return new static($sortedEntities);
 	}
 
 	/**
