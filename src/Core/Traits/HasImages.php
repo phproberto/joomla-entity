@@ -27,6 +27,20 @@ trait HasImages
 	protected $images;
 
 	/**
+	 * Key of the intro image.
+	 *
+	 * @var  string
+	 */
+	protected static $introImageKey = 'intro';
+
+	/**
+	 * Key of the full view image.
+	 *
+	 * @var  string
+	 */
+	protected static $fullImageKey = 'full';
+
+	/**
 	 * Get the alias for a specific DB column.
 	 *
 	 * @param   string  $column  Name of the DB column. Example: created_by
@@ -53,7 +67,7 @@ trait HasImages
 	{
 		$images = $this->getImages();
 
-		return array_key_exists('full', $images) ? $images['full'] : array();
+		return array_key_exists(self::$fullImageKey, $images) ? $images[self::$fullImageKey] : array();
 	}
 
 	/**
@@ -82,7 +96,7 @@ trait HasImages
 	{
 		$images = $this->getImages();
 
-		return array_key_exists('intro', $images) ? $images['intro'] : array();
+		return array_key_exists(self::$introImageKey, $images) ? $images[self::$introImageKey] : array();
 	}
 
 	/**
@@ -92,7 +106,7 @@ trait HasImages
 	 */
 	public function hasFullTextImage()
 	{
-		return array_key_exists('full', $this->getImages());
+		return array_key_exists(self::$fullImageKey, $this->getImages());
 	}
 
 	/**
@@ -102,7 +116,7 @@ trait HasImages
 	 */
 	public function hasIntroImage()
 	{
-		return array_key_exists('intro', $this->getImages());
+		return array_key_exists(self::$introImageKey, $this->getImages());
 	}
 
 	/**
@@ -118,12 +132,12 @@ trait HasImages
 
 		if ($introImage = $this->parseImage('intro', $data))
 		{
-			$images['intro'] = $introImage;
+			$images[self::$introImageKey] = $introImage;
 		}
 
 		if ($fullImage = $this->parseImage('fulltext', $data))
 		{
-			$images['full'] = $fullImage;
+			$images[self::$fullImageKey] = $fullImage;
 		}
 
 		return $images;
