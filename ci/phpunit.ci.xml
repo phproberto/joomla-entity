@@ -9,6 +9,15 @@
             <directory suffix="Test.php">../tests</directory>
         </testsuite>
     </testsuites>
+    <logging>
+        <log type="coverage-html"
+             target="./coverage"/>
+        <log type="coverage-clover"
+             target="./coverage/report-clover.xml"/>
+        <log type="junit"
+             target="./coverage/report-junit.xml"
+             logIncompleteSkipped="false"/>
+    </logging>
     <filter>
         <whitelist>
             <directory>./src</directory>

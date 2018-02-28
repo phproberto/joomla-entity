@@ -1,15 +1,39 @@
-sudo: false
+sudo: required
 
 language: php
 
+addons:
+  sonarcloud:
+    organization: "phproberto-github"
+    token:
+      secure: "$SONAR_TOKEN"
+    branches:
+      - develop
+      - master
+      
+jdk:
+  - oraclejdk8
+
+cache:
+  directories:
+    - ./build/node_modules
+    - $HOME/.composer/cache/files
+    - $HOME/.sonar/cache
+
 php:
-  - 5.5
-  - 5.6
-  - 7.0.21
+  - 7.0
   - 7.1
+  - 7.2
+
+branches:
+  only:
+  - master
+  - develop
+
+before_script:
+  - ./ci/setup.sh
 
 script:
-  - composer install --prefer-dist --no-interaction --no-progress
-  - git clone https://github.com/joomla/joomla-cms.git /tmp/joomla-cms
-  - composer install -d /tmp/joomla-cms
-  - ./vendor/bin/phpunit --configuration ci/phpunit.ci.xml
+  - ./ci/test.sh
+  - sonar-scanner
+  
