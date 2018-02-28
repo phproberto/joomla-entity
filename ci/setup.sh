@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Clone current joomla & install composer there
-git clone https://github.com/joomla/joomla-cms.git /tmp/joomla-cms
+git clone --depth 1 https://github.com/joomla/joomla-cms.git /tmp/joomla-cms
 composer install -d /tmp/joomla-cms
 
 # Install library composer dependencies
