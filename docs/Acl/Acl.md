@@ -2,7 +2,7 @@
 
 `Phproberto\Joomla\Entity\Acl\Acl`
 
-> Allows to easily access the permission system associated to an entity. Any entity that wants to expose its permission system has to implement the Aclable interface.
+> Allows to access the permission system associated to an entity. Any entity that wants to expose its permission system has to implement the Aclable interface.
 
 ## Index <a id="index"></a>
 

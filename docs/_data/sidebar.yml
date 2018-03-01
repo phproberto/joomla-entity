@@ -2,6 +2,8 @@
   links: 
     - title: Quick start
       url: /
+    - title: QA
+      url: https://sonarcloud.io/dashboard?id=phproberto%3Ajoomla-entity
     - title: Contributing
       url: /contributing
     - title: License
@@ -16,7 +18,7 @@
   links: 
     - title: Asset
       url: /Core/Asset 
-    - title: Extension
-      url: /Core/Extension 
     - title: Component
       url: /Core/Extension/Component 
+    - title: Extension
+      url: /Core/Extension 
