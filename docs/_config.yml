@@ -1,0 +1,12 @@
+title: joomla-twig
+description: Twig 2.0 & Twig extensions integration for Joomla!
+show_nav: false
+show_sidebar: true
+show_downloads: true
+theme: phproberto/jekyll-test
+remote_theme: "phproberto/jekyll-test"
+include: 
+  - contributing.md
+  - license.md
+plugins:
+  - jekyll-remote-theme

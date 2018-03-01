@@ -1,0 +1,16 @@
+- title: Basics
+  links: 
+    - title: Quick start
+      url: /
+    - title: Contributing
+      url: /contributing
+    - title: License
+      url: /license
+- title: Core
+  links: 
+    - title: Asset
+      url: /Core/Asset 
+    - title: Extension
+      url: /Core/Extension 
+    - title: Component
+      url: /Core/Extension/Component 
