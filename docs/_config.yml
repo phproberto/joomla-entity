@@ -1,5 +1,5 @@
-title: joomla-twig
-description: Twig 2.0 & Twig extensions integration for Joomla!
+title: joomla-entity
+description: Entity system for Joomla!
 show_nav: false
 show_sidebar: true
 show_downloads: true
