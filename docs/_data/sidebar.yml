@@ -6,6 +6,12 @@
       url: /contributing
     - title: License
       url: /license
+- title: ACL
+  links: 
+    - title: Acl
+      url: /Acl/Acl 
+    - title: Traits/HasAcl
+      url: /Acl/Traits/HasAcl 
 - title: Core
   links: 
     - title: Asset
