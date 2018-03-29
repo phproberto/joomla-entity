@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 /**
  * Custom validation rule.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class CustomRule extends Rule implements RuleContract
 {

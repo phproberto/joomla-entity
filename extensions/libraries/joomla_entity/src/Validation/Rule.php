@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Validator as ValidatorContract
 /**
  * Entity validator.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 abstract class Rule
 {

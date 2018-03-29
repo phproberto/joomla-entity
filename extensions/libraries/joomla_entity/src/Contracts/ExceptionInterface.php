@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Exception interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 interface ExceptionInterface
 {

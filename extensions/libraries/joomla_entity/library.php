@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Phproberto\Joomla\Model
+ * @package     Phproberto\Joomla\Entity
  * @subpackage  Library
  *
  * @copyright   Copyright (C) 2018 Roberto Segura López. All rights reserved.
@@ -20,4 +20,4 @@ if (file_exists($composerAutoload))
 
 // Load library language
 $lang = Factory::getLanguage();
-$lang->load('lib_phproberto_joomla_model', __DIR__);
+$lang->load('lib_joomla_entity', __DIR__);

@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Column;
 /**
  * Trait for entities that have an associated publish down column.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 trait HasPublishDown
 {

@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 /**
  * Check that a string is empty.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class IsEmptyString extends Rule implements RuleContract
 {

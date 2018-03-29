@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Trait for linkable entities.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 trait HasLink
 {

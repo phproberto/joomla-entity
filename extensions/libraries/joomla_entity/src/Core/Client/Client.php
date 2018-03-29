@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Client selector.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 abstract class Client
 {

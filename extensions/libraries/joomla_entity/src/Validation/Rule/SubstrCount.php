@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 /**
  * Check that a string is present in another string.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class SubstrCount extends Rule implements RuleContract
 {

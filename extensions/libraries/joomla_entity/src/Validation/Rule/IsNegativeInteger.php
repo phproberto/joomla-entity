@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 /**
  * Check that value is a negative integer.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class IsNegativeInteger extends IsInteger implements RuleContract
 {

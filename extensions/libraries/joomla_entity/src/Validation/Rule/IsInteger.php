@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 /**
  * Check that value is an integer.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class IsInteger extends Rule implements RuleContract
 {

@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Represents a collection of entities.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class TranslatorWithFallback extends Translator
 {

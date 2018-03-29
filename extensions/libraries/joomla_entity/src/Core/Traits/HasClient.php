@@ -19,7 +19,7 @@ use Phproberto\Joomla\Entity\Core\Column;
 /**
  * Trait for entities that have an associated client.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 trait HasClient
 {

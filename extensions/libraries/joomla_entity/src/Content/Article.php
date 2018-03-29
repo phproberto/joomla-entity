@@ -34,7 +34,7 @@ use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
 /**
  * Article entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Article extends ComponentEntity implements Aclable, Ownerable, Publishable, Translatable, Validable
 {

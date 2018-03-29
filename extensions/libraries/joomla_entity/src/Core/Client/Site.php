@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Frontend client.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 final class Site extends BaseClient implements ClientInterface
 {

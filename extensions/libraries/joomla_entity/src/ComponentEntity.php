@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Contracts\ComponentEntityInterface;
 /**
  * Entity class.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 abstract class ComponentEntity extends Entity implements ComponentEntityInterface
 {

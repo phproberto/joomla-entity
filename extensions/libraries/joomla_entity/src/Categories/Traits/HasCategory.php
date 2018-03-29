@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Categories\Category;
 /**
  * Trait for entities that have an asset. Based on category_id|catid column.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 trait HasCategory
 {

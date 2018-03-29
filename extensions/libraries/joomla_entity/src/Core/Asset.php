@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Entity;
 /**
  * Asset entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Asset extends Entity
 {

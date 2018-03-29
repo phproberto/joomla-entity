@@ -15,7 +15,7 @@ defined('_JEXEC') || die;
 /**
  * Describes methods required by translatable entities.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 interface Translatable extends EntityInterface
 {

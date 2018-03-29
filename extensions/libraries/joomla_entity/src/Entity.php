@@ -22,7 +22,7 @@ use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 /**
  * Entity class.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 abstract class Entity implements EntityInterface
 {

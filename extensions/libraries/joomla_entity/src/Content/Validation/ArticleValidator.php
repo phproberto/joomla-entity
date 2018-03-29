@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Validation\Rule;
 /**
  * ArticleValidator validator.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 class ArticleValidator extends Validator
 {

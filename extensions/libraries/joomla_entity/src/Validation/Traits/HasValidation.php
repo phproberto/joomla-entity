@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Validator as ValidatorContract
 /**
  * Trait for entities with validation.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 trait HasValidation
 {

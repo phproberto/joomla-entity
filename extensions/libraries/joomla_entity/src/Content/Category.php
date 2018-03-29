@@ -25,7 +25,7 @@ use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
 /**
  * Content category entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Category extends BaseCategory implements Aclable
 {

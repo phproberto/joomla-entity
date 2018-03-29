@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Content\Article;
 /**
  * Trait for entities that have associated articles.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 trait HasArticles
 {

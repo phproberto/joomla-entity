@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Acl\Acl;
 /**
  * Trait for entities with ACL.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 trait HasAcl
 {

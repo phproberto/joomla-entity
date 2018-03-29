@@ -20,7 +20,7 @@ use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 /**
  * Entity ACL.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Acl extends Decorator
 {

@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Core\Column;
 /**
  * Trait for entities with translations.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 trait HasTranslations
 {

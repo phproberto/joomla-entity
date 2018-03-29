@@ -22,7 +22,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Validator as ValidatorContract
 /**
  * Entity translation.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Translator extends Decorator implements TranslatorContract
 {

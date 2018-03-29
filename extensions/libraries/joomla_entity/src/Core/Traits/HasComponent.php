@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Extension\Component;
 /**
  * Trait for entities with an associated component.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 trait HasComponent
 {

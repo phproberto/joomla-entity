@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Methods for entities that have events.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 trait HasEvents
 {

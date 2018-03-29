@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Column;
 /**
  * Trait for entities with metadata. Based on metadata columns.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 trait HasMetadata
 {

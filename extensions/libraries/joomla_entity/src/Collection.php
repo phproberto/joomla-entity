@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 /**
  * Represents a collection of entities.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 {

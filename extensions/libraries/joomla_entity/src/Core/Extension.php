@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 /**
  * Extension entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Extension extends Entity implements Publishable
 {

@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 /**
  * Rule requirements.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 interface Rule
 {

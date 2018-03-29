@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 /**
  * Component entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Component extends Extension implements Aclable
 {

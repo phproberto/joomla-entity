@@ -22,7 +22,7 @@ use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
 /**
  * Stub to test Entity class.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Category extends ComponentEntity implements Publishable
 {

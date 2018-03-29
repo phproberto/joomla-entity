@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Columns supported by core.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 abstract class Column
 {

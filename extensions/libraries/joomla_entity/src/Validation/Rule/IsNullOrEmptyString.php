@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 /**
  * Check that a column is null or an empty string.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class IsNullOrEmptyString extends Rule implements RuleContract
 {

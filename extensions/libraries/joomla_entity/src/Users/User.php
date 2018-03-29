@@ -21,7 +21,7 @@ use Phproberto\Joomla\Entity\Users\Traits\HasUserGroups;
 /**
  * User entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class User extends ComponentEntity implements Aclable
 {

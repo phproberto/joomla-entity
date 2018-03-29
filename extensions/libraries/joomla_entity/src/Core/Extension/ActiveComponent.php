@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
 /**
  * Component entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class ActiveComponent extends Component
 {

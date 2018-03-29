@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Users\Traits\HasUsers;
 /**
  * User Group entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class UserGroup extends ComponentEntity
 {

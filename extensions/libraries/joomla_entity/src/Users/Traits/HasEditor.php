@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Users\Column;
 /**
  * Trait for entities that have an associated editor.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 trait HasEditor
 {

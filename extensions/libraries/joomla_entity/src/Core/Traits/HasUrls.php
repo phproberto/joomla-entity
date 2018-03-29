@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Trait for entities with urls column.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 trait HasUrls
 {

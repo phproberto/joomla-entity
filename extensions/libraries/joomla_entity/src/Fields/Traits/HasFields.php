@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Fields\Field;
 /**
  * Trait for entities that have associated fields.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 trait HasFields
 {

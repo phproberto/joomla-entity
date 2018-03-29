@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 /**
  * Describes methods required by entities with ACL support.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 interface Aclable extends EntityInterface
 {

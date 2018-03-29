@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Trait for entities that have associated user groups.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 trait HasUserGroups
 {

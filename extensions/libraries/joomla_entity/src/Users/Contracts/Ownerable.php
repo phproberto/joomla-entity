@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Users\User;
 /**
  * Describes methods required by entities with an owner.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.0
  */
 interface Ownerable
 {

@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 /**
  * Field entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Field extends ComponentEntity implements Publishable
 {

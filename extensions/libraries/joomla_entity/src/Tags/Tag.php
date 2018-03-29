@@ -19,7 +19,7 @@ use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 /**
  * Tag entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.0.0
  */
 class Tag extends ComponentEntity implements Aclable, Publishable
 {
