@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="library" method="upgrade" version="3.6">
-	<name>Phproberto - Joomla Entity Library</name>
+	<name>Phproberto - Joomla Entity</name>
 	<libraryname>joomla_entity</libraryname>
 	<creationDate>March 2018</creationDate>
 	<author>@phproberto</author>
@@ -9,7 +9,7 @@
 	<copyright>Copyright (C) 2018 Roberto Segura López. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<version>0.0.1</version>
-	<description>Phproberto model library</description>
+	<description>Semantical API for Joomla!</description>
 	<files>
 		<folder>language</folder>
 		<folder>src</folder>
