@@ -14,3 +14,5 @@ if (!defined('JPATH_TESTS_PHPROBERTO'))
 }
 
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
+require_once __DIR__ . '/../extensions/libraries/joomla_entity/vendor/autoload.php';
+

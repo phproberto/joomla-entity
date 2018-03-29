@@ -3,7 +3,7 @@
 	<rule ref="./vendor/joomla/coding-standards/Joomla">
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 	</rule>
-	<file>./src</file>
+	<file>./extensions</file>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>*/tests/*</exclude-pattern>
 	<rule ref="Joomla.Classes.InstantiateNewClasses">

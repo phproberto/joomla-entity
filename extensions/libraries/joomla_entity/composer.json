@@ -16,20 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Phproberto\\Joomla\\Entity\\": "extensions/libraries/joomla_entity/src/"
+      "Phproberto\\Joomla\\Entity\\": "src/"
     }
-  },
-  "autoload-dev": {
-      "psr-4": {
-          "Phproberto\\Joomla\\Entity\\Tests\\": "tests/"
-      }
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^4.8.35",
-    "joomla/coding-standards": "~2.0@alpha",
-    "squizlabs/php_codesniffer": "^2.8"
-  },
-  "scripts": {
-    "test" : "./vendor/bin/phpunit"
   }
 }
