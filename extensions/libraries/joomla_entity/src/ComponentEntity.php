@@ -10,7 +10,6 @@ namespace Phproberto\Joomla\Entity;
 
 defined('_JEXEC') || die;
 
-use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Contracts\ComponentEntityInterface;
 

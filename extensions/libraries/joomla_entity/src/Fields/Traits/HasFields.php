@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Fields\Traits;
 defined('_JEXEC') || die;
 
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Core\Extension\Component;
 use Phproberto\Joomla\Entity\Fields\Field;
 
 /**
@@ -21,11 +22,25 @@ use Phproberto\Joomla\Entity\Fields\Field;
 trait HasFields
 {
 	/**
-	 * Associated fields.
+	 * Associated fields
 	 *
-	 * @var  Collection
+	 * @var  array
 	 */
-	protected $fields;
+	protected $fields = null;
+
+	/**
+	 * Flag to know if the cached fields have values attached or not
+	 *
+	 * @var  boolean
+	 */
+	protected $withValues = false;
+
+	/**
+	 * Field values
+	 *
+	 * @var  array
+	 */
+	protected $fieldValues = null;
 
 	/**
 	 * Retrieve the associated component.
@@ -54,7 +69,10 @@ trait HasFields
 			throw new \InvalidArgumentException($msg);
 		}
 
-		return $fields->get($id);
+		/** @var Field $field */
+		$field = $fields->get($id);
+
+		return $field;
 	}
 
 	/**
@@ -70,7 +88,7 @@ trait HasFields
 	 */
 	public function fieldValue($id, $default = null, $raw = false)
 	{
-		$values = $this->fieldValues($raw);
+		$values = $this->fieldValues();
 
 		if (!array_key_exists($id, $values))
 		{
@@ -79,50 +97,92 @@ trait HasFields
 			throw new \InvalidArgumentException($msg);
 		}
 
-		return (null === $values[$id]) ? $default : $values[$id];
+		return (null === $values[$id]) ? $default : $values[$id][$raw ? 'rawvalue' : 'value'];
+	}
+
+	/**
+	 * Retrieve a field value by a given field name
+	 *
+	 * @param   integer  $name     Name of the field which value we want to retrieve.
+	 * @param   mixed    $default  Value to use as default if value is null
+	 * @param   boolean  $raw      Return raw field value
+	 *
+	 * @return  mixed
+	 *
+	 * @throws  \InvalidArgumentException  If field value is not set
+	 */
+	public function fieldValueByName($name, $default = null, $raw = false)
+	{
+		$values = $this->fieldValues();
+		$id = array_search($name, array_column($values, 'name'));
+
+		if ($id === false)
+		{
+			return $default;
+		}
+
+		return array_values($values)[$id][$raw ? 'rawvalue' : 'value'];
 	}
 
 	/**
 	 * Get all the field values for this entity.
 	 *
-	 * @param   boolean  $raw  Return raw field values
-	 *
 	 * @return  array
 	 */
-	public function fieldValues($raw = false)
+	public function fieldValues()
 	{
-		$values = array();
-		$fields = $this->fields();
+		// Returns the cached array of values
+		if (null !== $this->fieldValues)
+		{
+			return $this->fieldValues;
+		}
+
+		$fields = $this->fields(false, true);
 
 		if ($fields->isEmpty())
 		{
-			return $values;
+			$this->fieldValues = array();
+
+			return $this->fieldValues;
 		}
 
-		foreach ($fields as $field)
+		$this->fieldValues = array();
+
+		/** @var Field $field */
+		$field = $fields->rewind();
+
+		while ($field)
 		{
-			$property = $raw ? 'rawvalue' : 'value';
-			$values[$field->id()] = $field->get($property);
+			$this->fieldValues[$field->id] = array(
+				'name' => $field->get('name'),
+				'value' => $field->has('value') ? $field->get('value') : '',
+				'rawvalue' => $field->has('rawvalue') ? $field->get('rawvalue') : ''
+			);
+
+			/** @var Field $field */
+			$field = $fields->next();
 		}
 
-		return $values;
+		return $this->fieldValues;
 	}
 
 	/**
 	 * Get associated fields.
 	 *
-	 * @param   boolean  $reload  Force data reloading
+	 * @param   boolean  $reload        Force data reloading
+	 * @param   boolean  $attachValues  Whether to attach values to the fields or not
 	 *
 	 * @return  Collection
 	 */
-	public function fields($reload = false)
+	public function fields($reload = false, $attachValues = false)
 	{
-		if ($reload || null === $this->fields)
+		if ($reload || null === $this->fields || (!$this->withValues && $attachValues))
 		{
-			$this->fields = $this->loadFields();
+			$this->fields = $this->loadFields($attachValues);
+			$this->withValues |= $attachValues;
 		}
 
-		return $this->fields;
+		return new Collection($this->fields);
 	}
 
 	/**
@@ -150,9 +210,11 @@ trait HasFields
 	/**
 	 * Load associated fields from DB.
 	 *
-	 * @return  Collection
+	 * @param   boolean  $attachValues  Whether to attach values to the fields or not
+	 *
+	 * @return  array
 	 */
-	protected function loadFields()
+	protected function loadFields($attachValues = false)
 	{
 		$fields = array_values(
 			array_map(
@@ -160,26 +222,27 @@ trait HasFields
 				{
 					return Field::find($field->id)->bind($field);
 				},
-				$this->getFieldsThroughHelper($this->fieldsContext())
+				$this->getFieldsThroughHelper($this->fieldsContext(), $attachValues)
 			)
 		);
 
-		return new Collection($fields);
+		return $fields;
 	}
 
 	/**
 	 * Get fields using the fields helper
 	 *
-	 * @param   string    $context  Example: com_content.article
+	 * @param   string   $context       Example: com_content.article
+	 * @param   boolean  $attachValues  Whether to attach values to the fields or not
 	 *
 	 * @return  array
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function getFieldsThroughHelper($context)
+	protected function getFieldsThroughHelper($context, $attachValues = false)
 	{
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-		return \FieldsHelper::getFields($context, (object) $this->all());
+		return \FieldsHelper::getFields($context, (object) $this->all(), $attachValues);
 	}
 }
