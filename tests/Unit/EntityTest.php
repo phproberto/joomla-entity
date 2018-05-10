@@ -439,16 +439,15 @@ class EntityTest extends \TestCase
 			->willReturn(new \DateTimeZone('GMT'));
 
 		$entity = $this->getMockBuilder(Entity::class)
-			->setMethods(array('joomlaUser'))
+			->setMethods(array('juser'))
 			->getMock();
 
 		$entity
-			->method('joomlaUser')
+			->method('juser')
 			->willReturn($user);
 
 		$reflection = new \ReflectionClass($entity);
-		$method = $reflection->getMethod('joomlaUser');
-		$method->setAccessible(true);
+
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
@@ -1111,11 +1110,11 @@ class EntityTest extends \TestCase
 			->willReturn(new \DateTimeZone('GMT'));
 
 		$entity = $this->getMockBuilder(Entity::class)
-			->setMethods(array('joomlaUser'))
+			->setMethods(array('juser'))
 			->getMock();
 
 		$entity
-			->method('joomlaUser')
+			->method('juser')
 			->willReturn($user);
 
 		$reflection = new \ReflectionClass($entity);
