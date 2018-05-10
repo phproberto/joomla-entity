@@ -216,8 +216,8 @@ abstract class Entity implements EntityInterface
 		// UTC date converted to user time zone.
 		if ($tz === true)
 		{
-			$date = \JFactory::getDate($dateString, 'UTC');
-			$date->setTimezone($this->joomlaUser()->getTimezone());
+			$date = \JFactory::getDate($dateString, 'GMT');
+			$date->setTimezone($this->juser()->getTimezone());
 
 			return $date;
 		}
