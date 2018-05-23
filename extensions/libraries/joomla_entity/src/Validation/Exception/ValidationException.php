@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Contracts\ExceptionInterface;
 /**
  * Validation errors.
  *
- * @since  __DEPLOY_VERISON__
+ * @since  1.0.0
  */
 class ValidationException extends \RuntimeException implements ExceptionInterface
 {
