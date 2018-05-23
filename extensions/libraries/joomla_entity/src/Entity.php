@@ -631,7 +631,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function table($name = '', $prefix = null, $options = array())
 	{
-		$table = \JTable::getInstance($name, $prefix);
+		$table = \JTable::getInstance($name, $prefix, $options);
 
 		if (!$table instanceof \JTable)
 		{
