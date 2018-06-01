@@ -87,6 +87,32 @@ trait HasFields
 	}
 
 	/**
+	 * Get all the field values for this entity.
+	 *
+	 * @param   boolean  $raw  Return raw field values
+	 *
+	 * @return  array
+	 */
+	public function fieldValues($raw = false)
+	{
+		$values = array();
+		$fields = $this->fields();
+
+		if ($fields->isEmpty())
+		{
+			return $values;
+		}
+
+		foreach ($fields as $field)
+		{
+			$property = $raw ? 'rawvalue' : 'value';
+			$values[$field->id()] = $field->get($property);
+		}
+
+		return $values;
+	}
+
+	/**
 	 * Get associated fields.
 	 *
 	 * @param   boolean  $reload  Force data reloading
