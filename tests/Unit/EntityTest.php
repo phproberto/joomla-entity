@@ -8,9 +8,11 @@
 
 namespace Phproberto\Joomla\Entity\Tests;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Tests\Unit\Stubs\Entity;
 use Phproberto\Joomla\Entity\Exception\SaveException;
+use Phproberto\Joomla\Entity\Tests\Unit\Stubs\Entity;
 use Phproberto\Joomla\Entity\Tests\Unit\Stubs\EntityWithFakeSave;
 use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 use Phproberto\Joomla\Entity\Tests\Unit\Validation\Traits\Stubs\EntityWithValidation;
@@ -20,7 +22,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Validation\Traits\Stubs\EntityWithValida
  *
  * @since   __DEPLOY_VERSION__
  */
-class EntityTest extends \TestCase
+class EntityTest extends \TestCaseDatabase
 {
 	/**
 	 * Name of the primary key
@@ -41,9 +43,9 @@ class EntityTest extends \TestCase
 
 		$this->saveFactoryState();
 
-		\JFactory::$session     = $this->getMockSession();
-		\JFactory::$config      = $this->getMockConfig();
-		\JFactory::$application = $this->getMockCmsApp();
+		Factory::$session     = $this->getMockSession();
+		Factory::$config      = $this->getMockConfig();
+		Factory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -439,16 +441,15 @@ class EntityTest extends \TestCase
 			->willReturn(new \DateTimeZone('GMT'));
 
 		$entity = $this->getMockBuilder(Entity::class)
-			->setMethods(array('joomlaUser'))
+			->setMethods(array('juser'))
 			->getMock();
 
 		$entity
-			->method('joomlaUser')
+			->method('juser')
 			->willReturn($user);
 
 		$reflection = new \ReflectionClass($entity);
-		$method = $reflection->getMethod('joomlaUser');
-		$method->setAccessible(true);
+
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
@@ -461,7 +462,7 @@ class EntityTest extends \TestCase
 
 		$this->assertInstanceOf(\JDate::class, $entity->date('date', true));
 
-		\JFactory::$config = new Registry(array('offset' => '+0600'));
+		Factory::$config = new Registry(array('offset' => '+0600'));
 
 		$this->assertInstanceOf(\JDate::class, $entity->date('date', false));
 		$this->assertInstanceOf(\JDate::class, $entity->date('date', null));
@@ -1111,11 +1112,11 @@ class EntityTest extends \TestCase
 			->willReturn(new \DateTimeZone('GMT'));
 
 		$entity = $this->getMockBuilder(Entity::class)
-			->setMethods(array('joomlaUser'))
+			->setMethods(array('juser'))
 			->getMock();
 
 		$entity
-			->method('joomlaUser')
+			->method('juser')
 			->willReturn($user);
 
 		$reflection = new \ReflectionClass($entity);
@@ -1128,6 +1129,33 @@ class EntityTest extends \TestCase
 
 		$this->assertSame('Tuesday, 16 November 1976', $entity->showDate('date'));
 		$this->assertSame('1976-11-16 16:05:00', $entity->showDate('date', 'DATE_FORMAT_FILTER_DATETIME'));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function tableReturnsExpectedTable()
+	{
+		$customDb = clone Factory::getDbo();
+
+		$this->assertNotSame($customDb, Factory::getDbo());
+
+		$entity = new Entity;
+
+		$config = [
+			'dbo' => $customDb
+		];
+
+		$table = $entity->table('Content', 'JTable', $config);
+
+		$reflection = new \ReflectionClass($table);
+		$dbProperty = $reflection->getProperty('_db');
+		$dbProperty->setAccessible(true);
+
+		$this->assertInstanceOf(Table::class, $table);
+		$this->assertSame($customDb, $dbProperty->getValue($table));
 	}
 
 	/**

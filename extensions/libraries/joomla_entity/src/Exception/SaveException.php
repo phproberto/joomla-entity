@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 /**
  * Errors saving entity.
  *
- * @since  __DEPLOY_VERISON__
+ * @since  1.0.0
  */
 class SaveException extends \RuntimeException implements ExceptionInterface
 {

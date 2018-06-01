@@ -9,6 +9,5 @@ node_modules/
 composer.lock
 
 # Tests
-/clover.xml
-coverage/
+/tests/coverage
 phpunit.xml

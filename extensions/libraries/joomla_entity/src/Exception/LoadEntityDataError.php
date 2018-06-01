@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Contracts\ExceptionInterface;
 /**
  * Invalid entity data errors.
  *
- * @since  __DEPLOY_VERISON__
+ * @since  1.0.0
  */
 class LoadEntityDataError extends \RuntimeException implements ExceptionInterface
 {
