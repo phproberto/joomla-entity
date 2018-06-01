@@ -149,18 +149,13 @@ trait HasFields
 		$this->fieldValues = array();
 
 		/** @var Field $field */
-		$field = $fields->rewind();
-
-		while ($field)
+		foreach ($fields as $field)
 		{
 			$this->fieldValues[$field->id] = array(
 				'name' => $field->get('name'),
 				'value' => $field->has('value') ? $field->get('value') : '',
 				'rawvalue' => $field->has('rawvalue') ? $field->get('rawvalue') : ''
 			);
-
-			/** @var Field $field */
-			$field = $fields->next();
 		}
 
 		return $this->fieldValues;
