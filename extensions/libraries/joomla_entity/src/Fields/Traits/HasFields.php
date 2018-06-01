@@ -62,6 +62,31 @@ trait HasFields
 	}
 
 	/**
+	 * Deprecated function for getting a single field value
+	 *
+	 * @param   integer  $id       Field which value we want to retrieve.
+	 * @param   mixed    $default  Value to use as default if value is null
+	 * @param   boolean  $raw      Return raw field value
+	 *
+	 * @return  mixed
+	 *
+	 * @deprecated   Use field($id)->value() or field($id)->rawValue()
+	 */
+	public function fieldValue($id, $default = null, $raw = false)
+	{
+		if ($raw)
+		{
+			$value = $this->field($id)->rawValue();
+
+			return (is_null($value) ? $default : $value);
+		}
+
+		$value = $this->field($id)->value();
+
+		return (is_null($value) ? $default : $value);
+	}
+
+	/**
 	 * Get associated fields.
 	 *
 	 * @param   boolean  $reload  Force data reloading
@@ -75,7 +100,7 @@ trait HasFields
 			$this->fields = $this->loadFields();
 		}
 
-		return new Collection($this->fields);
+		return $this->fields;
 	}
 
 	/**
@@ -103,7 +128,7 @@ trait HasFields
 	/**
 	 * Load associated fields from DB.
 	 *
-	 * @return  array
+	 * @return  Collection
 	 */
 	protected function loadFields()
 	{
@@ -117,7 +142,7 @@ trait HasFields
 			)
 		);
 
-		return $fields;
+		return new Collection($fields);
 	}
 
 	/**
