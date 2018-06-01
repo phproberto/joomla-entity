@@ -24,7 +24,7 @@ trait HasFields
 	/**
 	 * Associated fields
 	 *
-	 * @var  array
+	 * @var  Collection
 	 */
 	protected $fields = null;
 
@@ -40,7 +40,7 @@ trait HasFields
 	 *
 	 * @var  array
 	 */
-	protected $fieldValues = null;
+	protected $fieldValues;
 
 	/**
 	 * Retrieve the associated component.
