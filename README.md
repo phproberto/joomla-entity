@@ -1,8 +1,6 @@
 # Joomla! Entity library
 
 [![Build Status](https://travis-ci.org/phproberto/joomla-entity.svg?branch=master)](https://travis-ci.org/phproberto/joomla-entity)
-[![Code Coverage](https://scrutinizer-ci.com/g/phproberto/joomla-entity/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phproberto/joomla-entity/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phproberto/joomla-entity/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phproberto/joomla-entity/?branch=master)
 
 > Semantical entities for Joomla!
 
@@ -43,7 +41,7 @@ This library allows you to use something like:
 ```php
 use Phproberto\Joomla\Entity\Content\Article;
 
-$article = Article::instance(1);
+$article = Article::find(1);
 ```
 
 Here `$article` is an entity. An object that exposes its logic for you to use it. Not an end point anymore but a tool that exposes its available resources to you.
@@ -115,7 +113,7 @@ With the first stable version I will publish a repository that will contain a li
 
 ## Documentation <a id="documentation"></a>
 
-See [documentation](./docs/README.md) for detailed documentation.
+See [https://phproberto.github.io/joomla-entity/](https://phproberto.github.io/joomla-entity) for detailed documentation.
 
 ## Requirements <a id="requirements"></a>
 
@@ -126,4 +124,4 @@ See [documentation](./docs/README.md) for detailed documentation.
 
 This library is licensed under [GNU LESSER GENERAL PUBLIC LICENSE](./LICENSE).  
 
-Copyright (C) 2017 [Roberto Segura López](http://phproberto.com) - All rights reserved.  
+Copyright (C) 2017-2018 [Roberto Segura López](http://phproberto.com) - All rights reserved.  
