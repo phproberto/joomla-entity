@@ -55,10 +55,7 @@ trait HasFields
 			throw new \InvalidArgumentException($msg);
 		}
 
-		/** @var Field $field */
-		$field = $fields->get($id);
-
-		return $field;
+		return $fields->get($id);
 	}
 
 	/**
