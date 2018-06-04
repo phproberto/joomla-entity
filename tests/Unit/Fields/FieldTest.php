@@ -112,4 +112,61 @@ class FieldTest extends \TestCaseDatabase
 
 		$this->assertInstanceOf('JTableUser', $field->table('User', 'JTable'));
 	}
+
+	/**
+	 * Field name retrieved
+	 *
+	 * @return  void
+	 */
+	public function testNameRetrieved()
+	{
+		$field = new Field(999);
+
+		$reflection = new \ReflectionClass($field);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($field, array('id' => 999, 'name' => 'field_name'));
+
+		$this->assertSame('field_name', $field->fieldName());
+	}
+
+	/**
+	 * Field value retrieved
+	 *
+	 * @return  void
+	 */
+	public function testValueRetrieved()
+	{
+		$field = new Field(999);
+
+		$reflection = new \ReflectionClass($field);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($field, array('id' => 999, 'value' => 100));
+
+		$this->assertSame(100, $field->value());
+	}
+
+	/**
+	 * Field value retrieved
+	 *
+	 * @return  void
+	 */
+	public function testRawValueRetrieved()
+	{
+		$field = new Field(999);
+
+		$reflection = new \ReflectionClass($field);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+
+		$rowProperty->setValue($field, array('id' => 999, 'rawvalue' => array('x' => 'dummy')));
+
+		$expected = array('x' => 'dummy');
+
+		$this->assertEquals($expected, $field->rawValue());
+	}
+
 }

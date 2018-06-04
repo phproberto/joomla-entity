@@ -1,3 +1,6 @@
+# PHPStorm
+/.idea/*
+
 # Build
 gulp-config.json
 node_modules/

@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Fields\Traits;
 defined('_JEXEC') || die;
 
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Core\Extension\Component;
 use Phproberto\Joomla\Entity\Fields\Field;
 
 /**
@@ -21,7 +22,7 @@ use Phproberto\Joomla\Entity\Fields\Field;
 trait HasFields
 {
 	/**
-	 * Associated fields.
+	 * Associated fields
 	 *
 	 * @var  Collection
 	 */
@@ -54,11 +55,14 @@ trait HasFields
 			throw new \InvalidArgumentException($msg);
 		}
 
-		return $fields->get($id);
+		/** @var Field $field */
+		$field = $fields->get($id);
+
+		return $field;
 	}
 
 	/**
-	 * Retrieve a field value.
+	 * Deprecated function for getting a single field value
 	 *
 	 * @param   integer  $id       Field which value we want to retrieve.
 	 * @param   mixed    $default  Value to use as default if value is null
@@ -66,20 +70,20 @@ trait HasFields
 	 *
 	 * @return  mixed
 	 *
-	 * @throws  \InvalidArgumentException  If field value is not set
+	 * @deprecated   Use field($id)->value() or field($id)->rawValue()
 	 */
 	public function fieldValue($id, $default = null, $raw = false)
 	{
-		$values = $this->fieldValues($raw);
-
-		if (!array_key_exists($id, $values))
+		if ($raw)
 		{
-			$msg = sprintf('Entity (`%s`) does not have a value assigned for field (`%s`) ', get_class($this), $id);
+			$value = $this->field($id)->rawValue();
 
-			throw new \InvalidArgumentException($msg);
+			return (is_null($value) ? $default : $value);
 		}
 
-		return (null === $values[$id]) ? $default : $values[$id];
+		$value = $this->field($id)->value();
+
+		return (is_null($value) ? $default : $value);
 	}
 
 	/**
@@ -170,7 +174,7 @@ trait HasFields
 	/**
 	 * Get fields using the fields helper
 	 *
-	 * @param   string    $context  Example: com_content.article
+	 * @param   string   $context  Example: com_content.article
 	 *
 	 * @return  array
 	 *
@@ -180,6 +184,6 @@ trait HasFields
 	{
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-		return \FieldsHelper::getFields($context, (object) $this->all());
+		return \FieldsHelper::getFields($context, (object) $this->all(), true);
 	}
 }

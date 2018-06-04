@@ -46,4 +46,34 @@ class Field extends ComponentEntity implements Publishable
 
 		return parent::table($name, $prefix, $options);
 	}
+
+	/**
+	 * Field name getter
+	 *
+	 * @return   string
+	 */
+	public function fieldName()
+	{
+		return $this->get('name');
+	}
+
+	/**
+	 * Field value getter
+	 *
+	 * @return   string
+	 */
+	public function value()
+	{
+		return $this->get('value');
+	}
+
+	/**
+	 * Field raw value getter
+	 *
+	 * @return   string
+	 */
+	public function rawValue()
+	{
+		return $this->get('rawvalue');
+	}
 }

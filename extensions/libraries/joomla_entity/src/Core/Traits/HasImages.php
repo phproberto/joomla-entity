@@ -126,6 +126,11 @@ trait HasImages
 	 */
 	protected function loadImages()
 	{
+		if (!$this->isLoaded())
+		{
+			return array();
+		}
+
 		$data = (array) $this->json($this->columnAlias(Column::IMAGES));
 
 		$images = array();

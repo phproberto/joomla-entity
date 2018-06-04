@@ -171,6 +171,9 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 			->willReturn('img');
 
 		$reflection = new \ReflectionClass($mock);
+		$idProperty = $reflection->getProperty('id');
+		$idProperty->setAccessible(true);
+		$idProperty->setValue($mock, 999);
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
@@ -184,6 +187,7 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 				'caption' => 'Caption text'
 			)
 		);
+
 		$this->assertEquals($expected, $mock->getImages());
 	}
 
