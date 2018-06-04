@@ -97,14 +97,7 @@ trait HasFields
 	 */
 	public function fieldValue($id, $default = null, $raw = false)
 	{
-		if ($raw)
-		{
-			$value = $this->field($id)->rawValue();
-
-			return (is_null($value) ? $default : $value);
-		}
-
-		$value = $this->field($id)->value();
+		$value = $raw ? $this->field($id)->rawValue() : $this->field($id)->value();
 
 		return (is_null($value) ? $default : $value);
 	}
@@ -118,18 +111,11 @@ trait HasFields
 	 */
 	public function fieldValues($raw = false)
 	{
-		$values = array();
-		$fields = $this->fields();
+		$values = [];
 
-		if ($fields->isEmpty())
+		foreach ($this->fields() as $field)
 		{
-			return $values;
-		}
-
-		foreach ($fields as $field)
-		{
-			$property = $raw ? 'rawvalue' : 'value';
-			$values[$field->id()] = $field->get($property);
+			$values[$field->id()] = $raw ? $field->rawValue() : $field->value();
 		}
 
 		return $values;
