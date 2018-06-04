@@ -60,15 +60,27 @@ class Field extends ComponentEntity implements Publishable
 	}
 
 	/**
-	 * Field value getter
+	 * Check if this field has a raw value assigned.
 	 *
-	 * @return   string
+	 * @return  boolean
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function value()
+	public function hasRawValue()
 	{
-		return $this->get('value');
+		return $this->has('rawvalue');
+	}
+
+	/**
+	 * Check if this field has a value assigned.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasValue()
+	{
+		return $this->has('value');
 	}
 
 	/**
@@ -81,5 +93,17 @@ class Field extends ComponentEntity implements Publishable
 	public function rawValue()
 	{
 		return $this->get('rawvalue');
+	}
+
+	/**
+	 * Field value getter
+	 *
+	 * @return   string
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public function value()
+	{
+		return $this->get('value');
 	}
 }
