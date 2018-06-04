@@ -51,6 +51,8 @@ class Field extends ComponentEntity implements Publishable
 	 * Field name getter
 	 *
 	 * @return   string
+	 *
+	 * @since    __DEPLOY_VERSION__
 	 */
 	public function fieldName()
 	{
@@ -61,6 +63,8 @@ class Field extends ComponentEntity implements Publishable
 	 * Field value getter
 	 *
 	 * @return   string
+	 *
+	 * @since    __DEPLOY_VERSION__
 	 */
 	public function value()
 	{
@@ -71,6 +75,8 @@ class Field extends ComponentEntity implements Publishable
 	 * Field raw value getter
 	 *
 	 * @return   string
+	 *
+	 * @since    __DEPLOY_VERSION__
 	 */
 	public function rawValue()
 	{
