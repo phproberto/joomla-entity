@@ -59,6 +59,32 @@ trait HasFields
 	}
 
 	/**
+	 * Get a specific entity field by its name.
+	 *
+	 * @param   string  $name  Field name
+	 *
+	 * @return  Field
+	 *
+	 * @throws  \InvalidArgumentException  Entity does not have specified field
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function fieldByName($name)
+	{
+		foreach ($this->fields() as $field)
+		{
+			if ($name === $field->get('name'))
+			{
+				return $field;
+			}
+		}
+
+		$msg = sprintf('Entity %s does not have field %s', get_class($this), $name);
+
+		throw new \InvalidArgumentException($msg);
+	}
+
+	/**
 	 * Deprecated function for getting a single field value
 	 *
 	 * @param   integer  $id       Field which value we want to retrieve.

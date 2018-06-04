@@ -21,6 +21,45 @@ use Phproberto\Joomla\Entity\Tests\Unit\Fields\Traits\Stubs\EntityWithFields;
 class HasFieldsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * Data provider for tests that required fields data.
+	 *
+	 * @return  array
+	 */
+	public function fieldProvider()
+	{
+		return [
+			[
+				[
+					[
+						'id'       => 123,
+						'context'  => 'com_content.article',
+						'title'    => 'Field test',
+						'name'     => 'field-test',
+						'state'    => 1,
+						'required' => 1
+					],
+					[
+						'id'       => 124,
+						'context'  => 'com_content.article',
+						'title'    => 'Another field test',
+						'name'     => 'another-field-test',
+						'state'    => 0,
+						'required' => 1
+					],
+					[
+						'id'       => 164,
+						'context'  => 'com_content.article',
+						'title'    => 'Yet another field test',
+						'name'     => 'yet-another-field-test',
+						'state'    => 0,
+						'required' => 0
+					]
+				]
+			]
+		];
+	}
+
+	/**
 	 * field returns correct field.
 	 *
 	 * @return  void
@@ -121,6 +160,58 @@ class HasFieldsTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(new Collection, $entity->fields());
 		$this->assertEquals(new Collection,  $entity->fields());
 		$this->assertEquals($reloadCollection,  $entity->fields(true));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @dataProvider  fieldProvider
+	 *
+	 * @return void
+	 */
+	public function fieldByNameReturnsFieldIfFound(array $fieldsData)
+	{
+		$fields = new Collection(
+			array_map(
+				function ($fieldData)
+				{
+					return (new Field($fieldData['id']))->bind($fieldData);
+				},
+				$fieldsData
+			)
+		);
+
+		$entity = $this->getMockBuilder(EntityWithFields::class)
+			->setMethods(array('loadFields'))
+			->getMock();
+
+		$entity->expects($this->at(0))
+			->method('loadFields')
+			->willReturn($fields);
+
+		$this->assertSame('another-field-test', $entity->fieldByName('another-field-test')->get('name'));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 *
+	 * @expectedException  \InvalidArgumentException
+	 */
+	public function fieldByNameThrowsExceptionIfNotFound()
+	{
+		$fields = new Collection;
+
+		$entity = $this->getMockBuilder(EntityWithFields::class)
+			->setMethods(array('fields'))
+			->getMock();
+
+		$entity
+			->method('fields')
+			->willReturn($fields);
+
+		$entity->fieldByName('my-name');
 	}
 
 	/**
