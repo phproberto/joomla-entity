@@ -34,11 +34,47 @@ class FieldTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * params returns parameters.
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function hasRawValueReturnsCorrectValue()
+	{
+		$field = new Field(12);
+		$field->bind(['id' => 12, 'title' => 'Test field']);
+
+		$this->assertFalse($field->hasRawValue());
+
+		$field = new Field(14);
+		$field->bind(['id' => 14, 'title' => 'Another field', 'rawvalue' => 'My value']);
+
+		$this->assertTrue($field->hasRawValue());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function hasValueReturnsCorrectValue()
+	{
+		$field = new Field(12);
+		$field->bind(['id' => 12, 'title' => 'Test field']);
+
+		$this->assertFalse($field->hasValue());
+
+		$field = new Field(14);
+		$field->bind(['id' => 14, 'title' => 'Another field', 'value' => 'My value']);
+
+		$this->assertTrue($field->hasValue());
+	}
+
+	/**
+	 * @test
 	 *
 	 * @return  void
 	 */
-	public function testParamsReturnsParameters()
+	public function paramsReturnsParameters()
 	{
 		$field = $this->getMockBuilder(Field::class)
 			->setMethods(array('columnAlias'))
@@ -53,11 +89,11 @@ class FieldTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * getState returns correct value.
+	 * @test
 	 *
 	 * @return  void
 	 */
-	public function testGetStateReturnsCorrectValue()
+	public function stateReturnsCorrectValue()
 	{
 		$field = $this->getMockBuilder(Field::class)
 			->setMethods(array('columnAlias'))
@@ -76,11 +112,11 @@ class FieldTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * table returns correct instance.
+	 * @test
 	 *
 	 * @return  void
 	 */
-	public function testTableReturnsCorrectInstance()
+	public function tableReturnsCorrectInstance()
 	{
 		$component = $this->getMockBuilder(Component::class)
 			->setMethods(array('table'))
@@ -102,11 +138,11 @@ class FieldTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * table returns a specific table instance.
+	 * @test
 	 *
 	 * @return  void
 	 */
-	public function testTableReturnsSpecificTableInstance()
+	public function tableReturnsSpecificTableInstance()
 	{
 		$field = new Field;
 
@@ -114,11 +150,11 @@ class FieldTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * Field name retrieved
+	 * @test
 	 *
 	 * @return  void
 	 */
-	public function testNameRetrieved()
+	public function nameRetrieved()
 	{
 		$field = new Field(999);
 
@@ -132,11 +168,11 @@ class FieldTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * Field value retrieved
+	 * @test
 	 *
 	 * @return  void
 	 */
-	public function testValueRetrieved()
+	public function valueRetrieved()
 	{
 		$field = new Field(999);
 
@@ -150,11 +186,11 @@ class FieldTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * Field value retrieved
+	 * @test
 	 *
 	 * @return  void
 	 */
-	public function testRawValueRetrieved()
+	public function rawValueRetrieved()
 	{
 		$field = new Field(999);
 
@@ -168,5 +204,4 @@ class FieldTest extends \TestCaseDatabase
 
 		$this->assertEquals($expected, $field->rawValue());
 	}
-
 }
