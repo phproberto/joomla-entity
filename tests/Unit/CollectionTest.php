@@ -269,6 +269,38 @@ class CollectionTest extends \TestCase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function fitlerReturnsANewCollection()
+	{
+		$collection = new Collection;
+
+		$entities = array(
+			1000 => new Entity(1000),
+			1001 => new Entity(1001)
+		);
+
+		$collection = new Collection($entities);
+
+		$this->assertSame(2, $collection->count());
+
+		$newCollection = $collection->filter(
+			function ($entity)
+			{
+				return $entity->id() === 1000;
+			}
+		);
+
+		$this->assertNotSame($newCollection, $collection);
+		$this->assertSame(1, $newCollection->count());
+		$this->assertSame(1000, $newCollection[1000]->id());
+	}
+
+	/**
 	 * getIterator returns correct iterator.
 	 *
 	 * @return  void

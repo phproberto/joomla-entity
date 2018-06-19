@@ -136,6 +136,20 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 	}
 
 	/**
+	 * Retrieve a new collection applying a filtering function.
+	 *
+	 * @param   callable  $function  Filter function
+	 *
+	 * @return  static
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function filter(callable $function)
+	{
+		return new static(array_filter($this->clonedEntities(), $function));
+	}
+
+	/**
 	 * Get the first entity in the collection.
 	 *
 	 * @return  mixed  EntityInterface | FALSE if no entities
