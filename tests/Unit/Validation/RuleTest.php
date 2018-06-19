@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Stubs\Entity;
 /**
  * Base rule tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class RuleTest extends \TestCase
 {

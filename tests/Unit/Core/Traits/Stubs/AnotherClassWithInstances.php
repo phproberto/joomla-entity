@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\Unit\Core\Traits\Stubs;
 /**
  * Sample class to test HasInstances trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class AnotherClassWithInstances extends ClassWithInstances
 {

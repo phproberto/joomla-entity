@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Users\Traits\Stubs\EntityWithUsers;
 /**
  * HasUsers trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasUsersTest extends \PHPUnit\Framework\TestCase
 {

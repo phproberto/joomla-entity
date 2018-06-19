@@ -67,7 +67,7 @@ trait HasFields
 	 *
 	 * @throws  \InvalidArgumentException  Entity does not have specified field
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.1.0
 	 */
 	public function fieldByName($name)
 	{

@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Core\Traits\Stubs\EntityWithState;
 /**
  * HasState trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasStateWithCustomColumnTest extends HasStateTest
 {

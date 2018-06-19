@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasUrls;
 /**
  * Sample entity to test HasUrls trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithUrls extends Entity
 {

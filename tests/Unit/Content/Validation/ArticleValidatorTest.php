@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
 /**
  * ArticleValidator tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class ArticleValidatorTest extends \TestCase
 {

@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Users\Traits\HasUsers;
 /**
  * Sample class to test HasUsers traits.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  *
  * @codeCoverageIgnore
  */

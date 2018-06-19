@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Validable;
 /**
  * Entity to test HasValidation trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithValidation extends ComponentEntity implements Validable
 {

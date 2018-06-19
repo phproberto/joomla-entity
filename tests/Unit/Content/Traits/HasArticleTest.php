@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Content\Traits\Stubs\ClassWithArticle;
 /**
  * HasArticle trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasArticleTest extends \PHPUnit\Framework\TestCase
 {

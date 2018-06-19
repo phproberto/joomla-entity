@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Content\Traits\HasArticles;
 /**
  * Sample class to test HasArticles trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class ClassWithArticles extends Entity
 {

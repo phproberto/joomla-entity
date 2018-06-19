@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasPublishDown;
 /**
  * Sample entity to test HasPublishDown trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithPublishDown extends Entity
 {

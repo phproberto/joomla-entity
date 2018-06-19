@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 /**
  * Entity to test Acl decorator.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class OwnerableEntityWithAcl extends ComponentEntity implements Aclable, Ownerable
 {

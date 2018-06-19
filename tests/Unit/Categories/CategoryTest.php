@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Categories\Category;
 /**
  * Category entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class CategoryTest extends \TestCaseDatabase
 {

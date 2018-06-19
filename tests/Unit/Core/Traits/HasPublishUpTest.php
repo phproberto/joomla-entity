@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Core\Traits\Stubs\EntityWithPublishUp;
 /**
  * HasPublishUp trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasPublishUpTest extends \PHPUnit\Framework\TestCase
 {

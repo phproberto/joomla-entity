@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasState;
 /**
  * Sample entity to test HasState trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithState extends Entity
 {

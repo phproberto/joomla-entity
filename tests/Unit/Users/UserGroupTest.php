@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Users\UserGroup;
 /**
  * UserGroup entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class UserGroupTest extends \TestCaseDatabase
 {

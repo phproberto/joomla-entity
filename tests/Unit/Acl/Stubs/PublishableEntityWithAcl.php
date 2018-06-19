@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 /**
  * Entity to test Acl decorator.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class PublishableEntityWithAcl extends ComponentEntity implements Aclable, Publishable
 {

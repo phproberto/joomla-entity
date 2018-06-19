@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Categories\Traits\Stubs\ClassWithCategor
 /**
  * HasCategory trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasCategoryTest extends \PHPUnit\Framework\TestCase
 {

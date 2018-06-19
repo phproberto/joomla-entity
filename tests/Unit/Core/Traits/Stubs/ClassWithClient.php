@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasClient;
 /**
  * Sample class to test HasClient trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class ClassWithClient extends Entity
 {

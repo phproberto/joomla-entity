@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasInstances;
 /**
  * Sample class to test HasInstances trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class ClassWithInstances
 {

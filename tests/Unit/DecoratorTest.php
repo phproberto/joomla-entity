@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Stubs\Entity;
 /**
  * Base decorator tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class DecoratorTest extends \TestCase
 {

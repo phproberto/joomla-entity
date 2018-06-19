@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Categories\Traits\HasCategory;
 /**
  * Sample class to test HasCategory trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class ClassWithCategory extends Entity
 {

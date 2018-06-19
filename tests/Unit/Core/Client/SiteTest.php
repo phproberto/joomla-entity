@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Core\Client\Site;
 /**
  * Tests for Site client.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class SiteTest extends \TestCase
 {

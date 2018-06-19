@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasMetadata;
 /**
  * Sample entity to test HasMetadata trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithMetadata extends Entity
 {

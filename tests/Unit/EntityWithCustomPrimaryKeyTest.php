@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Stubs\EntityWithCustomPrimaryKey;
 /**
  * Entity test.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class EntityWithCustomPrimaryKeyTest extends EntityTest
 {

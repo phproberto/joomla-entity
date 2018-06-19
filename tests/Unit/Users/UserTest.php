@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 /**
  * User entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class UserTest extends \TestCaseDatabase
 {

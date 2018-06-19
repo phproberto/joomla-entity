@@ -20,7 +20,7 @@ use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
 /**
  * Article entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class ArticleTest extends \TestCaseDatabase
 {

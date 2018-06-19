@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Users\Traits\Stubs\EntityWithAuthorAndEd
 /**
  * HasEditor trait tests for entities with custom editor column.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasEditorWithCustomColumnTest extends HasEditorTest
 {

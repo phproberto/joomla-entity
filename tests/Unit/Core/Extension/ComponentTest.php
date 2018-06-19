@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Extension\Component;
 /**
  * Component entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class ComponentTest extends \TestCaseDatabase
 {

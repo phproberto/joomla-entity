@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Validation\Rule\CustomRule;
 /**
  * CustomRule tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class CustomRuleTest extends \TestCase
 {

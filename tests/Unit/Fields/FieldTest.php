@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Core\Extension\Component;
 /**
  * Field entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class FieldTest extends \TestCaseDatabase
 {

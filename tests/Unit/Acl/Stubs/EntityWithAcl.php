@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 /**
  * Entity to test Acl decorator.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithAcl extends ComponentEntity implements Aclable
 {

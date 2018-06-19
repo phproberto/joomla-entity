@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Translation\Stubs\TranslatableEntity;
 /**
  * Translator decorator tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class TranslatorTest extends \TestCase
 {

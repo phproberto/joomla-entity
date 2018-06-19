@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
 /**
  * Sample entity to test HasTranslations trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithTranslations extends Entity
 {
