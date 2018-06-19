@@ -192,6 +192,22 @@ class HasImagesTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function loadImagesReturnsEmptyArrayForNotLoadedEntity()
+	{
+		$entity = new EntityWithImages;
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadImages');
+		$method->setAccessible(true);
+
+		$this->assertSame([], $method->invoke($entity));
+	}
+
+	/**
 	 * Get a mocked entity with client.
 	 *
 	 * @param   array  $row  Row returned by the entity as data
