@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Client\Site;
 /**
  * Tests for HasExtension trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class ClientTest extends \TestCase
 {

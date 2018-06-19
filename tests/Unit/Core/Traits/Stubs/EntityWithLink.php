@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasLink;
 /**
  * Sample entity to test HasLink trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithLink extends Entity
 {

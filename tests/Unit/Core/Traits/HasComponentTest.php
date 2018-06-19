@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Core\Traits\Stubs\ClassWithComponent;
 /**
  * HasComponent trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasComponentTest extends \TestCaseDatabase
 {

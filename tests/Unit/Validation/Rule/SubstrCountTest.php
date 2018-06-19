@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Validation\Rule\SubstrCount;
 /**
  * SubstrCount tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class SubstrCountTest extends \TestCase
 {

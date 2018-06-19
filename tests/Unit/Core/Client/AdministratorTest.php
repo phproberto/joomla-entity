@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Core\Client\Administrator;
 /**
  * Tests for Administrator client.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class AdministratorTest extends \TestCase
 {

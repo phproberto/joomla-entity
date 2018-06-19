@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasImages;
 /**
  * Sample entity to test HasImages trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithImages extends Entity
 {

@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasFeatured;
 /**
  * Sample entity to test HasFeatured trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithFeatured extends Entity
 {

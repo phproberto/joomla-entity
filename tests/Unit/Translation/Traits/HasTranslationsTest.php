@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Translation\Traits\Stubs\EntityWithTrans
 /**
  * HasTranslations trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasTranslationsTest extends \PHPUnit\Framework\TestCase
 {

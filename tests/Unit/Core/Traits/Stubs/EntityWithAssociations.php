@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasAssociations;
 /**
  * Sample entity to test HasAssociations trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  *
  * @codeCoverageIgnore
  */

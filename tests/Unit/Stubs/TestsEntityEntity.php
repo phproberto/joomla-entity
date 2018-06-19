@@ -11,7 +11,7 @@ use Phproberto\Joomla\Entity\Entity as BaseEntity;
 /**
  * Stub to test Entity class.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class TestsEntityEntity extends BaseEntity
 {

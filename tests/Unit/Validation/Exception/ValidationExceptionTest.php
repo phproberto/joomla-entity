@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 /**
  * ValidationException tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class ValidationExceptionTest extends \TestCase
 {

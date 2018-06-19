@@ -142,7 +142,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 	 *
 	 * @return  static
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.1.0
 	 */
 	public function filter(callable $function)
 	{

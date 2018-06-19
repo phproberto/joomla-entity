@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Acl\Stubs\PublishableEntityWithAcl;
 /**
  * Acl decorator tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class AclTest extends \TestCase
 {

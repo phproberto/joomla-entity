@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Collection;
 /**
  * Entity collection tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class CollectionTest extends \TestCase
 {
@@ -273,7 +273,7 @@ class CollectionTest extends \TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.1.0
 	 */
 	public function fitlerReturnsANewCollection()
 	{

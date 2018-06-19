@@ -52,7 +52,7 @@ class Field extends ComponentEntity implements Publishable
 	 *
 	 * @return   string
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    1.1.0
 	 */
 	public function fieldName()
 	{
@@ -64,7 +64,7 @@ class Field extends ComponentEntity implements Publishable
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.1.0
 	 */
 	public function hasRawValue()
 	{
@@ -76,7 +76,7 @@ class Field extends ComponentEntity implements Publishable
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.1.0
 	 */
 	public function hasValue()
 	{
@@ -88,7 +88,7 @@ class Field extends ComponentEntity implements Publishable
 	 *
 	 * @return   string
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    1.1.0
 	 */
 	public function rawValue()
 	{
@@ -100,7 +100,7 @@ class Field extends ComponentEntity implements Publishable
 	 *
 	 * @return   string
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    1.1.0
 	 */
 	public function value()
 	{

@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Users\Traits\Stubs\EntityWithAuthorAndEd
 /**
  * HasAuthor trait tests for entities with custom author column.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasAuthorWithCustomColumnTest extends HasAuthorTest
 {

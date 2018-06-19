@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 /**
  * Sample class to test HasOwner trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  *
  * @codeCoverageIgnore
  */

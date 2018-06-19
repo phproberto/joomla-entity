@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Fields\Traits\HasFields;
 /**
  * Entity to test HasFields trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithFields extends ComponentEntity
 {

@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * HasParams trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasParamsTest extends \PHPUnit\Framework\TestCase
 {

@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Acl\Stubs\EntityWithAcl;
 /**
  * HasAcl trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasAclTest extends \PHPUnit\Framework\TestCase
 {

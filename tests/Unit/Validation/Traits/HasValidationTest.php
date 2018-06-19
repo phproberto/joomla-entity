@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Validation\Traits\Stubs\EntityWithValida
 /**
  * HasValidation trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasValidationTest extends \PHPUnit\Framework\TestCase
 {

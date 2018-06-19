@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Fields\Traits\Stubs\EntityWithFields;
 /**
  * HasTags trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasFieldsTest extends \PHPUnit\Framework\TestCase
 {

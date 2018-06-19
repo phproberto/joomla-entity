@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasAccess;
 /**
  * Sample entity to test HasAccess trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class EntityWithAccess extends Entity
 {

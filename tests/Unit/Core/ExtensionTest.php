@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Client\Site;
 /**
  * Extension entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class ExtensionTest extends \TestCaseDatabase
 {

@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Content\Category;
 /**
  * Content category entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class CategoryTest extends \PHPUnit\Framework\TestCase
 {

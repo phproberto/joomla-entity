@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
 /**
  * Sample class to test HasTags trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  */
 class ClassWithTags extends Entity
 {

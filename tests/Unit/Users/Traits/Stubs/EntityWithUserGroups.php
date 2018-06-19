@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Users\Traits\HasUserGroups;
 /**
  * Sample class to test HasUserGroups traits.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.1.0
  *
  * @codeCoverageIgnore
  */

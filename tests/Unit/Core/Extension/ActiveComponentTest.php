@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
 /**
  * Component entity tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class ActiveComponentTest extends \TestCaseDatabase
 {

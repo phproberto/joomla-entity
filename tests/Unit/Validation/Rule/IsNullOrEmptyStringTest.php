@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Validation\Rule\IsNullOrEmptyString;
 /**
  * IsNullOrEmptyString tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class IsNullOrEmptyStringTest extends \TestCase
 {

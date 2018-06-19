@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Core\Traits\Stubs\ClassWithClient;
 /**
  * HasClient trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.1.0
  */
 class HasClientTest extends \PHPUnit\Framework\TestCase
 {
