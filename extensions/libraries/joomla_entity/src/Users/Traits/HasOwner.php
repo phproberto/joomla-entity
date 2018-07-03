@@ -48,11 +48,14 @@ trait HasOwner
 	 * Check if this entity has an owner.
 	 *
 	 * @return  boolean
-	 *
-	 * @throws  \InvalidArgumentException
 	 */
 	public function hasOwner()
 	{
+		if (!$this->has($this->columnAlias(Column::OWNER)))
+		{
+			return false;
+		}
+
 		return 0 !== (int) $this->get($this->columnAlias(Column::OWNER));
 	}
 
