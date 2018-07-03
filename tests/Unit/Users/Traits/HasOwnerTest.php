@@ -70,8 +70,7 @@ class HasOwnerTest extends \TestCaseDatabase
 			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$class->expects($this->once())
-			->method('columnAlias')
+		$class->method('columnAlias')
 			->willReturn(static::OWNER_COLUMN);
 
 		$reflection = new \ReflectionClass($class);
@@ -88,34 +87,31 @@ class HasOwnerTest extends \TestCaseDatabase
 	}
 
 	/**
-	 * hasOwner throws exception for missing owner column.
+	 * @test
 	 *
-	 * @return  void
-	 *
-	 * @expectedException  \InvalidArgumentException
+	 * @return void
 	 */
-	public function testHasOwnerThrowsExceptionFormissingOwnerColumn()
+	public function hasOwnerReturnFalseWhenNoOwnerColumnExists()
 	{
-		$class = $this->getMockBuilder(EntityWithOwner::class)
+		$entity = $this->getMockBuilder(EntityWithOwner::class)
 			->disableOriginalConstructor()
 			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$class->expects($this->once())
-			->method('columnAlias')
+		$entity->method('columnAlias')
 			->willReturn(static::OWNER_COLUMN);
 
-		$reflection = new \ReflectionClass($class);
+		$reflection = new \ReflectionClass($entity);
 
 		$idProperty = $reflection->getProperty('id');
 		$idProperty->setAccessible(true);
-		$idProperty->setValue($class, 999);
+		$idProperty->setValue($entity, 999);
 
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
-		$rowProperty->setValue($class, array('id' => 999));
+		$rowProperty->setValue($entity, array('id' => 999, 'name' => 'Test'));
 
-		$this->assertSame(true, $class->hasOwner());
+		$this->assertFalse($entity->hasOwner());
 	}
 
 	/**
