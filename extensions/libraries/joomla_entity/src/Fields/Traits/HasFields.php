@@ -161,6 +161,18 @@ trait HasFields
 	}
 
 	/**
+	 * Check if this entity has fields.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasFields()
+	{
+		return !$this->fields()->isEmpty();
+	}
+
+	/**
 	 * Load associated fields from DB.
 	 *
 	 * @return  Collection
