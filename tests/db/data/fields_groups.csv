@@ -1,0 +1,2 @@
+'id','asset_id','context','title','note','description','state','checked_out','checked_out_time','ordering','params','language','created','created_by','modified','modified_by','access'
+'1','184','com_content.article','Cars','','','1','0','0000-00-00 00:00:00','0','{"display_readonly":"1"}','*','2018-07-05 21:42:16','321','0000-00-00 00:00:00','0','1'
