@@ -17,6 +17,7 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
+use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
 use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
 
 /**
@@ -24,7 +25,7 @@ use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
  *
  * @since   1.0.0
  */
-class Category extends ComponentEntity implements Publishable
+class Category extends ComponentEntity implements Publishable, Translatable
 {
 	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasState;
 	use HasTranslations;

@@ -12,6 +12,7 @@ use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Categories\Category;
+use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
 
 /**
  * Category entity tests.
@@ -20,6 +21,18 @@ use Phproberto\Joomla\Entity\Categories\Category;
  */
 class CategoryTest extends \TestCaseDatabase
 {
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function implementsTranslatable()
+	{
+		$category = new Category;
+
+		$this->assertTrue($category instanceof Translatable);
+	}
+
 	/**
 	 * This method is called before the first test of this test class is run.
 	 *
