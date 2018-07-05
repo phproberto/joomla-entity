@@ -383,6 +383,27 @@ class HasFieldsTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function hasFieldsReturnsCorrectValue()
+	{
+		$fields = new Collection(array(Field::find(999), Field::find(1000)));
+
+		$entity = $this->getMockBuilder(EntityWithFields::class)
+			->setMethods(array('fields'))
+			->getMock();
+
+		$entity
+			->method('fields')
+			->will($this->onConsecutiveCalls(new Collection, $fields));
+
+		$this->assertFalse($entity->hasFields());
+		$this->assertTrue($entity->hasFields());
+	}
+
+	/**
 	 * loadFields returns correct value.
 	 *
 	 * @return  void
