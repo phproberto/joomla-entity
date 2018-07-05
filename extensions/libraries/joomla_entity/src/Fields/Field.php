@@ -10,7 +10,9 @@ namespace Phproberto\Joomla\Entity\Fields;
 
 defined('_JEXEC') || die;
 
+use Phproberto\Joomla\Entity\Fields\Column;
 use Phproberto\Joomla\Entity\ComponentEntity;
+use Phproberto\Joomla\Entity\Fields\FieldGroup;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 
@@ -57,6 +59,37 @@ class Field extends ComponentEntity implements Publishable
 	public function fieldName()
 	{
 		return $this->get('name');
+	}
+
+	/**
+	 * Retrieve this field field group.
+	 *
+	 * @return  FieldGroup
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  \InvalidArgumentException  Field group property not found
+	 */
+	public function fieldGroup()
+	{
+		return FieldGroup::find($this->get($this->columnAlias(Column::FIELD_GROUP)));
+	}
+
+	/**
+	 * Check if this field has an associated field group.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasFieldGroup()
+	{
+		if (!$this->has($this->columnAlias(Column::FIELD_GROUP)))
+		{
+			return false;
+		}
+
+		return 0 !== (int) $this->get($this->columnAlias(Column::FIELD_GROUP));
 	}
 
 	/**
