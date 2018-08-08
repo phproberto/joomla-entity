@@ -12,6 +12,7 @@
     * [assign($property, $value)](#assign)
     * [bind(array $data)](#bind)
     * [date($property, $tz = true)](#date)
+    * [delete($ids)](#delete)
     * [fetch($id)](#fetch)
     * [fetchRow($id)](#fetchRow)
     * [get($property, $default = null)](#get)
@@ -121,6 +122,46 @@ $article->get('title');
 
 ```php
 
+```
+
+### delete($ids) <a id="delete"></a>
+
+> Delete entities by their identifier.  
+
+**Parameters:**
+
+* `integer|array`  *$ids:* Integer or array of integers containing entities identifiers.
+
+**Returns:**
+
+`boolean`
+
+**Throws:**
+
+`Phproberto\Joomla\Entity\Exception\DeleteException` On delete failure.
+
+**Examples:**
+
+```php
+Article::delete(23);
+
+// A DeleteException will be thrown if something fails so at this point we are sure delete worked.
+echo 'Article 23 was successfully deleted';
+
+// Example catching exception
+
+$msg = 'Article 23 was successfully deleted';
+
+try 
+{
+    Article::delete(23);
+} 
+catch (DeleteException $e) 
+{
+    $msg = $e->getMessage();
+}
+
+echo $msg;
 ```
 
 ### date($property, $tz = true) <a id="date"></a>
