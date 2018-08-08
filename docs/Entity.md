@@ -21,6 +21,7 @@
     * [isLoaded()](#isLoaded)
     * [json($property)](#json)
     * [load()](#load)
+    * [loadFromData(array $data)](#loadFromData)
     * [primaryKey()](#primaryKey)
     * [registry($property)](#registry)
     * [save()](#save)
