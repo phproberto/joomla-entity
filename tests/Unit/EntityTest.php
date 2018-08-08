@@ -59,6 +59,7 @@ class EntityTest extends \TestCaseDatabase
 		$this->restoreFactoryState();
 
 		Entity::clearAll();
+		Entity::$tableMock = null;
 
 		parent::tearDown();
 	}
@@ -128,6 +129,69 @@ class EntityTest extends \TestCaseDatabase
 		}
 
 		return $mock;
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function loadFromDataReturnsUnloadedEntityOnLoadFailure()
+	{
+		$tableMock = $this->getMockBuilder('MockedTable')
+			->disableOriginalConstructor()
+			->setMethods(array('load'))
+			->getMock();
+
+		$tableMock->expects($this->once())
+			->method('load')
+			->willReturn(false);
+
+		Entity::$tableMock = $tableMock;
+
+		$entity = Entity::loadFromData([]);
+
+		$this->assertInstanceOf(Entity::class, $entity);
+		$this->assertFalse($entity->isLoaded());
+
+		$entity2 = Entity::loadFromData(['id' => 23]);
+
+		$this->assertInstanceOf(Entity::class, $entity2);
+		$this->assertFalse($entity2->isLoaded());
+		$this->assertNotSame($entity, $entity2);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function loadFromDataReturnsLoadedEntity()
+	{
+		$data = [
+			'name' => 'Grijander'
+		];
+
+		$tableMock = $this->getMockBuilder('MockedTable')
+			->disableOriginalConstructor()
+			->setMethods(array('getProperties', 'load'))
+			->getMock();
+
+		$tableMock->expects($this->once())
+			->method('load')
+			->with($this->equalTo($data))
+			->willReturn(true);
+
+		$tableMock->expects($this->once())
+			->method('getProperties')
+			->willReturn(['id' => 999, 'name' => 'Grijander']);
+
+		Entity::$tableMock = $tableMock;
+
+		$entity = Entity::loadFromData($data);
+
+		$this->assertTrue($entity->isLoaded());
+		$this->assertSame(999, $entity->id());
 	}
 
 	/**

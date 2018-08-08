@@ -442,6 +442,31 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Load an entity from columns data.
+	 *
+	 * @param   array   $data  Data to load the entity
+	 *
+	 * @return  false|static
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function loadFromData(array $data)
+	{
+		$entity = new static;
+
+		$table = $entity->table();
+
+		if (empty($data) || !$table->load($data))
+		{
+			return $entity;
+		}
+
+		$entity->bind($table->getProperties(true));
+
+		return $entity;
+	}
+
+	/**
 	 * Check if entity has been loaded.
 	 *
 	 * @return  boolean
