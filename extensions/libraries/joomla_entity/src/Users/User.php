@@ -13,10 +13,12 @@ defined('_JEXEC') || die;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;
-use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
+use Phproberto\Joomla\Entity\Users\ViewLevel;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
+use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Core\Traits\HasParams;
 use Phproberto\Joomla\Entity\Users\Traits\HasUserGroups;
+use Phproberto\Joomla\Entity\Users\Traits\HasViewLevels;
 
 /**
  * User entity.
@@ -25,7 +27,7 @@ use Phproberto\Joomla\Entity\Users\Traits\HasUserGroups;
  */
 class User extends ComponentEntity implements Aclable
 {
-	use HasAcl, HasParams, HasUserGroups;
+	use HasAcl, HasParams, HasUserGroups, HasViewLevels;
 
 	/**
 	 * Is this user root/super user?
@@ -244,6 +246,25 @@ class User extends ComponentEntity implements Aclable
 		}
 
 		return $userGroups;
+	}
+
+	/**
+	 * Load associated view levels.
+	 *
+	 * @return  Collection
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadViewLevels()
+	{
+		$viewLevels = new Collection;
+
+		foreach ($this->getAuthorisedViewLevels() as $id)
+		{
+			$viewLevels->add(ViewLevel::find($id));
+		}
+
+		return $viewLevels;
 	}
 
 	/**
