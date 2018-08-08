@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tests\Unit\Users;
 
 use Joomla\CMS\Factory;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\ViewLevel;
 
 /**
@@ -68,7 +69,7 @@ class ViewLevelTest extends \TestCaseDatabase
 		Factory::$config      = $this->getMockConfig();
 		Factory::$application = $this->getMockCmsApp();
 
-		$this->entity = ViewLevel::find(1);
+		$this->entity = ViewLevel::find(3);
 	}
 
 	/**
@@ -95,5 +96,46 @@ class ViewLevelTest extends \TestCaseDatabase
 		$this->restoreFactoryState();
 
 		parent::tearDown();
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function userGroupsReturnsEmptyCollectionsForEmptyRules()
+	{
+		$entity = new ViewLevel;
+		$userGroups = $entity->userGroups();
+
+		$this->assertInstanceOf(Collection::class, $userGroups);
+
+		$entity = new ViewLevel;
+		$entity->bind(['id' => 333, 'title' => 'Unexisting1', 'rules' => '']);
+
+		$this->assertSame([], $entity->userGroups()->ids());
+
+		$entity = new ViewLevel;
+		$entity->bind(['id' => 333, 'title' => 'Unexisting2', 'rules' => '[2,4]']);
+
+		$this->assertSame([2,4], $entity->userGroups()->ids());
+
+		$entity = new ViewLevel;
+		$entity->bind(['id' => 222, 'title' => 'Unexisting2', 'rules' => null]);
+
+		$this->assertSame([], $entity->userGroups()->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function userGroupsReturnsExpectedUserGroups()
+	{
+		$userGroups = $this->entity->userGroups();
+
+		$this->assertInstanceOf(Collection::class, $userGroups);
+		$this->assertSame(3, $userGroups->count());
 	}
 }
