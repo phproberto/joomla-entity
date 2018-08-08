@@ -11,6 +11,9 @@
           "homepage": "http://phproberto.com"
       }
   ],
+  "config": {
+    "process-timeout":0
+  },
   "require": {
     "php": "^7.0"
   },
