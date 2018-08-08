@@ -13,6 +13,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Tests\Unit\Stubs\Entity;
+use Phproberto\Joomla\Entity\Exception\DeleteException;
 use Phproberto\Joomla\Entity\Tests\Unit\Stubs\EntityWithFakeSave;
 use Phproberto\Joomla\Entity\Validation\Exception\ValidationException;
 use Phproberto\Joomla\Entity\Tests\Unit\Validation\Traits\Stubs\EntityWithValidation;
@@ -62,6 +63,108 @@ class EntityTest extends \TestCaseDatabase
 		Entity::$tableMock = null;
 
 		parent::tearDown();
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function deleteReturnsTrueForNoIds()
+	{
+		$this->assertTrue(Entity::delete([]));
+		$this->assertTrue(Entity::delete(['', 0, null]));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function deleteRemovesSpecifiedId()
+	{
+		$tableMock = $this->getMockBuilder('MockedTable')
+			->disableOriginalConstructor()
+			->setMethods(array('delete'))
+			->getMock();
+
+		$tableMock->expects($this->once())
+			->method('delete')
+			->with($this->equalTo(45))
+			->willReturn(true);
+
+		Entity::$tableMock = $tableMock;
+
+		$this->assertTrue(Entity::delete(45));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function deleteRemovesSpecifiedIds()
+	{
+		$tableMock = $this->getMockBuilder('MockedTable')
+			->disableOriginalConstructor()
+			->setMethods(array('delete'))
+			->getMock();
+
+		$tableMock->expects($this->at(0))
+			->method('delete')
+			->with($this->equalTo(23))
+			->willReturn(true);
+
+		$tableMock->expects($this->at(1))
+			->method('delete')
+			->with($this->equalTo(32))
+			->willReturn(true);
+
+		Entity::$tableMock = $tableMock;
+
+		$this->assertTrue(Entity::delete([0, '', null, ' ', 23, 32]));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function deleteThrowsDeleteExceptionOnError()
+	{
+		$tableMock = $this->getMockBuilder(Table::class)
+			->disableOriginalConstructor()
+			->setMethods(array('delete', 'getError'))
+			->getMock();
+
+		$tableMock->expects($this->at(0))
+			->method('delete')
+			->with($this->equalTo(23))
+			->willReturn(true);
+
+		$tableMock->expects($this->at(1))
+			->method('delete')
+			->with($this->equalTo(32))
+			->willReturn(false);
+
+		$tableMock->expects($this->once())
+			->method('getError')
+			->willReturn('Roberto broke it');
+
+		Entity::$tableMock = $tableMock;
+
+		$error = null;
+
+		try
+		{
+			Entity::delete([23, 32]);
+		}
+		catch (DeleteException $e)
+		{
+			$error = $e->getMessage();
+		}
+
+		$this->assertContains('Roberto broke it', $error);
 	}
 
 	/**

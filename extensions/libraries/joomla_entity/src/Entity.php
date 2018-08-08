@@ -11,9 +11,11 @@ namespace Phproberto\Joomla\Entity;
 defined('_JEXEC') || die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Exception\DeleteException;
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
 use Phproberto\Joomla\Entity\Validation\Contracts\Validable;
@@ -244,6 +246,47 @@ abstract class Entity implements EntityInterface
 		$date->setTimezone(new \DateTimeZone($tz));
 
 		return $date;
+	}
+
+	/**
+	 * Delete one or more entities by their primary key.
+	 *
+	 * @param   integer|array  $ids  And identifier or array of identifiers
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  DeleteException
+	 */
+	public static function delete($ids)
+	{
+		$ids = array_filter(
+			ArrayHelper::toInteger((array) $ids),
+			function ($value)
+			{
+				return (int) $value > 0;
+			}
+		);
+
+		if (empty($ids))
+		{
+			return true;
+		}
+
+		$entity = new static;
+
+		$table = $entity->table();
+
+		foreach ($ids as $id)
+		{
+			if (!$table->delete($id))
+			{
+				$entity->bind([$entity->primaryKey() => $id]);
+
+				throw DeleteException::fromTable($entity, $table);
+			}
+		}
+
+		return true;
 	}
 
 	/**
