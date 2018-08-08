@@ -65,6 +65,7 @@ class UserTest extends \TestCaseDatabase
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
 		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
 		$dataSet->addTable('jos_user_usergroup_map', JPATH_TEST_DATABASE . '/jos_user_usergroup_map.csv');
+		$dataSet->addTable('jos_viewlevels', JPATH_TEST_DATABASE . '/jos_viewlevels.csv');
 
 		return $dataSet;
 	}
@@ -615,5 +616,29 @@ class UserTest extends \TestCaseDatabase
 		$user = new User;
 
 		$this->assertInstanceOf('JTableUser', $user->table());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function viewLevelsReturnsExpectedCollection()
+	{
+		$user = new User;
+		$viewLevels = $user->viewLevels();
+
+		$this->assertInstanceOf(Collection::class, $viewLevels);
+		$this->assertSame([1], $viewLevels->ids());
+
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('getAuthorisedViewLevels'))
+			->getMock();
+
+		$user->expects($this->once())
+			->method('getAuthorisedViewLevels')
+			->willReturn([2,8]);
+
+		$this->assertSame([2,8], $user->viewLevels()->ids());
 	}
 }
