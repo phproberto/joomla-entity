@@ -1,4 +1,4 @@
-# USer entity 
+# User entity 
 
 `Phproberto\Joomla\Entity\Users\User`
 

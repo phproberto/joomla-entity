@@ -44,7 +44,9 @@
 * com_users
     * Entities
         * [User](./Users/User.md)
+        * [ViewLevel](./Users/ViewLevel.md)
     * Traits
         * [HasAuthor](./Users/Traits/HasAuthor.md)
         * [HasEditor](./Users/Traits/HasEditor.md)
+        * [HasViewLevels](./Users/Traits/HasViewLevels.md)
         

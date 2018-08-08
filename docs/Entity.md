@@ -166,6 +166,38 @@ elseif ($modified == $today)
 }
 ```
 
+### loadFromData(array $data) <a id="loadFromData"></a>
+
+> Tries to load an entity with columns matching passed data. Quite similar to Table::load() method.
+
+**Parameters:**
+
+* `array` *$data (required):* Data to search the entity.
+
+**Returns:**
+
+`static`  Returns a loaded entity if found or an unloaded entity if not.
+
+**Examples:**
+
+```php
+// Searching by an existing title will return an Article instance. Ensure you test if it's loaded.
+$article = Article::loadFromData(['title' => 'Existing title']);
+
+if ($article->isLoaded())
+{
+    echo 'We have an article with title `' . $article->get('title') . '` in the `' . $article->category()->get('title') . '` category';
+}
+
+// Searching by an unexisting title will still return an article. Ensure you test if it's loaded.
+$article = Article::loadFromData(['title' => 'Unexisting title']);
+
+if (!$article->isLoaded())
+{
+    echo 'Article not found!';
+}
+```
+
 ### registry($property) <a id="registry"></a>
 
 > Get a Registry object from a property of the entity.
