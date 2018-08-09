@@ -148,8 +148,10 @@ Article::delete(23);
 // A DeleteException will be thrown if something fails so at this point we are sure delete worked.
 echo 'Article 23 was successfully deleted';
 
-// Example catching exception
+// Delete multiple entities passing an array
+Article::delete([23, 24, 25]);
 
+// Example catching exception
 $msg = 'Article 23 was successfully deleted';
 
 try 
