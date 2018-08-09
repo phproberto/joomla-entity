@@ -2,13 +2,13 @@
 <extension type="library" method="upgrade" version="3.6">
 	<name>Phproberto - Joomla Entity</name>
 	<libraryname>joomla_entity</libraryname>
-	<creationDate>June 2018</creationDate>
+	<creationDate>August 2018</creationDate>
 	<author>@phproberto</author>
 	<authorEmail>roberto@phproberto.com</authorEmail>
 	<authorUrl>www.phproberto.com</authorUrl>
-	<copyright>Copyright (C) 2018 Roberto Segura López. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2017-2018 Roberto Segura López. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<description>Semantical API for Joomla!</description>
 	<updateservers>
 		<server type="extension" name="Joomla Entity Update Site">https://raw.githubusercontent.com/phproberto/joomla-entity/master/updates/joomla_entity.xml</server>

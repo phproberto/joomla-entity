@@ -2,7 +2,7 @@
 /**
  * Joomla! entity library.
  *
- * @copyright  Copyright (C) 2017 Roberto Segura López, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
  * @license    See COPYING.txt
  */
 
@@ -66,7 +66,7 @@ class Field extends ComponentEntity implements Publishable
 	 *
 	 * @return  FieldGroup
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 *
 	 * @throws  \InvalidArgumentException  Field group property not found
 	 */
@@ -80,7 +80,7 @@ class Field extends ComponentEntity implements Publishable
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public function hasFieldGroup()
 	{

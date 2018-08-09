@@ -2,7 +2,7 @@
 /**
  * Joomla! entity library.
  *
- * @copyright  Copyright (C) 2017 Roberto Segura López, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
  * @license    See COPYING.txt
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Columns supported by fields.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.2.0
  */
 abstract class Column
 {

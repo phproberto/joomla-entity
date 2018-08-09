@@ -2,7 +2,7 @@
 /**
  * Joomla! entity library.
  *
- * @copyright  Copyright (C) 2017 Roberto Segura López, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
  * @license    See COPYING.txt
  */
 
@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Unit\Users\Traits\Stubs\EntityWithViewLevels;
 /**
  * HasViewLevels trait tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.2.0
  */
 class HasViewLevelsTest extends \PHPUnit\Framework\TestCase
 {

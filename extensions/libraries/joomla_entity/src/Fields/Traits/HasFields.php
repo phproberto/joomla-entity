@@ -2,7 +2,7 @@
 /**
  * Joomla! entity library.
  *
- * @copyright  Copyright (C) 2017 Roberto Segura López, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
  * @license    See COPYING.txt
  */
 
@@ -165,7 +165,7 @@ trait HasFields
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public function hasFields()
 	{
