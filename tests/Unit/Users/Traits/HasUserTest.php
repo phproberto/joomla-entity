@@ -144,4 +144,35 @@ class HasUserTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(User::find(666), $method->invoke($entity));
 	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function userIdReturnsZeroForNotLoadedUser()
+	{
+		$entity = new EntityWithUser;
+
+		$this->assertSame(0, $entity->userId());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function userIdReturnsSetUserId()
+	{
+		$entity = $this->getEntity();
+
+		$entity->bind(
+			[
+				'id'              => 999,
+				self::COLUMN_USER => '939'
+			]
+		);
+
+		$this->assertSame(939, $entity->userId());
+	}
 }

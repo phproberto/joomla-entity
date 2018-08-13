@@ -74,6 +74,25 @@ trait HasUser
 	}
 
 	/**
+	 * Retrieve associated user id.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function userId()
+	{
+		try
+		{
+			return (int) $this->get($this->columnAlias(Column::USER));
+		}
+		catch (\Exception $e)
+		{
+			return 0;
+		}
+	}
+
+	/**
 	 * Check if this entity has an associated editor.
 	 *
 	 * @return  boolean
