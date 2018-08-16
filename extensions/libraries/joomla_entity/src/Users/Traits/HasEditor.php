@@ -66,15 +66,30 @@ trait HasEditor
 	}
 
 	/**
+	 * Retrieve the associated editor ID.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function editorId()
+	{
+		if (!$this->has($this->columnAlias(Column::EDITOR)))
+		{
+			return 0;
+		}
+
+		return (int) $this->get($this->columnAlias(Column::EDITOR));
+	}
+
+	/**
 	 * Check if this entity has an associated editor.
 	 *
 	 * @return  boolean
 	 */
 	public function hasEditor()
 	{
-		$editorId = (int) $this->get($this->columnAlias(Column::EDITOR));
-
-		return !empty($editorId);
+		return 0 !== $this->editorId();
 	}
 
 	/**

@@ -26,6 +26,58 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 	const EDITOR_COLUMN = 'modified_by';
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function editorIdReturnsZeroForMissingEditorColumn()
+	{
+		$class = $this->getMockBuilder(EntityWithAuthorAndEditor::class)
+			->disableOriginalConstructor()
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$class->method('columnAlias')
+			->willReturn(static::EDITOR_COLUMN);
+
+		$this->assertSame(0, $class->editorId());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function editorIdReturnsCorrectId()
+	{
+		$entity = $this->getMockBuilder(EntityWithAuthorAndEditor::class)
+			->disableOriginalConstructor()
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn(static::EDITOR_COLUMN);
+
+		$entity->bind(
+			[
+				'id' => 99,
+				static::EDITOR_COLUMN => 34
+			]
+		);
+
+		$this->assertSame(34, $entity->editorId());
+
+		$entity->bind(
+			[
+				'id' => 99,
+				static::EDITOR_COLUMN => 333
+			]
+		);
+
+		$this->assertSame(333, $entity->editorId());
+	}
+
+	/**
 	 * editor calls loadEditor.
 	 *
 	 * @return  void
@@ -106,8 +158,7 @@ class HasEditorTest extends \PHPUnit\Framework\TestCase
 			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$class->expects($this->once())
-			->method('columnAlias')
+		$class->method('columnAlias')
 			->willReturn(static::EDITOR_COLUMN);
 
 		$reflection = new \ReflectionClass($class);
