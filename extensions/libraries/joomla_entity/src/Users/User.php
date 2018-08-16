@@ -56,7 +56,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.3.0
 	 */
 	public function addToUserGroup(int $userGroupId)
 	{
@@ -68,7 +68,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.3.0
 	 */
 	public function addToUserGroups(array $userGroupsIds)
 	{
@@ -346,7 +346,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.3.0
 	 */
 	public function removeFromUserGroup(int $userGroupId)
 	{
@@ -360,7 +360,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.3.0
 	 */
 	public function removeFromUserGroups(array $userGroupsIds)
 	{
@@ -417,7 +417,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.3.0
 	 */
 	public function userGroupsIds()
 	{
