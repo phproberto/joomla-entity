@@ -23,6 +23,63 @@ use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 class UserTest extends \TestCaseDatabase
 {
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function addToUserGroupWorks()
+	{
+		$user = User::find(42);
+
+		$this->assertEquals([8], $user->userGroupsIds());
+		$this->assertEquals([8], $user->userGroups()->ids());
+
+		$user->addToUserGroup(8);
+
+		$this->assertEquals([8], $user->userGroupsIds());
+		$this->assertEquals([8], $user->userGroups()->ids());
+
+		$user->addToUserGroup(5);
+
+		$this->assertEquals([5, 8], $user->userGroupsIds());
+		$this->assertEquals([5, 8], $user->userGroups()->ids());
+
+		$user->addToUserGroup(1);
+
+		$this->assertEquals([1, 5, 8], $user->userGroupsIds());
+		$this->assertEquals([1, 5, 8], $user->userGroups()->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function addtoUserGroupsWorks()
+	{
+		$user = User::find(42);
+
+		$this->assertEquals([8], $user->userGroupsIds());
+		$this->assertEquals([8], $user->userGroups()->ids());
+
+		$user->addToUserGroups([]);
+
+		$this->assertEquals([8], $user->userGroupsIds());
+		$this->assertEquals([8], $user->userGroups()->ids());
+
+		$user->addToUserGroups([8]);
+
+		$this->assertEquals([8], $user->userGroupsIds());
+		$this->assertEquals([8], $user->userGroups()->ids());
+
+		$user->addToUserGroups([5,1]);
+
+		$this->assertEquals([1, 5, 8], $user->userGroupsIds());
+		$this->assertEquals([1, 5, 8], $user->userGroups()->ids());
+
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -616,6 +673,41 @@ class UserTest extends \TestCaseDatabase
 		$user = new User;
 
 		$this->assertInstanceOf('JTableUser', $user->table());
+	}
+
+	/**
+	 * userGroupsIds() data provider
+	 *
+	 * @return  array
+	 */
+	public function userGroupsIdsDataProvider()
+	{
+		return [
+			[[null, '', ' ', '8', 'test', 04], [8, 4]],
+			[[], []],
+			[null, []]
+		];
+	}
+
+	/**
+	 * @test
+	 *
+	 * @dataProvider  userGroupsIdsDataProvider
+	 *
+	 * @return void
+	 */
+	public function userGroupsIdsReturnsExpectedValues($provided, $expected)
+	{
+		$user = new User;
+		$user->bind(
+			[
+				'id'     => 999,
+				'name'   => 'Roberto',
+				'groups' => $provided
+			]
+		);
+
+		$this->assertSame($expected, $user->userGroupsIds());
 	}
 
 	/**

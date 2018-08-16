@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Users;
 defined('_JEXEC') || die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Users\ViewLevel;
@@ -46,6 +47,61 @@ class User extends ComponentEntity implements Aclable
 		$userId = (int) \JFactory::getUser()->get('id');
 
 		return $userId ? static::find($userId) : new static;
+	}
+
+	/**
+	 * Add this user to an UserGroup.
+	 *
+	 * @param   int  $userGroupId  User group to add the user to
+	 *
+	 * @return  void
+	 */
+	public function addToUserGroup(int $userGroupId)
+	{
+		$groupsIds = $this->userGroupsIds();
+
+		if (in_array($userGroupId, $groupsIds))
+		{
+			return;
+		}
+
+		$groupsIds[] = $userGroupId;
+
+		$this->assign('groups', $groupsIds);
+		$this->save();
+		$this->clearUserGroups();
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function addToUserGroups(array $userGroupsIds)
+	{
+		$userGroupsIds = array_unique(
+			array_filter(
+				ArrayHelper::toInteger($userGroupsIds)
+			)
+		);
+
+		$currentIds = $this->userGroupsIds();
+		$newIds = array_diff($userGroupsIds, $currentIds);
+
+		if (!$newIds)
+		{
+			return;
+		}
+
+		$groupsIds = array_unique(
+			array_filter(
+				array_merge($userGroupsIds, $currentIds)
+			)
+		);
+
+		$this->assign('groups', $groupsIds);
+		$this->save();
+		$this->clearUserGroups();
 	}
 
 	/**
@@ -284,5 +340,23 @@ class User extends ComponentEntity implements Aclable
 		$prefix = $prefix ?: 'JTable';
 
 		return parent::table($name, $prefix, $options);
+	}
+
+	/**
+	 * Get an array of user groups associated to this user.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function userGroupsIds()
+	{
+		return array_values(
+			array_unique(
+				array_filter(
+					ArrayHelper::toInteger((array) $this->get('groups'))
+				)
+			)
+		);
 	}
 }
