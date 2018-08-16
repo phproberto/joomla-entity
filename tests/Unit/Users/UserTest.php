@@ -83,6 +83,26 @@ class UserTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function removeFromAllUserGroupsWorks()
+	{
+		$user = User::find(42);
+
+		$user->addToUserGroups([5, 1, 6]);
+
+		$this->assertEquals([1, 5, 6, 8], $user->userGroupsIds());
+		$this->assertEquals([1, 5, 6, 8], $user->userGroups()->ids());
+
+		$user->removeFromAllUserGroups();
+
+		$this->assertEquals([], $user->userGroupsIds());
+		$this->assertEquals([], $user->userGroups()->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function removeFromUserGroupWorks()
 	{
 		$user = User::find(42);

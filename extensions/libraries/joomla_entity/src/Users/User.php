@@ -317,6 +317,29 @@ class User extends ComponentEntity implements Aclable
 	}
 
 	/**
+	 * Removes this user from all assigned user groups.
+	 *
+	 * @return  void
+	 */
+	public function removeFromAllUserGroups()
+	{
+		if ($this->hasId())
+		{
+			$db = $this->getDbo();
+
+			$query = $db->getQuery(true)
+				->delete('#__user_usergroup_map')
+				->where($db->qn('user_id') . ' = ' . $this->id());
+
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+		$this->assign('groups', []);
+		$this->clearUserGroups();
+	}
+
+	/**
 	 * Remove this user from an UserGroup.
 	 *
 	 * @param   int  $userGroupId  ID of the UserGroup to remove
@@ -348,7 +371,6 @@ class User extends ComponentEntity implements Aclable
 		);
 
 		$currentIds = $this->userGroupsIds();
-
 		$removableIds = array_intersect($currentIds, $userGroupsIds);
 
 		if (!$removableIds)
@@ -356,9 +378,19 @@ class User extends ComponentEntity implements Aclable
 			return;
 		}
 
-		$this->assign('groups', array_diff($currentIds, $removableIds));
-		$this->save();
+		$newGroups = array_diff($currentIds, $removableIds);
+
+		//Someone decided in Joomla that you cannot save a user without groups....
+		if (!$newGroups)
+		{
+			$this->removeFromAllUserGroups();
+
+			return;
+		}
+
+		$this->assign('groups', $newGroups);
 		$this->clearUserGroups();
+		$this->save();
 	}
 
 	/**
