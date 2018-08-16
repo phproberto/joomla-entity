@@ -145,6 +145,11 @@ class UserTest extends \TestCaseDatabase
 		$this->assertEquals([6], $user->userGroupsIds());
 		$this->assertEquals([6], $user->userGroups()->ids());
 
+		$user->removeFromUserGroups([6]);
+
+		$this->assertEquals([], $user->userGroupsIds());
+		$this->assertEquals([], $user->userGroups()->ids());
+
 	}
 
 	/**
