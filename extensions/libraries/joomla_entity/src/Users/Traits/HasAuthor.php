@@ -66,15 +66,30 @@ trait HasAuthor
 	}
 
 	/**
+	 * Retrieve the associated author ID.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function authorId()
+	{
+		if (!$this->has($this->columnAlias(Column::AUTHOR)))
+		{
+			return 0;
+		}
+
+		return (int) $this->get($this->columnAlias(Column::AUTHOR));
+	}
+
+	/**
 	 * Check if this entity has an associated author.
 	 *
 	 * @return  boolean
 	 */
 	public function hasAuthor()
 	{
-		$authorId = (int) $this->get($this->columnAlias(Column::AUTHOR));
-
-		return !empty($authorId);
+		return 0 !== $this->authorId();
 	}
 
 	/**

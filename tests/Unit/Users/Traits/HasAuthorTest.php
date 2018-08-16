@@ -26,6 +26,58 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 	const AUTHOR_COLUMN = 'created_by';
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function authorIdReturnsZeroForMissingAuthorColumn()
+	{
+		$class = $this->getMockBuilder(EntityWithAuthorAndEditor::class)
+			->disableOriginalConstructor()
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$class->method('columnAlias')
+			->willReturn(static::AUTHOR_COLUMN);
+
+		$this->assertSame(0, $class->authorId());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function authorIdReturnsCorrectId()
+	{
+		$entity = $this->getMockBuilder(EntityWithAuthorAndEditor::class)
+			->disableOriginalConstructor()
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn(static::AUTHOR_COLUMN);
+
+		$entity->bind(
+			[
+				'id' => 99,
+				static::AUTHOR_COLUMN => 34
+			]
+		);
+
+		$this->assertSame(34, $entity->authorId());
+
+		$entity->bind(
+			[
+				'id' => 99,
+				static::AUTHOR_COLUMN => 333
+			]
+		);
+
+		$this->assertSame(333, $entity->authorId());
+	}
+
+	/**
 	 * author calls loadAuthor.
 	 *
 	 * @return  void
@@ -102,9 +154,10 @@ class HasAuthorTest extends \PHPUnit\Framework\TestCase
 			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$class->expects($this->once())
-			->method('columnAlias')
+		$class->method('columnAlias')
 			->willReturn(static::AUTHOR_COLUMN);
+
+		$this->assertSame(false, $class->hasAuthor());
 
 		$reflection = new \ReflectionClass($class);
 
