@@ -76,6 +76,54 @@ class UserTest extends \TestCaseDatabase
 
 		$this->assertEquals([1, 5, 8], $user->userGroupsIds());
 		$this->assertEquals([1, 5, 8], $user->userGroups()->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function removeFromUserGroupWorks()
+	{
+		$user = User::find(42);
+		$user->addToUserGroups([5, 1, 6]);
+
+		$this->assertEquals([1, 5, 6, 8], $user->userGroupsIds());
+		$this->assertEquals([1, 5, 6, 8], $user->userGroups()->ids());
+
+		$user->removeFromUserGroup(5);
+
+		$this->assertEquals([1, 6, 8], $user->userGroupsIds());
+		$this->assertEquals([1, 6, 8], $user->userGroups()->ids());
+
+		$user->removeFromUserGroup(5);
+
+		$this->assertEquals([1, 6, 8], $user->userGroupsIds());
+		$this->assertEquals([1, 6, 8], $user->userGroups()->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function removeFromUserGroupsWorks()
+	{
+		$user = User::find(42);
+		$user->addToUserGroups([5, 1, 6]);
+
+		$this->assertEquals([1, 5, 6, 8], $user->userGroupsIds());
+		$this->assertEquals([1, 5, 6, 8], $user->userGroups()->ids());
+
+		$user->removeFromUserGroups([5,1,8]);
+
+		$this->assertEquals([6], $user->userGroupsIds());
+		$this->assertEquals([6], $user->userGroups()->ids());
+
+		$user->removeFromUserGroups([4]);
+
+		$this->assertEquals([6], $user->userGroupsIds());
+		$this->assertEquals([6], $user->userGroups()->ids());
 
 	}
 

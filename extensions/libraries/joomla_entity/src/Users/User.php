@@ -55,27 +55,20 @@ class User extends ComponentEntity implements Aclable
 	 * @param   int  $userGroupId  User group to add the user to
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addToUserGroup(int $userGroupId)
 	{
-		$groupsIds = $this->userGroupsIds();
-
-		if (in_array($userGroupId, $groupsIds))
-		{
-			return;
-		}
-
-		$groupsIds[] = $userGroupId;
-
-		$this->assign('groups', $groupsIds);
-		$this->save();
-		$this->clearUserGroups();
+		return $this->addToUserGroups([$userGroupId]);
 	}
 
 	/**
 	 * @test
 	 *
 	 * @return void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addToUserGroups(array $userGroupsIds)
 	{
@@ -321,6 +314,51 @@ class User extends ComponentEntity implements Aclable
 		}
 
 		return $viewLevels;
+	}
+
+	/**
+	 * Remove this user from an UserGroup.
+	 *
+	 * @param   int  $userGroupId  ID of the UserGroup to remove
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function removeFromUserGroup(int $userGroupId)
+	{
+		return $this->removeFromUserGroups([$userGroupId]);
+	}
+
+	/**
+	 * Remove this user from an user group.
+	 *
+	 * @param   int     $userGroupId  [description]
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function removeFromUserGroups(array $userGroupsIds)
+	{
+		$userGroupsIds = array_unique(
+			array_filter(
+				ArrayHelper::toInteger($userGroupsIds)
+			)
+		);
+
+		$currentIds = $this->userGroupsIds();
+
+		$removableIds = array_intersect($currentIds, $userGroupsIds);
+
+		if (!$removableIds)
+		{
+			return;
+		}
+
+		$this->assign('groups', array_diff($currentIds, $removableIds));
+		$this->save();
+		$this->clearUserGroups();
 	}
 
 	/**
