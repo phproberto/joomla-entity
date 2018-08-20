@@ -10,8 +10,8 @@ namespace Phproberto\Joomla\Entity\Core;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Core\Traits;
+use Phproberto\Joomla\Entity\ComponentEntity;
 
 /**
  * Represents and entry from the #__modules table.

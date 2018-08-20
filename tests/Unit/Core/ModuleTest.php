@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Tests\Unit\Core;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Core\Asset;
 use Phproberto\Joomla\Entity\Core\Column;
@@ -74,6 +75,7 @@ class ModuleTest extends \TestCaseDatabase
 	protected function getDataSet()
 	{
 		$dataSet = new \PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
 		$dataSet->addTable('jos_assets', JPATH_TEST_DATABASE . '/jos_assets.csv');
 		$dataSet->addTable('jos_modules', JPATH_TEST_DATABASE . '/jos_modules.csv');
 
@@ -154,9 +156,9 @@ class ModuleTest extends \TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		\JFactory::$session     = $this->getMockSession();
-		\JFactory::$config      = $this->getMockConfig();
-		\JFactory::$application = $this->getMockCmsApp();
+		Factory::$session     = $this->getMockSession();
+		Factory::$config      = $this->getMockConfig();
+		Factory::$application = $this->getMockCmsApp();
 
 		$this->module = Module::find(1);
 	}
