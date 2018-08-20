@@ -23,7 +23,7 @@ class Module extends ComponentEntity
 	use Traits\HasAccess, Traits\HasAsset, Traits\HasClient, Traits\HasParams, Traits\HasPublishDown, Traits\HasPublishUp, Traits\HasState;
 
 	/**
-	 * [$menusIds description]
+	 * Load this module assigned menu ids.
 	 *
 	 * @var  array
 	 */
@@ -78,6 +78,13 @@ class Module extends ComponentEntity
 		return $this->isPublishedUp() && !$this->isPublishedDown();
 	}
 
+	/**
+	 * Check if this module is published on a specific menu item.
+	 *
+	 * @param   integer  $menuId  Menu identifier
+	 *
+	 * @return  boolean
+	 */
 	public function isPublishedInMenu($menuId)
 	{
 		$menuId = (int) $menuId;
@@ -116,7 +123,7 @@ class Module extends ComponentEntity
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  \JTable
+	 * @return  \Joomla\CMS\Table\Table
 	 *
 	 * @codeCoverageIgnore
 	 */
