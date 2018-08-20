@@ -60,13 +60,15 @@ class User extends ComponentEntity implements Aclable
 	 */
 	public function addToUserGroup(int $userGroupId)
 	{
-		return $this->addToUserGroups([$userGroupId]);
+		$this->addToUserGroups([$userGroupId]);
 	}
 
 	/**
-	 * @test
+	 * Add this user to a list of UserGroups.
 	 *
-	 * @return void
+	 * @param   int[]  $userGroupsIds  An array of user groups identifiers
+	 *
+	 * @return  void
 	 *
 	 * @since   1.3.0
 	 */
@@ -350,13 +352,13 @@ class User extends ComponentEntity implements Aclable
 	 */
 	public function removeFromUserGroup(int $userGroupId)
 	{
-		return $this->removeFromUserGroups([$userGroupId]);
+		$this->removeFromUserGroups([$userGroupId]);
 	}
 
 	/**
 	 * Remove this user from an user group.
 	 *
-	 * @param   int     $userGroupId  [description]
+	 * @param   int[]  $userGroupsIds  Array of user groups identifiers
 	 *
 	 * @return  void
 	 *
@@ -380,7 +382,7 @@ class User extends ComponentEntity implements Aclable
 
 		$newGroups = array_diff($currentIds, $removableIds);
 
-		//Someone decided in Joomla that you cannot save a user without groups....
+		// Someone decided in Joomla that you cannot save a user without groups....
 		if (!$newGroups)
 		{
 			$this->removeFromAllUserGroups();

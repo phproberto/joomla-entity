@@ -29,6 +29,11 @@ class Module extends ComponentEntity
 	 */
 	private $menusIds;
 
+	/**
+	 * Load assigned menus ids from database.
+	 *
+	 * @return  int[]
+	 */
 	private function loadMenusIds()
 	{
 		if (!$this->hasId())
@@ -50,6 +55,8 @@ class Module extends ComponentEntity
 
 	/**
 	 * Get the menus this module is shown.
+	 *
+	 * @param   boolean  $reload  Force to reload data from DB.
 	 *
 	 * @return  array
 	 */
