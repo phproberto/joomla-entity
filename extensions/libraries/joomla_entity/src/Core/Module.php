@@ -23,6 +23,47 @@ class Module extends ComponentEntity
 	use Traits\HasAccess, Traits\HasAsset, Traits\HasClient, Traits\HasParams, Traits\HasPublishDown, Traits\HasPublishUp, Traits\HasState;
 
 	/**
+	 * [$menusIds description]
+	 *
+	 * @var  array
+	 */
+	private $menusIds;
+
+	private function loadMenusIds()
+	{
+		if (!$this->hasId())
+		{
+			return [];
+		}
+
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select('menuid')
+			->from($db->qn('#__modules_menu'))
+			->where($db->qn('moduleid') . ' = ' . (int) $this->id());
+
+		$db->setQuery($query);
+
+		return array_map('intval', $db->loadColumn() ?: []);
+	}
+
+	/**
+	 * Get the menus this module is shown.
+	 *
+	 * @return  array
+	 */
+	public function menusIds($reload = false)
+	{
+		if ($reload || null === $this->menusIds)
+		{
+			$this->menusIds = $this->loadMenusIds();
+		}
+
+		return $this->menusIds;
+	}
+
+	/**
 	 * Check if this entity is published.
 	 *
 	 * @return  boolean
@@ -36,6 +77,27 @@ class Module extends ComponentEntity
 
 		return $this->isPublishedUp() && !$this->isPublishedDown();
 	}
+
+	public function isPublishedInMenu($menuId)
+	{
+		$menuId = (int) $menuId;
+		$menusIds = $this->menusIds();
+
+		if (in_array(0, $menusIds, true))
+		{
+			return true;
+		}
+
+		if (!$menusIds || 0 === $menuId)
+		{
+			return false;
+		}
+
+		$assignedMenuId = reset($menusIds);
+
+		return $assignedMenuId > 0 ? in_array($menuId, $menusIds, true) : !in_array(-1 * $menuId, $menusIds, true);
+	}
+
 
 	/**
 	 * Check if this entity is unpublished.

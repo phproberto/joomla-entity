@@ -78,8 +78,101 @@ class ModuleTest extends \TestCaseDatabase
 
 		$dataSet->addTable('jos_assets', JPATH_TEST_DATABASE . '/jos_assets.csv');
 		$dataSet->addTable('jos_modules', JPATH_TEST_DATABASE . '/jos_modules.csv');
+		$dataSet->addTable('jos_modules_menu', JPATH_TEST_DATABASE . '/jos_modules_menu.csv');
 
 		return $dataSet;
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function isPublishedInMenuReturnsTrueForNoMenuIdIfModuleIsShownOnAllPages()
+	{
+		$module = new Module;
+		$reflection = new \ReflectionClass($module);
+		$menusIdsProperty = $reflection->getProperty('menusIds');
+		$menusIdsProperty->setAccessible(true);
+
+		$menusIdsProperty->setValue($module, [0]);
+
+		$this->assertTrue($module->isPublishedInMenu(0));
+		$this->assertTrue($module->isPublishedInMenu(null));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function isPublishedInMenuReturnsFalseForNoMenuIdIfModuleIsNotShownOnAllPages()
+	{
+		$module = new Module;
+		$reflection = new \ReflectionClass($module);
+		$menusIdsProperty = $reflection->getProperty('menusIds');
+		$menusIdsProperty->setAccessible(true);
+
+		$menusIdsProperty->setValue($module, [222]);
+
+		$this->assertFalse($module->isPublishedInMenu(0));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function isPublishedInMenuReturnsFalseForNoMenuIdInMenusIds()
+	{
+		$module = new Module;
+		$reflection = new \ReflectionClass($module);
+		$menusIdsProperty = $reflection->getProperty('menusIds');
+		$menusIdsProperty->setAccessible(true);
+
+		$menusIdsProperty->setValue($module, [222, 444]);
+
+		$this->assertTrue($module->isPublishedInMenu(222));
+		$this->assertFalse($module->isPublishedInMenu(333));
+		$this->assertTrue($module->isPublishedInMenu(444));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function isPublishedInMenuReturnsFalseForNoMenusIds()
+	{
+		$module = new Module;
+		$reflection = new \ReflectionClass($module);
+		$menusIdsProperty = $reflection->getProperty('menusIds');
+		$menusIdsProperty->setAccessible(true);
+
+		$menusIdsProperty->setValue($module, []);
+
+		$this->assertFalse($module->isPublishedInMenu(222));
+		$this->assertFalse($module->isPublishedInMenu(333));
+		$this->assertFalse($module->isPublishedInMenu(444));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function isPublishedInMenuReturnsTrueForExcludedMenuId()
+	{
+		$module = new Module;
+		$reflection = new \ReflectionClass($module);
+		$menusIdsProperty = $reflection->getProperty('menusIds');
+		$menusIdsProperty->setAccessible(true);
+
+		$menusIdsProperty->setValue($module, [-222, -555]);
+
+		$this->assertFalse($module->isPublishedInMenu(222));
+		$this->assertTrue($module->isPublishedInMenu(333));
+		$this->assertFalse($module->isPublishedInMenu(555));
 	}
 
 	/**
@@ -120,6 +213,35 @@ class ModuleTest extends \TestCaseDatabase
 		$this->assertTrue($this->module->isUnpublished());
 	}
 
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function menusIdsReturnsExpectedVale()
+	{
+		$module = new Module;
+		$this->assertEquals([], $module->menusIds());
+		$this->assertEquals([101], $this->module->menusIds());
+		$this->assertEquals([0], Module::find(2)->menusIds());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function menusIdsReturnsCachedInstanceAndReloads()
+	{
+		$reflection = new \ReflectionClass($this->module);
+		$menusIdsProperty = $reflection->getProperty('menusIds');
+		$menusIdsProperty->setAccessible(true);
+
+		$menusIdsProperty->setValue($this->module, [999, 666]);
+
+		$this->assertEquals([999, 666], $this->module->menusIds());
+		$this->assertEquals([101], $this->module->menusIds(true));
+	}
 
 	/**
 	 * @test
