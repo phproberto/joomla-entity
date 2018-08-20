@@ -6,7 +6,7 @@
 
     <testsuites>
         <testsuite name="joomla-entity test suite">
-            <directory suffix="Test.php">./tests</directory>
+            <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
     </testsuites>
     <logging>
