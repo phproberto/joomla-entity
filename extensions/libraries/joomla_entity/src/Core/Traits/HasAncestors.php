@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') or die;
 
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**
@@ -22,9 +23,11 @@ trait HasAncestors
 	/**
 	 * Get a specific ancestor by its id.
 	 *
-	 * @param   integer  $id  Ascendant identifier
+	 * @param   integer  $id  Ancestor identifier
 	 *
 	 * @return  static
+	 *
+	 * @throws  \InvalidArgumentException  Ancestor not found
 	 */
 	public function ancestor($id)
 	{
@@ -42,7 +45,7 @@ trait HasAncestors
 	}
 
 	/**
-	 * Check if this entity has an specific ascendant.
+	 * Check if this entity has a specific ancestor.
 	 *
 	 * @param   int  $id  Ascendant identifier
 	 *
