@@ -60,6 +60,14 @@ abstract class Column
 	const LANGUAGE = 'language';
 
 	/**
+	 * Default column used to store level.
+	 *
+	 * @const
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const LEVEL = 'level';
+
+	/**
 	 * Default column used to store metadata.
 	 *
 	 * @const
