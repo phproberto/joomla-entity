@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Categories;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;
@@ -27,8 +28,8 @@ use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
  */
 class Category extends ComponentEntity implements Publishable, Translatable
 {
-	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasParent;
-	use CoreTraits\HasState;
+	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasChildren, CoreTraits\HasMetadata;
+	use CoreTraits\HasParams, CoreTraits\HasParent, CoreTraits\HasState;
 	use HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
@@ -122,5 +123,72 @@ class Category extends ComponentEntity implements Publishable, Translatable
 		);
 
 		return new Collection($categories);
+	}
+
+	/**
+	 * Search entity children.
+	 *
+	 * @param   array  $options  Search options. For filters, limit, ordering, etc.
+	 *
+	 * @return  Collection
+	 */
+	public function searchChildren(array $options = [])
+	{
+		if (!$this->hasId())
+		{
+			return new Collection;
+		}
+
+		$defaultOptions = [
+			'filter.published' => 1,
+			'filter.access'    => true,
+			'list.ordering'    => 'c.lft',
+			'list.direction'   => 'ASC'
+		];
+
+		$options = array_merge($defaultOptions, $options);
+
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select('c.*')
+			->from($db->qn('#__categories', 'c'))
+			->where($db->qn('c.parent_id') . ' = ' . (int) $this->id());
+
+		if (null !== $options['filter.published'])
+		{
+			$statuses = ArrayHelper::toInteger((array) $options['filter.published']);
+
+			$query->where($db->qn('c.published') . ' IN(' . implode(',', $statuses) . ')');
+		}
+
+		if (null !== $options['filter.access'])
+		{
+			if (true === $options['filter.access'])
+			{
+				$viewLevels = ArrayHelper::toInteger(Factory::getUser()->getAuthorisedViewLevels());
+				$query->where('c.access IN (' . implode(',', $viewLevels) . ')');
+			}
+			else
+			{
+				$viewLevels = ArrayHelper::toInteger((array) $options['filter.access']);
+
+				$query->where($db->qn('c.access') . ' IN(' . implode(',', $viewLevels) . ')');
+			}
+		}
+
+		$query->order($db->escape($options['list.ordering']) . ' ' . $db->escape($options['list.direction']));
+
+		$db->setQuery($query);
+
+		return new Collection(
+			array_map(
+				function (array $categoryData)
+				{
+					return static::find($categoryData['id'])->bind($categoryData);
+				},
+				$db->loadAssocList() ?: []
+			)
+		);
 	}
 }

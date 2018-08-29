@@ -26,6 +26,21 @@ class CategoryTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function childrenReturnsChildrenCategories()
+	{
+		$children = Category::find(37)->children();
+
+		$this->assertInstanceOf(Collection::class, $children);
+		$this->assertFalse($children->isEmpty());
+
+		$this->assertFalse(in_array(42, $children->ids()));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function implementsTranslatable()
 	{
 		$category = new Category;
@@ -44,6 +59,115 @@ class CategoryTest extends \TestCaseDatabase
 
 		$this->assertInstanceOf(Category::class, $parent);
 		$this->assertSame(14, $parent->id());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchChildrenReturnsEmptyCollectionForEntityWithoutId()
+	{
+		$category = new Category;
+		$children = $category->children();
+
+		$this->assertInstanceOf(Collection::class, $children);
+		$this->assertSame(0, $children->count());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchChildrenAppliesAccessFilter()
+	{
+		$category = Category::find(37);
+		$children = $category->searchChildren();
+
+		$this->assertInstanceOf(Collection::class, $children);
+		$this->assertFalse(in_array(46, $children->ids()));
+
+		$customAccessChildren = $category->searchChildren(['filter.access' => 2]);
+
+		$this->assertTrue(in_array(46, $customAccessChildren->ids()));
+		$this->assertSame([], array_intersect($children->ids(), $customAccessChildren->ids()));
+
+		$allChildren = $category->searchChildren(['filter.access' => [1, 2]]);
+
+		$this->assertSame($children->ids(), array_intersect($children->ids(), $allChildren->ids()));
+		$this->assertSame($customAccessChildren->ids(), array_intersect($customAccessChildren->ids(), $allChildren->ids()));
+
+		$allWithNullChildren = $category->searchChildren(['filter.access' => null]);
+
+		$this->assertEquals([], array_diff($allChildren->ids(), $allWithNullChildren->ids()));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchChildrenAppliesPublishedFilter()
+	{
+		$category = Category::find(37);
+		$children = $category->searchChildren();
+
+		$this->assertInstanceOf(Collection::class, $children);
+		$this->assertFalse(in_array(42, $children->ids()));
+
+		$unpublishedChildren = $category->searchChildren(['filter.published' => 0]);
+
+		$this->assertTrue(in_array(42, $unpublishedChildren->ids()));
+		$this->assertSame([], array_intersect($children->ids(), $unpublishedChildren->ids()));
+
+		$allChildren = $category->searchChildren(['filter.published' => [0, 1]]);
+
+		$this->assertSame($children->ids(), array_intersect($children->ids(), $allChildren->ids()));
+		$this->assertSame($unpublishedChildren->ids(), array_intersect($unpublishedChildren->ids(), $allChildren->ids()));
+
+		$allWithNullChildren = $category->searchChildren(['filter.published' => null]);
+
+		$this->assertSame($allChildren->ids(), $allWithNullChildren->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchChildrenAppliesOrdering()
+	{
+		$category = Category::find(37);
+		$children = $category->searchChildren();
+
+		$this->assertSame(38, $children->first()->id())	;
+
+		$childrenOrderedByPublished = $category->searchChildren(
+			[
+				'filter.published' => null,
+				'list.ordering'    => 'c.published'
+			]
+		);
+
+		$this->assertSame(42, $childrenOrderedByPublished->first()->id());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchChildrenAppliesDirection()
+	{
+		$category = Category::find(37);
+		$children = $category->searchChildren();
+
+		$this->assertSame(38, $children->first()->id());
+
+		$reverseOrderedChildren = $category->searchChildren(['list.direction' => 'DESC']);
+
+		$this->assertSame(38, $reverseOrderedChildren->last()->id());
 	}
 
 	/**
