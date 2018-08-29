@@ -9,7 +9,6 @@
 namespace Phproberto\Joomla\Entity\Tests\Unit\Core\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Core\Traits\HasParent;
 
 /**
