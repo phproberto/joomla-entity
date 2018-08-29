@@ -34,6 +34,19 @@ class CategoryTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function parentReturnsCorrectParent()
+	{
+		$parent = Category::find(19)->parent();
+
+		$this->assertInstanceOf(Category::class, $parent);
+		$this->assertSame(14, $parent->id());
+	}
+
+	/**
 	 * This method is called before the first test of this test class is run.
 	 *
 	 * @return  void
