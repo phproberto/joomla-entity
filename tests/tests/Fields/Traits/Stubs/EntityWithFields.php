@@ -1,0 +1,22 @@
+<?php
+/**
+ * Joomla! entity library.
+ *
+ * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
+ * @license    See COPYING.txt
+ */
+
+namespace Phproberto\Joomla\Entity\Tests\Fields\Traits\Stubs;
+
+use Phproberto\Joomla\Entity\ComponentEntity;
+use Phproberto\Joomla\Entity\Fields\Traits\HasFields;
+
+/**
+ * Entity to test HasFields trait.
+ *
+ * @since  1.1.0
+ */
+class EntityWithFields extends ComponentEntity
+{
+	use HasFields;
+}
