@@ -82,6 +82,14 @@ abstract class Column
 	const PARAMS = 'params';
 
 	/**
+	 * Default column used to store parent identifier.
+	 *
+	 * @const
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PARENT = 'parent_id';
+
+	/**
 	 * Default column used to store publish down date.
 	 *
 	 * @const

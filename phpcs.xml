@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="joomla with short arrays standard">
+<ruleset name="joomla-entity">
 	<rule ref="./vendor/joomla/coding-standards/Joomla">
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 	</rule>
