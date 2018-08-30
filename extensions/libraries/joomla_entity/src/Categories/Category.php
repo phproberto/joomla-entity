@@ -29,7 +29,8 @@ use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
 class Category extends ComponentEntity implements Publishable, Translatable
 {
 	use CoreTraits\HasAccess, CoreTraits\HasAncestors, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasChildren;
-	use CoreTraits\HasDescendants, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasParent, CoreTraits\HasState;
+	use CoreTraits\HasDescendants, CoreTraits\HasLevel, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasParent;
+	use CoreTraits\HasState;
 	use HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 

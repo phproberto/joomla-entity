@@ -87,6 +87,16 @@ class CategoryTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function levelReturnsCategoryLevel()
+	{
+		$this->assertSame(2, Category::find(19)->level());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function parentReturnsCorrectParent()
 	{
 		$parent = Category::find(19)->parent();
