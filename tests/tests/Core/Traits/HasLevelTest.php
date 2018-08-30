@@ -227,6 +227,37 @@ class HasLevelTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function levelReturnsZeroForEntitiesWithoutLevelColumn()
+	{
+		$this->entity->bind(['id' => 1]);
+		$this->assertSame(0, $this->entity->level());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function levelReturnsExpectedValue()
+	{
+		$this->entity->bind(['id' => 1, self::LEVEL_COLUMN => '12aaa']);
+		$this->assertSame(12, $this->entity->level());
+
+		$this->entity->bind(['id' => 1, self::LEVEL_COLUMN => null]);
+		$this->assertSame(0, $this->entity->level());
+
+		$this->entity->bind(['id' => 1, self::LEVEL_COLUMN => 23]);
+		$this->assertSame(23, $this->entity->level());
+
+		$this->entity->bind(['id' => 1, self::LEVEL_COLUMN => '']);
+		$this->assertSame(0, $this->entity->level());
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *

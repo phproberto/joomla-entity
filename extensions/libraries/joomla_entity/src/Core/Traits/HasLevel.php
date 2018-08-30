@@ -107,6 +107,23 @@ trait HasLevel
 	}
 
 	/**
+	 * Retrieve this entity level.
+	 *
+	 * @return  integer
+	 */
+	public function level()
+	{
+		$column = $this->levelColumn();
+
+		if (!$this->has($column))
+		{
+			return 0;
+		}
+
+		return (int) $this->get($column);
+	}
+
+	/**
 	 * Retrieve the column that will be used for level.
 	 *
 	 * @return  string
