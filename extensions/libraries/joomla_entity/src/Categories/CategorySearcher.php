@@ -136,6 +136,23 @@ class CategorySearcher extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('anc1.id') . ' IN(' . implode(',', $ids) . ')');
 		}
 
+		// Filter: search
+		if (null !== $this->options->get('filter.search'))
+		{
+			$search = $this->options->get('filter.search');
+			$search = $db->quote(
+				'%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%')
+			);
+
+			$query->where(
+				'(c.title LIKE ' . $search
+				. ' OR c.alias LIKE ' . $search
+				. ' OR c.path LIKE ' . $search
+				. ' OR c.extension LIKE ' . $search
+				. ')'
+			);
+		}
+
 		$query->order($db->escape($this->options->get('list.ordering')) . ' ' . $db->escape($this->options->get('list.direction')));
 
 		return $query;

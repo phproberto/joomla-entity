@@ -324,6 +324,33 @@ class CategorySearcherTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchFilterIsApplied()
+	{
+		$categories = CategorySearcher::instance(['filter.search' => 'growers', 'list.limit' => 0])->search();
+
+		$this->assertSame(1, count($categories));
+		$this->assertSame(30, (int) $categories[0]['id']);
+
+		$categories = CategorySearcher::instance(['filter.search' => 'com_users', 'list.limit' => 0])->search();
+
+		$this->assertSame(1, count($categories));
+		$this->assertSame(77, (int) $categories[0]['id']);
+
+		$categories = CategorySearcher::instance(['filter.search' => 'park-site', 'list.limit' => 0])->search();
+
+		$this->assertSame(6, count($categories));
+
+		foreach ($categories as $category)
+		{
+			$this->assertContains('park-site', $category['path']);
+		}
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
