@@ -108,6 +108,34 @@ class CategorySearcher extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('c.extension') . ' IN(' . implode(',', $extensions) . ')');
 		}
 
+		// Filter: descendant
+		if (null !== $this->options->get('filter.descendant_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.descendant_id'));
+
+			$query->innerJoin($db->qn('#__categories', 'dsc2') . ' ON ' . $db->qn('dsc2.id') . ' = ' . $db->qn('c.id'))
+				->innerJoin(
+					$db->qn('#__categories', 'dsc1') . ' ON ' . $db->qn('dsc1.rgt') . ' < ' . $db->qn('dsc2.rgt') .
+					' AND ' . $db->qn('dsc1.lft') . ' > ' . $db->qn('dsc2.lft')
+				);
+
+			$query->where($db->qn('dsc1.id') . ' IN(' . implode(',', $ids) . ')');
+		}
+
+		// Filter: ancestor
+		if (null !== $this->options->get('filter.ancestor_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.ancestor_id'));
+
+			$query->innerJoin($db->qn('#__categories', 'anc2') . ' ON ' . $db->qn('anc2.id') . ' = ' . $db->qn('c.id'))
+				->innerJoin(
+					$db->qn('#__categories', 'anc1') . ' ON ' . $db->qn('anc1.lft') . ' < ' . $db->qn('anc2.lft') .
+					' AND ' . $db->qn('anc1.rgt') . ' > ' . $db->qn('anc2.rgt')
+				);
+
+			$query->where($db->qn('anc1.id') . ' IN(' . implode(',', $ids) . ')');
+		}
+
 		$query->order($db->escape($this->options->get('list.ordering')) . ' ' . $db->escape($this->options->get('list.direction')));
 
 		return $query;

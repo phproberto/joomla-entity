@@ -28,8 +28,8 @@ use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
  */
 class Category extends ComponentEntity implements Publishable, Translatable
 {
-	use CoreTraits\HasAccess, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasChildren, CoreTraits\HasMetadata;
-	use CoreTraits\HasParams, CoreTraits\HasParent, CoreTraits\HasState;
+	use CoreTraits\HasAccess, CoreTraits\HasAncestors, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasChildren;
+	use CoreTraits\HasDescendants, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasParent, CoreTraits\HasState;
 	use HasTranslations;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
@@ -126,6 +126,26 @@ class Category extends ComponentEntity implements Publishable, Translatable
 	}
 
 	/**
+	 * Search entity ancestors.
+	 *
+	 * @param   array  $options  Search options. For filters, limit, ordering, etc.
+	 *
+	 * @return  Collection
+	 */
+	public function searchAncestors(array $options = [])
+	{
+		if (!$this->hasId())
+		{
+			return new Collection;
+		}
+
+		$options = array_merge(['list.limit' => 0], $options);
+		$options['filter.descendant_id'] = $this->id();
+
+		return Collection::fromData(CategorySearcher::instance($options)->search(), self::class);
+	}
+
+	/**
 	 * Search entity children.
 	 *
 	 * @param   array  $options  Search options. For filters, limit, ordering, etc.
@@ -140,8 +160,27 @@ class Category extends ComponentEntity implements Publishable, Translatable
 		}
 
 		$options = array_merge(['list.limit' => 0], $options);
-
 		$options['filter.parent_id'] = $this->id();
+
+		return Collection::fromData(CategorySearcher::instance($options)->search(), self::class);
+	}
+
+	/**
+	 * Search entity descendants.
+	 *
+	 * @param   array  $options  Search options. For filters, limit, ordering, etc.
+	 *
+	 * @return  Collection
+	 */
+	public function searchDescendants(array $options = [])
+	{
+		if (!$this->hasId())
+		{
+			return new Collection;
+		}
+
+		$options = array_merge(['list.limit' => 0], $options);
+		$options['filter.ancestor_id'] = $this->id();
 
 		return Collection::fromData(CategorySearcher::instance($options)->search(), self::class);
 	}

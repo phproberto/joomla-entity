@@ -28,6 +28,38 @@ class CategoryTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function ancestorsReturnsExpectedValue()
+	{
+		$category = new Category;
+
+		$this->assertTrue($category->ancestors()->isEmpty());
+
+		$category = Category::find(21);
+
+		$this->assertSame([1,14,19,20], $category->ancestors()->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function descendantsReturnsExpectedValue()
+	{
+		$category = new Category;
+
+		$this->assertTrue($category->descendants()->isEmpty());
+
+		$category = Category::find(20);
+
+		$this->assertSame([], array_diff($category->descendants()->ids(), [21,22,23,24,25,64,65,66,67,68,69,70,75]));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function childrenReturnsChildrenCategories()
 	{
 		$children = Category::find(37)->children();

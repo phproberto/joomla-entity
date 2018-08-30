@@ -76,17 +76,35 @@ class CategorySearcherTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function extensionFilterIsApplied()
+	public function descendantFilterIsApplied()
 	{
-		$results = CategorySearcher::instance(['filter.extension' => 'com_content', 'list.limit' => 5])->search();
+		$ids = array_map(
+			function ($categoryData)
+			{
+				return (int) $categoryData['id'];
+			},
+			CategorySearcher::instance(['filter.descendant_id' => 21, 'list.limit' => 0])->search()
+		);
 
-		$this->assertTrue(is_array($results));
-		$this->assertNotSame(0, count($results));
+		$this->assertSame([1,14,19,20], $ids);
+	}
 
-		foreach ($results as $categoryData)
-		{
-			$this->assertSame('com_content', $categoryData['extension']);
-		}
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function ancestorFilterIsApplied()
+	{
+		$ids = array_map(
+			function ($categoryData)
+			{
+				return (int) $categoryData['id'];
+			},
+			CategorySearcher::instance(['filter.ancestor_id' => 20, 'list.limit' => 0])->search()
+		);
+
+		$this->assertSame([], array_diff($ids, [21,22,23,24,25,64,65,66,67,68,69,70,75]));
 	}
 
 	/**
@@ -117,6 +135,24 @@ class CategorySearcherTest extends \TestCaseDatabase
 
 		$this->assertSame(count($ids), count($reverseIds));
 		$this->assertSame(1, end($reverseIds));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function extensionFilterIsApplied()
+	{
+		$results = CategorySearcher::instance(['filter.extension' => 'com_content', 'list.limit' => 5])->search();
+
+		$this->assertTrue(is_array($results));
+		$this->assertNotSame(0, count($results));
+
+		foreach ($results as $categoryData)
+		{
+			$this->assertSame('com_content', $categoryData['extension']);
+		}
 	}
 
 	/**
