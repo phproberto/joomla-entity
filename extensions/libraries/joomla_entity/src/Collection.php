@@ -160,6 +160,31 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 	}
 
 	/**
+	 * Generate a collection from an array of entities data.
+	 *
+	 * @param   array   $data   Array containing entities data. It can be an array of arrays or an array of objects.
+	 * @param   string  $class  Class that will be used for entities
+	 *
+	 * @return  static
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function fromData(array $data, $class)
+	{
+		return new static (
+			array_map(
+				function ($entityData) use ($class)
+				{
+					$entity = new $class;
+
+					return $entity->bind($entityData);
+				},
+				$data
+			)
+		);
+	}
+
+	/**
 	 * Get an entity by its identifier.
 	 *
 	 * @param   integer  $id  Item's identifier

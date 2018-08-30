@@ -301,6 +301,35 @@ class CollectionTest extends \TestCase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function fromDataReturnsExpectedCollection()
+	{
+		$data = [
+			[
+				'id' => 1,
+				'name' => 'Entity'
+			],
+			[
+				'id' => 2,
+				'name' => 'Another'
+			]
+		];
+
+		$collection = Collection::fromData($data, Entity::class);
+
+		$this->assertInstanceOf(Collection::class, $collection);
+		$this->assertSame([1, 2], $collection->ids());
+
+		foreach ($collection as $entity)
+		{
+			$this->assertInstanceOf(Entity::class, $entity);
+		}
+	}
+
+	/**
 	 * getIterator returns correct iterator.
 	 *
 	 * @return  void
