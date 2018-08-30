@@ -8,7 +8,7 @@
 	<authorUrl>www.phproberto.com</authorUrl>
 	<copyright>Copyright (C) 2017-2018 Roberto Segura López. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<description>Semantical API for Joomla!</description>
 	<updateservers>
 		<server type="extension" name="Joomla Entity Update Site">https://raw.githubusercontent.com/phproberto/joomla-entity/master/updates/joomla_entity.xml</server>

@@ -110,6 +110,8 @@ trait HasLevel
 	 * Retrieve this entity level.
 	 *
 	 * @return  integer
+	 *
+	 * @since   1.4.1
 	 */
 	public function level()
 	{
