@@ -194,6 +194,23 @@ class CategorySearcherTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function levelFilterIsApplied()
+	{
+		$categories = CategorySearcher::instance(['filter.level' => 3, 'list.limit' => 2])->search();
+
+		$this->assertSame(2, count($categories));
+
+		foreach ($categories as $category)
+		{
+			$this->assertSame(3, (int) $category['level']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function notIdFilterIsApplied()
 	{
 		$categories = CategorySearcher::instance(['list.limit' => 2])->search();

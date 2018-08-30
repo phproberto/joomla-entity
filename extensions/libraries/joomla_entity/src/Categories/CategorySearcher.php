@@ -153,6 +153,14 @@ class CategorySearcher extends DatabaseSearcher implements SearcherInterface
 			);
 		}
 
+		// Filter: level
+		if (null !== $this->options->get('filter.level'))
+		{
+			$levels = ArrayHelper::toInteger((array) $this->options->get('filter.level'));
+
+			$query->where($db->qn('c.level') . ' IN(' . implode(',', $levels) . ')');
+		}
+
 		$query->order($db->escape($this->options->get('list.ordering')) . ' ' . $db->escape($this->options->get('list.direction')));
 
 		return $query;
