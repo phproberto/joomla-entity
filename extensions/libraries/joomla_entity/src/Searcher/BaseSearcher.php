@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
 /**
  * Base searcher.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 abstract class BaseSearcher
 {

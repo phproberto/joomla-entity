@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * HasParent with custom column tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class HasParentWithCustomColumnTest extends HasParentTest
 {

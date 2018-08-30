@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Searcher interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 interface SearcherInterface
 {

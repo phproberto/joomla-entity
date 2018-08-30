@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithDescendants;
 /**
  * HasDescendants tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class HasDescendantsTest extends \TestCaseDatabase
 {

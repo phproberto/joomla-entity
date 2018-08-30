@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Searcher\BaseSearcher;
 /**
  * Category searcher tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class Searcher extends BaseSearcher
 {

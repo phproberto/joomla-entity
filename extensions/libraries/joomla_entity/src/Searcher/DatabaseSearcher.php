@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Searcher\BaseSearcher;
 /**
  * Database finder.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 abstract class DatabaseSearcher extends BaseSearcher
 {

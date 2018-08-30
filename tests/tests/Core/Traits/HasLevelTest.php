@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithLevel;
 /**
  * HasLevel tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class HasLevelTest extends \TestCaseDatabase
 {

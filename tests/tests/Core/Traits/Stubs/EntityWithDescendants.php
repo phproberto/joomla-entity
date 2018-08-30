@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasDescendants;
 /**
  * Sample entity to test HasDescendants trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 class EntityWithDescendants extends Entity
 {

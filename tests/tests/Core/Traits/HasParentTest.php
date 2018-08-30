@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithParent;
 /**
  * HasParent tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class HasParentTest extends \TestCaseDatabase
 {

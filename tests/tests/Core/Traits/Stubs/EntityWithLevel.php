@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasLevel;
 /**
  * Sample entity to test HasLevel trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 class EntityWithLevel extends Entity
 {

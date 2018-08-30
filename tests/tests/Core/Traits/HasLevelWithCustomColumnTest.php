@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Core\Traits\HasLevelTest;
 /**
  * HasLevel tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class HasLevelWithCustomColumnTest extends HasLevelTest
 {

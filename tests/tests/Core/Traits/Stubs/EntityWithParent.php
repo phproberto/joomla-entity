@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasParent;
 /**
  * Sample entity to test HasParent trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 class EntityWithParent extends Entity
 {

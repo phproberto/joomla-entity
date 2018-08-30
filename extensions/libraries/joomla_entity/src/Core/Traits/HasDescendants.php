@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 /**
  * Trait for entities with descendants.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 trait HasDescendants
 {

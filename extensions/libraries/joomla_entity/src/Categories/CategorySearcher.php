@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Searcher\SearcherInterface;
 /**
  * Category searcher.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 class CategorySearcher extends DatabaseSearcher implements SearcherInterface
 {

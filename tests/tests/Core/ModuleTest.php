@@ -21,7 +21,7 @@ use Phproberto\Joomla\Entity\Core\Client\Administrator;
 /**
  * Module tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class ModuleTest extends \TestCaseDatabase
 {

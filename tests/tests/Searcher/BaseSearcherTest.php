@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Tests\Searcher\Stubs\Searcher;
 /**
  * Category searcher tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class BaseSearcherTest extends \TestCaseDatabase
 {

@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithAncestors;
 /**
  * HasAncestors tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class HasAncestorsTest extends \TestCaseDatabase
 {

@@ -167,7 +167,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
 	 *
 	 * @return  static
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.4.0
 	 */
 	public static function fromData(array $data, $class)
 	{

@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasChildren;
 /**
  * Sample entity to test HasChildren trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 class EntityWithChildren extends Entity
 {

@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\ComponentEntity;
 /**
  * Represents and entry from the #__modules table.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.4.0
  */
 class Module extends ComponentEntity
 {

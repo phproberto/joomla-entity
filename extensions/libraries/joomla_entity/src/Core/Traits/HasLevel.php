@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 /**
  * Trait for entities with a level column.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 trait HasLevel
 {

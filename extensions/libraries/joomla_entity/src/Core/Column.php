@@ -63,7 +63,7 @@ abstract class Column
 	 * Default column used to store level.
 	 *
 	 * @const
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.4.0
 	 */
 	const LEVEL = 'level';
 
@@ -85,7 +85,7 @@ abstract class Column
 	 * Default column used to store parent identifier.
 	 *
 	 * @const
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.4.0
 	 */
 	const PARENT = 'parent_id';
 

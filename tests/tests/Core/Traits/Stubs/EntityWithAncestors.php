@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Core\Traits\HasAncestors;
 /**
  * Sample entity to test HasAncestors trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 class EntityWithAncestors extends Entity
 {
