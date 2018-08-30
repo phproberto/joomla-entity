@@ -10,8 +10,10 @@ namespace Phproberto\Joomla\Entity;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Table\Nested;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Phproberto\Joomla\Entity\Core\Column;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
@@ -646,7 +648,24 @@ abstract class Entity implements EntityInterface
 
 		$table = $this->table();
 
+		$parentColumn = $this->columnAlias(Column::PARENT);
+
+		if (!$this->hasId() && $table instanceof Nested && $this->has($parentColumn))
+		{
+			$table->setLocation($this->get($parentColumn), 'last-child');
+		}
+
 		if (!$table->save($this->all()))
+		{
+			throw SaveException::table($this, $table);
+		}
+
+		if ($table instanceof Nested && !$table->rebuildPath($table->id))
+		{
+			throw SaveException::table($this, $table);
+		}
+
+		if ($table instanceof Nested && !$table->rebuild($table->id, $table->lft, $table->level, $table->path))
 		{
 			throw SaveException::table($this, $table);
 		}
