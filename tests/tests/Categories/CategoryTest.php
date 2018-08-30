@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Categories;
 
+defined('_JEXEC') || die;
+
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
@@ -80,35 +82,7 @@ class CategoryTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function searchChildrenAppliesAccessFilter()
-	{
-		$category = Category::find(37);
-		$children = $category->searchChildren();
-
-		$this->assertInstanceOf(Collection::class, $children);
-		$this->assertFalse(in_array(46, $children->ids()));
-
-		$customAccessChildren = $category->searchChildren(['filter.access' => 2]);
-
-		$this->assertTrue(in_array(46, $customAccessChildren->ids()));
-		$this->assertSame([], array_intersect($children->ids(), $customAccessChildren->ids()));
-
-		$allChildren = $category->searchChildren(['filter.access' => [1, 2]]);
-
-		$this->assertSame($children->ids(), array_intersect($children->ids(), $allChildren->ids()));
-		$this->assertSame($customAccessChildren->ids(), array_intersect($customAccessChildren->ids(), $allChildren->ids()));
-
-		$allWithNullChildren = $category->searchChildren(['filter.access' => null]);
-
-		$this->assertEquals([], array_diff($allChildren->ids(), $allWithNullChildren->ids()));
-	}
-
-	/**
-	 * @test
-	 *
-	 * @return void
-	 */
-	public function searchChildrenAppliesPublishedFilter()
+	public function searchChildrenFilters()
 	{
 		$category = Category::find(37);
 		$children = $category->searchChildren();
@@ -129,45 +103,6 @@ class CategoryTest extends \TestCaseDatabase
 		$allWithNullChildren = $category->searchChildren(['filter.published' => null]);
 
 		$this->assertSame($allChildren->ids(), $allWithNullChildren->ids());
-	}
-
-	/**
-	 * @test
-	 *
-	 * @return void
-	 */
-	public function searchChildrenAppliesOrdering()
-	{
-		$category = Category::find(37);
-		$children = $category->searchChildren();
-
-		$this->assertSame(38, $children->first()->id())	;
-
-		$childrenOrderedByPublished = $category->searchChildren(
-			[
-				'filter.published' => null,
-				'list.ordering'    => 'c.published'
-			]
-		);
-
-		$this->assertSame(42, $childrenOrderedByPublished->first()->id());
-	}
-
-	/**
-	 * @test
-	 *
-	 * @return void
-	 */
-	public function searchChildrenAppliesDirection()
-	{
-		$category = Category::find(37);
-		$children = $category->searchChildren();
-
-		$this->assertSame(38, $children->first()->id());
-
-		$reverseOrderedChildren = $category->searchChildren(['list.direction' => 'DESC']);
-
-		$this->assertSame(38, $reverseOrderedChildren->last()->id());
 	}
 
 	/**

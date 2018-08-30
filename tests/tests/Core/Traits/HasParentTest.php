@@ -57,6 +57,30 @@ class HasParentTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function parentIdReturnsZeroForNoParentColumn()
+	{
+		$this->entity->bind(['id' => 23]);
+
+		$this->assertSame(0, $this->entity->parentId());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function parentIdReturnsExpectedId()
+	{
+		$this->entity->bind(['id' => 23, self::PARENT_COLUMN => 34]);
+
+		$this->assertSame(34, $this->entity->parentId());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function parentReturnsCachedInstance()
 	{
 		$parent = new EntityWithParent(55);

@@ -61,6 +61,23 @@ trait HasParent
 	}
 
 	/**
+	 * Retrieve parent identifier.
+	 *
+	 * @return  integer
+	 */
+	public function parentId()
+	{
+		$column = $this->parentColumn();
+
+		if (!$this->has($column))
+		{
+			return 0;
+		}
+
+		return (int) $this->get($column);
+	}
+
+	/**
 	 * Column used to store the parent identifier.
 	 *
 	 * @return  string

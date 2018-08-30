@@ -139,56 +139,10 @@ class Category extends ComponentEntity implements Publishable, Translatable
 			return new Collection;
 		}
 
-		$defaultOptions = [
-			'filter.published' => 1,
-			'filter.access'    => true,
-			'list.ordering'    => 'c.lft',
-			'list.direction'   => 'ASC'
-		];
+		$options = array_merge(['list.limit' => 0], $options);
 
-		$options = array_merge($defaultOptions, $options);
+		$options['filter.parent_id'] = $this->id();
 
-		$db = $this->getDbo();
-
-		$query = $db->getQuery(true)
-			->select('c.*')
-			->from($db->qn('#__categories', 'c'))
-			->where($db->qn('c.parent_id') . ' = ' . (int) $this->id());
-
-		if (null !== $options['filter.published'])
-		{
-			$statuses = ArrayHelper::toInteger((array) $options['filter.published']);
-
-			$query->where($db->qn('c.published') . ' IN(' . implode(',', $statuses) . ')');
-		}
-
-		if (null !== $options['filter.access'])
-		{
-			if (true === $options['filter.access'])
-			{
-				$viewLevels = ArrayHelper::toInteger(Factory::getUser()->getAuthorisedViewLevels());
-				$query->where('c.access IN (' . implode(',', $viewLevels) . ')');
-			}
-			else
-			{
-				$viewLevels = ArrayHelper::toInteger((array) $options['filter.access']);
-
-				$query->where($db->qn('c.access') . ' IN(' . implode(',', $viewLevels) . ')');
-			}
-		}
-
-		$query->order($db->escape($options['list.ordering']) . ' ' . $db->escape($options['list.direction']));
-
-		$db->setQuery($query);
-
-		return new Collection(
-			array_map(
-				function (array $categoryData)
-				{
-					return static::find($categoryData['id'])->bind($categoryData);
-				},
-				$db->loadAssocList() ?: []
-			)
-		);
+		return Collection::fromData(CategorySearcher::instance($options)->search(), self::class);
 	}
 }
