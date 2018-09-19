@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Users;
 defined('_JEXEC') || die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\ComponentEntity;
@@ -139,6 +140,39 @@ class User extends ComponentEntity implements Aclable
 		}
 
 		return $this->authorise('core.admin', $component);
+	}
+
+	/**
+	 * Change this user password.
+	 *
+	 * @param   string  $newPassword  New password to assign
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function changePassword($newPassword)
+	{
+		if (!$this->hasId())
+		{
+			throw new \RuntimeException("Trying to change password for unsaved user", 500);
+		}
+
+		$newPassword = trim($newPassword);
+
+		if (empty($newPassword))
+		{
+			throw new \InvalidArgumentException("Cannot assign empty password to user");
+		}
+
+		$this->bind(
+			[
+				'password'     => UserHelper::hashPassword($newPassword),
+				'raw_password' => $newPassword
+			]
+		);
+
+		$this->save();
 	}
 
 	/**

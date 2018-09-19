@@ -9,6 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tests\Users;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\User\UserHelper;
 use Phproberto\Joomla\Entity\Acl\Acl;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
@@ -76,6 +77,63 @@ class UserTest extends \TestCaseDatabase
 
 		$this->assertEquals([1, 5, 8], $user->userGroupsIds());
 		$this->assertEquals([1, 5, 8], $user->userGroups()->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function changePasswordChangesUserPassword()
+	{
+		$user = User::find(42);
+
+		$currentPassword = $user->get('password');
+
+		$newPassword = 'myNewPassword';
+		$newPasswordHash = UserHelper::hashPassword($newPassword);
+
+		$this->assertNotEmpty($currentPassword);
+
+		$user->changePassword($newPassword);
+
+		// Raw password is assigned just in case there is some post-processing needed
+		$this->assertSame($newPassword, $user->get('raw_password'));
+
+		User::clear(42);
+
+		$reloadedUser = User::find(42);
+
+		$this->assertNotSame($currentPassword, $newPasswordHash);
+		$canLogin = UserHelper::verifyPassword($newPassword, $reloadedUser->get('password'), $reloadedUser->id());
+
+		$this->assertTrue($canLogin);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 *
+	 * @expectedException  \RuntimeException
+	 */
+	public function changePasswordThrowsExceptionForUnsavedUser()
+	{
+		$user = new User;
+		$user->changePassword('admin1234');
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 *
+	 * @expectedException  \InvalidArgumentException
+	 */
+	public function changePasswordThrowsExceptionForEmptyNewPassword()
+	{
+		$user = User::find(42);
+		$user->changePassword('');
 	}
 
 	/**
