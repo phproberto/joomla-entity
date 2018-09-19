@@ -149,7 +149,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   1.5.0
 	 */
 	public function changePassword($newPassword)
 	{
