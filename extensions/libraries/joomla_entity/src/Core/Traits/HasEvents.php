@@ -82,7 +82,7 @@ trait HasEvents
 	 *
 	 * @return  void
 	 */
-	private function importPlugins()
+	protected function importPlugins()
 	{
 		foreach ($this->eventsPlugins() as $plugin)
 		{

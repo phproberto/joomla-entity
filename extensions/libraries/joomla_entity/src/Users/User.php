@@ -19,6 +19,7 @@ use Phproberto\Joomla\Entity\Users\ViewLevel;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Core\Traits\HasParams;
+use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Users\Traits\HasUserGroups;
 use Phproberto\Joomla\Entity\Users\Traits\HasViewLevels;
 
@@ -185,6 +186,18 @@ class User extends ComponentEntity implements Aclable
 		return array(
 			Column::OWNER  => 'id'
 		);
+	}
+
+	/**
+	 * Get the plugin types that will be used by this entity.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function eventsPlugins()
+	{
+		return array_merge(parent::eventsPlugins(), ['user']);
 	}
 
 	/**
@@ -427,6 +440,47 @@ class User extends ComponentEntity implements Aclable
 		$this->assign('groups', $newGroups);
 		$this->clearUserGroups();
 		$this->save();
+	}
+
+	/**
+	 * Save entity to the database.
+	 *
+	 * @return  self
+	 *
+	 * @throws  SaveException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save()
+	{
+		$isNew = !$this->hasId();
+
+		$this->importPlugins();
+
+		try
+		{
+			parent::save();
+		}
+		catch (\Exception $e)
+		{
+			$this->dispatcher()->trigger(
+				'onUserAfterSave',
+				[
+					$this->all(), $isNew, false, $e->getMessage()
+				]
+			);
+
+			throw $e;
+		}
+
+		$this->dispatcher()->trigger(
+			'onUserAfterSave',
+			[
+				$this->all(), $isNew, true, ''
+			]
+		);
+
+		return $this;
 	}
 
 	/**

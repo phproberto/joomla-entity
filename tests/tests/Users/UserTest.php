@@ -141,6 +141,22 @@ class UserTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function eventsPluginsReturnsUserPluginType()
+	{
+		$user = User::find(42);
+
+		$reflection = new \ReflectionClass($user);
+		$method = $reflection->getMethod('eventsPlugins');
+		$method->setAccessible(true);
+
+		$this->assertTrue(in_array('user', $method->invoke($user), true));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function removeFromAllUserGroupsWorks()
 	{
 		$user = User::find(42);
@@ -207,7 +223,85 @@ class UserTest extends \TestCaseDatabase
 
 		$this->assertEquals([], $user->userGroupsIds());
 		$this->assertEquals([], $user->userGroups()->ids());
+	}
 
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function saveTriggersOnUserAfterSaveEventWhenSaveWorks()
+	{
+		$savedData = [
+			'id'       => 23,
+			'name'     => 'Epic User',
+			'username' => 'epic-user',
+			'email'    => 'epicUser@examle.com'
+		];
+
+		$dispatcher = $this->getMockBuilder(\JEventDispatcher::class)
+			->setMethods(['trigger'])
+			->getMock();
+
+		$dispatcher->method('trigger')
+			->with(
+				$this->equalTo('onUserAfterSave')
+			)
+			->willReturn(true);
+
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(['dispatcher'])
+			->getMock();
+
+		$user->method('dispatcher')
+			->willReturn($dispatcher);
+
+		$user->bind($savedData);
+		$user->save();
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function saveTriggersOnUserAfterSaveEventWhenSaveFails()
+	{
+		$savedData = [
+			'id'       => 23,
+			'name'     => 'Epic User'
+		];
+
+		$dispatcher = $this->getMockBuilder(\JEventDispatcher::class)
+			->setMethods(['trigger'])
+			->getMock();
+
+		$dispatcher->method('trigger')
+			->with(
+				$this->equalTo('onUserAfterSave')
+			)
+			->willReturn(true);
+
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(['dispatcher'])
+			->getMock();
+
+		$user->method('dispatcher')
+			->willReturn($dispatcher);
+
+		$error = '';
+		$user->bind($savedData);
+
+		try
+		{
+			$user->save();
+		}
+		catch (\Exception $e)
+		{
+			$error = $e->getMessage();
+		}
+
+		$this->assertNotSame('', $error);
 	}
 
 	/**
