@@ -1,4 +1,4 @@
-# joomla-entity
+# Entity system for Joomla!
 
 > Because developing Joomla extensions should be fun and easy.
 
@@ -64,7 +64,7 @@ catch (\RuntimeException $e)
 }
 ```
 
-See the [https://phproberto.github.io/joomla-entity/](https://phproberto.github.io/joomla-entity) for other examples.
+See the [full documentation](https://phproberto.github.io/joomla-entity) for other examples.
 
 ## Installation <a id="installation"></a>
 
