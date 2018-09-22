@@ -67,7 +67,7 @@ class CategoryTest extends \TestCaseDatabase
 		$this->assertInstanceOf(Collection::class, $children);
 		$this->assertFalse($children->isEmpty());
 
-		$this->assertFalse(in_array(42, $children->ids()));
+		$this->assertFalse(in_array(22, $children->ids()));
 	}
 
 	/**
@@ -127,12 +127,16 @@ class CategoryTest extends \TestCaseDatabase
 	public function searchChildrenFilters()
 	{
 		$category = Category::find(37);
-		$children = $category->searchChildren();
+		$children = $category->searchChildren(['filter.published' => 1]);
 
 		$this->assertInstanceOf(Collection::class, $children);
 		$this->assertFalse(in_array(42, $children->ids()));
 
-		$unpublishedChildren = $category->searchChildren(['filter.published' => 0]);
+		$unpublishedChildren = $category->searchChildren(
+			[
+				'filter.published' => 0
+			]
+		);
 
 		$this->assertTrue(in_array(42, $unpublishedChildren->ids()));
 		$this->assertSame([], array_intersect($children->ids(), $unpublishedChildren->ids()));
