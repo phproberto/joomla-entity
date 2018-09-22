@@ -12,6 +12,7 @@ defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Categories\CategorySearcher;
 
 /**
@@ -26,6 +27,53 @@ class CategorySearcherTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function activeUserAccessFilterIsApplied()
+	{
+		$user = $this->getMockBuilder(User::class)
+			->setMethods(array('getAuthorisedViewLevels'))
+			->getMock();
+
+		$user->method('getAuthorisedViewLevels')
+			->will($this->onConsecutiveCalls([1], [2]));
+
+		User::setActive($user);
+
+		$filteredIds = array_map(
+			function ($categoryData)
+			{
+				return (int) $categoryData['id'];
+			},
+			CategorySearcher::instance(
+				[
+					'filter.active_user_access' => true,
+					'list.limit' => 0
+				]
+			)->search()
+		);
+
+		$this->assertFalse(in_array(46, $filteredIds));
+
+		$filteredIds = array_map(
+			function ($categoryData)
+			{
+				return (int) $categoryData['id'];
+			},
+			CategorySearcher::instance(
+				[
+					'filter.active_user_access' => true,
+					'list.limit' => 0
+				]
+			)->search()
+		);
+
+		$this->assertTrue(in_array(46, $filteredIds));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function accessFilterIsApplied()
 	{
 		$ids = array_map(
@@ -33,7 +81,12 @@ class CategorySearcherTest extends \TestCaseDatabase
 			{
 				return (int) $categoryData['id'];
 			},
-			CategorySearcher::instance(['list.limit' => 0])->search()
+			CategorySearcher::instance(
+				[
+					'filter.access' => 1,
+					'list.limit' => 0
+				]
+			)->search()
 		);
 
 		$this->assertFalse(in_array(46, $ids));
@@ -43,7 +96,12 @@ class CategorySearcherTest extends \TestCaseDatabase
 			{
 				return (int) $categoryData['id'];
 			},
-			CategorySearcher::instance(['filter.access' => 2, 'list.limit' => 0])->search()
+			CategorySearcher::instance(
+				[
+					'filter.access' => 2,
+					'list.limit' => 0
+				]
+			)->search()
 		);
 
 		$this->assertTrue(in_array(46, $filteredIds));
@@ -295,7 +353,12 @@ class CategorySearcherTest extends \TestCaseDatabase
 				{
 					return (int) $categoryData['published'];
 				},
-				CategorySearcher::instance(['list.limit' => 0])->search()
+				CategorySearcher::instance(
+					[
+						'filter.published' => 1,
+						'list.limit' => 0
+					]
+				)->search()
 			)
 		);
 
@@ -395,5 +458,7 @@ class CategorySearcherTest extends \TestCaseDatabase
 		$this->restoreFactoryState();
 
 		parent::tearDown();
+
+		User::clearActive();
 	}
 }

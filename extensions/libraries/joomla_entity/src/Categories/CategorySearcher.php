@@ -12,6 +12,7 @@ defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
+use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Searcher\DatabaseSearcher;
 use Phproberto\Joomla\Entity\Searcher\SearcherInterface;
 
@@ -32,10 +33,8 @@ class CategorySearcher extends DatabaseSearcher implements SearcherInterface
 		return array_merge(
 			parent::defaultOptions(),
 			[
-				'filter.published' => 1,
-				'filter.access'    => true,
-				'list.ordering'    => 'c.lft',
-				'list.direction'   => 'ASC'
+				'list.ordering'  => 'c.lft',
+				'list.direction' => 'ASC'
 			]
 		);
 	}
@@ -77,17 +76,18 @@ class CategorySearcher extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('c.parent_id') . ' IN(' . implode(',', $parentsIds) . ')');
 		}
 
+		// Filter: active user access
+		if (true === $this->options->get('filter.active_user_access'))
+		{
+			$viewLevels = ArrayHelper::toInteger(User::active()->getAuthorisedViewLevels());
+
+			$query->where($db->qn('c.access') . ' IN(' . implode(',', $viewLevels) . ')');
+		}
+
 		// Filter: access
 		if (null !== $this->options->get('filter.access'))
 		{
-			if (true === $this->options->get('filter.access'))
-			{
-				$viewLevels = ArrayHelper::toInteger(Factory::getUser()->getAuthorisedViewLevels());
-			}
-			else
-			{
-				$viewLevels = ArrayHelper::toInteger((array) $this->options->get('filter.access'));
-			}
+			$viewLevels = ArrayHelper::toInteger((array) $this->options->get('filter.access'));
 
 			$query->where($db->qn('c.access') . ' IN(' . implode(',', $viewLevels) . ')');
 		}
