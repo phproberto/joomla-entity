@@ -26,6 +26,56 @@ class UserTest extends \TestCaseDatabase
 	/**
 	 * @test
 	 *
+	 * @return  void
+	 */
+	public function activeReturnsActiveJoomlaValue()
+	{
+		$mockSession = $this->getMockBuilder('JSession')
+			->setMethods(array('_start', 'get'))
+			->getMock();
+
+		$mockSession->expects($this->once())
+			->method('get')
+			->will($this->returnValue(new \JUser(42)));
+
+		\JFactory::$session = $mockSession;
+
+		$this->assertEquals(User::find(42), User::active());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function activeReturnsCachedInstance()
+	{
+		$reflection = new \ReflectionClass(User::class);
+		$activeProperty = $reflection->getProperty('active');
+		$activeProperty->setAccessible(true);
+
+		$this->assertSame(null, $activeProperty->getValue(User::class));
+
+		$activeUser = new User(999);
+
+		$activeProperty->setValue(User::class, $activeUser);
+
+		$this->assertSame($activeUser, User::active());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function activeReturnsUnloadedInstance()
+	{
+		$this->assertEquals(new User, User::active());
+	}
+
+	/**
+	 * @test
+	 *
 	 * @return void
 	 */
 	public function addToUserGroupWorks()
@@ -150,6 +200,27 @@ class UserTest extends \TestCaseDatabase
 		$method->setAccessible(true);
 
 		$this->assertTrue(in_array('user', $method->invoke($user), true));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function clearActiveUnsetsActiveUser()
+	{
+		$reflection = new \ReflectionClass(User::class);
+		$activeProperty = $reflection->getProperty('active');
+		$activeProperty->setAccessible(true);
+
+		$activeUser = new User(999);
+		$activeProperty->setValue(User::class, $activeUser);
+
+		$this->assertSame($activeUser, $activeProperty->getValue(User::class));
+
+		User::clearActive();
+
+		$this->assertSame(null, $activeProperty->getValue(User::class));
 	}
 
 	/**
@@ -305,6 +376,22 @@ class UserTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function setActiveSetsActiveUser()
+	{
+		User::setActive(new User(999));
+
+		$this->assertSame(999, User::active()->id());
+
+		User::setActive(new User(666));
+
+		$this->assertSame(666, User::active()->id());
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -330,6 +417,7 @@ class UserTest extends \TestCaseDatabase
 	protected function tearDown()
 	{
 		User::clearAll();
+		User::clearActive();
 
 		$this->restoreFactoryState();
 
@@ -373,28 +461,6 @@ class UserTest extends \TestCaseDatabase
 		$this->assertInstanceOf(Acl::class, $acl);
 		$this->assertSame($user, $userProperty->getValue($acl));
 		$this->assertSame($entity, $entityProperty->getValue($acl));
-	}
-
-	/**
-	 * active returns correct value
-	 *
-	 * @return  void
-	 */
-	public function testActiveReturnsCorrectValue()
-	{
-		$this->assertEquals(new User, User::active());
-
-		$mockSession = $this->getMockBuilder('JSession')
-			->setMethods(array('_start', 'get'))
-			->getMock();
-
-		$mockSession->expects($this->once())
-			->method('get')
-			->will($this->returnValue(new \JUser(42)));
-
-		\JFactory::$session = $mockSession;
-
-		$this->assertEquals(User::find(42), User::active());
 	}
 
 	/**

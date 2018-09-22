@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Users;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -33,6 +34,14 @@ class User extends ComponentEntity implements Aclable
 	use HasAcl, HasParams, HasUserGroups, HasViewLevels;
 
 	/**
+	 * Active user.
+	 *
+	 * @var    static
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $active;
+
+	/**
 	 * Is this user root/super user?
 	 *
 	 * @var  boolean
@@ -46,9 +55,14 @@ class User extends ComponentEntity implements Aclable
 	 */
 	public static function active()
 	{
-		$userId = (int) \JFactory::getUser()->get('id');
+		if (null === static::$active)
+		{
+			$userId = (int) Factory::getUser()->get('id');
 
-		return $userId ? static::find($userId) : new static;
+			static::$active = $userId ? static::find($userId) : new static;
+		}
+
+		return static::$active;
 	}
 
 	/**
@@ -174,6 +188,18 @@ class User extends ComponentEntity implements Aclable
 		);
 
 		$this->save();
+	}
+
+	/**
+	 * Clear the active user.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearActive()
+	{
+		static::$active = null;
 	}
 
 	/**
@@ -481,6 +507,20 @@ class User extends ComponentEntity implements Aclable
 		);
 
 		return $this;
+	}
+
+	/**
+	 * Set the active user.
+	 *
+	 * @param   static  $user  User that will be set as active
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function setActive(User $user)
+	{
+		static::$active = $user;
 	}
 
 	/**

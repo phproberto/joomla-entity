@@ -52,6 +52,7 @@ class HasOwnerTest extends \TestCaseDatabase
 	protected function tearDown()
 	{
 		EntityWithOwner::clearAll();
+		User::clearActive();
 
 		$this->restoreFactoryState();
 
