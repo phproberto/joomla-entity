@@ -10,13 +10,13 @@ Let's use a fast example. This is how you actually can load an article by its id
 
 Where `$article` is a `stdClass` object. You can access its properties but it's really a dummy thing. An end point.
 
-This library allows you to use something like:
+With an Article entity you can do:
 
 ![Load an article](./docs/img/joomla-entity-load-article.png)
 
-Here `$article` is an entity. An object that exposes its logic for you to use it. Not an end point anymore but a tool that exposes its available resources to you.
+Here `$article` is an Article entity. An object that exposes its logic and resources to the developer.
 
-Some examples of the awesome things that you can do with that article entity:
+Some awesome things that you can do with that article entity:
 
 ```php
 // Use article as entity
