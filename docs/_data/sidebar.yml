@@ -8,12 +8,26 @@
       url: /contributing
     - title: License
       url: /license
+- title: Global
+  links: 
+    - title: Base entity
+      url: /Entity 
+    - title: Collection
+      url: /Collection 
 - title: ACL
   links: 
     - title: Acl
       url: /Acl/Acl 
     - title: Traits/HasAcl
       url: /Acl/Traits/HasAcl 
+- title: Categories
+  links: 
+    - title: Category
+      url: /Categories/Category 
+    - title: Traits/HasCategories
+      url: Traits/HasCategories 
+    - title: Traits/HasCategory
+      url: Traits/HasCategory 
 - title: Core
   links: 
     - title: Asset
