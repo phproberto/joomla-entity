@@ -12,7 +12,7 @@ Where `$article` is a `stdClass` object. You can access its properties but it's 
 
 This library allows you to use something like:
 
-![Load an article](./docs/img/joomla-entiyt-load-article.png)
+![Load an article](./docs/img/joomla-entity-load-article.png)
 
 Here `$article` is an entity. An object that exposes its logic for you to use it. Not an end point anymore but a tool that exposes its available resources to you.
 
