@@ -8,5 +8,6 @@ remote_theme: "phproberto/jekyll-test"
 include: 
   - contributing.md
   - license.md
+  - qa.md
 plugins:
   - jekyll-remote-theme

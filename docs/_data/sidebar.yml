@@ -3,7 +3,7 @@
     - title: Quick start
       url: /
     - title: QA
-      url: https://sonarcloud.io/dashboard?id=phproberto%3Ajoomla-entity
+      url: /qa
     - title: Contributing
       url: /contributing
     - title: License
