@@ -102,7 +102,7 @@
   links: 
     - title: Field
       url: /Fields/Field 
-    - title: Field
+    - title: FieldGroup
       url: /Fields/FieldGroup
     - title: Traits/HasFields
       url: /Fields/Traits/HasFields
