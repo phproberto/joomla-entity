@@ -10,7 +10,7 @@
       url: /license
 - title: Global
   links: 
-    - title: Base entity
+    - title: Entity
       url: /Entity 
     - title: Collection
       url: /Collection 
@@ -44,6 +44,10 @@
   links: 
     - title: Asset
       url: /Core/Asset 
+    - title: Extension
+      url: /Core/Extension 
+    - title: Module
+      url: /Core/Module 
     - title: Client/Administrator
       url: /Core/Client/Administrator 
     - title: Client/Client
@@ -54,8 +58,6 @@
       url: /Core/Extension/ActiveComponent 
     - title: Extension/Component
       url: /Core/Extension/Component 
-    - title: Extension
-      url: /Core/Extension 
     - title: Traits/HasAccess
       url: /Core/Traits/HasAccess
     - title: Traits/HasAsset
@@ -132,4 +134,3 @@
       url: /Users/Traits/HasUsers
     - title: Traits/HasViewLevels
       url: /Users/Traits/HasViewLevels
-      

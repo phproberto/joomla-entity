@@ -1,4 +1,4 @@
-# Entity collection class
+# Collection
 
 `Phproberto\Joomla\Entity\Collection`
 
