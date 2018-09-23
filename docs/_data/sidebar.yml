@@ -110,3 +110,26 @@
       url: /Tags/Tag 
     - title: Traits/HasTags
       url: /Tags/Traits/HasTags
+- title: Users
+  links: 
+    - title: User
+      url: /Users/User 
+    - title: UserGroup
+      url: /Users/UserGroup 
+    - title: ViewLevel
+      url: /Users/ViewLevel 
+    - title: Traits/HasAuthor
+      url: /Users/Traits/HasAuthor
+    - title: Traits/HasEditor
+      url: /Users/Traits/HasEditor
+    - title: Traits/HasOwner
+      url: /Users/Traits/HasOwner
+    - title: Traits/HasUser
+      url: /Users/Traits/HasUser
+    - title: Traits/HasUserGroups
+      url: /Users/Traits/HasUserGroups
+    - title: Traits/HasUsers
+      url: /Users/Traits/HasUsers
+    - title: Traits/HasViewLevels
+      url: /Users/Traits/HasViewLevels
+      
