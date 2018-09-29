@@ -100,6 +100,14 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.featured') . ' IN(' . implode(',', $statuses) . ')');
 		}
 
+		// Filter: language
+		if (null !== $this->options->get('filter.language'))
+		{
+			$languages = array_map([$db, 'quote'], (array) $this->options->get('filter.language'));
+
+			$query->where($db->qn('a.language') . ' IN(' . implode(',', $languages) . ')');
+		}
+
 		// Filter: state
 		if (null !== $this->options->get('filter.state'))
 		{

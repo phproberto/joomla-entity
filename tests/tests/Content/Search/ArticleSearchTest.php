@@ -254,6 +254,32 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function languageFilterIsApplied()
+	{
+		$items = ArticleSearch::instance(['filter.language' => 'es-ES'])->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertSame('es-ES', $item['language']);
+		}
+
+		$items = ArticleSearch::instance(['filter.language' => 'en-GB'])->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertSame('en-GB', $item['language']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function notIdFilterIsApplied()
 	{
 		$articles = ArticleSearch::instance(['list.limit' => 2])->search();
