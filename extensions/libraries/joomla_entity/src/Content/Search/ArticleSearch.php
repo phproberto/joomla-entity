@@ -84,6 +84,22 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.access') . ' IN(' . implode(',', $viewLevels) . ')');
 		}
 
+		// Filter: category
+		if (null !== $this->options->get('filter.category_id'))
+		{
+			$viewLevels = ArrayHelper::toInteger((array) $this->options->get('filter.category_id'));
+
+			$query->where($db->qn('a.catid') . ' IN(' . implode(',', $viewLevels) . ')');
+		}
+
+		// Filter: featured
+		if (null !== $this->options->get('filter.featured'))
+		{
+			$statuses = ArrayHelper::toInteger((array) $this->options->get('filter.featured'));
+
+			$query->where($db->qn('a.featured') . ' IN(' . implode(',', $statuses) . ')');
+		}
+
 		// Filter: state
 		if (null !== $this->options->get('filter.state'))
 		{

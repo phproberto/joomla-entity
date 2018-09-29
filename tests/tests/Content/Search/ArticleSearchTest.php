@@ -133,6 +133,27 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function categoryFilterIsApplied()
+	{
+		$items = ArticleSearch::instance(
+			[
+				'filter.category_id' => 64
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertSame('64', $item['catid']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function directionIsApplied()
 	{
 		$ids = array_map(
@@ -156,6 +177,42 @@ class ArticleSearchTest extends \TestCaseDatabase
 
 		$this->assertSame(count($ids), count($reverseIds));
 		$this->assertSame(1, $reverseIds[0]);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function featuredFilterIsApplied()
+	{
+		$items = ArticleSearch::instance(
+			[
+				'filter.featured' => 1,
+				'list.limit' => 5
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertSame('1', $item['featured']);
+		}
+
+		$items = ArticleSearch::instance(
+			[
+				'filter.featured' => 0,
+				'list.limit' => 5
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertSame('0', $item['featured']);
+		}
 	}
 
 	/**
