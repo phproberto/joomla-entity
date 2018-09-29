@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Content;
+namespace Phproberto\Joomla\Entity\Content\Search;
 
 defined('_JEXEC') || die;
 

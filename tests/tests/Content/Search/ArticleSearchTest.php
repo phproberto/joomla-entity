@@ -6,13 +6,13 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Content;
+namespace Phproberto\Joomla\Entity\Tests\Content\Search;
 
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Content\ArticleSearch;
+use Phproberto\Joomla\Entity\Content\Search\ArticleSearch;
 
 /**
  * ArticleSearch tests.
@@ -166,7 +166,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 	protected function getDataSet()
 	{
 		$dataSet = new \PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
-		$dataSet->addTable('jos_content', JPATH_TESTS_PHPROBERTO . '/tests/Content/Stubs/Database/content.csv');
+		$dataSet->addTable('jos_content', JPATH_TESTS_PHPROBERTO . '/tests/Content/Search/Stubs/Database/content.csv');
 
 		return $dataSet;
 	}
