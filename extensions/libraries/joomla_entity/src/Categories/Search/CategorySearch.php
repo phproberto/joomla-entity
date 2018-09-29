@@ -136,6 +136,14 @@ class CategorySearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('anc1.id') . ' IN(' . implode(',', $ids) . ')');
 		}
 
+		// Filter: language
+		if (null !== $this->options->get('filter.language'))
+		{
+			$languages = array_map([$db, 'quote'], (array) $this->options->get('filter.language'));
+
+			$query->where($db->qn('c.language') . ' IN(' . implode(',', $languages) . ')');
+		}
+
 		// Filter: search
 		if (null !== $this->options->get('filter.search'))
 		{

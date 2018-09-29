@@ -252,6 +252,23 @@ class CategorySearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function languageFilterIsApplied()
+	{
+		$items = CategorySearch::instance(['filter.language' => 'en-GB'])->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertSame('en-GB', $item['language']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function levelFilterIsApplied()
 	{
 		$categories = CategorySearch::instance(['filter.level' => 3, 'list.limit' => 2])->search();
