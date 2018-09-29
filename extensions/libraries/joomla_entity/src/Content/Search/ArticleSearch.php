@@ -52,6 +52,22 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			->select('a.*')
 			->from($db->qn('#__content', 'a'));
 
+		// Filter: author_id
+		if (null !== $this->options->get('filter.author_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.author_id'));
+
+			$query->where($db->qn('a.created_by') . ' IN(' . implode(',', $ids) . ')');
+		}
+
+		// Filter: editor_id
+		if (null !== $this->options->get('filter.editor_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.editor_id'));
+
+			$query->where($db->qn('a.modified_by') . ' IN(' . implode(',', $ids) . ')');
+		}
+
 		// Filter: id
 		if (null !== $this->options->get('filter.id'))
 		{

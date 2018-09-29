@@ -133,6 +133,71 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function authorFilterIsApplied()
+	{
+		$items = ArticleSearch::instance(
+			[
+				'filter.author_id' => 815,
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertSame('815', $item['created_by']);
+		}
+
+		$allItems = ArticleSearch::instance(
+			[
+				'filter.author_id' => null,
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($allItems));
+		$this->assertTrue(count($allItems) > count($items));
+	}
+
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function editorFilterIsApplied()
+	{
+		$items = ArticleSearch::instance(
+			[
+				'filter.editor_id' => 815,
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertSame('815', $item['modified_by']);
+		}
+
+		$allItems = ArticleSearch::instance(
+			[
+				'filter.editor_id' => null,
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($allItems));
+		$this->assertTrue(count($allItems) > count($items));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function categoryFilterIsApplied()
 	{
 		$items = ArticleSearch::instance(
