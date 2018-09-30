@@ -1,0 +1,2 @@
+'message_id','user_id_from','user_id_to','folder_id','date_time','state','priority','subject','message'
+'1','815','815','0','0000-00-00 00:00:00','0','0','Message test','Hello!'

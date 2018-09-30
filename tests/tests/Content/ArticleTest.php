@@ -8,6 +8,8 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content;
 
+defined('_JEXEC') || die;
+
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;

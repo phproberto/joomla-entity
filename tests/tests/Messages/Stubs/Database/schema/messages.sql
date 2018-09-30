@@ -1,0 +1,11 @@
+CREATE TABLE `jos_messages` (
+	`message_id` INTEGER PRIMARY KEY NOT NULL,
+	`user_id_from` INTEGER  NOT NULL DEFAULT '0',
+	`user_id_to` INTEGER NOT NULL DEFAULT '0',
+	`folder_id` INTEGER NOT NULL DEFAULT '0',
+	`date_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`state` INTEGER NOT NULL DEFAULT '0',
+	`priority` INTEGER NOT NULL DEFAULT '0',
+	`subject` TEXT NOT NULL DEFAULT '',
+	`message` TEXT NOT NULL
+);
