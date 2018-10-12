@@ -228,6 +228,44 @@ class UserTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function loadFromDataReturnsExpectedValue()
+	{
+		$user = User::loadFromData(['username' => 'admin']);
+
+		$this->assertInstanceOf(User::class, $user);
+		$this->assertTrue($user->hasId());
+		$this->assertSame('Super User', $user->get('name'));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function loadFromDataReturnsFalseForNotFoundUser()
+	{
+		$user = User::loadFromData(['username' => 'osm']);
+
+		$this->assertSame(false, $user);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 *
+	 * @expectedException  \UnexpectedValueException
+	 */
+	public function loadFromDataThrowsExceptionForWrongData()
+	{
+		$user = User::loadFromData(['unexistingColumn' => 'column']);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function removeFromAllUserGroupsWorks()
 	{
 		$user = User::find(42);

@@ -335,6 +335,50 @@ class User extends ComponentEntity implements Aclable
 	}
 
 	/**
+	 * Load an entity from columns data.
+	 *
+	 * @param   array   $data  Data to load the entity
+	 *
+	 * @return  false|static
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function loadFromData(array $data)
+	{
+		$entity = new static;
+		$db = $entity->getDbo();
+		$table = $entity->table();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($table->getTableName());
+
+		$fields = array_keys($table->getProperties());
+
+		foreach ($data as $field => $value)
+		{
+			if (!in_array($field, $fields))
+			{
+				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($table), $field));
+			}
+
+			$query->where($db->qn($field) . ' = ' . $db->q($value));
+		}
+
+		$db->setQuery($query);
+
+		$row = $db->loadAssoc();
+
+		// Check that we have a result.
+		if (empty($row))
+		{
+			return false;
+		}
+
+		return $entity->bind($row);
+	}
+
+	/**
 	 * Load associated user groups from DB.
 	 *
 	 * @return  Collection
