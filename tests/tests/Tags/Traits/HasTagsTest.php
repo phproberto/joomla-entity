@@ -19,6 +19,16 @@ use Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs\ClassWithTags;
  */
 class HasTagsTest extends \PHPUnit\Framework\TestCase
 {
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function contentTypeAliasReturnsEmptyString()
+	{
+		$this->assertSame('', ClassWithTags::contentTypeAlias());
+	}
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
