@@ -32,6 +32,18 @@ class Category extends BaseCategory implements Aclable
 	use HasArticles, HasAcl, HasLink, HasTags;
 
 	/**
+	 * Retrive the content type associated with this entity.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function contentType()
+	{
+		return 'com_content.category';
+	}
+
+	/**
 	 * Load associated articles from DB.
 	 *
 	 * @return  Collection
@@ -73,31 +85,6 @@ class Category extends BaseCategory implements Aclable
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return \JRoute::_(\ContentHelperRoute::getCategoryRoute($slug));
-	}
-
-	/**
-	 * Load associated tags from DB.
-	 *
-	 * @return  Collection
-	 */
-	protected function loadTags()
-	{
-		if (!$this->hasId())
-		{
-			return new Collection;
-		}
-
-		$items = $this->getTagsHelperInstance()->getItemTags('com_content.category', $this->id()) ?: array();
-
-		$tags = array_map(
-			function ($tag)
-			{
-				return Tag::find($tag->id)->bind($tag);
-			},
-			$items
-		);
-
-		return new Collection($tags);
 	}
 
 	/**

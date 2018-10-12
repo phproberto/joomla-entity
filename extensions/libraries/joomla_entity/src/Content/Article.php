@@ -58,6 +58,18 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 	}
 
 	/**
+	 * Retrive the content type associated with this entity.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function contentType()
+	{
+		return 'com_content.article';
+	}
+
+	/**
 	 * Get an instance of the articles model.
 	 *
 	 * @param   array  $state  State to populate in the model
@@ -156,31 +168,6 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return \JRoute::_(\ContentHelperRoute::getArticleRoute($slug, (int) $this->get('catid'), $this->get('language')));
-	}
-
-	/**
-	 * Load associated tags from DB.
-	 *
-	 * @return  Collection
-	 */
-	protected function loadTags()
-	{
-		if (!$this->hasId())
-		{
-			return new Collection;
-		}
-
-		$items = $this->getTagsHelperInstance()->getItemTags('com_content.article', $this->id()) ?: array();
-
-		$tags = array_map(
-			function ($tag)
-			{
-				return Tag::find($tag->id)->bind($tag);
-			},
-			$items
-		);
-
-		return new Collection($tags);
 	}
 
 	/**

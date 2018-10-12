@@ -40,6 +40,18 @@ trait HasTags
 	}
 
 	/**
+	 * Retrive the content type associated with this entity.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function contentType()
+	{
+		return '';
+	}
+
+	/**
 	 * Get the associated tags.
 	 *
 	 * @param   boolean  $reload  Force data reloading
@@ -94,5 +106,25 @@ trait HasTags
 	 *
 	 * @return  Collection
 	 */
-	abstract protected function loadTags();
+	protected function loadTags()
+	{
+		$contentType = self::contentType();
+
+		if (!$this->hasId() || !$contentType)
+		{
+			return new Collection;
+		}
+
+		$items = $this->getTagsHelperInstance()->getItemTags($this->contentType(), $this->id()) ?: array();
+
+		$tags = array_map(
+			function ($tag)
+			{
+				return Tag::find($tag->id)->bind($tag);
+			},
+			$items
+		);
+
+		return new Collection($tags);
+	}
 }

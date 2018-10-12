@@ -27,6 +27,16 @@ use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
 class ArticleTest extends \TestCaseDatabase
 {
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function contentTypeReturnsExpectedValue()
+	{
+		$this->assertSame('com_content.article', Article::contentType());
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *

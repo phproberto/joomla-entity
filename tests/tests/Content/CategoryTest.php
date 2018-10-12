@@ -25,6 +25,16 @@ use Phproberto\Joomla\Entity\Content\Category;
 class CategoryTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function contentTypeReturnsExpectedValue()
+	{
+		$this->assertSame('com_content.category', Category::contentType());
+	}
+
+	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
