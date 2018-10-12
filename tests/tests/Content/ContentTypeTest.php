@@ -87,6 +87,19 @@ class ContentTypeTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function fromAliasReturnsExpectedContentType()
+	{
+		$entity = ContentType::fromAlias('com_users.user');
+
+		$this->assertInstanceOf(ContentType::class, $entity);
+		$this->assertSame('User', $entity->title());
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  \PHPUnit_Extensions_Database_DataSet_CsvDataSet

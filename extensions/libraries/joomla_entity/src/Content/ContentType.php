@@ -50,6 +50,18 @@ class ContentType extends Entity
 	}
 
 	/**
+	 * Load a content type from its alias.
+	 *
+	 * @param   string  $alias  Content type alias
+	 *
+	 * @return  static
+	 */
+	public static function fromAlias($alias)
+	{
+		return static::loadFromData(['type_alias' => $alias]);
+	}
+
+	/**
 	 * Get entity primary key column.
 	 *
 	 * @return  string
