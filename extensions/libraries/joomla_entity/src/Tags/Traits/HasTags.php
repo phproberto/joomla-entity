@@ -40,13 +40,13 @@ trait HasTags
 	}
 
 	/**
-	 * Retrive the content type associated with this entity.
+	 * Retrieve the alias of content type associated with this entity.
 	 *
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function contentType()
+	public static function contentTypeAlias()
 	{
 		return '';
 	}
@@ -108,14 +108,14 @@ trait HasTags
 	 */
 	protected function loadTags()
 	{
-		$contentType = self::contentType();
+		$contentTypeAlias = self::contentTypeAlias();
 
-		if (!$this->hasId() || !$contentType)
+		if (!$this->hasId() || !$contentTypeAlias)
 		{
 			return new Collection;
 		}
 
-		$items = $this->getTagsHelperInstance()->getItemTags($this->contentType(), $this->id()) ?: array();
+		$items = $this->getTagsHelperInstance()->getItemTags($contentTypeAlias, $this->id()) ?: array();
 
 		$tags = array_map(
 			function ($tag)

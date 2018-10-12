@@ -32,13 +32,13 @@ class Category extends BaseCategory implements Aclable
 	use HasArticles, HasAcl, HasLink, HasTags;
 
 	/**
-	 * Retrive the content type associated with this entity.
+	 * Retrieve the alias of content type associated with this entity.
 	 *
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function contentType()
+	public static function contentTypeAlias()
 	{
 		return 'com_content.category';
 	}
