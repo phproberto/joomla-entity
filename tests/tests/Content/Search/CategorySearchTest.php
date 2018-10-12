@@ -85,7 +85,7 @@ class CategorySearchTest extends \TestCaseDatabase
 	{
 		$categories = CategorySearch::instance(
 			[
-				'filter.tag' => 2,
+				'filter.tag_id' => 2,
 				'list.limit'   => 0
 			]
 		)->search();

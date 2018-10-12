@@ -34,9 +34,9 @@ class CategorySearch extends BaseCategorySearc
 			->where($db->qn('c.extension') . ' = ' . $db->q('com_content'));
 
 		// Filter: tag
-		if (null !== $this->options->get('filter.tag'))
+		if (null !== $this->options->get('filter.tag_id'))
 		{
-			$tagIds = ArrayHelper::toInteger((array) $this->options->get('filter.tag'));
+			$tagIds = ArrayHelper::toInteger((array) $this->options->get('filter.tag_id'));
 
 			$query->leftJoin(
 				$db->quoteName('#__contentitem_tag_map', 'tagmap')

@@ -375,6 +375,52 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function notCategoryFilterIsApplied()
+	{
+		$items = ArticleSearch::instance(
+			[
+				'filter.not_category_id' => 64
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertNotSame('64', $item['catid']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function notStateFilterIsApplied()
+	{
+		$statuses = array_unique(
+			array_map(
+				function ($itemData)
+				{
+					return (int) $itemData['state'];
+				},
+				ArticleSearch::instance(
+					[
+						'filter.not_state' => 1,
+						'list.limit'   => 0
+					]
+				)->search()
+			)
+		);
+
+		$this->assertFalse(in_array(1, $statuses, true));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function orderingIsApplied()
 	{
 		$articles = ArticleSearch::instance()->search();
@@ -533,7 +579,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 	{
 		$articles = ArticleSearch::instance(
 			[
-				'filter.tag' => 2,
+				'filter.tag_id' => 2,
 				'list.limit'   => 0
 			]
 		)->search();

@@ -104,9 +104,17 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 		// Filter: category
 		if (null !== $this->options->get('filter.category_id'))
 		{
-			$viewLevels = ArrayHelper::toInteger((array) $this->options->get('filter.category_id'));
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.category_id'));
 
-			$query->where($db->qn('a.catid') . ' IN(' . implode(',', $viewLevels) . ')');
+			$query->where($db->qn('a.catid') . ' IN(' . implode(',', $ids) . ')');
+		}
+
+		// Filter: not category
+		if (null !== $this->options->get('filter.not_category_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.not_category_id'));
+
+			$query->where($db->qn('a.catid') . ' NOT IN(' . implode(',', $ids) . ')');
 		}
 
 		// Filter: featured
@@ -133,6 +141,14 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.state') . ' IN(' . implode(',', $statuses) . ')');
 		}
 
+		// Filter: not state
+		if (null !== $this->options->get('filter.not_state'))
+		{
+			$statuses = ArrayHelper::toInteger((array) $this->options->get('filter.not_state'));
+
+			$query->where($db->qn('a.state') . ' NOT IN(' . implode(',', $statuses) . ')');
+		}
+
 		// Filter: search
 		if (null !== $this->options->get('filter.search'))
 		{
@@ -149,9 +165,9 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 		}
 
 		// Filter: tag
-		if (null !== $this->options->get('filter.tag'))
+		if (null !== $this->options->get('filter.tag_id'))
 		{
-			$tagIds = ArrayHelper::toInteger((array) $this->options->get('filter.tag'));
+			$tagIds = ArrayHelper::toInteger((array) $this->options->get('filter.tag_id'));
 
 			$query->leftJoin(
 				$db->quoteName('#__contentitem_tag_map', 'tagmap')
