@@ -289,6 +289,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 	{
 		$dataSet = new \PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 		$dataSet->addTable('jos_content', JPATH_TESTS_PHPROBERTO . '/tests/Content/Search/Stubs/Database/content.csv');
+		$dataSet->addTable('jos_contentitem_tag_map', __DIR__ . '/Stubs/Database/contentitem_tag_map.csv');
 
 		return $dataSet;
 	}
@@ -500,6 +501,46 @@ class ArticleSearchTest extends \TestCaseDatabase
 		Factory::$session     = $this->getMockSession();
 		Factory::$config      = $this->getMockConfig();
 		Factory::$application = $this->getMockCmsApp();
+	}
+
+	/**
+	 * This method is called before the first test of this test class is run.
+	 *
+	 * @return  void
+	 */
+	public static function setUpBeforeClass()
+	{
+		parent::setUpBeforeClass();
+
+		$files = [
+			__DIR__ . '/Stubs/Database/contentitem_tag_map.sql'
+		];
+
+		foreach ($files as $file)
+		{
+			static::$driver->getConnection()->exec(file_get_contents($file));
+		}
+
+		Factory::$database = static::$driver;
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function tagFilterReturnsExpectedResults()
+	{
+		$articles = ArticleSearch::instance(
+			[
+				'filter.tag' => 2,
+				'list.limit'   => 0
+			]
+		)->search();
+
+		$this->assertSame(2, count($articles));
+		$this->assertSame(24, (int) $articles[0]['id']);
+		$this->assertSame(17, (int) $articles[1]['id']);
 	}
 
 	/**

@@ -13,6 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Searcher\DatabaseSearcher;
 use Phproberto\Joomla\Entity\Searcher\SearcherInterface;
 
@@ -145,6 +146,18 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 				. ' OR a.alias LIKE ' . $search
 				. ')'
 			);
+		}
+
+		// Filter: tag
+		if (null !== $this->options->get('filter.tag'))
+		{
+			$tagIds = ArrayHelper::toInteger((array) $this->options->get('filter.tag'));
+
+			$query->leftJoin(
+				$db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote(Article::contentTypeAlias())
+			)->where($db->qn('tagmap.tag_id') . ' IN(' . implode(',', $tagIds) . ')');
 		}
 
 		$query->order($db->escape($this->options->get('list.ordering')) . ' ' . $db->escape($this->options->get('list.direction')));
