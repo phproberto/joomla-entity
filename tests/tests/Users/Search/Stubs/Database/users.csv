@@ -1,0 +1,4 @@
+'id','name','username','email','password','block','sendEmail','registerDate','lastvisitDate','activation','params','lastResetTime','resetCount'
+'815','Super User','roberto','roberto@phproberto.com','$2y$10$qqgI5haeeBT0eZlRjxhaterjdpHi50kmjwDA1DCOg.Q2TX3P1PiJK','0','1','2018-07-10 06:43:49','2018-10-12 21:45:42','0','','0000-00-00 00:00:00','0'
+'816','Sample user saved','sample','me+sample@phproberto.com','$2y$10$NLmv1DMwhDtNwVTx.wdbae1TZDN.qnh4Wl7.LsKCjxUi4ZhK7QSiS','0','0','2018-09-19 11:09:53','2018-09-19 11:11:39','','{"admin_style":"","admin_language":"","language":"","editor":"","helpsite":"","timezone":""}','0000-00-00 00:00:00','0'
+'817','My name','my-name','my+name@phproberto.com','$2y$10$NLmv1DMwhDtNwVTx.wdbae1TZDN.qnh4Wl7.LsKCjxUi4ZhK7QSiS','1','0','2018-09-19 11:09:53','2018-09-19 11:11:39','','{"admin_style":"","admin_language":"","language":"","editor":"","helpsite":"","timezone":""}','0000-00-00 00:00:00','0'
