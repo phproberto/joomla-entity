@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Categories\Search\CategorySearch as BaseCategorySea
 /**
  * Category search.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.6.0
  */
 class CategorySearch extends BaseCategorySearc
 {

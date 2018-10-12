@@ -19,7 +19,7 @@ use Phproberto\Joomla\Entity\Searcher\SearcherInterface;
 /**
  * User search
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.6.0
  */
 class UserSearch extends DatabaseSearcher implements SearcherInterface
 {

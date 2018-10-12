@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Content\ContentType;
 /**
  * ContentType tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.6.0
  */
 class ContentTypeTest extends \TestCaseDatabase
 {

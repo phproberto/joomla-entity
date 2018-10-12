@@ -36,7 +36,7 @@ class Category extends BaseCategory implements Aclable
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.6.0
 	 */
 	public static function contentTypeAlias()
 	{

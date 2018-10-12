@@ -62,7 +62,7 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.6.0
 	 */
 	public static function contentTypeAlias()
 	{

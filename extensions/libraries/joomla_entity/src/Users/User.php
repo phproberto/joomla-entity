@@ -37,7 +37,7 @@ class User extends ComponentEntity implements Aclable
 	 * Active user.
 	 *
 	 * @var    static
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.6.0
 	 */
 	private static $active;
 
@@ -195,7 +195,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.6.0
 	 */
 	public static function clearActive()
 	{
@@ -219,7 +219,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.6.0
 	 */
 	protected function eventsPlugins()
 	{
@@ -341,7 +341,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  false|static
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.6.0
 	 */
 	public static function loadFromData(array $data)
 	{
@@ -519,7 +519,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @throws  SaveException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.6.0
 	 */
 	public function save()
 	{
@@ -560,7 +560,7 @@ class User extends ComponentEntity implements Aclable
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.6.0
 	 */
 	public static function setActive(User $user)
 	{

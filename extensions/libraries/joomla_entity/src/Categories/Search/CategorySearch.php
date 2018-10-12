@@ -19,7 +19,7 @@ use Phproberto\Joomla\Entity\Searcher\SearcherInterface;
 /**
  * Category search.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.6.0
  */
 class CategorySearch extends DatabaseSearcher implements SearcherInterface
 {

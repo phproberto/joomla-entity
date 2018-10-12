@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Categories\Search\CategorySearch;
  * Category searcher.
  *
  * @since       1.4.0
- * @deprecated  __DEPLOY_VERSION__  Use CategorySearch
+ * @deprecated  1.6.0  Use CategorySearch
  */
 class CategorySearcher extends CategorySearch
 {

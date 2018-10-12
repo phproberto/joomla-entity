@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Categories\Search\CategorySearch;
 /**
  * Category search tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.6.0
  */
 class CategorySearchTest extends \TestCaseDatabase
 {

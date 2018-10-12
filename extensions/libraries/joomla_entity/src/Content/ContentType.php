@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Entity;
 /**
  * ContentType entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.6.0
  */
 class ContentType extends Entity
 {

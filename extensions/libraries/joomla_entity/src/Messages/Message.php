@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\ComponentEntity;
 /**
  * Message entity.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.6.0
  */
 class Message extends ComponentEntity
 {
