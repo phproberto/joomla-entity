@@ -31,9 +31,9 @@ class ArticleTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function contentTypeReturnsExpectedValue()
+	public function contentTypeAliasReturnsExpectedValue()
 	{
-		$this->assertSame('com_content.article', Article::contentType());
+		$this->assertSame('com_content.article', Article::contentTypeAlias());
 	}
 
 	/**

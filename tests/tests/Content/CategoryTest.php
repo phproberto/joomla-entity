@@ -29,9 +29,9 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 */
-	public function contentTypeReturnsExpectedValue()
+	public function contentTypeAliasReturnsExpectedValue()
 	{
-		$this->assertSame('com_content.category', Category::contentType());
+		$this->assertSame('com_content.category', Category::contentTypeAlias());
 	}
 
 	/**
