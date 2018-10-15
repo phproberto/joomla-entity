@@ -86,6 +86,28 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function activeLanguageAppliesLanguageFilter()
+	{
+		$articles = ArticleSearch::instance(
+			[
+				'filter.active_language' => true,
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($articles));
+
+		foreach ($articles as $article)
+		{
+			$this->assertSame('en-GB', $article['language']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function activeUserAccessFilterIsApplied()
 	{
 		$user = $this->getMockBuilder(User::class)

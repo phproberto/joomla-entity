@@ -53,36 +53,19 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			->select('a.*')
 			->from($db->qn('#__content', 'a'));
 
-		// Filter: author_id
-		if (null !== $this->options->get('filter.author_id'))
+		// Filter: access
+		if (null !== $this->options->get('filter.access'))
 		{
-			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.author_id'));
+			$viewLevels = ArrayHelper::toInteger((array) $this->options->get('filter.access'));
 
-			$query->where($db->qn('a.created_by') . ' IN(' . implode(',', $ids) . ')');
+			$query->where($db->qn('a.access') . ' IN(' . implode(',', $viewLevels) . ')');
 		}
 
-		// Filter: editor_id
-		if (null !== $this->options->get('filter.editor_id'))
+		// Filter: active_language
+		if (true === $this->options->get('filter.active_language'))
 		{
-			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.editor_id'));
-
-			$query->where($db->qn('a.modified_by') . ' IN(' . implode(',', $ids) . ')');
-		}
-
-		// Filter: id
-		if (null !== $this->options->get('filter.id'))
-		{
-			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.id'));
-
-			$query->where($db->qn('a.id') . ' IN(' . implode(',', $ids) . ')');
-		}
-
-		// Filter: not id
-		if (null !== $this->options->get('filter.not_id'))
-		{
-			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.not_id'));
-
-			$query->where($db->qn('a.id') . ' NOT IN(' . implode(',', $ids) . ')');
+			$tag = Factory::getLanguage()->getTag();
+			$query->where($db->qn('a.language') . ' = ' . $db->q($tag));
 		}
 
 		// Filter: active user access
@@ -93,12 +76,12 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.access') . ' IN(' . implode(',', $viewLevels) . ')');
 		}
 
-		// Filter: access
-		if (null !== $this->options->get('filter.access'))
+		// Filter: author_id
+		if (null !== $this->options->get('filter.author_id'))
 		{
-			$viewLevels = ArrayHelper::toInteger((array) $this->options->get('filter.access'));
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.author_id'));
 
-			$query->where($db->qn('a.access') . ' IN(' . implode(',', $viewLevels) . ')');
+			$query->where($db->qn('a.created_by') . ' IN(' . implode(',', $ids) . ')');
 		}
 
 		// Filter: category
@@ -109,12 +92,12 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.catid') . ' IN(' . implode(',', $ids) . ')');
 		}
 
-		// Filter: not category
-		if (null !== $this->options->get('filter.not_category_id'))
+		// Filter: editor_id
+		if (null !== $this->options->get('filter.editor_id'))
 		{
-			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.not_category_id'));
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.editor_id'));
 
-			$query->where($db->qn('a.catid') . ' NOT IN(' . implode(',', $ids) . ')');
+			$query->where($db->qn('a.modified_by') . ' IN(' . implode(',', $ids) . ')');
 		}
 
 		// Filter: featured
@@ -125,6 +108,14 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.featured') . ' IN(' . implode(',', $statuses) . ')');
 		}
 
+		// Filter: id
+		if (null !== $this->options->get('filter.id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.id'));
+
+			$query->where($db->qn('a.id') . ' IN(' . implode(',', $ids) . ')');
+		}
+
 		// Filter: language
 		if (null !== $this->options->get('filter.language'))
 		{
@@ -133,12 +124,20 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.language') . ' IN(' . implode(',', $languages) . ')');
 		}
 
-		// Filter: state
-		if (null !== $this->options->get('filter.state'))
+		// Filter: not id
+		if (null !== $this->options->get('filter.not_id'))
 		{
-			$statuses = ArrayHelper::toInteger((array) $this->options->get('filter.state'));
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.not_id'));
 
-			$query->where($db->qn('a.state') . ' IN(' . implode(',', $statuses) . ')');
+			$query->where($db->qn('a.id') . ' NOT IN(' . implode(',', $ids) . ')');
+		}
+
+		// Filter: not category
+		if (null !== $this->options->get('filter.not_category_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.not_category_id'));
+
+			$query->where($db->qn('a.catid') . ' NOT IN(' . implode(',', $ids) . ')');
 		}
 
 		// Filter: not state
@@ -162,6 +161,14 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 				. ' OR a.alias LIKE ' . $search
 				. ')'
 			);
+		}
+
+		// Filter: state
+		if (null !== $this->options->get('filter.state'))
+		{
+			$statuses = ArrayHelper::toInteger((array) $this->options->get('filter.state'));
+
+			$query->where($db->qn('a.state') . ' IN(' . implode(',', $statuses) . ')');
 		}
 
 		// Filter: tag
