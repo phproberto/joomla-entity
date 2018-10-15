@@ -52,12 +52,87 @@ class CategorySearch extends DatabaseSearcher implements SearcherInterface
 			->select('c.*')
 			->from($db->qn('#__categories', 'c'));
 
+		// Filter: access
+		if (null !== $this->options->get('filter.access'))
+		{
+			$viewLevels = ArrayHelper::toInteger((array) $this->options->get('filter.access'));
+
+			$query->where($db->qn('c.access') . ' IN(' . implode(',', $viewLevels) . ')');
+		}
+
+		// Filter: active_language
+		if (true === $this->options->get('filter.active_language'))
+		{
+			$tag = Factory::getLanguage()->getTag();
+			$query->where($db->qn('c.language') . ' = ' . $db->q($tag));
+		}
+
+		// Filter: active user access
+		if (true === $this->options->get('filter.active_user_access'))
+		{
+			$viewLevels = ArrayHelper::toInteger(User::active()->getAuthorisedViewLevels());
+
+			$query->where($db->qn('c.access') . ' IN(' . implode(',', $viewLevels) . ')');
+		}
+
+		// Filter: ancestor
+		if (null !== $this->options->get('filter.ancestor_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.ancestor_id'));
+
+			$query->innerJoin($db->qn('#__categories', 'anc2') . ' ON ' . $db->qn('anc2.id') . ' = ' . $db->qn('c.id'))
+				->innerJoin(
+					$db->qn('#__categories', 'anc1') . ' ON ' . $db->qn('anc1.lft') . ' < ' . $db->qn('anc2.lft') .
+					' AND ' . $db->qn('anc1.rgt') . ' > ' . $db->qn('anc2.rgt')
+				);
+
+			$query->where($db->qn('anc1.id') . ' IN(' . implode(',', $ids) . ')');
+		}
+
+		// Filter: descendant
+		if (null !== $this->options->get('filter.descendant_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.descendant_id'));
+
+			$query->innerJoin($db->qn('#__categories', 'dsc2') . ' ON ' . $db->qn('dsc2.id') . ' = ' . $db->qn('c.id'))
+				->innerJoin(
+					$db->qn('#__categories', 'dsc1') . ' ON ' . $db->qn('dsc1.rgt') . ' < ' . $db->qn('dsc2.rgt') .
+					' AND ' . $db->qn('dsc1.lft') . ' > ' . $db->qn('dsc2.lft')
+				);
+
+			$query->where($db->qn('dsc1.id') . ' IN(' . implode(',', $ids) . ')');
+		}
+
+		// Filter: extension
+		if (null !== $this->options->get('filter.extension'))
+		{
+			$extensions = array_map([$db, 'quote'], (array) $this->options->get('filter.extension'));
+
+			$query->where($db->qn('c.extension') . ' IN(' . implode(',', $extensions) . ')');
+		}
+
 		// Filter: id
 		if (null !== $this->options->get('filter.id'))
 		{
 			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.id'));
 
 			$query->where($db->qn('c.id') . ' IN(' . implode(',', $ids) . ')');
+		}
+
+		// Filter: language
+		if (null !== $this->options->get('filter.language'))
+		{
+			$languages = array_map([$db, 'quote'], (array) $this->options->get('filter.language'));
+
+			$query->where($db->qn('c.language') . ' IN(' . implode(',', $languages) . ')');
+		}
+
+		// Filter: level
+		if (null !== $this->options->get('filter.level'))
+		{
+			$levels = ArrayHelper::toInteger((array) $this->options->get('filter.level'));
+
+			$query->where($db->qn('c.level') . ' IN(' . implode(',', $levels) . ')');
 		}
 
 		// Filter: not id
@@ -76,72 +151,12 @@ class CategorySearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('c.parent_id') . ' IN(' . implode(',', $parentsIds) . ')');
 		}
 
-		// Filter: active user access
-		if (true === $this->options->get('filter.active_user_access'))
-		{
-			$viewLevels = ArrayHelper::toInteger(User::active()->getAuthorisedViewLevels());
-
-			$query->where($db->qn('c.access') . ' IN(' . implode(',', $viewLevels) . ')');
-		}
-
-		// Filter: access
-		if (null !== $this->options->get('filter.access'))
-		{
-			$viewLevels = ArrayHelper::toInteger((array) $this->options->get('filter.access'));
-
-			$query->where($db->qn('c.access') . ' IN(' . implode(',', $viewLevels) . ')');
-		}
-
 		// Filter: published
 		if (null !== $this->options->get('filter.published'))
 		{
 			$statuses = ArrayHelper::toInteger((array) $this->options->get('filter.published'));
 
 			$query->where($db->qn('c.published') . ' IN(' . implode(',', $statuses) . ')');
-		}
-
-		// Filter: extension
-		if (null !== $this->options->get('filter.extension'))
-		{
-			$extensions = array_map([$db, 'quote'], (array) $this->options->get('filter.extension'));
-
-			$query->where($db->qn('c.extension') . ' IN(' . implode(',', $extensions) . ')');
-		}
-
-		// Filter: descendant
-		if (null !== $this->options->get('filter.descendant_id'))
-		{
-			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.descendant_id'));
-
-			$query->innerJoin($db->qn('#__categories', 'dsc2') . ' ON ' . $db->qn('dsc2.id') . ' = ' . $db->qn('c.id'))
-				->innerJoin(
-					$db->qn('#__categories', 'dsc1') . ' ON ' . $db->qn('dsc1.rgt') . ' < ' . $db->qn('dsc2.rgt') .
-					' AND ' . $db->qn('dsc1.lft') . ' > ' . $db->qn('dsc2.lft')
-				);
-
-			$query->where($db->qn('dsc1.id') . ' IN(' . implode(',', $ids) . ')');
-		}
-
-		// Filter: ancestor
-		if (null !== $this->options->get('filter.ancestor_id'))
-		{
-			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.ancestor_id'));
-
-			$query->innerJoin($db->qn('#__categories', 'anc2') . ' ON ' . $db->qn('anc2.id') . ' = ' . $db->qn('c.id'))
-				->innerJoin(
-					$db->qn('#__categories', 'anc1') . ' ON ' . $db->qn('anc1.lft') . ' < ' . $db->qn('anc2.lft') .
-					' AND ' . $db->qn('anc1.rgt') . ' > ' . $db->qn('anc2.rgt')
-				);
-
-			$query->where($db->qn('anc1.id') . ' IN(' . implode(',', $ids) . ')');
-		}
-
-		// Filter: language
-		if (null !== $this->options->get('filter.language'))
-		{
-			$languages = array_map([$db, 'quote'], (array) $this->options->get('filter.language'));
-
-			$query->where($db->qn('c.language') . ' IN(' . implode(',', $languages) . ')');
 		}
 
 		// Filter: search
@@ -159,14 +174,6 @@ class CategorySearch extends DatabaseSearcher implements SearcherInterface
 				. ' OR c.extension LIKE ' . $search
 				. ')'
 			);
-		}
-
-		// Filter: level
-		if (null !== $this->options->get('filter.level'))
-		{
-			$levels = ArrayHelper::toInteger((array) $this->options->get('filter.level'));
-
-			$query->where($db->qn('c.level') . ' IN(' . implode(',', $levels) . ')');
 		}
 
 		$query->order($db->escape($this->options->get('list.ordering')) . ' ' . $db->escape($this->options->get('list.direction')));

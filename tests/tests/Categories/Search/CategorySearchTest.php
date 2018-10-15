@@ -27,6 +27,28 @@ class CategorySearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function activeLanguageFilterIsApplied()
+	{
+		$categories = CategorySearch::instance(
+			[
+				'filter.active_language' => true,
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($categories));
+
+		foreach ($categories as $category)
+		{
+			$this->assertSame('en-GB', $category['language']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function activeUserAccessFilterIsApplied()
 	{
 		$user = $this->getMockBuilder(User::class)
