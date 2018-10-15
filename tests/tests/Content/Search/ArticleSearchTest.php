@@ -368,6 +368,28 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function notAuthorIdIsApplied()
+	{
+		$items = ArticleSearch::instance(
+			[
+				'filter.not_author_id' => 815,
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertNotSame(815, (int) $item['created_by']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function notIdFilterIsApplied()
 	{
 		$articles = ArticleSearch::instance(['list.limit' => 2])->search();

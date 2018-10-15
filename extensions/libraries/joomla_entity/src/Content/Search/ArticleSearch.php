@@ -124,6 +124,14 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.language') . ' IN(' . implode(',', $languages) . ')');
 		}
 
+		// Filter: not author_id
+		if (null !== $this->options->get('filter.not_author_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.not_author_id'));
+
+			$query->where($db->qn('a.created_by') . ' NOT IN(' . implode(',', $ids) . ')');
+		}
+
 		// Filter: not id
 		if (null !== $this->options->get('filter.not_id'))
 		{
