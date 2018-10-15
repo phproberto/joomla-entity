@@ -15,6 +15,7 @@ use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Categories\Category;
 use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
+use Phproberto\Joomla\Entity\Categories\Validation\CategoryValidator;
 
 /**
  * Category entity tests.
@@ -37,6 +38,24 @@ class CategoryTest extends \TestCaseDatabase
 		$category = Category::find(21);
 
 		$this->assertSame([1,14,19,20], $category->ancestors()->ids());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 *
+	 * @expectedException  \Phproberto\Joomla\Entity\Exception\SaveException
+	 */
+	public function cannotSaveIfValdationFails()
+	{
+		$category = new Category;
+		$category->bind(
+			[
+				'title' => 'Sample category'
+			]
+		);
+		$category->save();
 	}
 
 	/**
@@ -103,6 +122,26 @@ class CategoryTest extends \TestCaseDatabase
 
 		$this->assertInstanceOf(Category::class, $parent);
 		$this->assertSame(14, $parent->id());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function saveWorksIfValidationPasses()
+	{
+		$category = new Category;
+		$category->bind(
+			[
+				'title'     => 'My category',
+				'extension' => 'com_phproberto'
+			]
+		);
+
+		$category->save();
+
+		$this->assertTrue($category->hasId());
 	}
 
 	/**
@@ -376,5 +415,19 @@ class CategoryTest extends \TestCaseDatabase
 		$category = new Category;
 
 		$this->assertInstanceOf('CategoriesTableCategory', $category->table());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function validatorReturnsCategoryValidatorInstance()
+	{
+		$category = new Category;
+
+		$validator = $category->validator();
+
+		$this->assertInstanceOf(CategoryValidator::class, $validator);
 	}
 }

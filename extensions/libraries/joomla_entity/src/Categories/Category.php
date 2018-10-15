@@ -18,20 +18,23 @@ use Phproberto\Joomla\Entity\Traits as EntityTraits;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
+use Phproberto\Joomla\Entity\Validation\Contracts\Validable;
+use Phproberto\Joomla\Entity\Validation\Traits\HasValidation;
 use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
 use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
+use Phproberto\Joomla\Entity\Categories\Validation\CategoryValidator;
 
 /**
  * Stub to test Entity class.
  *
  * @since   1.0.0
  */
-class Category extends ComponentEntity implements Publishable, Translatable
+class Category extends ComponentEntity implements Publishable, Translatable, Validable
 {
 	use CoreTraits\HasAccess, CoreTraits\HasAncestors, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasChildren;
 	use CoreTraits\HasDescendants, CoreTraits\HasLevel, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasParent;
 	use CoreTraits\HasState;
-	use HasTranslations;
+	use HasTranslations, HasValidation;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
 	/**
@@ -184,5 +187,22 @@ class Category extends ComponentEntity implements Publishable, Translatable
 		$options['filter.ancestor_id'] = $this->id();
 
 		return Collection::fromData(CategorySearcher::instance($options)->search(), self::class);
+	}
+
+	/**
+	 * Retrieve entity validator.
+	 *
+	 * @return  CategoryValidator
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function validator()
+	{
+		if (null === $this->validator)
+		{
+			$this->validator = new CategoryValidator($this);
+		}
+
+		return $this->validator;
 	}
 }
