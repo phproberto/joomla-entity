@@ -19,7 +19,6 @@ use Phproberto\Joomla\Entity\ComponentEntity;
  */
 class Message extends ComponentEntity
 {
-
 	/**
 	 * Get entity primary key column.
 	 *
