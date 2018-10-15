@@ -132,6 +132,14 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.created_by') . ' NOT IN(' . implode(',', $ids) . ')');
 		}
 
+		// Filter: not category
+		if (null !== $this->options->get('filter.not_category_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.not_category_id'));
+
+			$query->where($db->qn('a.catid') . ' NOT IN(' . implode(',', $ids) . ')');
+		}
+
 		// Filter: not id
 		if (null !== $this->options->get('filter.not_id'))
 		{
@@ -140,12 +148,12 @@ class ArticleSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('a.id') . ' NOT IN(' . implode(',', $ids) . ')');
 		}
 
-		// Filter: not category
-		if (null !== $this->options->get('filter.not_category_id'))
+		// Filter: not language
+		if (null !== $this->options->get('filter.not_language'))
 		{
-			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.not_category_id'));
+			$languages = array_map([$db, 'quote'], (array) $this->options->get('filter.not_language'));
 
-			$query->where($db->qn('a.catid') . ' NOT IN(' . implode(',', $ids) . ')');
+			$query->where($db->qn('a.language') . ' NOT IN(' . implode(',', $languages) . ')');
 		}
 
 		// Filter: not state

@@ -390,6 +390,27 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function notCategoryFilterIsApplied()
+	{
+		$items = ArticleSearch::instance(
+			[
+				'filter.not_category_id' => 64
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertNotSame('64', $item['catid']);
+		}
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function notIdFilterIsApplied()
 	{
 		$articles = ArticleSearch::instance(['list.limit' => 2])->search();
@@ -419,11 +440,11 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function notCategoryFilterIsApplied()
+	public function notLanguageFilterIsApplied()
 	{
 		$items = ArticleSearch::instance(
 			[
-				'filter.not_category_id' => 64
+				'filter.not_language' => 'es-ES'
 			]
 		)->search();
 
@@ -431,7 +452,20 @@ class ArticleSearchTest extends \TestCaseDatabase
 
 		foreach ($items as $item)
 		{
-			$this->assertNotSame('64', $item['catid']);
+			$this->assertNotSame('es-ES', $item['language']);
+		}
+
+		$items = ArticleSearch::instance(
+			[
+				'filter.not_language' => 'en-GB'
+			]
+		)->search();
+
+		$this->assertNotSame(0, count($items));
+
+		foreach ($items as $item)
+		{
+			$this->assertNotSame('en-GB', $item['language']);
 		}
 	}
 
