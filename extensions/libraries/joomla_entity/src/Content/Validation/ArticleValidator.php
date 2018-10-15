@@ -34,7 +34,7 @@ class ArticleValidator extends Validator
 			[
 				'title'  => new Rule\IsNotEmptyString('Not empty title'),
 				'catid'  => new Rule\IsPositiveInteger('Valid category identifier'),
-				'access' => new Rule\IsPositiveInteger('Valid view level identifier')
+				'access' => new Rule\IsNullOrPositiveInteger('Valid view level identifier')
 			]
 		);
 	}

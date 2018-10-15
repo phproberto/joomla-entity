@@ -66,8 +66,7 @@ class ArticleTest extends \TestCaseDatabase
 		$article->bind(
 			[
 				'title'  => 'My article',
-				'catid'  => 13,
-				'access' => 1
+				'catid'  => 13
 			]
 		);
 
