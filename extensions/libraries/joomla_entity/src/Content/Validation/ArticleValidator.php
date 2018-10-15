@@ -31,10 +31,11 @@ class ArticleValidator extends Validator
 		parent::__construct($article);
 
 		$this->addRules(
-			array(
-				'title' => new Rule\IsNotEmptyString('Not empty title'),
-				'catid' => new Rule\IsPositiveInteger('Valid category identifier')
-			)
+			[
+				'title'  => new Rule\IsNotEmptyString('Not empty title'),
+				'catid'  => new Rule\IsPositiveInteger('Valid category identifier'),
+				'access' => new Rule\IsPositiveInteger('Valid view level identifier')
+			]
 		);
 	}
 }

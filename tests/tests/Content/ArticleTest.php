@@ -30,10 +30,50 @@ class ArticleTest extends \TestCaseDatabase
 	 * @test
 	 *
 	 * @return void
+	 *
+	 * @expectedException  \Phproberto\Joomla\Entity\Exception\SaveException
+	 */
+	public function cannotSaveIfValdationFails()
+	{
+		$article = new Article;
+		$article->bind(
+			[
+				'access' => 1,
+				'title' => 'Sample article'
+			]
+		);
+		$article->save();
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
 	 */
 	public function contentTypeAliasReturnsExpectedValue()
 	{
 		$this->assertSame('com_content.article', Article::contentTypeAlias());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function saveWorksIfValidationPasses()
+	{
+		$article = new Article;
+		$article->bind(
+			[
+				'title'  => 'My article',
+				'catid'  => 13,
+				'access' => 1
+			]
+		);
+
+		$article->save();
+
+		$this->assertTrue($article->hasId());
 	}
 
 	/**
