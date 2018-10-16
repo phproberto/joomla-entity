@@ -12,6 +12,7 @@ defined('_JEXEC') || die;
 
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Tags\Search\TagSearch;
 
 /**
  * Trait for entities that have associated tags.
@@ -126,5 +127,32 @@ trait HasTags
 		);
 
 		return new Collection($tags);
+	}
+
+	/**
+	 * Search within this entity tags.
+	 *
+	 * @param   array   $options  Search options
+	 *
+	 * @return  Collection
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function searchTags(array $options = [])
+	{
+		$contentTypeAlias = self::contentTypeAlias();
+
+		if (!$this->hasId() || !$contentTypeAlias)
+		{
+			return new Collection;
+		}
+
+		$options['filter.content_type_alias'] = $contentTypeAlias;
+		$options['filter.content_item_id'] = $this->id();
+
+		return Collection::fromData(
+			TagSearch::instance($options)->search(),
+			Tag::class
+		);
 	}
 }

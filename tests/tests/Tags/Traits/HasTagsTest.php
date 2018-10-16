@@ -8,27 +8,87 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Tags\Traits;
 
-use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Tags\Tag;
+use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs\ClassWithTags;
+use Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs\ClassWithSearchableTags;
 
 /**
  * HasTags trait tests.
  *
  * @since   1.1.0
  */
-class HasTagsTest extends \PHPUnit\Framework\TestCase
+class HasTagsTest extends \TestCaseDatabase
 {
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function contentTypeAliasReturnsExpectedString()
+	{
+		$this->assertSame('', ClassWithTags::contentTypeAlias());
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  \PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new \PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet->addTable('jos_tags', dirname(__DIR__) . '/Stubs/Database/tags.csv');
+		$dataSet->addTable('jos_contentitem_tag_map', dirname(__DIR__) . '/Stubs/Database/contentitem_tag_map.csv');
+
+		return $dataSet;
+	}
 
 	/**
 	 * @test
 	 *
 	 * @return void
 	 */
-	public function contentTypeAliasReturnsEmptyString()
+	public function searchTagsReturnsEmptyCollectionForMissingId()
 	{
-		$this->assertSame('', ClassWithTags::contentTypeAlias());
+		$entity = new ClassWithSearchableTags;
+
+		$tags = $entity->searchTags();
+
+		$this->assertInstanceOf(Collection::class, $tags);
+		$this->assertTrue($tags->isEmpty());
 	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchTagsReturnsEmptyCollectionForMissingAlias()
+	{
+		$entity = new ClassWithTags;
+
+		$tags = $entity->searchTags();
+
+		$this->assertInstanceOf(Collection::class, $tags);
+		$this->assertTrue($tags->isEmpty());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchTagsReturnsExpectedTags()
+	{
+		$entity = new ClassWithSearchableTags(15);
+
+		$tags = $entity->searchTags();
+
+		$this->assertInstanceOf(Collection::class, $tags);
+		$this->assertSame([4,6], $tags->ids());
+	}
+
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
