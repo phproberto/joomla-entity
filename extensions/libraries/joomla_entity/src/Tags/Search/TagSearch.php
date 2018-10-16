@@ -90,6 +90,28 @@ class TagSearch extends DatabaseSearcher implements SearcherInterface
 			$query->where($db->qn('anc1.id') . ' IN(' . implode(',', $ids) . ')');
 		}
 
+		// Filter: content_item_id
+		if (null !== $this->options->get('filter.content_item_id'))
+		{
+			$ids = ArrayHelper::toInteger((array) $this->options->get('filter.content_item_id'));
+
+			$query->innerJoin(
+				$db->qn('#__contentitem_tag_map', 'ctm')
+				. ' ON ' . $db->qn('ctm.tag_id') . ' = ' . $db->qn('t.id')
+			)->where($db->qn('ctm.content_item_id') . ' IN(' . implode(',', $ids) . ')');
+		}
+
+		// Filter: content_type_alias
+		if (null !== $this->options->get('filter.content_type_alias'))
+		{
+			$types = array_map([$db, 'quote'], (array) $this->options->get('filter.content_type_alias'));
+
+			$query->innerJoin(
+				$db->qn('#__contentitem_tag_map', 'ctm1')
+				. ' ON ' . $db->qn('ctm1.tag_id') . ' = ' . $db->qn('t.id')
+			)->where($db->qn('ctm1.type_alias') . ' IN(' . implode(',', $types) . ')');
+		}
+
 		// Filter: descendant
 		if (null !== $this->options->get('filter.descendant_id'))
 		{
@@ -169,6 +191,7 @@ class TagSearch extends DatabaseSearcher implements SearcherInterface
 		}
 
 		$query->order($db->escape($this->options->get('list.ordering')) . ' ' . $db->escape($this->options->get('list.direction')));
+		$query->group('t.id');
 
 		return $query;
 	}

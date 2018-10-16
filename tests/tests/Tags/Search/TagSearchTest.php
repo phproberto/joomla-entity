@@ -156,6 +156,49 @@ class TagSearchTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function contentItemIdFilterIsApplied()
+	{
+		$tags = TagSearch::instance(
+			[
+				'filter.content_item_id' => 24,
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertSame(4, count($tags));
+
+		$this->assertSame('2', $tags[0]['id']);
+		$this->assertSame('3', $tags[1]['id']);
+		$this->assertSame('4', $tags[2]['id']);
+		$this->assertSame('5', $tags[3]['id']);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function contentTypeAliasFilterIsApplied()
+	{
+		$tags = TagSearch::instance(
+			[
+				'filter.content_type_alias' => 'com_content.category',
+				'list.limit' => 0
+			]
+		)->search();
+
+		$this->assertSame(3, count($tags));
+
+		$this->assertSame('4', $tags[0]['id']);
+		$this->assertSame('6', $tags[1]['id']);
+		$this->assertSame('7', $tags[2]['id']);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function descendantFilterIsApplied()
 	{
 		$ids = array_map(
@@ -226,6 +269,7 @@ class TagSearchTest extends \TestCaseDatabase
 	{
 		$dataSet = new \PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 		$dataSet->addTable('jos_tags', dirname(__DIR__) . '/Stubs/Database/tags.csv');
+		$dataSet->addTable('jos_contentitem_tag_map', dirname(__DIR__) . '/Stubs/Database/contentitem_tag_map.csv');
 
 		return $dataSet;
 	}
