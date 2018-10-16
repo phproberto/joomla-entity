@@ -50,6 +50,73 @@ class HasTagsTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function loadTagsReturnsEmptyCollectionForEntityWithoutId()
+	{
+		$entity = new ClassWithSearchableTags;
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadTags');
+		$method->setAccessible(true);
+
+		$tags = $method->invoke($entity);
+
+		$this->assertInstanceOf(Collection::class, $tags);
+		$this->assertTrue($tags->isEmpty());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function loadTagsReturnsEmptyCollectionForEntityWithoutContentTypeAlias()
+	{
+		$entity = new ClassWithTags(15);
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadTags');
+		$method->setAccessible(true);
+
+		$tags = $method->invoke($entity);
+
+		$this->assertInstanceOf(Collection::class, $tags);
+		$this->assertTrue($tags->isEmpty());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function loadTagsReturnsExpectedTags()
+	{
+		$mockSession = $this->getMockBuilder('JSession')
+			->setMethods(array('_start', 'get'))
+			->getMock();
+
+		$mockSession->expects($this->once())
+			->method('get')
+			->will($this->returnValue(new \JUser(42)));
+
+		Factory::$session = $mockSession;
+
+		$entity = new ClassWithSearchableTags(15);
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadTags');
+		$method->setAccessible(true);
+
+		$tags = $method->invoke($entity);
+
+		$this->assertInstanceOf(Collection::class, $tags);
+		$this->assertFalse($tags->isEmpty());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function removeAllTagsRemovesAssignedTags()
 	{
 		$entity = $this->getMockBuilder(ClassWithSearchableTags::class)
