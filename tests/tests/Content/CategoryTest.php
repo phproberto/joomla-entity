@@ -22,7 +22,7 @@ use Phproberto\Joomla\Entity\Content\Category;
  *
  * @since   1.1.0
  */
-class CategoryTest extends \PHPUnit\Framework\TestCase
+class CategoryTest extends \TestCaseDatabase
 {
 	/**
 	 * @test
@@ -32,6 +32,41 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	public function contentTypeAliasReturnsExpectedValue()
 	{
 		$this->assertSame('com_content.category', Category::contentTypeAlias());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchArticlesReturnsEmptyCollectionForEntityWithoutId()
+	{
+		$category = new Category;
+
+		$articles = $category->searchArticles();
+
+		$this->assertInstanceOf(Collection::class, $articles);
+		$this->assertTrue($articles->isEmpty());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchArticlesReturnsExpectedArticles()
+	{
+		$category = Category::find(29);
+
+		$articles = $category->searchArticles();
+
+		$this->assertInstanceOf(Collection::class, $articles);
+		$this->assertFalse($articles->isEmpty());
+
+		foreach ($articles as $article)
+		{
+			$this->assertSame(29, (int) $article->get('catid'));
+		}
 	}
 
 	/**
@@ -132,6 +167,20 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertInstanceOf('ContentModelArticles', $model);
 		$this->assertSame(34, $model->getState('filter.category_id'));
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  \PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new \PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet->addTable('jos_categories', JPATH_TEST_DATABASE . '/jos_categories.csv');
+		$dataSet->addTable('jos_content', JPATH_TEST_DATABASE . '/jos_content.csv');
+
+		return $dataSet;
 	}
 
 	/**

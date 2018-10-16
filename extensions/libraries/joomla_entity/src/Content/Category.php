@@ -20,6 +20,7 @@ use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Content\Traits\HasArticles;
+use Phproberto\Joomla\Entity\Content\Search\ArticleSearch;
 use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
 
 /**
@@ -106,5 +107,29 @@ class Category extends BaseCategory implements Aclable
 		}
 
 		return $model;
+	}
+
+	/**
+	 * Search within this entity tags.
+	 *
+	 * @param   array   $options  Search options
+	 *
+	 * @return  Collection
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function searchArticles(array $options = [])
+	{
+		if (!$this->hasId())
+		{
+			return new Collection;
+		}
+
+		$options['filter.category_id'] = $this->id();
+
+		return Collection::fromData(
+			ArticleSearch::instance($options)->search(),
+			Article::class
+		);
 	}
 }
