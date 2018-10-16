@@ -130,6 +130,33 @@ trait HasTags
 	}
 
 	/**
+	 * Remove all tags assigned to this entity.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function removeAllTags()
+	{
+		$contentTypeAlias = self::contentTypeAlias();
+
+		if (!$this->hasId())
+		{
+			throw new \RuntimeException("Trying to remove tags assigned to unsaved entiy", 500);
+		}
+
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->delete('#__contentitem_tag_map')
+			->where($db->qn('type_alias') . ' = ' . $db->q($contentTypeAlias))
+			->where($db->qn('content_item_id') . ' = ' . (int) $this->id());
+
+		$db->setQuery($query);
+		$db->execute();
+	}
+
+	/**
 	 * Search within this entity tags.
 	 *
 	 * @param   array   $options  Search options

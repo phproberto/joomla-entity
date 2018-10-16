@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Tags\Traits;
 
+use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs\ClassWithTags;
@@ -42,6 +43,46 @@ class HasTagsTest extends \TestCaseDatabase
 		$dataSet->addTable('jos_contentitem_tag_map', dirname(__DIR__) . '/Stubs/Database/contentitem_tag_map.csv');
 
 		return $dataSet;
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function removeAllTagsRemovesAssignedTags()
+	{
+		$entity = $this->getMockBuilder(ClassWithSearchableTags::class)
+			->setConstructorArgs([15])
+			->setMethods(array('getDbo'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('getDbo')
+			->willReturn(Factory::getDbo());
+
+		$tags = $entity->searchTags();
+
+		$this->assertInstanceOf(Collection::class, $tags);
+		$this->assertFalse($tags->isEmpty());
+
+		$entity->removeAllTags();
+
+		$this->assertTrue($entity->searchTags()->isEmpty());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 *
+	 * @expectedException  \RuntimeException
+	 */
+	public function removeAllTagsThrowsExceptionForEntityWithoutId()
+	{
+		$entity = new ClassWithSearchableTags;
+
+		$entity->removeAllTags();
 	}
 
 	/**
