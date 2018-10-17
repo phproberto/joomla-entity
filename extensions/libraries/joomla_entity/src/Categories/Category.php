@@ -194,7 +194,7 @@ class Category extends ComponentEntity implements Publishable, Translatable, Val
 	 *
 	 * @return  CategoryValidator
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.7.0
 	 */
 	public function validator()
 	{

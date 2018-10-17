@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Validation\Rule;
 /**
  * Category validator.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.0
  */
 class CategoryValidator extends Validator
 {

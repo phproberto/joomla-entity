@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
 /**
  * Sample class to test HasTags trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.0
  */
 class ClassWithSearchableTags extends Entity
 {
@@ -27,7 +27,7 @@ class ClassWithSearchableTags extends Entity
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.7.0
 	 */
 	public static function contentTypeAlias()
 	{

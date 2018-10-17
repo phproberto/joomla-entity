@@ -20,7 +20,7 @@ use Phproberto\Joomla\Entity\Searcher\SearcherInterface;
 /**
  * Tag search
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.7.0
  */
 class TagSearch extends DatabaseSearcher implements SearcherInterface
 {

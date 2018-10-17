@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Rule as RuleContract;
 /**
  * Check that value is null or a positve integer.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.7.0
  */
 class IsNullOrPositiveInteger extends Rule implements RuleContract
 {

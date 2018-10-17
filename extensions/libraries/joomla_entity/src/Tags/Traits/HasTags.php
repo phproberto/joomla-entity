@@ -134,7 +134,7 @@ trait HasTags
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.7.0
 	 */
 	public function removeAllTags()
 	{
@@ -163,7 +163,7 @@ trait HasTags
 	 *
 	 * @return  Collection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.7.0
 	 */
 	public function searchTags(array $options = [])
 	{

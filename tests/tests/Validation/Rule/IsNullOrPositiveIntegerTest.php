@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Validation\Rule\IsNullOrPositiveInteger;
 /**
  * IsNullOrPositiveInteger tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.7.0
  */
 class IsNullOrPositiveIntegerTest extends \TestCase
 {

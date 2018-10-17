@@ -116,7 +116,7 @@ class Category extends BaseCategory implements Aclable
 	 *
 	 * @return  Collection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.7.0
 	 */
 	public function searchArticles(array $options = [])
 	{

@@ -18,7 +18,7 @@ use Phproberto\Joomla\Entity\Tags\Search\TagSearch;
 /**
  * Tag search tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.7.0
  */
 class TagSearchTest extends \TestCaseDatabase
 {
