@@ -19,7 +19,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Phproberto\\Joomla\\Entity\\": "extensions/libraries/joomla_entity/src/"
+      "Phproberto\\Joomla\\Entity\\": "src/"
     }
   },
   "autoload-dev": {
