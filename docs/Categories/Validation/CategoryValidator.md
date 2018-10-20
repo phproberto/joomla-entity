@@ -2,7 +2,7 @@
 
 `Phproberto\Joomla\Entity\Categories\Validation\CategoryValidator`
 
-> Validator that ensures that categories cannot be saved without expected data. This validator is automatically executed each time you try to save a category entity but you can also execute it manually.
+> This validator that ensures that categories cannot be saved without expected data. It's automatically executed each time you try to save a category entity but you can also execute it manually.
 
 ## Index <a id="index"></a>
 
