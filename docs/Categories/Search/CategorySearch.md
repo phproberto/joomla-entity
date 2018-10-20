@@ -1,4 +1,4 @@
-# Category searcher 
+# Category search class 
 
 `Phproberto\Joomla\Entity\Categories\Search\CategorySearch`
 
