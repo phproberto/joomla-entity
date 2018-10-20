@@ -26,8 +26,8 @@
   links: 
     - title: Category
       url: /Categories/Category 
-    - title: CategorySearcher
-      url: /Categories/CategorySearcher 
+    - title: Search/CategorySearch
+      url: /Categories/Search/CategorySearch 
     - title: Traits/HasCategories
       url: /Categories/Traits/HasCategories 
     - title: Traits/HasCategory

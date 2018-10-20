@@ -1,6 +1,6 @@
 # Category searcher 
 
-`Phproberto\Joomla\Entity\Categories\CategorySearcher`
+`Phproberto\Joomla\Entity\Categories\Search\CategorySearch`
 
 > Allows to easily search categories.
 
@@ -9,11 +9,13 @@
 * [Usage](#usage)
 * [Filters](#filters)
     * [filter.access](#filter.access)
+    * [filter.active_language](#filter.active_language)
     * [filter.active_user_access](#filter.active_user_access)
     * [filter.ancestor_id](#filter.ancestor_id)
     * [filter.descendant_id](#filter.descendant_id)
     * [filter.extension](#filter.extension)
     * [filter.id](#filter.id)
+    * [filter.language](#filter.language)
     * [filter.level](#filter.level)
     * [filter.not_id](#filter.not_id)
     * [filter.parent_id](#filter.parent_id)
@@ -32,14 +34,14 @@ To start using the category searcher you have to load the `phproberto_library` a
 ```php
 \JLoader::import('phproberto_entity.library');
 
-use Phproberto\Joomla\Entity\Categories\CategorySearch;
+use Phproberto\Joomla\Entity\Categories\Search\CategorySearch;
 
 // Start searching!
-$searcher = new CategorySearcher(['list.limit' => 5]);
+$searcher = new CategorySearch(['list.limit' => 5]);
 $categories = $searcher->search();
 
 // You can do it in one line!
-$categories = CategorySearcher::instance(['list.limit' => 5])->search();
+$categories = CategorySearch::instance(['list.limit' => 5])->search();
 ```
 
 ## Filters <a id="filters"></a>
@@ -58,9 +60,11 @@ Allows to search categories only available for specific view levels.
 **Examples:**
 
 ```php
+use Phproberto\Joomla\Entity\Categories\Search\CategorySearch;
+
 // Search only visible categories for Public view level (id: 1)
-$categories = CategorySearcher::instance(['filter.access' => 1]);
+$categories = CategorySearch::instance(['filter.access' => 1]);
 
 // Search only visible categories for Public or Registered view levels
-$categories = CategorySearcher::instance(['filter.access' => [1, 2]]);
+$categories = CategorySearch::instance(['filter.access' => [1, 2]]);
 ```
