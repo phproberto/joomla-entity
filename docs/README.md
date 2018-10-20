@@ -1,8 +1,10 @@
-# Funny and reliable system to communicate with !Joomla  
+# Funny and reliable API for !Joomla  
 
-The goal of this library is to make things easier for Joomla! developers. Using a semantical language and fully covered by tests.  
+The goal of this library is to make things easier for Joomla! developers using a semantical language. Because Developer Experience (DX) in open source matters as much as User Experience (UX) in our websites. 
 
-## Examples
+Being fun is not incompatible with reliability. That's why this library is also fully covered by tests.
+
+##  Cool things you can do with joomla-entity:
 
 ### Create an article
 
