@@ -18,6 +18,8 @@
   links: 
     - title: Acl
       url: /Acl/Acl 
+    - title: Contracts/Aclable
+      url: /Acl/Contracts/Aclable 
     - title: Traits/HasAcl
       url: /Acl/Traits/HasAcl 
 - title: Categories
