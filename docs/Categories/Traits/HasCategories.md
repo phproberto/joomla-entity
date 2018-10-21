@@ -58,16 +58,16 @@ Using this trait requires that your entity implements the loadCategories() metho
 **Examples:**
 
 ```php
-$class = new ClassWithCategories;
+$entity = new EntityWithCategories;
 
 // This loads categories first time is called
-$categories = $class->categories();
+$categories = $entity->categories();
 
 // This loads cached categories
-$categories = $class->categories();
+$categories = $entity->categories();
 
 // This forces data reloading
-$categories = $class->categories(true);
+$categories = $entity->categories(true);
 ```
 
 ### clearCategories() <a id="clearCategories"></a>
@@ -85,10 +85,10 @@ None
 **Examples:**
 
 ```php
-$class = new ClassWithCategories;
+$entity = new EntityWithCategories;
 
 // This loads categories
-$categories = $class->categories();
+$categories = $entity->categories();
 
 // But if you modify them somewhere
 $category = Category::instance(23);
@@ -98,10 +98,10 @@ $category->assign('title', 'Edited title');
 $categories->get(23)->get('title');
 
 // So you can do something like:
-$categories = $class->clearCategories()->categories();
+$categories = $entity->clearCategories()->categories();
 
 // Or directly use reload option
-$categories = $class->categories(true);
+$categories = $entity->categories(true);
 ```
 
 ### hasCategory($id) <a id="hasCategory"></a>
@@ -119,11 +119,11 @@ $categories = $class->categories(true);
 **Examples:**
 
 ```php
-$class = new ClassWithCategories;
+$entity = new EntityWithCategories;
 
-if ($class->hasCategory(23))
+if ($entity->hasCategory(23))
 {
-	echo $class->categories()->get(23)->get('title');
+	echo $entity->categories()->get(23)->get('title');
 }
 ```
 
@@ -142,9 +142,9 @@ None
 **Examples:**
 
 ```php
-$class = new ClassWithCategories;
+$entity = new EntityWithCategories;
 
-if (!$class->hasCategories())
+if (!$entity->hasCategories())
 {
 	echo 'Nothing to show';
 }

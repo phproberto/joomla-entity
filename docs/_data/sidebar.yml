@@ -10,6 +10,8 @@
       url: /license
 - title: Global
   links: 
+    - title: ComponentEntity
+      url: /ComponentEntity 
     - title: Entity
       url: /Entity 
     - title: Collection
