@@ -9,11 +9,11 @@
     - title: License
       url: /license
 - title: Global
-  links: 
-    - title: ComponentEntity
-      url: /ComponentEntity 
+  links:  
     - title: Entity
       url: /Entity 
+    - title: ComponentEntity
+      url: /ComponentEntity
     - title: Collection
       url: /Collection 
 - title: ACL

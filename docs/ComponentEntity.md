@@ -37,10 +37,10 @@ This class is mainly a bridge between `Entity` and `HasComponent` trait:
 
 This class extends the base entity class so you can use methods defined there:
 
-* [Phproberto\Joomla\Entity\Entity](../Entity.md)
+* [Phproberto\Joomla\Entity\Entity](./Entity.md)
 
 ### Traits <a id="traits"></a>
 
 This class allows you to use methods defined in these traits:
 
-* [Phproberto\Joomla\Entity\Core\Traits\HasComponent](../Core/Traits/HasComponent.md
+* [Phproberto\Joomla\Entity\Core\Traits\HasComponent](../Core/Traits/HasComponent.md)
