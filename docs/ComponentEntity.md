@@ -43,4 +43,4 @@ This class extends the base entity class so you can use methods defined there:
 
 This class allows you to use methods defined in these traits:
 
-* [Phproberto\Joomla\Entity\Core\Traits\HasComponent](../Core/Traits/HasComponent.md)
+* [Phproberto\Joomla\Entity\Core\Traits\HasComponent](./Core/Traits/HasComponent.md)
