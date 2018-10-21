@@ -27,18 +27,6 @@ trait HasCategories
 	protected $categories;
 
 	/**
-	 * Clear already loaded categories.
-	 *
-	 * @return  self
-	 */
-	public function clearCategories()
-	{
-		$this->categories = null;
-
-		return $this;
-	}
-
-	/**
 	 * Get the associated categories.
 	 *
 	 * @param   boolean  $reload  Force data reloading
@@ -53,6 +41,18 @@ trait HasCategories
 		}
 
 		return $this->categories;
+	}
+
+	/**
+	 * Clear already loaded categories.
+	 *
+	 * @return  self
+	 */
+	public function clearCategories()
+	{
+		$this->categories = null;
+
+		return $this;
 	}
 
 	/**

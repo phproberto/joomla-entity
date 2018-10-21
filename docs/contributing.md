@@ -1,6 +1,6 @@
 ## Contributing to joomla-entity. 
 
-Do you want to contribute to joomla-twig? THANK YOU!!  
+Do you want to contribute to this project? THANK YOU!!  
 
 This project uses a set of tools (mainly Node.js & Composer) and a special development environment that may scare you if you aren't familiar with it but will definitely improve your skills as web developer and your development speed. Any time spent configuring joomla-twig development environment will make you a better developer.  
 

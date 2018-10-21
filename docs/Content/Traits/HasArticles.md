@@ -7,7 +7,6 @@
 ## Index
 
 * [Requirements](#requirements)
-* [Usage](#usage)
 * [Methods](#methods)
     * [clearArticles()](#clearArticles)
     * [getArticles($reload = false)](#getArticles)
@@ -42,6 +41,10 @@ Using this trait requires that your entity implements the loadArticles() method 
 		return new Collection($articles);
 	}
 ```
+
+## Methods <a id="methods"></a>
+
+This trait provides the following method:  
 
 ### clearArticles() <a id="clearArticles"></a>
 
