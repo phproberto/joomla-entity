@@ -42,6 +42,8 @@
       url: /Content/Article 
     - title: Category
       url: /Content/Category 
+    - title: Search/ArticleSearch
+      url: /Content/Search/ArticleSearch 
     - title: Traits/HasArticle
       url: /Content/Traits/HasArticle 
     - title: Traits/HasArticles
