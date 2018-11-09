@@ -19,4 +19,16 @@ use Phproberto\Joomla\Entity\Categories\Traits\HasCategory;
 class ClassWithCategory extends Entity
 {
 	use HasCategory;
+
+	/**
+	 * Get the list of column aliases.
+	 *
+	 * @return  array
+	 */
+	public function columnAliases()
+	{
+		return array(
+			'category_id' => 'category_id'
+		);
+	}
 }
