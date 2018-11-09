@@ -94,6 +94,29 @@ class CategoryTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function editingCategoryKeepsOldData()
+	{
+		$category = Category::load(37);
+
+		$editedCategory = new Category;
+		$editedCategory->bind(
+			[
+				'id'        => 37,
+				'title'     => 'Category edited',
+				'extension' => 'com_content'
+			]
+		);
+		$editedCategory->save();
+
+		$this->assertSame($category->get('lft'), $editedCategory->get('lft'));
+		$this->assertSame($category->get('rgt'), $editedCategory->get('rgt'));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function implementsTranslatable()
 	{
 		$category = new Category;

@@ -648,6 +648,11 @@ abstract class Entity implements EntityInterface
 
 		$table = $this->table();
 
+		if ($this->hasId())
+		{
+			$table->load($this->id());
+		}
+
 		$parentColumn = $this->columnAlias(Column::PARENT);
 
 		if (!$this->hasId() && $table instanceof Nested && $this->has($parentColumn))
