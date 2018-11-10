@@ -32,6 +32,11 @@
     "joomla/coding-standards": "~2.0@alpha",
     "squizlabs/php_codesniffer": "^2.8"
   },
+  "extra": {
+      "branch-alias": {
+          "dev-master": "develop-dev"
+      }
+  },
   "scripts": {
     "clean": "cd ./build && gulp clean",
     "copy" : "cd ./build && gulp copy",
