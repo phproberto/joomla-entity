@@ -1,40 +1,47 @@
-var gulp = require('gulp');
+var gulp        = require('gulp');
+var extension   = require('./package.json');
+var config      = require('./gulp-config.json');
+var del         = require('del');
+var browserSync = require('browser-sync');
 
-var extension = require('./package.json');
-var config    = require('./gulp-config.json');
+var src = '../src';
+var libraryName = 'joomla_entity';
 
-var requireDir = require('require-dir');
-var zip        = require('gulp-zip');
-var fs         = require('fs');
-var xml2js     = require('xml2js');
-var parser     = new xml2js.Parser();
+var wwwPath = config.wwwDir + '/libraries/' + libraryName + '/src';
 
-var jgulp = requireDir('./node_modules/joomla-gulp', {recurse: true});
-var dir = requireDir('./joomla-gulp-extensions', {recurse: true});
+var browserConfig = config.hasOwnProperty('browserConfig') ? config.browserConfig : defaultBrowserConfig;
 
-var rootPath = '../extensions/libraries/joomla_entity';
-
-// Override of the release script
-gulp.task('release', function (cb) {
-	fs.readFile( '../extensions/libraries/joomla_entity/joomla_entity.xml', function(err, data) {
-		parser.parseString(data, function (err, result) {
-			var version = result.extension.version[0];
-
-			var fileName = extension.name + '-v' + version + '.zip';
-
-			return gulp.src([
-					rootPath + '/**/*',
-					'!' + rootPath + '/vendor/**/docs/**/*',
-					'!' + rootPath + '/vendor/**/docs',
-					'!' + rootPath + '/vendor/**/doc/**/*',
-					'!' + rootPath + '/vendor/**/doc',
-					'!' + rootPath + '/vendor/**/composer.*',
-					'!' + rootPath + '/vendor/**/build.php',
-					'!' + rootPath + '/vendor/**/phpunit.*',
-				],{ base: rootPath })
-				.pipe(zip(fileName))
-				.pipe(gulp.dest('releases'))
-				.on('end', cb);
-		});
-	});
+// BrowserSync: init
+gulp.task('browserSync:init', function(done) {
+	browserSync.init(browserConfig, done);
 });
+
+// BrowserSync: reload
+gulp.task('browserSync:reload', function(done) {
+	browserSync.reload();
+	done();
+});
+
+// Clean
+gulp.task('clean', function() {
+	return del(wwwPath, {force : true});
+});
+
+// Copy: src
+gulp.task('copy:src', function() {
+	return gulp.src(src + '/**',{ base: src })
+		.pipe(gulp.dest(wwwPath));
+});
+
+// Copy
+gulp.task('copy', gulp.series('clean', 'copy:src'));
+
+// Watch
+gulp.task('watch', function() {
+	gulp.watch(
+		src + '/**', 
+		gulp.series('copy', 'browserSync:reload')
+	);
+});
+
+gulp.task('default', gulp.series('copy', 'browserSync:init', 'watch'));

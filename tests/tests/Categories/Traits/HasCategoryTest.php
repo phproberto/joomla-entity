@@ -19,6 +19,60 @@ use Phproberto\Joomla\Entity\Tests\Categories\Traits\Stubs\ClassWithCategory;
 class HasCategoryTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function categoryIdReturnsZeroForUnexistingColumn()
+	{
+		$entity = new ClassWithCategory;
+
+		$this->assertSame(0, $entity->categoryId());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function categoryIdReturnsExpectedValue()
+	{
+		$entity = new ClassWithCategory;
+		$entity->bind(
+			[
+				'id' => 45,
+				'category_id' => 12
+			]
+		);
+
+		$this->assertSame(12, $entity->categoryId());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function categoryIdReturnsExpectedValueWithCustomCategoryColumn()
+	{
+		$entity = $this->getMockBuilder(ClassWithCategory::class)
+			->setMethods(array('columnAlias'))
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('catid');
+
+		$entity->bind(
+			[
+				'id' => 45,
+				'catid' => 23
+			]
+		);
+
+		$this->assertSame(23, $entity->categoryId());
+	}
+
+	/**
 	 * getCategory works for catid column.
 	 *
 	 * @return  void
@@ -26,10 +80,10 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 	public function testGetCategoryWorksForCatidColumn()
 	{
 		$class = $this->getMockBuilder(ClassWithCategory::class)
-			->setMethods(array('getColumnCategory'))
+			->setMethods(array('columnAlias'))
 			->getMock();
 
-		$class->method('getColumnCategory')
+		$class->method('columnAlias')
 			->willReturn('catid');
 
 		$reflection = new \ReflectionClass($class);

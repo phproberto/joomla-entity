@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Categories\Traits;
 
 defined('_JEXEC') || die;
 
+use Phproberto\Joomla\Entity\Categories\Column;
 use Phproberto\Joomla\Entity\Categories\Category;
 
 /**
@@ -51,13 +52,34 @@ trait HasCategory
 	}
 
 	/**
+	 * Get associated category identifier.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function categoryId()
+	{
+		$column = $this->getColumnCategory();
+
+		if (!$this->has($column))
+		{
+			return 0;
+		}
+
+		return (int) $this->get($column);
+	}
+
+	/**
 	 * Get the name of the column that stores category.
 	 *
 	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use column aliases
 	 */
 	protected function getColumnCategory()
 	{
-		return 'category_id';
+		return $this->columnAlias(Column::CATEGORY);
 	}
 
 	/**
@@ -67,14 +89,8 @@ trait HasCategory
 	 */
 	protected function loadCategory()
 	{
-		$column = $this->getColumnCategory();
-		$data = $this->all();
+		$id = $this->categoryId();
 
-		if (array_key_exists($column, $data))
-		{
-			return Category::find($data[$column]);
-		}
-
-		return new Category;
+		return $id ? Category::find($id) : new Category;
 	}
 }
