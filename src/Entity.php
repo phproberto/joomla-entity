@@ -670,7 +670,9 @@ abstract class Entity implements EntityInterface
 			throw SaveException::table($this, $table);
 		}
 
-		if ($table instanceof Nested && !$table->rebuild($table->id, $table->lft, $table->level, $table->path))
+		$path = property_exists($table, 'path') ? $table->path : null;
+
+		if ($table instanceof Nested && !$table->rebuild($table->id, $table->lft, $table->level, $path))
 		{
 			throw SaveException::table($this, $table);
 		}
