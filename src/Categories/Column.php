@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Columns supported by categories.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.7.2
  */
 abstract class Column
 {
