@@ -437,6 +437,28 @@ abstract class Entity implements EntityInterface
 	}
 
 	/**
+	 * Check if a property exists and is empty.
+	 *
+	 * @param   string   $property  Entity property name
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasEmptyDate($property)
+	{
+		return $this->has(
+			$property,
+			function ($value)
+			{
+				$emptyValues = [null, '', '0', '0000-00-00', '0000-00-00 00:00:00', '1971-01-01', '1971-01-01 00:00:00'];
+
+				return in_array(trim($value), $emptyValues, true);
+			}
+		);
+	}
+
+	/**
 	 * Check if a property exists and is not empty.
 	 *
 	 * @param   string   $property  Entity property name
@@ -708,6 +730,31 @@ abstract class Entity implements EntityInterface
 		}
 
 		return $gregorian ? $date->format($format, true) : $date->calendar($format, true);
+	}
+
+	/**
+	 * Get an entity date field formatted.
+	 *
+	 * @param   string   $property   Name of the property to use as source date
+	 * @param   strig    $format     Format to output the date. PHP format | language string
+	 * @param   array    $options    Optional settings:
+	 *                               gregorian => True to use Gregorian calendar.
+	 * 	                             tz => Time zone to be used for the date.  Special cases:
+	 * 	                             	* boolean true for user setting
+	 * 	                              	* boolean false for server setting.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function showNotEmptyDate($property, $format = 'DATE_FORMAT_LC1', array $options = array())
+	{
+		if ($this->hasEmptyDate($property))
+		{
+			return isset($options['default']) ? $options['default'] : '';
+		}
+
+		return $this->showDate($property, $format, $options);
 	}
 
 	/**

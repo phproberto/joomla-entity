@@ -235,6 +235,53 @@ class EntityTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * Dates provider.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasEmptyDateProvider()
+	{
+		return [
+			// Date, expectedResult
+			[null, true],
+			['1976-11-16', false],
+			['', true],
+			['1976-11-16 00:00:00', false],
+			[' ', true],
+			['1989-5-20 12:00:01', false],
+			['0', true],
+			['0000-00-00', true],
+			['2000-00-00', false],
+			['0000-00-00 00:00:00', true],
+			['1971-01-01', true],
+			['1971-01-01 00:00:00', true],
+			['1971-01-01 00:00:00 ', true]
+		];
+	}
+
+	/**
+	 * @test
+	 *
+	 * @dataProvider  hasEmptyDateProvider
+	 *
+	 * @param   string   $date            Date to test
+	 * @param   boolean  $expectedResult  Expected result for hasEmptyDate()
+	 *
+	 * @return void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasEmptyDateReturnExpectedValue($date, bool $expectedResult)
+	{
+		$entity = $this->getEntity();
+		$entity->assign('test-date', $date);
+
+		$this->assertSame($expectedResult, $entity->hasEmptyDate('test-date'));
+	}
+
+	/**
 	 * @test
 	 *
 	 * @return void
@@ -1296,6 +1343,58 @@ class EntityTest extends \TestCaseDatabase
 
 		$this->assertSame('Tuesday, 16 November 1976', $entity->showDate('date'));
 		$this->assertSame('1976-11-16 16:05:00', $entity->showDate('date', 'DATE_FORMAT_FILTER_DATETIME'));
+	}
+
+	/**
+	 * Dates provider.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function showNotEmptyDateProvider()
+	{
+		return [
+			// Date, expectedResult
+			[null, 'DATE_FORMAT_LC1', ''],
+			['1976-11-16', 'DATE_FORMAT_LC1', 'Tuesday, 16 November 1976'],
+			['1989-5-20 12:00:01', 'd-m-Y', '20-05-1989']
+		];
+	}
+
+	/**
+	 * @test
+	 *
+	 * @dataProvider  showNotEmptyDateProvider
+	 *
+	 * @param   string  $date      Date to test
+	 * @param   string  $format    Desired date format
+	 * @param   string  $expected  Expected formated date
+	 *
+	 * @return void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function showNotEmptyDateReturnsExpectedValue($date, $format, $expected)
+	{
+		$user = $this->getMockBuilder('UserMock')
+			->setMethods(array('getTimezone'))
+			->getMock();
+
+		$user->method('getTimezone')
+			->willReturn(new \DateTimeZone('GMT'));
+
+		$entity = $this->getMockBuilder(Entity::class)
+			->setMethods(array('juser'))
+			->getMock();
+
+		$entity
+			->method('juser')
+			->willReturn($user);
+
+		$entity->assign('test-date', $date);
+
+		$this->assertSame($expected, $entity->showNotEmptyDate('test-date', $format));
 	}
 
 	/**
