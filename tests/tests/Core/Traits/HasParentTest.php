@@ -38,6 +38,24 @@ class HasParentTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function hasParentReturnsExpectedResult()
+	{
+		$this->assertFalse($this->entity->hasParent());
+
+		$this->entity->assign('parent_id', 12);
+
+		$this->assertTrue($this->entity->hasParent());
+
+		$this->entity->assign('parent_id', 'rr');
+
+		$this->assertFalse($this->entity->hasParent());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function parentColumnReturnsExpectedValue()
 	{
 		$entity = $this->getMockBuilder(EntityWithParent::class)

@@ -28,6 +28,18 @@ trait HasParent
 	protected $parent;
 
 	/**
+	 * Check if this entity has an assigned parent.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasParent()
+	{
+		return $this->parentId() > 0;
+	}
+
+	/**
 	 * Load the parent entity.
 	 *
 	 * @return  EntityInterface
