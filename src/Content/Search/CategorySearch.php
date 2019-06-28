@@ -12,14 +12,14 @@ defined('_JEXEC') || die;
 
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Content\Category;
-use Phproberto\Joomla\Entity\Categories\Search\CategorySearch as BaseCategorySearc;
+use Phproberto\Joomla\Entity\Categories\Search\CategorySearch as BaseCategorySearch;
 
 /**
  * Category search.
  *
  * @since  1.6.0
  */
-class CategorySearch extends BaseCategorySearc
+class CategorySearch extends BaseCategorySearch
 {
 	/**
 	 * Retrieve the search query.
