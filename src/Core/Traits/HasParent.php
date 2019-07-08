@@ -32,7 +32,7 @@ trait HasParent
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.8
 	 */
 	public function hasParent()
 	{

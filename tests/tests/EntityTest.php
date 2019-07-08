@@ -239,7 +239,7 @@ class EntityTest extends \TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.8
 	 */
 	public function hasEmptyDateProvider()
 	{
@@ -271,7 +271,7 @@ class EntityTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.8
 	 */
 	public function hasEmptyDateReturnExpectedValue($date, bool $expectedResult)
 	{
@@ -1350,7 +1350,7 @@ class EntityTest extends \TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.8
 	 */
 	public function showNotEmptyDateProvider()
 	{
@@ -1373,7 +1373,7 @@ class EntityTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.8
 	 */
 	public function showNotEmptyDateReturnsExpectedValue($date, $format, $expected)
 	{

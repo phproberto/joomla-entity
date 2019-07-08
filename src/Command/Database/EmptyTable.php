@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 /**
  * Empty a database table.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.8
  */
 final class EmptyTable extends BaseCommand implements CommandInterface
 {

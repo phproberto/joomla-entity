@@ -13,7 +13,7 @@ use Phproberto\Joomla\Entity\Command\BaseCommand;
 /**
  * Stub to test BaseCommand class.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.8
  */
 class SampleCommand extends BaseCommand
 {

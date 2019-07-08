@@ -16,7 +16,7 @@ use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 /**
  * Delete a folder and all its contents.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.8
  */
 class DeleteFolderRecursively extends BaseCommand implements CommandInterface
 {

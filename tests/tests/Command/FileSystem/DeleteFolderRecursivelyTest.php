@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Command\FileSystem\DeleteFolderRecursively;
 /**
  * DeleteFolderRecursivelyTest tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.8
  */
 class DeleteFolderRecursivelyTestTest extends \TestCase
 {

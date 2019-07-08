@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 /**
  * EmptyTable tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.8
  */
 class EmptyTableTest extends \TestCaseDatabase
 {

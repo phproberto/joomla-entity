@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 /**
  * Drop a database table.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.8
  */
 final class DropTable extends BaseCommand implements CommandInterface
 {

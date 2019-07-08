@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * Describes methods required by commands.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.8
  */
 interface CommandInterface
 {

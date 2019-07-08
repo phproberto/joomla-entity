@@ -443,7 +443,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.8
 	 */
 	public function hasEmptyDate($property)
 	{
@@ -745,7 +745,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.8
 	 */
 	public function showNotEmptyDate($property, $format = 'DATE_FORMAT_LC1', array $options = array())
 	{

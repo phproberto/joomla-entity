@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 /**
  * Executes a SQL file.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.8
  */
 final class ExecuteSQLFile extends BaseCommand implements CommandInterface
 {

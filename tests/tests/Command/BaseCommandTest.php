@@ -15,7 +15,7 @@ use Phproberto\Joomla\Entity\Tests\Command\Stubs\SampleCommand;
 /**
  * Base command tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   1.8
  */
 class BaseCommandTest extends \TestCase
 {
