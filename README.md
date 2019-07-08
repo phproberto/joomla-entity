@@ -83,4 +83,4 @@ Documentation is published in [https://phproberto.github.io/joomla-entity/](http
 
 This library is licensed under [GNU LESSER GENERAL PUBLIC LICENSE](./LICENSE).  
 
-Copyright (C) 2017-2018 [Roberto Segura López](http://phproberto.com) - All rights reserved.  
+Copyright (C) 2017-2019 [Roberto Segura López](http://phproberto.com) - All rights reserved.  
