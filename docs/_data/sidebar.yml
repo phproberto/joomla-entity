@@ -24,6 +24,16 @@
       url: /Acl/Contracts/Aclable 
     - title: Traits/HasAcl
       url: /Acl/Traits/HasAcl 
+- title: Command
+  links: 
+    - title: Database/DropTable
+      url: /Command/Database/DropTable
+    - title: Database/EmptyTable
+      url: /Command/Database/EmptyTable
+    - title: Database/ExecuteSQLFile
+      url: /Command/Database/ExecuteSQLFile
+    - title: FileSystem/DeleteFolderRecursively
+      url: /Command/FileSystem/DeleteFolderRecursively
 - title: Categories
   links: 
     - title: Category
