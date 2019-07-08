@@ -12,7 +12,7 @@ use Phproberto\Joomla\Entity\Command\Database\ExecuteSQLFile;
 // Standard usage
 try 
 {
-	$command = new ExecuteSQLFile(__DIR__ '/sql/my_sql_file.sql');
+	$command = new ExecuteSQLFile(__DIR__ . '/sql/my_sql_file.sql');
 	$command->execute();
 } 
 catch (\Exception $e) 
@@ -22,7 +22,7 @@ catch (\Exception $e)
 }
 
 // Fast usage
-ExecuteSQLFile::instance([__DIR__ '/sql/my_sql_file.sql'])->execute();
+ExecuteSQLFile::instance([__DIR__ . '/sql/my_sql_file.sql'])->execute();
 
 // Use a database different than Joomla DB
 $db = \JDatabaseDriver::getInstance(
@@ -38,7 +38,7 @@ $db = \JDatabaseDriver::getInstance(
 
 try 
 {
-	$command = new ExecuteSQLFile(__DIR__ '/sql/my_sql_file.sql', ['db' => $db]);
+	$command = new ExecuteSQLFile(__DIR__ . '/sql/my_sql_file.sql', ['db' => $db]);
 	$command->execute();
 } 
 catch (\Exception $e) 
