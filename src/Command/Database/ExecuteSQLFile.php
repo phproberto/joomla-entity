@@ -58,10 +58,18 @@ final class ExecuteSQLFile extends BaseCommand implements CommandInterface
 	 */
 	public function execute()
 	{
-		$this->db->setQuery(
-			file_get_contents($this->file)
-		);
+		$sql = file_get_contents($this->file);
 
-		$this->db->execute();
+		foreach ($this->db->splitSql($sql) as $query)
+		{
+			try
+			{
+				$this->db->setQuery($query)->execute();
+			}
+			catch (\Exception $e)
+			{
+				// If the query fails we will go on. It just means the index to be dropped does not exist.
+			}
+		}
 	}
 }

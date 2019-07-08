@@ -38,7 +38,12 @@ class ExecuteSQLFileTest extends \TestCaseDatabase
 		mkdir($tmpFolder);
 		$file = $tmpFolder . '/execute-sql-test.sql';
 		touch($file);
-		$sql = 'CREATE TABLE `execute-sql-test` (`id` INTEGER PRIMARY KEY NOT NULL, `name` TEXT NOT NULL)';
+		$sql = "-- This is a comment"
+			. "\n"
+			. "CREATE TABLE `execute-sql-test` (`id` INTEGER PRIMARY KEY NOT NULL, `name` TEXT NOT NULL)"
+			. "\n"
+			. "/* And another comment */";
+
 		$handle = fopen($file,'w+');
 		fwrite($handle, $sql);
 		fclose($handle);
