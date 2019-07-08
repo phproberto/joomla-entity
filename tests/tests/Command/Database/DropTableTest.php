@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Command\Database\DropTable;
 
 /**
- * Base command tests.
+ * DropTabletests.
  *
  * @since   __DEPLOY_VERSION__
  */
@@ -82,6 +82,8 @@ class DropTableTest extends \TestCaseDatabase
 	 */
 	public function customDriverIsUsed()
 	{
+		@unlink(dirname(JPATH_TESTS_PHPROBERTO) . '/:droptable_test:');
+
 		$db2 = \JDatabaseDriver::getInstance(
 			[
 				'driver' => 'sqlite',
