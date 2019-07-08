@@ -1,5 +1,7 @@
 # DropTable command
 
+`Phproberto\Joomla\Entity\Command\Database\DropTable`
+
 > Command to easily drop a database table.
 
 ## Usage <a id="usage"></a> 

@@ -1,5 +1,7 @@
 # EmptyTable command
 
+`Phproberto\Joomla\Entity\Command\Database\EmptyTable`
+
 > Command to easily empty a database table.
 
 ## Usage <a id="usage"></a> 

@@ -1,5 +1,7 @@
 # DeleteFolderRecursively command
 
+`Phproberto\Joomla\Entity\Command\Database\DeleteFolderRecursively`
+
 > Command to easily delete a folder.
 
 ## Usage <a id="usage"></a> 

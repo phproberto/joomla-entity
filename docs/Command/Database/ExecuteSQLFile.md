@@ -1,5 +1,7 @@
 # ExecuteSQLFile command
 
+`Phproberto\Joomla\Entity\Command\Database\ExecuteSQLFile`
+
 > Command to easily execute an SQL file.
 
 ## Usage <a id="usage"></a> 
