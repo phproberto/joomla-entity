@@ -12,6 +12,7 @@ defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Command\Database\DropTable;
+use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 
 /**
  * DropTabletests.
@@ -20,6 +21,18 @@ use Phproberto\Joomla\Entity\Command\Database\DropTable;
  */
 class DropTableTest extends \TestCaseDatabase
 {
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function implementsCommandInterface()
+	{
+		$command = new DropTable('test');
+
+		$this->assertTrue($command instanceof CommandInterface);
+	}
+
 	/**
 	 * @test
 	 *

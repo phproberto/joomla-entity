@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\Command\FileSystem;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
+use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 use Phproberto\Joomla\Entity\Command\FileSystem\DeleteFolderRecursively;
 
 /**
@@ -20,6 +21,18 @@ use Phproberto\Joomla\Entity\Command\FileSystem\DeleteFolderRecursively;
  */
 class DeleteFolderRecursivelyTestTest extends \TestCase
 {
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function implementsCommandInterface()
+	{
+		$command = new DeleteFolderRecursively('test');
+
+		$this->assertTrue($command instanceof CommandInterface);
+	}
+
 	/**
 	 * Create a test folder structure.
 	 *

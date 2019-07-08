@@ -12,6 +12,7 @@ defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Command\Database\ExecuteSQLFile;
+use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 use Phproberto\Joomla\Entity\Command\FileSystem\DeleteFolderRecursively;
 
 /**
@@ -21,6 +22,18 @@ use Phproberto\Joomla\Entity\Command\FileSystem\DeleteFolderRecursively;
  */
 class ExecuteSQLFileTest extends \TestCaseDatabase
 {
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function implementsCommandInterface()
+	{
+		$command = new DeleteFolderRecursively('test');
+
+		$this->assertTrue($command instanceof CommandInterface);
+	}
+
 	/**
 	 * Create the test SQL file.
 	 *

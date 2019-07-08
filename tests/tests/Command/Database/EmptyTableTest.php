@@ -12,6 +12,7 @@ defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Command\Database\EmptyTable;
+use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 
 /**
  * EmptyTable tests.
@@ -20,6 +21,18 @@ use Phproberto\Joomla\Entity\Command\Database\EmptyTable;
  */
 class EmptyTableTest extends \TestCaseDatabase
 {
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function implementsCommandInterface()
+	{
+		$command = new EmptyTable('test');
+
+		$this->assertTrue($command instanceof CommandInterface);
+	}
+
 	/**
 	 * @test
 	 *
