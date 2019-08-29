@@ -137,7 +137,18 @@ trait HasParams
 			return $this->row['params'] instanceof Registry ? $this->row['params'] : new Registry($this->row['params']);
 		}
 
-		$params = trim($this->get($this->columnAlias(Column::PARAMS)));
+		$params = $this->get($this->columnAlias(Column::PARAMS));
+
+		// Some tables return params as a Registry object
+		if ($params instanceof Registry)
+		{
+			return $params;
+		}
+
+		if (is_string($params))
+		{
+			$params = trim($params);
+		}
 
 		return empty($params) ? new Registry : new Registry($params);
 	}

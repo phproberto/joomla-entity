@@ -78,14 +78,14 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = new Registry('{"bar":"foo"}');
 
-		$row = array('id' => 999, 'title' => 'test entity', 'attribs' => '{"foo":"var"}', 'params' => $params);
+		$row = array('id' => 999, 'title' => 'test entity', 'params' => $params);
 
 		$entity = $this->getMockBuilder(EntityWithParams::class)
 			->setMethods(array('columnAlias'))
 			->getMock();
 
 		$entity->method('columnAlias')
-			->willReturn('attribs');
+			->willReturn('params');
 
 		$entity->bind($row);
 
@@ -94,6 +94,83 @@ class HasParamsTest extends \PHPUnit\Framework\TestCase
 		$method->setAccessible(true);
 
 		$this->assertSame($params, $method->invoke($entity));
+	}
+
+	/**
+	 * loadParams returns Registry if table loads params as Registry.
+	 *
+	 * @return  void
+	 */
+	public function testLoadParamsReturnsRegistryIfTableLoadsParamsAsRegistry()
+	{
+		$params = new Registry('{"bar":"foo"}');
+
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(['columnAlias', 'get'])
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('params');
+
+		$entity->method('get')
+			->with('params')
+			->willReturn($params);
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadParams');
+		$method->setAccessible(true);
+
+		$this->assertSame($params, $method->invoke($entity));
+	}
+
+	/**
+	 * @return  void
+	 */
+	public function testLoadParamsReturnsRegistryIfTableReturnsParamsAsStringWithSpaces()
+	{
+		$params = '        {"bar":"foo"}     ';
+
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(['columnAlias', 'get'])
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('params');
+
+		$entity->method('get')
+			->with('params')
+			->willReturn($params);
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadParams');
+		$method->setAccessible(true);
+
+		$this->assertSame('foo', $method->invoke($entity)->get('bar'));
+	}
+
+	/**
+	 * @return  void
+	 */
+	public function testLoadParamsReturnsRegistryIfTableReturnsParamsAsArray()
+	{
+		$params = ['bar' => 'fromArray'];
+
+		$entity = $this->getMockBuilder(EntityWithParams::class)
+			->setMethods(['columnAlias', 'get'])
+			->getMock();
+
+		$entity->method('columnAlias')
+			->willReturn('params');
+
+		$entity->method('get')
+			->with('params')
+			->willReturn($params);
+
+		$reflection = new \ReflectionClass($entity);
+		$method = $reflection->getMethod('loadParams');
+		$method->setAccessible(true);
+
+		$this->assertSame('fromArray', $method->invoke($entity)->get('bar'));
 	}
 
 	/**
