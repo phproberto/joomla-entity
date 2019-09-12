@@ -76,8 +76,8 @@ Documentation is published in [https://phproberto.github.io/joomla-entity/](http
 
 ## Requirements <a id="requirements"></a>
 
-* **PHP 5.5+** 
-* **Joomla! CMS v3.7+**
+* **PHP 7.1+** 
+* **Joomla! CMS v3.9+**
 
 ## Copyright & License <a id="license"></a>
 
