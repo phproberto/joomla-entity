@@ -18,6 +18,7 @@ use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Core\Traits\HasLink;
 use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
+use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Content\Traits\HasArticles;
 use Phproberto\Joomla\Entity\Content\Search\ArticleSearch;
@@ -107,6 +108,22 @@ class Category extends BaseCategory implements Aclable
 		}
 
 		return $model;
+	}
+
+	/**
+	 * Save entity to the database.
+	 *
+	 * @return  self
+	 *
+	 * @throws  SaveException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save()
+	{
+		$this->assign('extension', 'com_content');
+
+		return parent::save();
 	}
 
 	/**
