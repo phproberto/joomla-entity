@@ -25,6 +25,7 @@ class Tag extends ComponentEntity implements Aclable, Publishable
 {
 	use HasAcl;
 	use CoreTraits\HasImages, CoreTraits\HasLink, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasState;
+
 	/**
 	 * Get a table.
 	 *
