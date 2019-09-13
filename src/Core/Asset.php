@@ -20,6 +20,60 @@ use Phproberto\Joomla\Entity\Entity;
 class Asset extends Entity
 {
 	/**
+	 * Cached root instance.
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $root;
+
+	/**
+	 * Clear all instances from cache
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearAll()
+	{
+		parent::clearAll();
+
+		static::clearRoot();
+	}
+
+	/**
+	 * Clear cached root category.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearRoot()
+	{
+		static::$root = null;
+	}
+
+	/**
+	 * Retrieve root folder.
+	 *
+	 * @return  static
+	 */
+	public static function root()
+	{
+		if (null !== static::$root)
+		{
+			return static::$root;
+		}
+
+		$root = self::loadFromData(['level' => 0]);
+
+		static::$root = $root->isLoaded() ? $root : CreateRootAsset::instance()->execute();
+
+		return static::$root;
+	}
+
+	/**
 	 * Get a table.
 	 *
 	 * @param   string  $name     The table name. Optional.
