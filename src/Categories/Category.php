@@ -202,9 +202,9 @@ class Category extends ComponentEntity implements Publishable, Translatable, Val
 			$this->assign(CoreColumn::PARENT, self::root()->id());
 		}
 
-		if (!$this->hasId() && !$this->has('access'))
+		if (!$this->hasId() && !$this->has(CoreColumn::ACCESS))
 		{
-			$this->assign('access', $this->parent()->get('access'));
+			$this->assign(CoreColumn::ACCESS, $this->parent()->get(CoreColumn::ACCESS));
 		}
 
 		return parent::save();
