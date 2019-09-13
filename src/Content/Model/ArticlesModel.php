@@ -13,9 +13,10 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Phproberto\Joomla\Entity\MVC\Model\ListModel;
+use Phproberto\Joomla\Entity\MVC\Model\State\Filter;
+use Phproberto\Joomla\Entity\MVC\Model\State\Property;
 use Phproberto\Joomla\Entity\MVC\Model\State\FilteredProperty;
 use Phproberto\Joomla\Entity\MVC\Model\State\PopulableProperty;
-use Phproberto\Joomla\Entity\MVC\Model\State\Filter;
 
 /**
  * Articles Model
