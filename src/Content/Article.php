@@ -13,6 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\Fields\Field;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Content\Category;
@@ -197,6 +198,25 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 		);
 
 		return new Collection($articles);
+	}
+
+	/**
+	 * Save entity to the database.
+	 *
+	 * @return  self
+	 *
+	 * @throws  SaveException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save()
+	{
+		if (!$this->hasId() && !$this->has(CoreColumn::ACCESS))
+		{
+			$this->assign(CoreColumn::ACCESS, 1);
+		}
+
+		return parent::save();
 	}
 
 	/**
