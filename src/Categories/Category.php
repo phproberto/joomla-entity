@@ -13,8 +13,10 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
+use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
@@ -22,6 +24,7 @@ use Phproberto\Joomla\Entity\Validation\Contracts\Validable;
 use Phproberto\Joomla\Entity\Validation\Traits\HasValidation;
 use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
 use Phproberto\Joomla\Entity\Translation\Traits\HasTranslations;
+use Phproberto\Joomla\Entity\Categories\Command\CreateRootCategory;
 use Phproberto\Joomla\Entity\Categories\Validation\CategoryValidator;
 
 /**
@@ -38,6 +41,15 @@ class Category extends ComponentEntity implements Publishable, Translatable, Val
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
 
 	/**
+	 * Cached root instance.
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $root;
+
+	/**
 	 * Get the list of column aliases.
 	 *
 	 * @return  array
@@ -48,6 +60,32 @@ class Category extends ComponentEntity implements Publishable, Translatable, Val
 			'created_by'  => 'created_user_id',
 			'modified_by' => 'modified_user_id'
 		);
+	}
+
+	/**
+	 * Clear all instances from cache
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearAll()
+	{
+		parent::clearAll();
+
+		static::clearRoot();
+	}
+
+	/**
+	 * Clear cached root category.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearRoot()
+	{
+		static::$root = null;
 	}
 
 	/**
@@ -127,6 +165,49 @@ class Category extends ComponentEntity implements Publishable, Translatable, Val
 		);
 
 		return new Collection($categories);
+	}
+
+	/**
+	 * Retrieve root folder.
+	 *
+	 * @return  static
+	 */
+	public static function root()
+	{
+		if (null !== static::$root)
+		{
+			return static::$root;
+		}
+
+		$root = self::loadFromData(['level' => 0]);
+
+		static::$root = $root->isLoaded() ? $root : CreateRootCategory::instance()->execute();
+
+		return static::$root;
+	}
+
+	/**
+	 * Save entity to the database.
+	 *
+	 * @return  self
+	 *
+	 * @throws  SaveException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save()
+	{
+		if (!$this->hasId() && !$this->has(CoreColumn::PARENT))
+		{
+			$this->assign(CoreColumn::PARENT, self::root()->id());
+		}
+
+		if (!$this->hasId() && !$this->has('access'))
+		{
+			$this->assign('access', $this->parent()->get('access'));
+		}
+
+		return parent::save();
 	}
 
 	/**
