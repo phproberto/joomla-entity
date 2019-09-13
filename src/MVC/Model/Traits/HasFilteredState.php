@@ -27,9 +27,9 @@ trait HasFilteredState
 	 *
 	 * @return  FilteredState
 	 */
-	public function filteredState()
+	public function state()
 	{
-		return new FilteredState($this, $this->filteredStateProperties());
+		return new FilteredState($this, $this->stateProperties());
 	}
 
 	/**
@@ -37,7 +37,7 @@ trait HasFilteredState
 	 *
 	 * @return  array
 	 */
-	protected function filteredStateProperties()
+	protected function stateProperties()
 	{
 		return [
 			'list.limit' => new FilteredProperty(

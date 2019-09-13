@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\ListModel as BaseListModel;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasSearch;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasContext;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasStaticCache;
+use Phproberto\Joomla\Entity\MVC\Model\ModelWithStateInterface;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasFilteredState;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasQueryModifiers;
 
@@ -22,7 +23,7 @@ use Phproberto\Joomla\Entity\MVC\Model\Traits\HasQueryModifiers;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class ListModel extends BaseListModel
+abstract class ListModel extends BaseListModel implements ModelWithStateInterface
 {
 	use HasContext, HasFilteredState, HasQueryModifiers, HasSearch, HasStaticCache;
 
@@ -35,14 +36,14 @@ abstract class ListModel extends BaseListModel
 	{
 		$activeFilters = [];
 
-		foreach ($this->filteredState()->populableProperties() as $property)
+		foreach ($this->state()->populableProperties() as $property)
 		{
 			if ('filter.' !== substr($property->key(), 0, 7))
 			{
 				continue;
 			}
 
-			$value = $this->filteredState()->get($property->key());
+			$value = $this->state()->get($property->key());
 
 			if (!$value)
 			{
