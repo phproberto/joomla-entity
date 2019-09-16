@@ -10,13 +10,14 @@ namespace Phproberto\Joomla\Entity\Tests\MVC\View\Traits;
 
 defined('_JEXEC') || die;
 
-require_once __DIR__ . '/Stubs/PhprobertoViewDeveloper.php';
+require_once __DIR__ . '/Stubs/View/PhprobertoViewDeveloper.php';
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Content\Article;
-use Phproberto\Joomla\Entity\Tests\MVC\Entity\Developer;
-use Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\DeveloperView;
-use Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\ArticleView;
+use Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\Sample;
+use Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\View\SampleView;
+use Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\View\ArticleView;
+use Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\View\DeveloperView;
 
 /**
  * HasAssociatedEntity trait tests.
@@ -32,9 +33,15 @@ class HasAssociatedEntityTest extends \TestCaseDatabase
 	 */
 	public function entityClassReturnsExpectedValueForNamespacedViews()
 	{
-		$view = new DeveloperView;
+		$this->assertSame(
+			Sample::class,
+			(new SampleView)->entityClass()
+		);
 
-		$this->assertSame(Developer::class, $view->entityClass());
+		$this->assertSame(
+			'Phproberto\\Joomla\\Entity\\Tests\\MVC\\View\\Traits\\Stubs\\Entity\\Developer',
+			(new DeveloperView)->entityClass()
+		);
 	}
 
 	/**

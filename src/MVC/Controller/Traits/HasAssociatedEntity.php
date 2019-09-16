@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\MVC\Controller\Traits;
 
 defined('_JEXEC') || die;
 
+use Phproberto\Joomla\Entity\Helper\ClassName;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**
@@ -26,28 +27,32 @@ trait HasAssociatedEntity
 	 */
 	public function entityClass()
 	{
-		$class = get_class($this);
-		$reflection = new \ReflectionClass($this);
-
-		$name = $reflection->getShortName();
+		if (!ClassName::inNamespace($this))
+		{
+			return str_replace('Controller', '', strstr(get_class($this), 'Controller'));
+		}
 
 		/**
 		 * Namespaced entities:
 		 * 		Expects controllers namespaces like:
 		 * 			MyNamesPace/Controller/ArticleController
-		 * 		Expects entities namespaces like:
+		 * 		Expects entity in:
+		 * 			MyNamesPace/Article
+		 * 		or:
 		 * 			MyNamesPace/Entity/Article
 		 */
-		if (false !== strpos($class, '\\'))
-		{
-			$controllerNamespace = $reflection->getNamespaceName();
-			$commonNamespace = strstr($controllerNamespace, '\Controller', true);
-			$entityNamespace = $commonNamespace . '\Entity';
+		$entityClassName = str_replace('Controller', '', ClassName::withoutNamespace($this));
 
-			return $entityNamespace . '\\' . str_replace('Controller', '', $name);
+		$commonNamespace = ClassName::parentNamespace($this);
+
+		$guessedClass = $commonNamespace . '\\' . $entityClassName;
+
+		if (class_exists($guessedClass))
+		{
+			return $guessedClass;
 		}
 
-		return str_replace('Controller', '', strstr($name, 'Controller'));
+		return $commonNamespace . '\\Entity\\' . $entityClassName;
 	}
 
 	/**

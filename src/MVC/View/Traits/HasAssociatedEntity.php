@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\MVC\View\Traits;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
+use Phproberto\Joomla\Entity\Helper\ClassName;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**
@@ -27,28 +28,32 @@ trait HasAssociatedEntity
 	 */
 	public function entityClass()
 	{
-		$class = get_class($this);
-		$reflection = new \ReflectionClass($this);
-
-		$name = $reflection->getShortName();
+		if (!ClassName::inNamespace($this))
+		{
+			return str_replace('View', '', strstr(get_class($this), 'View'));
+		}
 
 		/**
 		 * Namespaced entities:
 		 * 		Expects views namespaces like:
-		 * 			MyNamesPace/View/ArticleController
-		 * 		Expects entities namespaces like:
+		 * 			MyNamesPace/View/ArticleView
+		 * 		Expects entity in:
+		 * 			MyNamesPace/Article
+		 * 		or:
 		 * 			MyNamesPace/Entity/Article
 		 */
-		if (false !== strpos($class, '\\'))
-		{
-			$controllerNamespace = $reflection->getNamespaceName();
-			$commonNamespace = strstr($controllerNamespace, '\View', true);
-			$entityNamespace = $commonNamespace . '\Entity';
+		$entityClassName = str_replace('View', '', ClassName::withoutNamespace($this));
 
-			return $entityNamespace . '\\' . str_replace('View', '', $name);
+		$commonNamespace = ClassName::parentNamespace($this);
+
+		$guessedClass = $commonNamespace . '\\' . $entityClassName;
+
+		if (class_exists($guessedClass))
+		{
+			return $guessedClass;
 		}
 
-		return str_replace('View', '', strstr($name, 'View'));
+		return $commonNamespace . '\\Entity\\' . $entityClassName;
 	}
 
 	/**
