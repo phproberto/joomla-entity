@@ -14,10 +14,12 @@ require_once __DIR__ . '/Stubs/PhprobertoControllerDeveloper.php';
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Content\Article;
-use Phproberto\Joomla\Entity\Tests\MVC\Entity\Developer;
+use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\Sample;
+use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\Entity\Developer;
 use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\ArticleController;
-use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\DeveloperController;
+use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\Controller\SampleController;
 use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\ControllerWithAssociatedEntity;
+use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\Controller\DeveloperController;
 
 /**
  * HasAssociatedEntity trait tests.
@@ -33,9 +35,15 @@ class HasAssociatedEntityTest extends \TestCaseDatabase
 	 */
 	public function entityClassReturnsExpectedValueForNamespacedControllers()
 	{
-		$controller = new DeveloperController;
+		$this->assertSame(
+			Sample::class,
+			(new SampleController)->entityClass()
+		);
 
-		$this->assertSame(Developer::class, $controller->entityClass());
+		$this->assertSame(
+			'Phproberto\\Joomla\\Entity\\Tests\\MVC\\Controller\\Traits\\Stubs\\Entity\\Developer',
+			(new DeveloperController)->entityClass()
+		);
 	}
 
 	/**

@@ -6,18 +6,17 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\MVC\Controller\Traits\HasAssociatedEntity;
+use Phproberto\Joomla\Entity\Entity;
 
 /**
  * Sample class to test HasAssociatedEntity trait.
  *
  * @since  __DEPLOY_VERSION__
  */
-class DeveloperController
+class Sample extends Entity
 {
-	use HasAssociatedEntity;
 }

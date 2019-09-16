@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\View;
 
 defined('_JEXEC') || die;
 
@@ -17,7 +17,7 @@ use Phproberto\Joomla\Entity\MVC\View\Traits\HasAssociatedEntity;
  *
  * @since  __DEPLOY_VERSION__
  */
-class DeveloperView
+class SampleView
 {
 	use HasAssociatedEntity;
 }

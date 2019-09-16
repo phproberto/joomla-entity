@@ -6,12 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs;
+namespace Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\View;
 
 defined('_JEXEC') || die;
 
-use Joomla\CMS\MVC\View\HtmlView;
-use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\MVC\View\Traits\HasAssociatedEntity;
 
 /**
@@ -19,17 +17,7 @@ use Phproberto\Joomla\Entity\MVC\View\Traits\HasAssociatedEntity;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ArticleView extends HtmlView
+class DeveloperView
 {
 	use HasAssociatedEntity;
-
-	/**
-	 * Retrieve the associated entity class.
-	 *
-	 * @return  string
-	 */
-	public function entityClass()
-	{
-		return Article::class;
-	}
 }
