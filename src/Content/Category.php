@@ -34,6 +34,15 @@ class Category extends BaseCategory implements Aclable
 	use HasArticles, HasAcl, HasLink, HasTags;
 
 	/**
+	 * Extension associated to this category.
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $extension = 'com_content';
+
+	/**
 	 * Retrieve the alias of content type associated with this entity.
 	 *
 	 * @return  string
@@ -108,22 +117,6 @@ class Category extends BaseCategory implements Aclable
 		}
 
 		return $model;
-	}
-
-	/**
-	 * Save entity to the database.
-	 *
-	 * @return  self
-	 *
-	 * @throws  SaveException
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function save()
-	{
-		$this->assign('extension', 'com_content');
-
-		return parent::save();
 	}
 
 	/**
