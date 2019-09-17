@@ -38,13 +38,14 @@
       }
   },
   "scripts": {
-    "clean": "cd ./build && gulp clean",
-    "copy" : "cd ./build && gulp copy",
-    "cs" : "./vendor/bin/phpcs",
-    "dev": "cd ./build && gulp",
-    "release" : "cd ./build && gulp release",
-    "setup" : "cd ./build && npm install && cp gulp-config.dist.json gulp-config.json",
-    "test" : "./vendor/bin/phpunit",
-    "watch" : "cd ./build && gulp watch"
+    "clean"        : "cd ./build && gulp clean",
+    "copy"         : "cd ./build && gulp copy",
+    "cs"           : "./vendor/bin/phpcs",
+    "dev"          : "cd ./build && gulp",
+    "release"      : "cd ./build && gulp release",
+    "setup"        : "cd ./build && npm install && cp gulp-config.dist.json gulp-config.json",
+    "test"         : "./vendor/bin/phpunit",
+    "testFailFast" : "./vendor/bin/phpunit --stop-on-failure",
+    "watch"        : "cd ./build && gulp watch"
   }
 }
