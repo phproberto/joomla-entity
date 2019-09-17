@@ -13,6 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\Categories\Category;
 use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
 use Phproberto\Joomla\Entity\Categories\Validation\CategoryValidator;
@@ -63,6 +64,39 @@ class CategoryTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function childrenReturnsChildrenCategories()
+	{
+		$children = Category::find(37)->children();
+
+		$this->assertInstanceOf(Collection::class, $children);
+		$this->assertFalse($children->isEmpty());
+
+		$this->assertFalse(in_array(22, $children->ids()));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function defaultsReturnsExpectedValue()
+	{
+		$category = new Category;
+
+		$defaults = $category->defaults();
+
+		$this->assertTrue(is_array($defaults));
+
+		$this->assertSame(Category::root()->access(), $defaults[CoreColumn::ACCESS]);
+		$this->assertSame(Category::root()->id(), $defaults[CoreColumn::PARENT]);
+		$this->assertSame('system', Category::$extension);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function descendantsReturnsExpectedValue()
 	{
 		$category = new Category;
@@ -72,21 +106,6 @@ class CategoryTest extends \TestCaseDatabase
 		$category = Category::find(20);
 
 		$this->assertSame([], array_diff($category->descendants()->ids(), [21,22,23,24,25,64,65,66,67,68,69,70,75]));
-	}
-
-	/**
-	 * @test
-	 *
-	 * @return void
-	 */
-	public function childrenReturnsChildrenCategories()
-	{
-		$children = Category::find(37)->children();
-
-		$this->assertInstanceOf(Collection::class, $children);
-		$this->assertFalse($children->isEmpty());
-
-		$this->assertFalse(in_array(22, $children->ids()));
 	}
 
 	/**

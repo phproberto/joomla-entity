@@ -50,6 +50,15 @@ class Category extends ComponentEntity implements Publishable, Translatable, Val
 	protected static $root;
 
 	/**
+	 * Extension associated to this category.
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $extension = 'system';
+
+	/**
 	 * Get the list of column aliases.
 	 *
 	 * @return  array
@@ -187,27 +196,19 @@ class Category extends ComponentEntity implements Publishable, Translatable, Val
 	}
 
 	/**
-	 * Save entity to the database.
+	 * Default data for new instances.
 	 *
-	 * @return  self
-	 *
-	 * @throws  SaveException
+	 * @return  []
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function save()
+	public function defaults()
 	{
-		if (!$this->hasId() && !$this->has(CoreColumn::PARENT))
-		{
-			$this->assign(CoreColumn::PARENT, self::root()->id());
-		}
-
-		if (!$this->hasId() && !$this->has(CoreColumn::ACCESS))
-		{
-			$this->assign(CoreColumn::ACCESS, $this->parent()->get(CoreColumn::ACCESS));
-		}
-
-		return parent::save();
+		return [
+			'extension'        => static::$extension,
+			CoreColumn::ACCESS => (int) ($this->hasParent() ? $this->parent()->get(CoreColumn::ACCESS) : self::root()->get(CoreColumn::ACCESS)),
+			CoreColumn::PARENT => self::root()->id()
+		];
 	}
 
 	/**
