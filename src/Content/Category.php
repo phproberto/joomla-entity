@@ -23,6 +23,7 @@ use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Content\Traits\HasArticles;
 use Phproberto\Joomla\Entity\Content\Search\ArticleSearch;
 use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
+use Phproberto\Joomla\Entity\Content\Command\CreateUncategorisedCategory;
 
 /**
  * Content category entity.
@@ -41,6 +42,15 @@ class Category extends BaseCategory implements Aclable
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $extension = 'com_content';
+
+	/**
+	 * Cached uncategorised instance.
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $uncategorised;
 
 	/**
 	 * Retrieve the alias of content type associated with this entity.
@@ -141,5 +151,30 @@ class Category extends BaseCategory implements Aclable
 			ArticleSearch::instance($options)->search(),
 			Article::class
 		);
+	}
+
+	/**
+	 * Retrieve uncategorised category.
+	 *
+	 * @return  static
+	 */
+	public static function uncategorised()
+	{
+		if (null !== static::$uncategorised)
+		{
+			return static::$uncategorised;
+		}
+
+		$uncategorised = self::loadFromData(
+			[
+				'alias'     => 'uncategorised',
+				'extension' => 'com_content',
+				'level'     => 1
+			]
+		);
+
+		static::$uncategorised = $uncategorised->isLoaded() ? $uncategorised : CreateUncategorisedCategory::instance()->execute();
+
+		return static::$uncategorised;
 	}
 }

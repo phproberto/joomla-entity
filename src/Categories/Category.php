@@ -204,10 +204,13 @@ class Category extends ComponentEntity implements Publishable, Translatable, Val
 	 */
 	public function defaults()
 	{
+		$parent = $this->hasParent() ? $this->parent() : self::root();
+
 		return [
 			'extension'        => static::$extension,
-			CoreColumn::ACCESS => (int) ($this->hasParent() ? $this->parent()->get(CoreColumn::ACCESS) : self::root()->get(CoreColumn::ACCESS)),
-			CoreColumn::PARENT => self::root()->id()
+			CoreColumn::ACCESS => (int) $parent->get(CoreColumn::ACCESS),
+			CoreColumn::PARENT => $parent->id(),
+			CoreColumn::STATE  => (int) $parent->get(CoreColumn::STATE)
 		];
 	}
 
