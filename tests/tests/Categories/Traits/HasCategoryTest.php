@@ -73,6 +73,31 @@ class HasCategoryTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function hasCategoryReturnsExpectedValue()
+	{
+		$entity = new ClassWithCategory;
+
+		$this->assertFalse($entity->hasCategory());
+
+		$entity->bind(
+			[
+				'id' => 45,
+				'category_id' => 12
+			]
+		);
+
+		$this->assertTrue($entity->hasCategory());
+
+		$entity->assign('category_id', 0);
+
+		$this->assertFalse($entity->hasCategory());
+	}
+
+	/**
 	 * getCategory works for catid column.
 	 *
 	 * @return  void

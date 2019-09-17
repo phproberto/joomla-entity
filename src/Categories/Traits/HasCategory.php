@@ -83,6 +83,18 @@ trait HasCategory
 	}
 
 	/**
+	 * Check if this entity has an associated category.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasCategory()
+	{
+		return 0 !== $this->categoryId();
+	}
+
+	/**
 	 * Load the category from the database.
 	 *
 	 * @return  Category
