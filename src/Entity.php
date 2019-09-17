@@ -44,7 +44,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @var  array
 	 */
-	protected $row;
+	protected $row = [];
 
 	/**
 	 * Constructor.
@@ -95,11 +95,6 @@ abstract class Entity implements EntityInterface
 	 */
 	public function assign($property, $value)
 	{
-		if (null === $this->row)
-		{
-			$this->row = array();
-		}
-
 		$this->row[$property] = $value;
 
 		if ($property === $this->primaryKey())
@@ -126,24 +121,41 @@ abstract class Entity implements EntityInterface
 
 		$data = (array) $data;
 
-		if (null === $this->row)
+		foreach ($data as $column => $value)
 		{
-			$this->row = array();
-		}
-
-		$primaryKey = $this->primaryKey();
-
-		foreach ($data as $property => $value)
-		{
-			$this->row[$property] = $value;
-
-			if ($property === $primaryKey)
-			{
-				$this->id = (int) $data[$primaryKey];
-			}
+			$this->assign($column, $value);
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Bind data to the entity.
+	 *
+	 * @param   mixed  $data  array | \stdClass Data to bind
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function bindWithoutOverwrite($data)
+	{
+		if (!is_array($data) && !$data instanceof \stdClass)
+		{
+			throw new \InvalidArgumentException(sprintf("Invalid data sent for %s::%s()", __CLASS__, __FUNCTION__));
+		}
+
+		$data = (array) $data;
+
+		foreach ($data as $column => $value)
+		{
+			if ($this->has($column))
+			{
+				unset($data[$column]);
+			}
+		}
+
+		return $this->bind($data);
 	}
 
 	/**
@@ -248,6 +260,18 @@ abstract class Entity implements EntityInterface
 		$date->setTimezone(new \DateTimeZone($tz));
 
 		return $date;
+	}
+
+	/**
+	 * Default data binded before saving for new instances.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function defaults()
+	{
+		return [];
 	}
 
 	/**
@@ -656,6 +680,11 @@ abstract class Entity implements EntityInterface
 	 */
 	public function save()
 	{
+		if (!$this->hasId())
+		{
+			$this->bindWithoutOverwrite($this->defaults());
+		}
+
 		if ($this instanceof Validable)
 		{
 			try
