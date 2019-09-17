@@ -13,14 +13,15 @@ defined('_JEXEC') || die;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\Fields\Field;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Content\Category;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
+use Phproberto\Joomla\Entity\Categories\Column as CategoriesColumn;
 use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Fields\Traits\HasFields;
+use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
@@ -79,8 +80,14 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 	 */
 	public function defaults()
 	{
+		$accessColumn = $this->columnAlias(CoreColumn::ACCESS);
+		$categoryColumn = $this->columnAlias(CategoriesColumn::CATEGORY);
+
+		$category = $this->hasCategory() ? $this->category() : Category::uncategorised();
+
 		return [
-			CoreColumn::ACCESS => (int) ($this->hasCategory() ? $this->category()->get(CoreColumn::ACCESS) : 1)
+			$accessColumn   => (int) ($this->hasCategory() ? $this->category()->get($accessColumn) : 1),
+			$categoryColumn => $category->id(),
 		];
 	}
 
