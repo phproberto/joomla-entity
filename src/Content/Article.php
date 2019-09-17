@@ -71,6 +71,20 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 	}
 
 	/**
+	 * Default data for new instances.
+	 *
+	 * @return  []
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function defaults()
+	{
+		return [
+			CoreColumn::ACCESS => (int) ($this->hasCategory() ? $this->category()->get(CoreColumn::ACCESS) : 1)
+		];
+	}
+
+	/**
 	 * Get an instance of the articles model.
 	 *
 	 * @param   array  $state  State to populate in the model
@@ -198,25 +212,6 @@ class Article extends ComponentEntity implements Aclable, Ownerable, Publishable
 		);
 
 		return new Collection($articles);
-	}
-
-	/**
-	 * Save entity to the database.
-	 *
-	 * @return  self
-	 *
-	 * @throws  SaveException
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function save()
-	{
-		if (!$this->hasId() && !$this->has(CoreColumn::ACCESS))
-		{
-			$this->assign(CoreColumn::ACCESS, 1);
-		}
-
-		return parent::save();
 	}
 
 	/**
