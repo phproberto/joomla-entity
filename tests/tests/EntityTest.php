@@ -70,6 +70,111 @@ class EntityTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function bindWithoutOverwriteThrowsExceptionWithWrongData()
+	{
+		$entity = new Entity;
+
+		$exception = false;
+
+		try
+		{
+			$entity->bindWithoutOverwrite('test');
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			$exception = true;
+		}
+
+		$this->assertTrue($exception);
+
+		$exception = false;
+
+		try
+		{
+			$entity->bindWithoutOverwrite(111);
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			$exception = true;
+		}
+
+		$this->assertTrue($exception);
+
+		$exception = false;
+
+		try
+		{
+			$entity->bindWithoutOverwrite(null);
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			$exception = true;
+		}
+
+		$this->assertTrue($exception);
+
+		$exception = false;
+
+		try
+		{
+			$entity->bindWithoutOverwrite(true);
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			$exception = true;
+		}
+
+		$this->assertTrue($exception);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function bindWithoutOverwriteDoesNotOverwriteData()
+	{
+		$entity = $this->getEntity();
+
+		$entity->bind(
+			[
+				static::PRIMARY_KEY => 12,
+				'sample' => 'original-value'
+			]
+		);
+
+		$this->assertSame('original-value', $entity->get('sample'));
+
+		$entity->bindWithoutOverwrite(
+			[
+				static::PRIMARY_KEY => 2222,
+				'sample' => 'overwritten',
+				'new'    => 'new-value'
+			]
+		);
+
+		$this->assertSame(12, $entity->get(static::PRIMARY_KEY));
+		$this->assertSame('original-value', $entity->get('sample'));
+		$this->assertSame('new-value', $entity->get('new'));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function defaultsReturnsArray()
+	{
+		$entity = $this->getEntity();
+
+		$this->assertTrue(is_array($entity->defaults()));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function deleteReturnsTrueForNoIds()
 	{
 		$this->assertTrue(Entity::delete([]));
@@ -377,11 +482,11 @@ class EntityTest extends \TestCaseDatabase
 		$rowProperty = $reflection->getProperty('row');
 		$rowProperty->setAccessible(true);
 
-		$this->assertSame(null, $rowProperty->getValue($entity));
+		$this->assertSame([], $rowProperty->getValue($entity));
 
 		$entity->assign('name', 'Sample name');
 
-		$this->assertSame(array('name' => 'Sample name'), $rowProperty->getValue($entity));
+		$this->assertSame(['name' => 'Sample name'], $rowProperty->getValue($entity));
 	}
 
 	/**
@@ -1198,6 +1303,72 @@ class EntityTest extends \TestCaseDatabase
 		$rowProperty->setValue($entity, $data);
 
 		$this->assertEquals(new Registry('{"foo":"bar"}'), $entity->registry('registry'));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function saveAppliesDefaults()
+	{
+		$defaults = [
+			'sample' => 'default'
+		];
+
+		$data = array(
+			'name' => 'Anibal Sánchez'
+		);
+
+		$tableMock = $this->getMockBuilder(\JTable::class)
+			->disableOriginalConstructor()
+			->setMethods(array('save'))
+			->getMock();
+
+		$tableMock->expects($this->at(0))
+			->method('save')
+			->willReturn(true);
+
+		foreach ($defaults as $property => $value)
+		{
+			$tableMock->{$property} = $value;
+		}
+
+		foreach ($data as $property => $value)
+		{
+			$tableMock->{$property} = $value;
+		}
+
+		$entity = $this->getMockBuilder(Entity::class)
+			->setMethods(array('table', 'defaults'))
+			->getMock();
+
+		$entity
+			->method('table')
+			->willReturn($tableMock);
+
+		$entity
+			->method('defaults')
+			->willReturn($defaults);
+
+		$reflection = new \ReflectionClass($entity);
+		$rowProperty = $reflection->getProperty('row');
+		$rowProperty->setAccessible(true);
+		$rowProperty->setValue($entity, $data);
+
+		$newEntity = $entity->save();
+
+		$this->assertInstanceOf(get_class($entity), $newEntity);
+
+		foreach ($data as $property => $value)
+		{
+			$this->assertSame($data[$property], $newEntity->{$property});
+		}
+
+		foreach ($defaults as $property => $value)
+		{
+			$this->assertSame($defaults[$property], $newEntity->{$property});
+		}
 	}
 
 	/**
