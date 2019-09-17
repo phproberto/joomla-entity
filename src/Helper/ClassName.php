@@ -27,7 +27,7 @@ abstract class ClassName
 	 *
 	 * @return  boolean
 	 */
-	public function inNamespace($class): bool
+	public static function inNamespace($class): bool
 	{
 		return (new \ReflectionClass($class))->inNamespace();
 	}
