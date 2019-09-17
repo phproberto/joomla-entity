@@ -25,7 +25,7 @@ class CreateRootCategory extends BaseCommand implements CommandInterface
 	/**
 	 * Execute the command.
 	 *
-	 * @return  Folder
+	 * @return  Category
 	 */
 	public function execute()
 	{
