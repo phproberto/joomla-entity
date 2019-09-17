@@ -53,7 +53,8 @@ class CategoryTest extends \TestCaseDatabase
 		$category = new Category;
 		$category->bind(
 			[
-				'title' => 'Sample category'
+				'title' => 'Sample category',
+				'parent_id' => 0
 			]
 		);
 		$category->save();
