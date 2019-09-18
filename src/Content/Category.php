@@ -53,6 +53,32 @@ class Category extends BaseCategory implements Aclable
 	protected static $uncategorised;
 
 	/**
+	 * Clear all instances from cache
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearAll()
+	{
+		parent::clearAll();
+
+		static::clearUncategorised();
+	}
+
+	/**
+	 * Clear cached uncategorised category.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearUncategorised()
+	{
+		static::$uncategorised = null;
+	}
+
+	/**
 	 * Retrieve the alias of content type associated with this entity.
 	 *
 	 * @return  string
