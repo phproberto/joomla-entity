@@ -31,8 +31,8 @@ class CreateUncategorisedCategory extends BaseCommand implements CommandInterfac
 	{
 		return Category::create(
 			[
-				'title'     => $db->q('Uncategorised'),
-				'alias'     => $db->q('uncategorised'),
+				'title'     => 'Uncategorised',
+				'alias'     => 'uncategorised',
 				'parent_id' => Category::root()->id()
 			]
 		);
