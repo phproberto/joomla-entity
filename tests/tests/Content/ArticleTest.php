@@ -39,9 +39,11 @@ class ArticleTest extends \TestCaseDatabase
 		$article->bind(
 			[
 				'access' => 1,
-				'title' => 'Sample article'
+				'title'  => 'Sample article',
+				'catid'  => 0
 			]
 		);
+
 		$article->save();
 	}
 
