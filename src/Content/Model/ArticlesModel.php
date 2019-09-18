@@ -17,6 +17,7 @@ use Phproberto\Joomla\Entity\MVC\Model\State\Filter;
 use Phproberto\Joomla\Entity\MVC\Model\State\Property;
 use Phproberto\Joomla\Entity\MVC\Model\State\FilteredProperty;
 use Phproberto\Joomla\Entity\MVC\Model\State\PopulableProperty;
+use Phproberto\Joomla\Entity\MVC\Model\QueryModifier;
 
 /**
  * Articles Model
@@ -116,10 +117,20 @@ class ArticlesModel extends ListModel
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
-				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+			$query->select(
+				'COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,'
+				. ' COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)->leftJoin('#__content_rating AS v ON a.id = v.content_id');
 		}
+
+		$this->applyQueryModifiers(
+			[
+				new QueryModifier\ValuesInColumn($query, $this->state()->get('filter.id'), 'a.id'),
+				new QueryModifier\ValuesNotInColumn($query, $this->state()->get('filter.not_id'), 'a.id'),
+				new QueryModifier\ValuesInColumn($query, $this->state()->get('filter.state'), 'a.state'),
+				new QueryModifier\ValuesNotInColumn($query, $this->state()->get('filter.not_state'), 'a.state')
+			]
+		);
 
 		// Filter by access level.
 		if ($this->state('filter.access', true))
@@ -161,7 +172,7 @@ class ArticlesModel extends ListModel
 				),
 				'filter.state' => new FilteredProperty(
 					new PopulableProperty('filter.state'),
-					new Filter\PositiveInteger
+					new Filter\Integer
 				),
 				'filter.not_state' => new FilteredProperty(
 					new PopulableProperty('filter.not_state'),
