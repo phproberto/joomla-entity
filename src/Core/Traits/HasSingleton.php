@@ -22,7 +22,7 @@ trait HasSingleton
 	 *
 	 * @var  $this
 	 */
-	private static $instance;
+	protected static $instance;
 
 	/**
 	 * Clear singleton instance.
@@ -31,21 +31,21 @@ trait HasSingleton
 	 */
 	public static function clearInstance()
 	{
-		self::$instance = null;
+		static::$instance = null;
 	}
 
 	/**
 	 * Gets an instance or create it.
 	 *
-	 * @return  self
+	 * @return  static
 	 */
 	public static function instance()
 	{
-		if (null === self::$instance)
+		if (null === static::$instance)
 		{
-			self::$instance = new self;
+			static::$instance = new static;
 		}
 
-		return self::$instance;
+		return static::$instance;
 	}
 }
