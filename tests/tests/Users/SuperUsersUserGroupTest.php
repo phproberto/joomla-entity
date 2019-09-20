@@ -10,15 +10,15 @@ namespace Phproberto\Joomla\Entity\Tests\Users;
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Users\UserGroup;
-use Phproberto\Joomla\Entity\Users\PublicUserGroup;
+use Phproberto\Joomla\Entity\Users\SuperUsersUserGroup;
 use Phproberto\Joomla\Entity\Command\Database\EmptyTable;
 
 /**
- * PublicUserGroup entity tests.
+ * SuperUsersUserGroup entity tests.
  *
  * @since   __DEPLOY_VERSION__
  */
-class PublicUserGroupTest extends \TestCaseDatabase
+class SuperUsersUserGroupTest extends \TestCaseDatabase
 {
 	/**
 	 * @test
@@ -27,9 +27,9 @@ class PublicUserGroupTest extends \TestCaseDatabase
 	 */
 	public function constructReturnGroupIfExists()
 	{
-		PublicUserGroup::create();
+		SuperUsersUserGroup::create();
 
-		$group = new PublicUserGroup;
+		$group = new SuperUsersUserGroup;
 
 		$this->assertTrue($group->isLoaded());
 	}
@@ -41,7 +41,7 @@ class PublicUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceOrCreateReturnsCreatedGroup()
 	{
-		$this->assertTrue(PublicUserGroup::instanceOrCreate()->isLoaded());
+		$this->assertTrue(SuperUsersUserGroup::instanceOrCreate()->isLoaded());
 	}
 
 	/**
@@ -51,12 +51,12 @@ class PublicUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceOrCreateReturnsCachedInstance()
 	{
-		$cachedGroup = PublicUserGroup::create();
+		$cachedGroup = SuperUsersUserGroup::create();
 		$cachedGroup->assign('title', 'edited');
 
-		$group = PublicUserGroup::instanceOrCreate();
+		$group = SuperUsersUserGroup::instanceOrCreate();
 
-		$this->assertInstanceOf(PublicUserGroup::class, $group);
+		$this->assertInstanceOf(SuperUsersUserGroup::class, $group);
 		$this->assertSame($cachedGroup, $group);
 	}
 
@@ -67,14 +67,14 @@ class PublicUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceReturnsCachedInstance()
 	{
-		$cachedGroup = PublicUserGroup::create();
+		$cachedGroup = SuperUsersUserGroup::create();
 		$cachedGroup->assign('title', 'edited');
 
-		$group = PublicUserGroup::instance();
+		$group = SuperUsersUserGroup::instance();
 
-		$this->assertInstanceOf(PublicUserGroup::class, $group);
+		$this->assertInstanceOf(SuperUsersUserGroup::class, $group);
 		$this->assertSame($cachedGroup, $group);
-		$this->assertSame($cachedGroup->get('title'), PublicUserGroup::instance()->get('title'));
+		$this->assertSame($cachedGroup->get('title'), SuperUsersUserGroup::instance()->get('title'));
 	}
 
 	/**
@@ -84,9 +84,9 @@ class PublicUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceReturnsExistingGroup()
 	{
-		PublicUserGroup::create();
+		SuperUsersUserGroup::create();
 
-		$this->assertTrue(PublicUserGroup::instance()->isLoaded());
+		$this->assertTrue(SuperUsersUserGroup::instance()->isLoaded());
 	}
 
 	/**
@@ -98,7 +98,7 @@ class PublicUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceThrowsExceptionForUnexistingGroup()
 	{
-		$this->assertTrue(PublicUserGroup::instance()->isLoaded());
+		$this->assertTrue(SuperUsersUserGroup::instance()->isLoaded());
 	}
 
 	/**
@@ -110,7 +110,7 @@ class PublicUserGroupTest extends \TestCaseDatabase
 	 */
 	public function groupThrowsExceptionIfGroupDoesNotExist()
 	{
-		$group = new PublicUserGroup;
+		$group = new SuperUsersUserGroup;
 	}
 
 	/**
@@ -140,7 +140,7 @@ class PublicUserGroupTest extends \TestCaseDatabase
 	{
 		EmptyTable::instance(['#__usergroups'])->execute();
 
-		PublicUserGroup::clearAll();
+		SuperUsersUserGroup::clearAll();
 
 		$this->restoreFactoryState();
 

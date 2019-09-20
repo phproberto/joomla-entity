@@ -10,21 +10,22 @@ namespace Phproberto\Joomla\Entity\Users;
 
 defined('_JEXEC') || die;
 
+use Phproberto\Joomla\Entity\Users\PublicUserGroup;
 use Phproberto\Joomla\Entity\Users\PredefinedUserGroup;
 
 /**
- * User Group entity.
+ * SuperUsersUserGroup entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class PublicUserGroup extends PredefinedUserGroup
+class SuperUsersUserGroup extends PredefinedUserGroup
 {
 	/**
-	 * Parent group identifier.
+	 * Group title.
 	 *
 	 * @const
 	 */
-	const PARENT_ID = 0;
+	const TITLE = 'Super Users';
 
 	/**
 	 * Predefined data to load the group.
@@ -34,7 +35,8 @@ class PublicUserGroup extends PredefinedUserGroup
 	public static function predefinedData()
 	{
 		return [
-			'parent_id' => self::PARENT_ID
+			'parent_id' => PublicUserGroup::instanceOrCreate()->id(),
+			'title'     => self::TITLE
 		];
 	}
 }
