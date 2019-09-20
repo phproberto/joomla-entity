@@ -65,7 +65,7 @@ abstract class ClassName
 	 *
 	 * @return  string
 	 */
-	public function withoutNamespace($class): string
+	public static function withoutNamespace($class): string
 	{
 		return (new \ReflectionClass($class))->getShortName();
 	}
