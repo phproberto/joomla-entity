@@ -10,14 +10,14 @@ namespace Phproberto\Joomla\Entity\Users;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Users\UserGroup;
+use Phproberto\Joomla\Entity\Users\ViewLevel;
 
 /**
- * PredefinedUserGroup entity.
+ * PredefinedViewLevel entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-abstract class PredefinedUserGroup extends UserGroup
+abstract class PredefinedViewLevel extends ViewLevel
 {
 	/**
 	 * Predefined data to load the group.
@@ -33,19 +33,19 @@ abstract class PredefinedUserGroup extends UserGroup
 	{
 		$data = static::predefinedData();
 
-		$group = UserGroup::loadFromData($data);
+		$viewLevel = ViewLevel::loadFromData($data);
 
-		if (!$group->isLoaded())
+		if (!$viewLevel->isLoaded())
 		{
-			throw new \RuntimeException('Cannot find user group: ' . json_encode($data));
+			throw new \RuntimeException('Cannot find view level: ' . json_encode($data));
 		}
 
-		$this->id = $group->id();
-		$this->bind($group->all());
+		$this->id = $viewLevel->id();
+		$this->bind($viewLevel->all());
 	}
 
 	/**
-	 * Create the user group.
+	 * Create the view level.
 	 *
 	 * @param   array|\stdClass  $data  Data to store
 	 *
@@ -53,7 +53,7 @@ abstract class PredefinedUserGroup extends UserGroup
 	 */
 	public static function create($data = null)
 	{
-		$group = new UserGroup;
+		$group = new ViewLevel;
 
 		$db = $group->getDbo();
 
@@ -63,7 +63,7 @@ abstract class PredefinedUserGroup extends UserGroup
 		$values = array_map([$db, 'q'], array_values($data));
 
 		$query = $db->getQuery(true)
-			->insert($db->qn('#__usergroups'))
+			->insert($db->qn('#__viewlevels'))
 			->columns($columns)
 			->values(implode(',', $values));
 
@@ -80,13 +80,13 @@ abstract class PredefinedUserGroup extends UserGroup
 	 */
 	public function instance()
 	{
-		$group = new static;
+		$viewLevel = new static;
 
-		return static::find($group->id());
+		return static::find($viewLevel->id());
 	}
 
 	/**
-	 * Retrieve the group if exists or create it on the fly.
+	 * Retrieve the view level if exists or create it on the fly.
 	 *
 	 * @return  static
 	 *
