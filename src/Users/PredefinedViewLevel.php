@@ -53,22 +53,7 @@ abstract class PredefinedViewLevel extends ViewLevel
 	 */
 	public static function create($data = null)
 	{
-		$group = new ViewLevel;
-
-		$db = $group->getDbo();
-
-		$data = static::predefinedData();
-
-		$columns = array_keys($data);
-		$values = array_map([$db, 'q'], array_values($data));
-
-		$query = $db->getQuery(true)
-			->insert($db->qn('#__viewlevels'))
-			->columns($columns)
-			->values(implode(',', $values));
-
-		$db->setQuery($query);
-		$db->execute();
+		ViewLevel::create(static::predefinedData());
 
 		return static::instance();
 	}
