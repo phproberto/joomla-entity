@@ -10,22 +10,22 @@ namespace Phproberto\Joomla\Entity\Users;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Users\PublicUserGroup;
-use Phproberto\Joomla\Entity\Users\PredefinedViewLevel;
+use Phproberto\Joomla\Entity\Users\PredefinedUserGroup;
+use Phproberto\Joomla\Entity\Users\RegisteredUserGroup;
 
 /**
- * PublicViewLevel entity.
+ * AuthorUserGroup entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class PublicViewLevel extends PredefinedViewLevel
+class AuthorUserGroup extends PredefinedUserGroup
 {
 	/**
-	 * View level title.
+	 * Group title.
 	 *
 	 * @const
 	 */
-	const TITLE = 'Public';
+	const TITLE = 'Author';
 
 	/**
 	 * Predefined data to load the group.
@@ -35,12 +35,8 @@ class PublicViewLevel extends PredefinedViewLevel
 	public static function predefinedData()
 	{
 		return [
-			'title' => self::TITLE,
-			'rules' => json_encode(
-				[
-					PublicUserGroup::instanceOrCreate()->id()
-				]
-			)
+			'parent_id' => RegisteredUserGroup::instanceOrCreate()->id(),
+			'title'     => self::TITLE
 		];
 	}
 }

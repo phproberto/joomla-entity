@@ -10,27 +10,28 @@ namespace Phproberto\Joomla\Entity\Tests\Users;
 
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Users\UserGroup;
-use Phproberto\Joomla\Entity\Users\GuestUserGroup;
+use Phproberto\Joomla\Entity\Users\AuthorUserGroup;
 use Phproberto\Joomla\Entity\Command\Database\EmptyTable;
 
 /**
- * GuestUserGroup entity tests.
+ * AuthorUserGroup entity tests.
  *
  * @since   __DEPLOY_VERSION__
  */
-class GuestUserGroupTest extends \TestCaseDatabase
+class AuthorUserGroupTest extends \TestCaseDatabase
 {
 	/**
 	 * @test
 	 *
 	 * @return void
 	 */
-	public function constructReturnsGroupIfExists()
+	public function constructReturnGroupIfExists()
 	{
-		GuestUserGroup::create();
+		AuthorUserGroup::create();
 
-		$group = new GuestUserGroup;
+		$group = new AuthorUserGroup;
 
+		$this->assertInstanceOf(AuthorUserGroup::class, $group);
 		$this->assertTrue($group->isLoaded());
 	}
 
@@ -41,7 +42,7 @@ class GuestUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceOrCreateReturnsCreatedGroup()
 	{
-		$this->assertTrue(GuestUserGroup::instanceOrCreate()->isLoaded());
+		$this->assertTrue(AuthorUserGroup::instanceOrCreate()->isLoaded());
 	}
 
 	/**
@@ -51,12 +52,12 @@ class GuestUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceOrCreateReturnsCachedInstance()
 	{
-		$cachedGroup = GuestUserGroup::create();
+		$cachedGroup = AuthorUserGroup::create();
 		$cachedGroup->assign('title', 'edited');
 
-		$group = GuestUserGroup::instanceOrCreate();
+		$group = AuthorUserGroup::instanceOrCreate();
 
-		$this->assertInstanceOf(GuestUserGroup::class, $group);
+		$this->assertInstanceOf(AuthorUserGroup::class, $group);
 		$this->assertSame($cachedGroup, $group);
 	}
 
@@ -67,14 +68,14 @@ class GuestUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceReturnsCachedInstance()
 	{
-		$cachedGroup = GuestUserGroup::create();
+		$cachedGroup = AuthorUserGroup::create();
 		$cachedGroup->assign('title', 'edited');
 
-		$group = GuestUserGroup::instance();
+		$group = AuthorUserGroup::instance();
 
-		$this->assertInstanceOf(GuestUserGroup::class, $group);
+		$this->assertInstanceOf(AuthorUserGroup::class, $group);
 		$this->assertSame($cachedGroup, $group);
-		$this->assertSame($cachedGroup->get('title'), GuestUserGroup::instance()->get('title'));
+		$this->assertSame($cachedGroup->get('title'), AuthorUserGroup::instance()->get('title'));
 	}
 
 	/**
@@ -84,9 +85,12 @@ class GuestUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceReturnsExistingGroup()
 	{
-		GuestUserGroup::create();
+		AuthorUserGroup::create();
 
-		$this->assertTrue(GuestUserGroup::instance()->isLoaded());
+		$group = AuthorUserGroup::instance();
+
+		$this->assertInstanceOf(AuthorUserGroup::class, $group);
+		$this->assertTrue($group->isLoaded());
 	}
 
 	/**
@@ -98,7 +102,7 @@ class GuestUserGroupTest extends \TestCaseDatabase
 	 */
 	public function instanceThrowsExceptionForUnexistingGroup()
 	{
-		$this->assertTrue(GuestUserGroup::instance()->isLoaded());
+		$this->assertTrue(AuthorUserGroup::instance()->isLoaded());
 	}
 
 	/**
@@ -110,7 +114,7 @@ class GuestUserGroupTest extends \TestCaseDatabase
 	 */
 	public function groupThrowsExceptionIfGroupDoesNotExist()
 	{
-		$group = new GuestUserGroup;
+		$group = new AuthorUserGroup;
 	}
 
 	/**
@@ -140,7 +144,7 @@ class GuestUserGroupTest extends \TestCaseDatabase
 	{
 		EmptyTable::instance(['#__usergroups'])->execute();
 
-		GuestUserGroup::clearAll();
+		AuthorUserGroup::clearAll();
 
 		$this->restoreFactoryState();
 

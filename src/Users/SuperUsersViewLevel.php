@@ -10,22 +10,22 @@ namespace Phproberto\Joomla\Entity\Users;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Users\PublicUserGroup;
+use Phproberto\Joomla\Entity\Users\SuperUsersUserGroup;
 use Phproberto\Joomla\Entity\Users\PredefinedViewLevel;
 
 /**
- * PublicViewLevel entity.
+ * SuperUsersViewLevel entity.
  *
  * @since   __DEPLOY_VERSION__
  */
-class PublicViewLevel extends PredefinedViewLevel
+class SuperUsersViewLevel extends PredefinedViewLevel
 {
 	/**
 	 * View level title.
 	 *
 	 * @const
 	 */
-	const TITLE = 'Public';
+	const TITLE = 'Super Users';
 
 	/**
 	 * Predefined data to load the group.
@@ -38,7 +38,7 @@ class PublicViewLevel extends PredefinedViewLevel
 			'title' => self::TITLE,
 			'rules' => json_encode(
 				[
-					PublicUserGroup::instanceOrCreate()->id()
+					SuperUsersUserGroup::instanceOrCreate()->id()
 				]
 			)
 		];
