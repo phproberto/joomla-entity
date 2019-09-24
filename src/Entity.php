@@ -12,8 +12,8 @@ defined('_JEXEC') || die;
 
 use Joomla\CMS\Table\Nested;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Helper\ArrayHelper;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
@@ -285,13 +285,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public static function delete($ids)
 	{
-		$ids = array_filter(
-			ArrayHelper::toInteger((array) $ids),
-			function ($value)
-			{
-				return (int) $value > 0;
-			}
-		);
+		$ids = ArrayHelper::toPositiveIntegers((array) $ids);
 
 		if (empty($ids))
 		{
