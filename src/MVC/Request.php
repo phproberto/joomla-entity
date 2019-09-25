@@ -200,7 +200,7 @@ final class Request
 	 *
 	 * @param   string  $method  Request method where the token is expected
 	 *
-	 * @return  void
+	 * @return  boolean
 	 */
 	public function validateAjaxWithTokenOrCloseApp(string $method = 'post')
 	{
@@ -215,6 +215,10 @@ final class Request
 			$app->sendHeaders();
 			echo $e->getMessage();
 			$app->close();
+
+			return false;
 		}
+
+		return true;
 	}
 }
