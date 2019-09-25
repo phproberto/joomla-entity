@@ -56,6 +56,25 @@ trait HasAssociatedEntity
 	}
 
 	/**
+	 * Retrieve entity class and fail if it does not exist.
+	 *
+	 * @return  string
+	 *
+	 * @throws  \RuntimeException
+	 */
+	public function entityClassOrFail()
+	{
+		$class = $this->entityClass();
+
+		if (!class_exists($class))
+		{
+			throw new \RuntimeException(sprintf("Entity class not found `%s`", $class));
+		}
+
+		return $class;
+	}
+
+	/**
 	 * Retrieve an entity from the request.
 	 *
 	 * @param   string  $primaryKey  Column storing entity identifier. Defaults to entity primary key.
