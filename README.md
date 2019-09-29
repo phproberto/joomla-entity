@@ -1,4 +1,4 @@
-# Entity system for Joomla! Bubu
+# Entity system for Joomla!
 
 > Because developing Joomla extensions should be fun and easy.
 
