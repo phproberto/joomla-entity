@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Content\Search;
 defined('_JEXEC') || die;
 
 use Joomla\Utilities\ArrayHelper;
-use Phproberto\Joomla\Entity\Content\Category;
+use Phproberto\Joomla\Entity\Content\Entity\Category;
 use Phproberto\Joomla\Entity\Categories\Search\CategorySearch as BaseCategorySearch;
 
 /**

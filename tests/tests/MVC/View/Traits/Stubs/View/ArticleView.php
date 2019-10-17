@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\MVC\View\Traits\Stubs\View;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\MVC\View\HtmlView;
-use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\MVC\View\Traits\HasAssociatedEntity;
 
 /**

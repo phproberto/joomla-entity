@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Content\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Entity\Article;
 
 /**
  * Trait for entities that have associated articles.
