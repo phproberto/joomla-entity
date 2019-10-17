@@ -105,4 +105,11 @@ trait HasAjaxFormSave
 		echo json_encode($model->getState($this->context . '.id'));
 		$app->close();
 	}
+
+	/**
+	 * Get the form data from the request.
+	 *
+	 * @return  array
+	 */
+	abstract protected function getFormDataFromRequest();
 }
