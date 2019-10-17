@@ -10,7 +10,6 @@ namespace Phproberto\Joomla\Entity\MVC;
 
 defined('_JEXEC') || die;
 
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Session\Session;
