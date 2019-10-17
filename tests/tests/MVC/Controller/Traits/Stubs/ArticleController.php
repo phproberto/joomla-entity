@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\MVC\Controller\FormController;
-use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\MVC\Controller\Traits\HasAssociatedEntity;
 
 /**

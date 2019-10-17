@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 require_once __DIR__ . '/Stubs/PhprobertoControllerDeveloper.php';
 
 use Joomla\CMS\Factory;
-use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\Sample;
 use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\Entity\Developer;
 use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\ArticleController;
