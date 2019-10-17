@@ -13,7 +13,8 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
 use Phproberto\Joomla\Entity\MVC\Request;
-use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Entity\Article;
+use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
 use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\ControllerWithAjaxDelete;
 
 defined('JPATH_COMPONENT') || define('JPATH_COMPONENT', JPATH_BASE . '/components/com_content');
@@ -116,13 +117,7 @@ class HasAjaxDeleteTest extends \TestCaseDatabase
 			]
 		);
 
-		$article3 = Article::create(
-			[
-				'title' => 'Third article'
-			]
-		);
-
-		$ids = [$article1->id(), $article2->id(), $article3->id()];
+		$ids = [$article1->id(), $article2->id()];
 
 		Factory::getApplication()->input->set('cid', $ids);
 
@@ -134,14 +129,29 @@ class HasAjaxDeleteTest extends \TestCaseDatabase
 			->willReturn(Article::class);
 
 		$controller->method('allowDelete')
-			->will($this->onConsecutiveCalls(true, true, true));
+			->will($this->onConsecutiveCalls(true, true));
+
+		$reloaded = Article::load($article1->id());
+		$this->assertTrue($reloaded->isLoaded());
 
 		ob_start();
 
 		$controller->ajaxDelete();
 
 		$output = ob_get_clean();
+		$error = '';
 
+		try
+		{
+			$reloaded = Article::load($article1->id());
+		}
+		catch (LoadEntityDataError $e)
+		{
+
+			$error = $e->getMessage();
+		}
+
+		$this->assertTrue(strlen($error) > 0);
 		$this->assertSame(json_encode($ids), $output);
 	}
 
