@@ -78,7 +78,7 @@ abstract class PredefinedUserGroup extends UserGroup
 	 *
 	 * @return  static
 	 */
-	public function instance()
+	public static function instance()
 	{
 		$group = new static;
 
@@ -92,7 +92,7 @@ abstract class PredefinedUserGroup extends UserGroup
 	 *
 	 * @throws  \RuntimeException
 	 */
-	public function instanceOrCreate()
+	public static function instanceOrCreate()
 	{
 		try
 		{

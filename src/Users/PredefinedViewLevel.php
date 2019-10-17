@@ -63,7 +63,7 @@ abstract class PredefinedViewLevel extends ViewLevel
 	 *
 	 * @return  static
 	 */
-	public function instance()
+	public static function instance()
 	{
 		$viewLevel = new static;
 
@@ -77,7 +77,7 @@ abstract class PredefinedViewLevel extends ViewLevel
 	 *
 	 * @throws  \RuntimeException
 	 */
-	public function instanceOrCreate()
+	public static function instanceOrCreate()
 	{
 		try
 		{
