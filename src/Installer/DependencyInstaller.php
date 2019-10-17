@@ -6,10 +6,12 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Helper;
+namespace Phproberto\Joomla\Entity\Installer;
 
 use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerHelper;
 
 defined('_JEXEC') || die;
@@ -36,14 +38,23 @@ final class DependencyInstaller
 	protected $manifest;
 
 	/**
+	 * Parent installer.
+	 *
+	 * @var  InstallerAdapter
+	 */
+	protected $parent;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   \SimpleXMLElement  $manifest   Extension manifest
+	 * @param   InstallerAdapter   $parent     Parent installer
 	 * @param   Installer          $installer  Extension installer
 	 */
-	public function __construct(\SimpleXMLElement $manifest, Installer $installer = null)
+	public function __construct(\SimpleXMLElement $manifest, InstallerAdapter $parent, Installer $installer = null)
 	{
 		$this->manifest = $manifest;
+		$this->parent = $parent;
 		$this->installer = $installer ?: new Installer;
 	}
 
@@ -146,7 +157,7 @@ final class DependencyInstaller
 			}
 
 			$folder = (string) $dependencies->folder;
-			$source = $parent->getParent()->getPath('source');
+			$source = $this->parent->getParent()->getPath('source');
 
 			if ($folder)
 			{
