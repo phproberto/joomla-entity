@@ -7,7 +7,7 @@ var browserSync = require('browser-sync');
 var src = '../src';
 var libraryName = 'joomla_entity';
 
-var wwwPath = config.wwwDir + '/libraries/' + libraryName + '/src';
+var wwwPath = config.wwwDir + '/libraries/' + libraryName + '/vendor/phproberto/joomla-entity/src';
 
 var browserConfig = config.hasOwnProperty('browserConfig') ? config.browserConfig : defaultBrowserConfig;
 
