@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tests\Content\Traits;
 
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\Tests\Content\Traits\Stubs\ClassWithArticles;
 
 /**

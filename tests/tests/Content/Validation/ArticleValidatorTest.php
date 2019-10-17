@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Content\Validation;
 
-use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\Tests\Stubs\Entity;
 use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
 

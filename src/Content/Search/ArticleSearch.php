@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Content\Article;
+use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\Searcher\DatabaseSearcher;
 use Phproberto\Joomla\Entity\Searcher\SearcherInterface;
 
