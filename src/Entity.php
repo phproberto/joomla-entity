@@ -816,7 +816,7 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function tableName() : string
+	public function tableName()
 	{
 		return ucfirst($this->name());
 	}
@@ -828,9 +828,27 @@ abstract class Entity implements EntityInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function tablePrefix() : string
+	public function tablePrefix()
 	{
-		return '';
+		$class = get_class($this);
+
+		if (!ClassName::inNamespace($this))
+		{
+			$parts = explode('Entity', $class, 2);
+
+			return $parts ? $parts[0] : '';
+		}
+
+		$namespaceParts = ClassName::namespaceParts($class);
+		$lastNamespacePart = end($namespaceParts);
+
+		// Asume namespace contains Entity folder with entities. Example: Content/Entity/Article -> Should return Content
+		if ('Entity' === $lastNamespacePart)
+		{
+			return isset($namespaceParts[count($namespaceParts) - 2]) ? $namespaceParts[count($namespaceParts) - 2] : null;
+		}
+
+		return $lastNamespacePart;
 	}
 
 	/**

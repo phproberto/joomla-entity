@@ -1573,6 +1573,36 @@ class EntityTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function tablePrefixReturnsEntityPrefixForNonNamespacedEntities()
+	{
+		require_once __DIR__ . '/Stubs/TestsEntityEntity.php';
+
+		$entity = new \TestsEntityEntity;
+
+		$this->assertSame('Tests', $entity->tablePrefix());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function tablePrefixReturnsLatestParentNamespaceForNamespacedEntities()
+	{
+		$entity = new Entity;
+
+		$this->assertSame('Stubs', $entity->tablePrefix());
+
+		$entity = new \Phproberto\Joomla\Entity\Tests\Stubs\Entity\MyEntity;
+
+		$this->assertSame('Stubs', $entity->tablePrefix());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function tableReturnsExpectedTable()
 	{
 		$customDb = clone Factory::getDbo();
