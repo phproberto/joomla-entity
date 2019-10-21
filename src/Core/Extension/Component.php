@@ -42,7 +42,7 @@ class Component extends Extension implements Aclable
 	 *
 	 * @var  array
 	 */
-	protected static $optionIdXref = array();
+	protected static $optionIdXref = [];
 
 	/**
 	 * Get the identifier of the asset asset
@@ -62,6 +62,32 @@ class Component extends Extension implements Aclable
 	public static function active()
 	{
 		return new ActiveComponent;
+	}
+
+	/**
+	 * Clear all instances from cache
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearAll()
+	{
+		parent::clearAll();
+
+		static::clearOptionIdXref();
+	}
+
+	/**
+	 * Clear cached clearOptionIdXref relationship.s
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function clearOptionIdXref()
+	{
+		static::$optionIdXref = [];
 	}
 
 	/**
