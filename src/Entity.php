@@ -845,7 +845,7 @@ abstract class Entity implements EntityInterface
 		// Asume namespace contains Entity folder with entities. Example: Content/Entity/Article -> Should return Content
 		if ('Entity' === $lastNamespacePart)
 		{
-			return isset($namespaceParts[count($namespaceParts) - 2]) ? $namespaceParts[count($namespaceParts) - 2] : null;
+			return isset($namespaceParts[count($namespaceParts) - 2]) ? $namespaceParts[count($namespaceParts) - 2] : '';
 		}
 
 		return $lastNamespacePart;
