@@ -836,7 +836,7 @@ abstract class Entity implements EntityInterface
 		{
 			$parts = explode('Entity', $class, 2);
 
-			return $parts ? $parts[0] : '';
+			return $parts ? $parts[0] . 'Table' : '';
 		}
 
 		$namespaceParts = ClassName::namespaceParts($class);
@@ -845,10 +845,10 @@ abstract class Entity implements EntityInterface
 		// Asume namespace contains Entity folder with entities. Example: Content/Entity/Article -> Should return Content
 		if ('Entity' === $lastNamespacePart)
 		{
-			return isset($namespaceParts[count($namespaceParts) - 2]) ? $namespaceParts[count($namespaceParts) - 2] : '';
+			return isset($namespaceParts[count($namespaceParts) - 2]) ? $namespaceParts[count($namespaceParts) - 2] . 'Table' : '';
 		}
 
-		return $lastNamespacePart;
+		return $lastNamespacePart . 'Table';
 	}
 
 	/**
