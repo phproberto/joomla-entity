@@ -59,7 +59,7 @@ abstract class ClassName
 	}
 
 	/**
-	 * Retrieve class namespace without namespace.
+	 * Retrieve class name without namespace.
 	 *
 	 * @param   object  $class  Class instance
 	 *

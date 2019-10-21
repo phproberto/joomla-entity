@@ -10,9 +10,11 @@ namespace Phproberto\Joomla\Entity;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Nested;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Helper\ClassName;
 use Phproberto\Joomla\Entity\Helper\ArrayHelper;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
@@ -616,17 +618,14 @@ abstract class Entity implements EntityInterface
 	{
 		$class = get_class($this);
 
-		if (false !== strpos($class, '\\'))
+		if (!ClassName::inNamespace($this))
 		{
-			$suffix = rtrim(strstr($class, 'Entity'), '\\');
-			$parts = explode("\\", $suffix);
+			$parts = explode('Entity', $class, 2);
 
 			return $parts ? strtolower(end($parts)) : null;
 		}
 
-		$parts = explode('Entity', $class, 2);
-
-		return $parts ? strtolower(end($parts)) : null;
+		return strtolower(ClassName::withoutNamespace($class));
 	}
 
 	/**
@@ -795,9 +794,12 @@ abstract class Entity implements EntityInterface
 	 */
 	public function table($name = '', $prefix = null, $options = array())
 	{
-		$table = \JTable::getInstance($name, $prefix, $options);
+		$name   = $name ?: $this->tableName();
+		$prefix = $prefix ?: $this->tablePrefix();
 
-		if (!$table instanceof \JTable)
+		$table = Table::getInstance($name, $prefix, $options);
+
+		if (!$table instanceof Table)
 		{
 			throw new \InvalidArgumentException(
 				sprintf("Cannot find the table `%s`.", $prefix . $name)
@@ -805,6 +807,30 @@ abstract class Entity implements EntityInterface
 		}
 
 		return $table;
+	}
+
+	/**
+	 * Associated table name.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function tableName() : string
+	{
+		return ucfirst($this->name());
+	}
+
+	/**
+	 * Associated table prefix.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function tablePrefix() : string
+	{
+		return '';
 	}
 
 	/**
