@@ -450,6 +450,24 @@ class EntityTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function tableNameWillReturnUcfirstName()
+	{
+		$entity = $this->getMockBuilder(Entity::class)
+			->setMethods(array('ucfirstName'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('ucfirstName')
+			->willReturn('Tabata_Roberto');
+
+		$this->assertSame('Tabata_Roberto', $entity->tableName());
+	}
+
+	/**
 	 * Test magic __get method calls get.
 	 *
 	 * @return  void
@@ -1654,5 +1672,23 @@ class EntityTest extends \TestCaseDatabase
 		$entity->unassign('name');
 
 		$this->assertSame(array(), $rowProperty->getValue($entity));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function ucfirstNameDefaultsToEntityName()
+	{
+		$entity = $this->getMockBuilder(Entity::class)
+			->setMethods(array('name'))
+			->getMock();
+
+		$entity->expects($this->once())
+			->method('name')
+			->willReturn('tabata_roberto');
+
+		$this->assertSame('Tabata_Roberto', $entity->ucfirstName());
 	}
 }
