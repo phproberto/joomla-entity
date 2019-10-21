@@ -18,6 +18,13 @@ defined('_JEXEC') || die;
 trait HasEvents
 {
 	/**
+	 * Event dispatcher.
+	 *
+	 * @var  \JEventDispatcher
+	 */
+	protected $dispatcher;
+
+	/**
 	 * Check if
 	 *
 	 * @var  boolean
@@ -28,10 +35,17 @@ trait HasEvents
 	 * Get the event dispatcher.
 	 *
 	 * @return  \JEventDispatcher
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function dispatcher()
 	{
-		return \JEventDispatcher::getInstance();
+		if (null === $this->dispatcher)
+		{
+			$this->dispatcher = \JEventDispatcher::getInstance();
+		}
+
+		return $this->dispatcher;
 	}
 
 	/**
