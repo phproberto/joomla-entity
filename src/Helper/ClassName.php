@@ -45,6 +45,18 @@ abstract class ClassName
 	}
 
 	/**
+	 * Get the namespace parts.
+	 *
+	 * @param   object  $class  Class instance
+	 *
+	 * @return  string[]
+	 */
+	public static function namespaceParts($class): array
+	{
+		return explode('\\', self::namespace($class));
+	}
+
+	/**
 	 * Guess the entity class
 	 *
 	 * @param   object  $class  Class instance
