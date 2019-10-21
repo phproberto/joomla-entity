@@ -818,7 +818,7 @@ abstract class Entity implements EntityInterface
 	 */
 	public function tableName()
 	{
-		return ucfirst($this->name());
+		return $this->ucfirstName();
 	}
 
 	/**
@@ -849,6 +849,28 @@ abstract class Entity implements EntityInterface
 		}
 
 		return $lastNamespacePart;
+	}
+
+	/**
+	 * Uppercase first letter of each part of the name of this entity.
+	 * Example: payment_method will return Payment_Method
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function ucfirstName()
+	{
+		return implode(
+			'_',
+			array_map(
+				function ($part)
+				{
+					return ucfirst(strtolower($part));
+				},
+				explode('_', $this->name())
+			)
+		);
 	}
 
 	/**
