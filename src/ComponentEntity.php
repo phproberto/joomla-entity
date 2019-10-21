@@ -21,4 +21,16 @@ use Phproberto\Joomla\Entity\Contracts\ComponentEntityInterface;
 abstract class ComponentEntity extends Entity implements ComponentEntityInterface
 {
 	use CoreTraits\HasComponent;
+
+	/**
+	 * Associated table prefix.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function tablePrefix()
+	{
+		return $this->component()->prefix();
+	}
 }
