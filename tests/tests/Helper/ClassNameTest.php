@@ -35,6 +35,16 @@ class ClassNameTest extends \TestCase
 	 *
 	 * @return void
 	 */
+	public function namespacePartsReturnsExpectedParts()
+	{
+		$this->assertSame(explode('\\', 'Phproberto\Joomla\Entity\Tests\Helper'), ClassName::namespaceParts($this));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function parentNamespaceReturnsExpectedValue()
 	{
 		$this->assertSame('Phproberto\Joomla\Entity\Tests', ClassName::parentNamespace($this));
