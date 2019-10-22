@@ -1597,7 +1597,7 @@ class EntityTest extends \TestCaseDatabase
 
 		$entity = new \TestsEntityEntity;
 
-		$this->assertSame('Tests', $entity->tablePrefix());
+		$this->assertSame('TestsTable', $entity->tablePrefix());
 	}
 
 	/**
@@ -1609,11 +1609,11 @@ class EntityTest extends \TestCaseDatabase
 	{
 		$entity = new Entity;
 
-		$this->assertSame('Stubs', $entity->tablePrefix());
+		$this->assertSame('StubsTable', $entity->tablePrefix());
 
 		$entity = new \Phproberto\Joomla\Entity\Tests\Stubs\Entity\MyEntity;
 
-		$this->assertSame('Stubs', $entity->tablePrefix());
+		$this->assertSame('StubsTable', $entity->tablePrefix());
 	}
 
 	/**
