@@ -38,7 +38,14 @@ abstract class ComponentEntity extends Entity implements ComponentEntityInterfac
 	 */
 	public function table($name = '', $prefix = null, $options = array())
 	{
-		Table::addIncludePath($this->component()->tablesFolder());
+		try
+		{
+			Table::addIncludePath($this->component()->tablesFolder());
+		}
+		catch (\Exception $e)
+		{
+			// Avoid folder not found exceptions and hope joomla resolves the table
+		}
 
 		return parent::table($name, $prefix, $options);
 	}
