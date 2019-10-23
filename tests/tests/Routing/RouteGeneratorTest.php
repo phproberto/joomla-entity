@@ -61,14 +61,7 @@ class RouteGeneratorTest extends \TestCase
 	private $server;
 
 	/**
-	 * Token that is added to URLs.
-	 *
-	 * @var  string
-	 */
-	private $token = 'cfcd208495d565ef66e7dff9f98764da';
-
-	/**
-	 * [generateUrlsDataProvider description]
+	 * Data provider to test generateUrls() method.
 	 *
 	 * @return  array
 	 */
@@ -96,7 +89,7 @@ class RouteGeneratorTest extends \TestCase
 			],
 			// URL with token added
 			[
-				'expected' => 'index.php?option=com_content&' . $this->token . '=1',
+				'expected' => 'index.php?option=com_content&' . DEFAULT_TOKEN_FOR_URLS . '=1',
 				'vars'     => [],
 				'options'  => ['routed' => false, 'addToken' => true]
 			],
