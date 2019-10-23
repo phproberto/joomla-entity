@@ -16,6 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Application\ApplicationHelper;
+use Phproberto\Joomla\Entity\Core\Extension\Component;
 
 /**
  * Route generator.
@@ -34,7 +35,7 @@ class RouteGenerator
 	 *
 	 * @var  array
 	 */
-	protected static $instances = array();
+	protected static $instances = [];
 
 	/**
 	 * Component menu items
@@ -53,6 +54,15 @@ class RouteGenerator
 		$this->option = $option;
 	}
 
+	/**
+	 * Clear cached instances.
+	 *
+	 * @return  void
+	 */
+	public static function clearInstances()
+	{
+		static::$instances = [];
+	}
 	/**
 	 * Format a link
 	 *
@@ -145,10 +155,7 @@ class RouteGenerator
 	{
 		$class = get_called_class();
 
-		if (null === $option)
-		{
-			$option = ApplicationHelper::getComponentName();
-		}
+		$option = $option ?: ApplicationHelper::getComponentName();
 
 		if (empty(static::$instances[$class][$option]))
 		{
@@ -159,28 +166,11 @@ class RouteGenerator
 	}
 
 	/**
-	 * Generate the Itemid string part for URLs
-	 *
-	 * @param   mixed  $itemId  inherit or desired itemId. Use 0 to not inherit active itemId
-	 *
-	 * @return  string
-	 */
-	protected function getLinkItemIdString($itemId = 'inherit')
-	{
-		if ($itemId === 'inherit')
-		{
-			return null;
-		}
-
-		return '&Itemid=' . (int) $itemId;
-	}
-
-	/**
 	 * Get the component menu items
 	 *
 	 * @return  array
 	 */
-	protected function getMenuItems()
+	public function getMenuItems()
 	{
 		if (null === $this->menuItems)
 		{
@@ -197,15 +187,10 @@ class RouteGenerator
 	 */
 	protected function loadMenuItems()
 	{
-		$menu	= Factory::getApplication()->getMenu();
-		$com	= ComponentHelper::getComponent($this->getComponent());
-		$items = $menu->getItems('component_id', $com->id);
+		$menu      = Factory::getApplication()->getMenu();
+		$component = Component::fromOption($this->option);
+		$items     = $menu->getItems('component_id', $component->id());
 
-		if ($items)
-		{
-			return $items;
-		}
-
-		return array();
+		return $items ?: [];
 	}
 }
