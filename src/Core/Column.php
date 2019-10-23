@@ -25,6 +25,14 @@ abstract class Column
 	const ACCESS = 'access';
 
 	/**
+	 * Default column used to store access.
+	 *
+	 * @const
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ALIAS = 'alias';
+
+	/**
 	 * Default column used to store asset.
 	 *
 	 * @const
