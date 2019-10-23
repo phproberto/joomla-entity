@@ -15,6 +15,8 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Application\SiteApplication;
 use Phproberto\Joomla\Entity\Routing\RouteGenerator;
+use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Tests\Mock\ComponentMock;
 
 /**
  * Route generator tests.
@@ -188,6 +190,175 @@ class RouteGeneratorTest extends \TestCase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function getInstanceUsesActiveOption()
+	{
+		Factory::getApplication()->input->set('option', 'com_phproberto');
+
+		$generator = RouteGenerator::getInstance();
+
+		$reflection = new \ReflectionClass($generator);
+		$optionProperty = $reflection->getProperty('option');
+		$optionProperty->setAccessible(true);
+
+		$this->assertSame('com_phproberto', $optionProperty->getValue($generator));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function getInstanceReturnsCachedInstance()
+	{
+		$option = 'com_cached_instances';
+		$generator = new RouteGenerator($option);
+
+		$reflection = new \ReflectionClass(RouteGenerator::class);
+		$instancesProperty = $reflection->getProperty('instances');
+		$instancesProperty->setAccessible(true);
+
+		$instancesProperty->setValue(
+			RouteGenerator::class,
+			[
+				RouteGenerator::class => [
+					$option => $generator
+				]
+			]
+		);
+
+		$this->assertSame($generator, RouteGenerator::getInstance($option));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function getInstanceCachesInstance()
+	{
+		$reflection = new \ReflectionClass(RouteGenerator::class);
+		$instancesProperty = $reflection->getProperty('instances');
+		$instancesProperty->setAccessible(true);
+
+		$this->assertEquals([], $instancesProperty->getValue(RouteGenerator::class));
+
+		$generator = RouteGenerator::getInstance('com_phproberto');
+
+		$expected = [
+			RouteGenerator::class => ['com_phproberto' => $generator]
+		];
+
+		$this->assertEquals($expected, $instancesProperty->getValue(RouteGenerator::class));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function getMenuItemsReturnsCachedItems()
+	{
+		$items = ['test' => 23];
+
+		$generator = $this->getMockBuilder(RouteGenerator::class)
+			->disableOriginalConstructor()
+			->setMethods(['loadMenuItems'])
+			->getMock();
+
+		$generator->expects($this->never())
+			->method('loadMenuItems');
+
+		$reflection = new \ReflectionClass($generator);
+		$menuItemsProperty = $reflection->getProperty('menuItems');
+		$menuItemsProperty->setAccessible(true);
+		$menuItemsProperty->setValue($generator, $items);
+
+		$this->assertSame($items, $generator->getMenuItems());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function getMenuItemsCallsLoadMenuItems()
+	{
+		$items = ['test' => 23];
+
+		$generator = $this->getMockBuilder(RouteGenerator::class)
+			->disableOriginalConstructor()
+			->setMethods(['loadMenuItems'])
+			->getMock();
+
+		$generator->expects($this->once())
+			->method('loadMenuItems')
+			->willReturn($items);
+
+		$this->assertSame($items, $generator->getMenuItems());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function LoadMenuItemsReturnsExpectedItems()
+	{
+		$option = 'com_route_generator';
+		$items = [
+			23 => (object) [
+				'id' => 23,
+				'component_id' => 69
+			],
+			63 => (object) [
+				'id' => 63,
+				'component_id' => 69
+			],
+		];
+
+		$component = ComponentMock::instance($this, ['id', 'option']);
+		$component->method('id')
+			->willReturn(69);
+
+		$component->method('option')
+			->willReturn($option);
+
+		ComponentMock::saveToCache($component);
+		ComponentMock::saveOptionIdXref($component);
+
+		$menu = $this->getMockBuilder('JMenu')
+					->setMethods(['getItems'])
+					->setConstructorArgs(array())
+					->disableOriginalConstructor()
+					->getMock();
+		$menu->expects($this->any())
+				->method('getItems')
+				->with($this->equalTo('component_id'), $this->equalTo(69))
+				->willReturn($items);
+
+		$app = $this->getMockBuilder('JApplicationCms')
+				->setMethods(\TestMockApplicationCms::getMethods())
+				->getMock();
+
+		$app->method('getMenu')
+			->willReturn($menu);
+
+		Factory::$application = $app;
+
+		$generator = new RouteGenerator($option);
+
+		$reflection = new \ReflectionClass($generator);
+		$method = $reflection->getMethod('loadMenuItems');
+		$method->setAccessible(true);
+
+		$this->assertEquals($items, $method->invoke($generator));
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -232,6 +403,7 @@ class RouteGeneratorTest extends \TestCase
 		unset($this->server);
 
 		Uri::reset();
+		RouteGenerator::clearInstances();
 
 		\TestReflection::setValue('JRouter', 'instances', []);
 		\TestReflection::setValue('JRoute', '_router', array());
