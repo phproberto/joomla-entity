@@ -10,6 +10,7 @@ namespace Phproberto\Joomla\Entity\Tests\Content\Entity;
 
 defined('_JEXEC') || die;
 
+use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
@@ -26,6 +27,13 @@ use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
  */
 class ArticleTest extends \TestCaseDatabase
 {
+	/**
+	 * Backup of the $_SERVER variable
+	 *
+	 * @var    array
+	 */
+	private $server;
+
 	/**
 	 * @test
 	 *
@@ -87,6 +95,8 @@ class ArticleTest extends \TestCaseDatabase
 	{
 		parent::setUp();
 
+		$this->server = $_SERVER;
+
 		$this->saveFactoryState();
 
 		\JFactory::$session     = $this->getMockSession();
@@ -105,6 +115,11 @@ class ArticleTest extends \TestCaseDatabase
 		Article::clearAll();
 
 		$this->restoreFactoryState();
+
+		$_SERVER = $this->server;
+		unset($this->server);
+
+		Uri::reset();
 
 		parent::tearDown();
 	}

@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs;
 
+use Joomla\CMS\Uri\Uri;
 use Phproberto\Joomla\Entity\Entity;
 use Phproberto\Joomla\Entity\Core\Traits\HasLink;
 
@@ -34,6 +35,6 @@ class EntityWithLink extends Entity
 			return null;
 		}
 
-		return \JUri::root(true) . '/' . $slug;
+		return Uri::root(true) . '/' . $slug;
 	}
 }

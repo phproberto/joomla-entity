@@ -8,6 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
+use Joomla\CMS\Uri\Uri;
 use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithLink;
 
 /**
@@ -17,6 +18,13 @@ use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithLink;
  */
 class HasLinkTest extends \PHPUnit\Framework\TestCase
 {
+	/**
+	 * Backup of the $_SERVER variable
+	 *
+	 * @var    array
+	 */
+	private $server;
+
 	/**
 	 * getLink returns correct value.
 	 *
@@ -46,5 +54,34 @@ class HasLinkTest extends \PHPUnit\Framework\TestCase
 		// Without reload returns old link
 		$this->assertSame('/999', $entity->link());
 		$this->assertSame('/999:sample-alias', $entity->link(true));
+	}
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->server = $_SERVER;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->server;
+		unset($this->server);
+
+		Uri::reset();
+
+		parent::tearDown();
 	}
 }

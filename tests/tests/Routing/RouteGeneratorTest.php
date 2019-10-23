@@ -35,14 +35,14 @@ class RouteGeneratorTest extends \TestCase
 	 *
 	 * @var  string
 	 */
-	private $host = 'phproberto.com';
+	private $host = 'phproberto.test.com';
 
 	/**
 	 * $_SERVER['SCRIPT_NAME']
 	 *
 	 * @var  string
 	 */
-	private $scriptName = 'index.php?option=test';
+	private $scriptName = '/index.php';
 
 	/**
 	 * Sample component option to use in tests.
@@ -72,23 +72,55 @@ class RouteGeneratorTest extends \TestCase
 	 */
 	public function generateUrlsDataProvider()
 	{
-		$currentUrl = 'http://' . $this->host . '/' . $this->scriptName;
+		$currentUrl = 'http://' . $this->host . $this->scriptName;
 
 		return [
 			// Itemid has higher priority than itemId
-			['index.php?option=com_content&Itemid=23&my-var=12', ['my-var' => 12, 'Itemid' => 23, 'itemId' => 22], ['routed' => false]],
-			['index.php?option=com_content&Itemid=22&my-var=212', ['my-var' => 212, 'itemId' => 22], ['routed' => false]],
+			[
+				'expected' => 'index.php?option=com_content&Itemid=23&my-var=12',
+				'vars'     => ['my-var' => 12, 'Itemid' => 23, 'itemId' => 22],
+				'options'  => ['routed' => false]
+			],
+			[
+				'expected' => 'index.php?option=com_content&Itemid=22&my-var=212',
+				'vars'     => ['my-var' => 212, 'itemId' => 22],
+				'options'  => ['routed' => false]
+			],
 			// Options itemId overrides vars Itemid & itemId
-			['index.php?option=com_content&Itemid=44', ['Itemid' => 23, 'itemId' => 22], ['routed' => false, 'itemId' => 44]],
+			[
+				'expected' => 'index.php?option=com_content&Itemid=44',
+				'vars'     => ['Itemid' => 23, 'itemId' => 22],
+				'options'  => ['routed' => false, 'itemId' => 44]
+			],
 			// URL with token added
-			['index.php?option=com_content&' . $this->token . '=1', [], ['routed' => false, 'addToken' => true]],
+			[
+				'expected' => 'index.php?option=com_content&' . $this->token . '=1',
+				'vars'     => [],
+				'options'  => ['routed' => false, 'addToken' => true]
+			],
 			// Return to custom url
-			['index.php?option=com_content&return=' . base64_encode('index.php?hello=world'), [], ['routed' => false, 'return' => 'index.php?hello=world']],
+			[
+				'expected' => 'index.php?option=com_content&return=' . base64_encode('index.php?hello=world'),
+				'vars'     => [],
+				'options'  => ['routed' => false, 'return' => 'index.php?hello=world']
+			],
 			// Return to current url
-			['index.php?option=com_content&return=' . base64_encode($currentUrl), [], ['routed' => false, 'return' => 'current']],
+			[
+				'expected' => 'index.php?option=com_content&return=' . base64_encode($currentUrl),
+				'vars'     => [],
+				'options'  => ['routed' => false, 'return' => 'current']
+			],
 			// Routed URL
-			['blog/article/1-test', ['view' => 'article', 'id' => '1-test'], ['routed' => true]],
-			['category/2', ['view' => 'category', 'id' => '2'], ['routed' => true]],
+			[
+				'expected' => 'blog/article/1-test',
+				'vars'     => ['view' => 'article', 'id' => '1-test'],
+				'options'  => ['routed' => true]
+			],
+			[
+				'expected' => 'category/2',
+				'vars'     => ['view' => 'category', 'id' => '2'],
+				'options'  => ['routed' => true]
+			],
 		];
 	}
 
@@ -149,13 +181,9 @@ class RouteGeneratorTest extends \TestCase
 	 */
 	public function generateUrlProcessesItemId()
 	{
-		$option = 'com_content';
-
-		$generator = new RouteGenerator($option);
-
 		$this->assertSame(
 			'index.php?option=com_content&Itemid=23&my-var=12',
-			$generator->generateUrl(['my-var' => 12, 'Itemid' => 23, 'itemId' => 22], ['routed' => false])
+			$this->generator->generateUrl(['my-var' => 12, 'Itemid' => 23, 'itemId' => 22], ['routed' => false])
 		);
 	}
 
@@ -173,7 +201,7 @@ class RouteGeneratorTest extends \TestCase
 
 		$this->server = $_SERVER;
 
-		$_SERVER['HTTP_HOST'] = $this->host . '/';
+		$_SERVER['HTTP_HOST'] = $this->host;
 		$_SERVER['SCRIPT_NAME'] = $this->scriptName;
 
 		$config = new Registry;
@@ -202,6 +230,8 @@ class RouteGeneratorTest extends \TestCase
 
 		$_SERVER = $this->server;
 		unset($this->server);
+
+		Uri::reset();
 
 		\TestReflection::setValue('JRouter', 'instances', []);
 		\TestReflection::setValue('JRoute', '_router', array());
