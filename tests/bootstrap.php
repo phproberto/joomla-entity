@@ -13,5 +13,7 @@ if (!defined('JPATH_TESTS_PHPROBERTO'))
 	define('JPATH_TESTS_PHPROBERTO', realpath(__DIR__));
 }
 
+define('DEFAULT_TOKEN_FOR_URLS', 'cfcd208495d565ef66e7dff9f98764da');
+
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
 

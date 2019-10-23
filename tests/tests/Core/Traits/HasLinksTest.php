@@ -38,13 +38,6 @@ class HasLinksTest extends \TestCase
 	private $server;
 
 	/**
-	 * Token for URLS that require it.
-	 *
-	 * @var  string
-	 */
-	private $token = 'cfcd208495d565ef66e7dff9f98764da';
-
-	/**
 	 * @test
 	 *
 	 * @return  void
@@ -85,7 +78,7 @@ class HasLinksTest extends \TestCase
 		$expected = 'index.php?option=com_entity_with_links&var=value'
 			. '&task=entitywithlinks.add'
 			. '&view=entitywithlinks'
-			. '&' . $this->token . '=1';
+			. '&' . DEFAULT_TOKEN_FOR_URLS . '=1';
 
 		$this->assertSame($expected, $this->entity->linkCreate(['var' => 'value'], ['routed' => false]));
 	}
@@ -116,7 +109,7 @@ class HasLinksTest extends \TestCase
 			. '&task=entitywithlinks.delete'
 			. '&id=99'
 			. '&view=entitywithlinks'
-			. '&' . $this->token . '=1';
+			. '&' . DEFAULT_TOKEN_FOR_URLS . '=1';
 
 		$this->assertSame($expected, $this->entity->linkDelete(['var' => 'value'], ['routed' => false]));
 	}
@@ -147,7 +140,7 @@ class HasLinksTest extends \TestCase
 			. '&task=entitywithlinks.edit'
 			. '&id=99'
 			. '&view=entitywithlinks'
-			. '&' . $this->token . '=1';
+			. '&' . DEFAULT_TOKEN_FOR_URLS . '=1';
 
 		$this->assertSame($expected, $this->entity->linkEdit(['var' => 'value'], ['routed' => false]));
 	}
