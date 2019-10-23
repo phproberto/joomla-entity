@@ -8,10 +8,11 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Tags;
 
+use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
+use Phproberto\Joomla\Entity\Acl\Acl;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Acl\Acl;
 
 /**
  * Tag entity tests.
@@ -20,6 +21,13 @@ use Phproberto\Joomla\Entity\Acl\Acl;
  */
 class TagTest extends \TestCaseDatabase
 {
+	/**
+	 * Backup of the $_SERVER variable
+	 *
+	 * @var    array
+	 */
+	private $server;
+
 	/**
 	 * Acl can be retrieved.
 	 *
@@ -146,5 +154,34 @@ class TagTest extends \TestCaseDatabase
 		$rowProperty->setValue($tag, array('id' => 999, 'published' => '1'));
 
 		$this->assertEquals(1, $tag->state());
+	}
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->server = $_SERVER;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->server;
+		unset($this->server);
+
+		Uri::reset();
+
+		parent::tearDown();
 	}
 }
