@@ -6,15 +6,17 @@
  * @license    See COPYING.txt
  */
 
+namespace Phproberto\Joomla\Entity\Tests\Extensions\Entity\Traits\Stubs;
+
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Core\Traits\HasComponent;
+use Phproberto\Joomla\Entity\Extensions\Entity\Traits\HasComponent;
 
 /**
  * Sample class to test HasComponent trait.
  *
  * @since  1.1.0
  */
-class ContentEntityComponent extends Entity
+class ClassWithComponent extends Entity
 {
 	use HasComponent;
 }

@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Translation;
 defined('_JEXEC') || die;
 
 use Phproberto\Joomla\Entity\Decorator;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Validation\Validator;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 use Phproberto\Joomla\Entity\Validation\Rule\IsNotNull;
@@ -79,7 +79,7 @@ class Translator extends Decorator implements TranslatorContract
 	 */
 	public function isEntityLanguage()
 	{
-		$languageColumn = $this->entity->columnAlias(Column::LANGUAGE);
+		$languageColumn = $this->entity->columnAlias(CoreColumn::LANGUAGE);
 
 		return $this->entity->get($languageColumn) === $this->langTag;
 	}

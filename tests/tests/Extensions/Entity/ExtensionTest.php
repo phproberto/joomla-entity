@@ -6,9 +6,9 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core;
+namespace Phproberto\Joomla\Entity\Tests\Extensions;
 
-use Phproberto\Joomla\Entity\Core\Extension;
+use Phproberto\Joomla\Entity\Extensions\Entity\Extension;
 use Phproberto\Joomla\Entity\Core\Client\Administrator;
 use Phproberto\Joomla\Entity\Core\Client\Site;
 

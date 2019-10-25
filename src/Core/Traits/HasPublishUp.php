@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities that have an associated publish up column.
@@ -35,7 +35,7 @@ trait HasPublishUp
 	 */
 	public function getPublishUp()
 	{
-		return $this->get($this->columnAlias(Column::PUBLISH_UP));
+		return $this->get($this->columnAlias(CoreColumn::PUBLISH_UP));
 	}
 
 	/**

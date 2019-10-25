@@ -6,12 +6,12 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
+namespace Phproberto\Joomla\Entity\Tests\Extensions\Entity\Traits;
 
 use Phproberto\Joomla\Client\Administrator;
 use Phproberto\Joomla\Client\Site;
-use Phproberto\Joomla\Entity\Core\Extension\Component;
-use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\ClassWithComponent;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
+use Phproberto\Joomla\Entity\Tests\Extensions\Entity\Traits\Stubs\ClassWithComponent;
 
 /**
  * HasComponent trait tests.

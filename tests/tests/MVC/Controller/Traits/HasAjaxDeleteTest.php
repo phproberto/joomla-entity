@@ -147,7 +147,6 @@ class HasAjaxDeleteTest extends \TestCaseDatabase
 		}
 		catch (LoadEntityDataError $e)
 		{
-
 			$error = $e->getMessage();
 		}
 

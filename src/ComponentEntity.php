@@ -11,8 +11,8 @@ namespace Phproberto\Joomla\Entity;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Table\Table;
-use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Contracts\ComponentEntityInterface;
+use Phproberto\Joomla\Entity\Extensions\Entity\Traits\HasComponent;
 
 /**
  * Entity class.
@@ -21,7 +21,7 @@ use Phproberto\Joomla\Entity\Contracts\ComponentEntityInterface;
  */
 abstract class ComponentEntity extends Entity implements ComponentEntityInterface
 {
-	use CoreTraits\HasComponent;
+	use HasComponent;
 
 	/**
 	 * Get a table.

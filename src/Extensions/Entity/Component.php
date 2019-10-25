@@ -6,11 +6,11 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Core\Extension;
+namespace Phproberto\Joomla\Entity\Extensions\Entity;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Extension;
+use Phproberto\Joomla\Entity\Extensions\Entity\Extension;
 use Phproberto\Joomla\Entity\Acl\Traits\HasAcl;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 

@@ -6,7 +6,7 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Core\Traits;
+namespace Phproberto\Joomla\Entity\Traits;
 
 defined('_JEXEC') || die;
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 /**
  * Trait for classes with redirections.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.0.1
  */
 trait HasRedirect
 {
@@ -56,6 +56,8 @@ trait HasRedirect
 	 * Redirect to the URL.
 	 *
 	 * @return  void
+	 *
+	 * @since   1.2.0
 	 */
 	public function redirect()
 	{

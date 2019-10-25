@@ -10,7 +10,8 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Column;
+use Joomla\CMS\Factory;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities with access column.
@@ -59,7 +60,7 @@ trait HasAccess
 	 */
 	public function access()
 	{
-		return (int) $this->get($this->columnAlias(Column::ACCESS));
+		return (int) $this->get($this->columnAlias(CoreColumn::ACCESS));
 	}
 
 	/**
@@ -93,7 +94,7 @@ trait HasAccess
 			return false;
 		}
 
-		$authorised = \JAccess::getAuthorisedViewLevels(\JFactory::getUser()->get('id'));
+		$authorised = \JAccess::getAuthorisedViewLevels(Factory::getUser()->get('id'));
 
 		return in_array($this->access(), $authorised);
 	}

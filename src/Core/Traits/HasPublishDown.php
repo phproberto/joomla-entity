@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities that have an associated publish down column.
@@ -35,7 +35,7 @@ trait HasPublishDown
 	 */
 	public function getPublishDown()
 	{
-		return $this->get($this->columnAlias(Column::PUBLISH_DOWN));
+		return $this->get($this->columnAlias(CoreColumn::PUBLISH_DOWN));
 	}
 
 	/**

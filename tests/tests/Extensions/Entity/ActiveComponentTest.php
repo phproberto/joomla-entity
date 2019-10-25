@@ -6,9 +6,9 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core\Extension;
+namespace Phproberto\Joomla\Entity\Tests\Extensions\Entity;
 
-use Phproberto\Joomla\Entity\Core\Extension\ActiveComponent;
+use Phproberto\Joomla\Entity\Extensions\Entity\ActiveComponent;
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
 

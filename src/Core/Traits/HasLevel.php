@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Core\Traits;
 
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 defined('_JEXEC') or die;
 
@@ -132,6 +132,6 @@ trait HasLevel
 	 */
 	protected function levelColumn()
 	{
-		return $this->columnAlias(Column::LEVEL);
+		return $this->columnAlias(CoreColumn::LEVEL);
 	}
 }

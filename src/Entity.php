@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Nested;
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Helper\ClassName;
 use Phproberto\Joomla\Entity\Helper\ArrayHelper;
 use Phproberto\Joomla\Entity\Exception\SaveException;
@@ -697,7 +697,7 @@ abstract class Entity implements EntityInterface
 			$table->load($this->id());
 		}
 
-		$parentColumn = $this->columnAlias(Column::PARENT);
+		$parentColumn = $this->columnAlias(CoreColumn::PARENT);
 
 		if (!$this->hasId() && $table instanceof Nested && $this->has($parentColumn))
 		{

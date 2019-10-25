@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Core\Command;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
-use Phproberto\Joomla\Entity\Core\Asset;
+use Phproberto\Joomla\Entity\Core\Entity\Asset;
 use Phproberto\Joomla\Entity\Command\BaseCommand;
 use Phproberto\Joomla\Entity\Command\Contracts\CommandInterface;
 

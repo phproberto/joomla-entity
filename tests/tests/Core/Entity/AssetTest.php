@@ -6,10 +6,10 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core;
+namespace Phproberto\Joomla\Entity\Tests\Core\Entity;
 
 use Joomla\CMS\Factory;
-use Phproberto\Joomla\Entity\Core\Asset;
+use Phproberto\Joomla\Entity\Core\Entity\Asset;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
 
 /**

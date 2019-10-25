@@ -6,11 +6,11 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Core\Traits;
+namespace Phproberto\Joomla\Entity\Extensions\Entity\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 
 /**
  * Trait for entities with an associated component.

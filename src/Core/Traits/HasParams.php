@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 defined('_JEXEC') || die;
 
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities with params. Based on params | attribs columns.
@@ -137,7 +137,7 @@ trait HasParams
 			return $this->row['params'] instanceof Registry ? $this->row['params'] : new Registry($this->row['params']);
 		}
 
-		$params = $this->get($this->columnAlias(Column::PARAMS));
+		$params = $this->get($this->columnAlias(CoreColumn::PARAMS));
 
 		// Some tables return params as a Registry object
 		if ($params instanceof Registry)
@@ -171,7 +171,7 @@ trait HasParams
 
 		$saveData = array(
 			$this->primaryKey() => $this->id(),
-			$this->columnAlias(Column::PARAMS) => $this->params()->toString()
+			$this->columnAlias(CoreColumn::PARAMS) => $this->params()->toString()
 		);
 
 		if (!$table->save($saveData))
@@ -199,7 +199,7 @@ trait HasParams
 
 		$this->params->set($name, $value);
 
-		$this->assign($this->columnAlias(Column::PARAMS), $this->params()->toString());
+		$this->assign($this->columnAlias(CoreColumn::PARAMS), $this->params()->toString());
 
 		return $this;
 	}
@@ -215,7 +215,7 @@ trait HasParams
 	{
 		$this->params = $params;
 
-		$this->assign($this->columnAlias(Column::PARAMS), $this->params()->toString());
+		$this->assign($this->columnAlias(CoreColumn::PARAMS), $this->params()->toString());
 
 		return $this;
 	}

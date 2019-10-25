@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Tests\Mock;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**

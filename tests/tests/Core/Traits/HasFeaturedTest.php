@@ -8,7 +8,7 @@
 
 namespace Phproberto\Joomla\Entity\Tests\Core\Traits;
 
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs\EntityWithFeatured;
 
 /**
@@ -38,7 +38,7 @@ class HasFeaturedTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testIsFeaturedReturnsCorrectValue()
 	{
-		$entity = $this->getEntity(array('id' => 999, Column::FEATURED => 0));
+		$entity = $this->getEntity(array('id' => 999, CoreColumn::FEATURED => 0));
 
 		$reflection = new \ReflectionClass($entity);
 		$rowProperty = $reflection->getProperty('row');
@@ -46,15 +46,15 @@ class HasFeaturedTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertFalse($entity->isFeatured(true));
 
-		$rowProperty->setValue($entity, array('id' => 999, Column::FEATURED => '0'));
+		$rowProperty->setValue($entity, array('id' => 999, CoreColumn::FEATURED => '0'));
 
 		$this->assertFalse($entity->isFeatured(true));
 
-		$rowProperty->setValue($entity, array('id' => 999, Column::FEATURED => '1'));
+		$rowProperty->setValue($entity, array('id' => 999, CoreColumn::FEATURED => '1'));
 
 		$this->assertTrue($entity->isFeatured(true));
 
-		$rowProperty->setValue($entity, array('id' => 999, Column::FEATURED => 1));
+		$rowProperty->setValue($entity, array('id' => 999, CoreColumn::FEATURED => 1));
 
 		$this->assertTrue($entity->isFeatured(true));
 	}

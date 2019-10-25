@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Acl\Acl;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Users\UserGroup;
-use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * User entity tests.

@@ -6,15 +6,15 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core;
+namespace Phproberto\Joomla\Entity\Tests\Core\Entity;
 
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Core\Asset;
-use Phproberto\Joomla\Entity\Core\Column;
-use Phproberto\Joomla\Entity\Core\Module;
+use Phproberto\Joomla\Entity\Core\Entity\Asset;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
+use Phproberto\Joomla\Entity\Core\Entity\Module;
 use Phproberto\Joomla\Entity\Core\Client\Site;
 use Phproberto\Joomla\Entity\Core\Client\Administrator;
 
@@ -45,7 +45,7 @@ class ModuleTest extends \TestCaseDatabase
 	 */
 	public function assetReturnsCorrectAsset()
 	{
-		$this->module->assign($this->module->columnAlias(Column::ASSET), 2);
+		$this->module->assign($this->module->columnAlias(CoreColumn::ASSET), 2);
 
 		$asset = $this->module->asset();
 
@@ -193,12 +193,12 @@ class ModuleTest extends \TestCaseDatabase
 		$date->modify('+1 hour');
 
 		// Future publish_up date
-		$this->module->assign($this->module->columnAlias(Column::PUBLISH_UP), $date->format('Y-m-d H:i:s'));
+		$this->module->assign($this->module->columnAlias(CoreColumn::PUBLISH_UP), $date->format('Y-m-d H:i:s'));
 
 		$this->assertFalse($this->module->isPublished());
 		$this->assertTrue($this->module->isUnpublished());
 
-		$this->module->assign($this->module->columnAlias(Column::PUBLISH_UP), null);
+		$this->module->assign($this->module->columnAlias(CoreColumn::PUBLISH_UP), null);
 
 		$this->assertTrue($this->module->isPublished());
 		$this->assertFalse($this->module->isUnpublished());
@@ -207,7 +207,7 @@ class ModuleTest extends \TestCaseDatabase
 		$date = new \DateTime;
 		$date->modify('-1 hour');
 
-		$this->module->assign($this->module->columnAlias(Column::PUBLISH_DOWN), $date->format('Y-m-d H:i:s'));
+		$this->module->assign($this->module->columnAlias(CoreColumn::PUBLISH_DOWN), $date->format('Y-m-d H:i:s'));
 
 		$this->assertFalse($this->module->isPublished());
 		$this->assertTrue($this->module->isUnpublished());
