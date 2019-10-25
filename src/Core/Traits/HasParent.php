@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') or die;
 
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**
@@ -96,6 +96,6 @@ trait HasParent
 	 */
 	public function parentColumn()
 	{
-		return $this->columnAlias(Column::PARENT);
+		return $this->columnAlias(CoreColumn::PARENT);
 	}
 }

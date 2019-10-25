@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities with metadata. Based on metadata columns.
@@ -55,7 +55,7 @@ trait HasMetadata
 	{
 		if ($reload || null === $this->metadata)
 		{
-			$this->metadata = $this->json($this->columnAlias(Column::METADATA));
+			$this->metadata = $this->json($this->columnAlias(CoreColumn::METADATA));
 		}
 
 		return $this->metadata;

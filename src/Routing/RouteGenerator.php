@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Application\ApplicationHelper;
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 
 /**
  * Route generator.

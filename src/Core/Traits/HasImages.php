@@ -10,7 +10,7 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities with images.
@@ -131,7 +131,7 @@ trait HasImages
 			return array();
 		}
 
-		$data = (array) $this->json($this->columnAlias(Column::IMAGES));
+		$data = (array) $this->json($this->columnAlias(CoreColumn::IMAGES));
 
 		$images = array();
 

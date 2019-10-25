@@ -13,7 +13,8 @@ defined('_JEXEC') || die;
 use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
+use Phproberto\Joomla\Entity\Core\Entity\Asset;
 use Phproberto\Joomla\Entity\Categories\Category;
 use Phproberto\Joomla\Entity\Translation\Contracts\Translatable;
 use Phproberto\Joomla\Entity\Categories\Validation\CategoryValidator;
@@ -341,7 +342,7 @@ class CategoryTest extends \TestCaseDatabase
 
 		$asset = $category->asset();
 
-		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
+		$this->assertInstanceOf(Asset::class, $asset);
 		$this->assertSame(0, $asset->id());
 
 		$category = new Category;
@@ -350,7 +351,7 @@ class CategoryTest extends \TestCaseDatabase
 
 		$asset = $category->asset();
 
-		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
+		$this->assertInstanceOf(Asset::class, $asset);
 		$this->assertSame(666, $asset->id());
 	}
 

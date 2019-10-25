@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Translation\Traits;
 defined('_JEXEC') || die;
 
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities with translations.
@@ -118,7 +118,7 @@ trait HasTranslations
 
 			foreach ($this->translations() as $translation)
 			{
-				$tag = $translation->get($this->columnAlias(Column::LANGUAGE));
+				$tag = $translation->get($this->columnAlias(CoreColumn::LANGUAGE));
 				$this->translationsByTag[$tag] = $translation;
 			}
 		}

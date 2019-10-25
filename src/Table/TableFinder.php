@@ -12,7 +12,7 @@ namespace Phproberto\Joomla\Entity\Table;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Table\Table;
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 
 /**
  * Table finder

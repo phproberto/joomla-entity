@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tests\Core\Traits\Stubs;
 
 use Phproberto\Joomla\Entity\Entity;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Core\Traits\HasLinks;
 
 /**
@@ -29,7 +29,7 @@ class EntityWithLinks extends Entity
 	public function columnAliases()
 	{
 		return [
-			Column::ALIAS => 'alias'
+			CoreColumn::ALIAS => 'alias'
 		];
 	}
 

@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Fields\Traits;
 defined('_JEXEC') || die;
 
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 use Phproberto\Joomla\Entity\Fields\Field;
 
 /**

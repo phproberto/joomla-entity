@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 use Phproberto\Joomla\Entity\Collection;
-use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
 use Phproberto\Joomla\Entity\Exception\SaveException;

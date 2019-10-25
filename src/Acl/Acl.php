@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 
 use Phproberto\Joomla\Entity\Decorator;
 use Phproberto\Joomla\Entity\Users\User;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
@@ -163,7 +163,7 @@ class Acl extends Decorator
 			return true;
 		}
 
-		return !$this->entity->has(Column::ACCESS) || in_array($this->entity->get(Column::ACCESS), $this->user->getAuthorisedViewLevels());
+		return !$this->entity->has(CoreColumn::ACCESS) || in_array($this->entity->get(CoreColumn::ACCESS), $this->user->getAuthorisedViewLevels());
 	}
 
 	/**

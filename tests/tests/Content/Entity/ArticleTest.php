@@ -15,9 +15,10 @@ use Joomla\Registry\Registry;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Users\User;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
+use Phproberto\Joomla\Entity\Core\Entity\Asset;
 use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\Content\Entity\Category;
-use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
 use Phproberto\Joomla\Entity\Content\Validation\ArticleValidator;
 
 /**
@@ -193,7 +194,7 @@ class ArticleTest extends \TestCaseDatabase
 
 		$asset = $article->asset();
 
-		$this->assertInstanceOf('Phproberto\Joomla\Entity\Core\Asset', $asset);
+		$this->assertInstanceOf(Asset::class, $asset);
 		$this->assertNotSame(0, $asset->id());
 	}
 

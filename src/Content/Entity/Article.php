@@ -21,7 +21,7 @@ use Phproberto\Joomla\Entity\Categories\Column as CategoriesColumn;
 use Phproberto\Joomla\Entity\Tags\Traits\HasTags;
 use Phproberto\Joomla\Entity\Acl\Contracts\Aclable;
 use Phproberto\Joomla\Entity\Fields\Traits\HasFields;
-use Phproberto\Joomla\Entity\Core\Column as CoreColumn;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Users\Contracts\Ownerable;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;

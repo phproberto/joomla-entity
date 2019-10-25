@@ -6,11 +6,11 @@
  * @license    See COPYING.txt
  */
 
-namespace Phproberto\Joomla\Entity\Tests\Core\Extension;
+namespace Phproberto\Joomla\Entity\Tests\Extensions\Entity;
 
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Acl\Acl;
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 
 /**
  * Component entity tests.

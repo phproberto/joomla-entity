@@ -10,8 +10,8 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 
 defined('_JEXEC') || die;
 
-use Phproberto\Joomla\Entity\Core\Asset;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\Entity\Asset;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities that have an asset. Based on asset_id column.
@@ -72,7 +72,7 @@ trait HasAsset
 	{
 		try
 		{
-			$assetId = (int) $this->get($this->columnAlias(Column::ASSET));
+			$assetId = (int) $this->get($this->columnAlias(CoreColumn::ASSET));
 		}
 		catch (\Exception $e)
 		{

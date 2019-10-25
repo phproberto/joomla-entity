@@ -15,7 +15,7 @@ defined('_JEXEC') || die;
  *
  * @since   1.0.0
  */
-abstract class Column
+abstract class CoreColumn
 {
 	/**
 	 * Default column used to store access.

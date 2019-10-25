@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Application\SiteApplication;
 use Phproberto\Joomla\Entity\Routing\RouteGenerator;
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 use Phproberto\Joomla\Entity\Tests\Mock\ComponentMock;
 
 /**

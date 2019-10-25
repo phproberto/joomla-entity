@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Core\Traits;
 defined('_JEXEC') || die;
 
 use Joomla\String\Inflector;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Routing\RouteGenerator;
 
 /**
@@ -42,7 +42,7 @@ trait HasLinks
 			return null;
 		}
 
-		$aliasColumn = $this->columnAlias(Column::ALIAS);
+		$aliasColumn = $this->columnAlias(CoreColumn::ALIAS);
 
 		$data = $this->all();
 

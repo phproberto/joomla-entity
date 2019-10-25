@@ -9,7 +9,7 @@
 namespace Phproberto\Joomla\Entity\Tests;
 
 use Phproberto\Joomla\Entity\ComponentEntity;
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 
 /**
  * Component Entity tests.

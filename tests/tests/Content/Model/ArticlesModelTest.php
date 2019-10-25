@@ -11,7 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\Content\Model;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
-use Phproberto\Joomla\Entity\Core\Asset;
+use Phproberto\Joomla\Entity\Core\Entity\Asset;
 use Phproberto\Joomla\Entity\Users\User;
 use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\Content\Entity\Category;

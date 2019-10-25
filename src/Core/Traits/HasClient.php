@@ -14,7 +14,7 @@ use Phproberto\Joomla\Entity\Core\Client\Administrator;
 use Phproberto\Joomla\Entity\Core\Client\Client;
 use Phproberto\Joomla\Entity\Core\Client\ClientInterface;
 use Phproberto\Joomla\Entity\Core\Client\Site;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 
 /**
  * Trait for entities that have an associated client.
@@ -66,7 +66,7 @@ trait HasClient
 	 */
 	protected function loadClient()
 	{
-		$clientId = (int) $this->get($this->columnAlias(Column::CLIENT));
+		$clientId = (int) $this->get($this->columnAlias(CoreColumn::CLIENT));
 
 		return $clientId ? Client::admin() : Client::site();
 	}

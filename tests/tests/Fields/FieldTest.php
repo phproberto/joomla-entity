@@ -10,10 +10,10 @@ namespace Phproberto\Joomla\Entity\Tests\Fields;
 
 use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
-use Phproberto\Joomla\Entity\Core\Column;
+use Phproberto\Joomla\Entity\Core\CoreColumn;
 use Phproberto\Joomla\Entity\Fields\Field;
 use Phproberto\Joomla\Entity\Fields\FieldGroup;
-use Phproberto\Joomla\Entity\Core\Extension\Component;
+use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 use Phproberto\Joomla\Entity\Fields\Column as FieldsColumn;
 
 /**
@@ -136,7 +136,7 @@ class FieldTest extends \TestCaseDatabase
 			->getMock();
 
 		$field->method('columnAlias')
-			->willReturn(Column::PARAMS);
+			->willReturn(CoreColumn::PARAMS);
 
 		$field->bind(array('id' => 999, 'params' => '{"foo":"var"}'));
 
@@ -155,7 +155,7 @@ class FieldTest extends \TestCaseDatabase
 			->getMock();
 
 		$field->method('columnAlias')
-			->willReturn(Column::STATE);
+			->willReturn(CoreColumn::STATE);
 
 		$field->bind(array('id' => 999, 'published' => '0'));
 
