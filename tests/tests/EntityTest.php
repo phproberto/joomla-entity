@@ -1491,11 +1491,11 @@ class EntityTest extends \TestCaseDatabase
 		{
 			$entity->save();
 		}
-		catch (SaveException $exception)
+		catch (ValidationException $exception)
 		{
 		}
 
-		$this->assertInstanceOf(SaveException::class, $exception);
+		$this->assertInstanceOf(ValidationException::class, $exception);
 		$this->assertTrue(strlen($exception->getMessage()) > 0);
 	}
 
