@@ -680,14 +680,7 @@ abstract class Entity implements EntityInterface
 
 		if ($this instanceof Validable)
 		{
-			try
-			{
-				$this->validate();
-			}
-			catch (ValidationException $e)
-			{
-				throw SaveException::validation($this, $e);
-			}
+			$this->validate();
 		}
 
 		$table = $this->table();

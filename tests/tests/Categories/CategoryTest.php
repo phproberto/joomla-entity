@@ -47,9 +47,9 @@ class CategoryTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 *
-	 * @expectedException  \Phproberto\Joomla\Entity\Exception\SaveException
+	 * @expectedException  \Phproberto\Joomla\Entity\Validation\Exception\ValidationException
 	 */
-	public function cannotSaveIfValdationFails()
+	public function cannotSaveIfValidationFails()
 	{
 		$category = new Category;
 		$category->bind(
