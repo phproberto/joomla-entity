@@ -8,8 +8,9 @@
 
 namespace Phproberto\Joomla\Entity\Contracts;
 
-
 defined('_JEXEC') || die;
+
+use Phproberto\Joomla\Entity\Contracts\EntityInterface;
 
 /**
  * Describes methods required by classes with entity access.
@@ -24,4 +25,13 @@ interface AssociatedEntity
 	 * @return  string
 	 */
 	public function entityClass();
+
+	/**
+	 * Retrieve an instance of the associated entity.
+	 *
+	 * @param   integer  $id  Identifier
+	 *
+	 * @return  EntityInterface
+	 */
+	public function entityInstance(int $id = null);
 }

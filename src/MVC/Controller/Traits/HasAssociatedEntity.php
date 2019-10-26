@@ -56,6 +56,20 @@ trait HasAssociatedEntity
 	}
 
 	/**
+	 * Retrieve an instance of the associated entity.
+	 *
+	 * @param   integer  $id  Identifier
+	 *
+	 * @return  EntityInterface
+	 */
+	public function entityInstance(int $id = null)
+	{
+		$entityClass = $this->entityClassOrFail();
+
+		return $id ? $entityClass::find($id) : new $entityClass;
+	}
+
+	/**
 	 * Retrieve entity class and fail if it does not exist.
 	 *
 	 * @return  string
