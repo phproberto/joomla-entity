@@ -89,6 +89,16 @@ trait HasAssociatedEntity
 	}
 
 	/**
+	 * URL parameters containing primary key value(s).
+	 *
+	 * @return  string
+	 */
+	public function entityPrimaryKeyOnUrl()
+	{
+		return 'id';
+	}
+
+	/**
 	 * Retrieve an entity from the request.
 	 *
 	 * @param   string  $primaryKey  Column storing entity identifier. Defaults to entity primary key.
