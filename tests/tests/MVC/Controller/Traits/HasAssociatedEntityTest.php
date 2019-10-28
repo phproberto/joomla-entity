@@ -63,6 +63,45 @@ class HasAssociatedEntityTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
+	public function entityClassOrFailThrowsExceptionForUnexistingClass()
+	{
+		$error = '';
+
+		try
+		{
+			(new DeveloperController)->entityClassOrFail();
+		}
+		catch (\Exception $e)
+		{
+			$error = $e->getMessage();
+		}
+
+		$this->assertTrue(substr_count($error, 'Entity class not found ') > 0);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function entityInstanceReturnsExistingInstance()
+	{
+		$entity = (new SampleController)->entityInstance();
+
+		$this->assertInstanceOf(Sample::class, $entity);
+		$this->assertFalse($entity->hasId());
+
+		$entity = (new SampleController)->entityInstance(12);
+
+		$this->assertInstanceOf(Sample::class, $entity);
+		$this->assertSame(12, $entity->id());
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function loadEntityFromRequestReturnsExpectedEntity()
 	{
 		defined('JPATH_COMPONENT') || define('JPATH_COMPONENT', JPATH_BASE . '/components/com_content');

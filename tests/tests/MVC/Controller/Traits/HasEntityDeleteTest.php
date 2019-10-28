@@ -15,29 +15,29 @@ use Joomla\CMS\Session\Session;
 use Phproberto\Joomla\Entity\MVC\Request;
 use Phproberto\Joomla\Entity\Content\Entity\Article;
 use Phproberto\Joomla\Entity\Exception\LoadEntityDataError;
-use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\ControllerWithAjaxDelete;
+use Phproberto\Joomla\Entity\Tests\MVC\Controller\Traits\Stubs\ControllerWithEntityCRUD;
 
 defined('JPATH_COMPONENT') || define('JPATH_COMPONENT', JPATH_BASE . '/components/com_content');
 
 /**
- * HasAjaxDelete trait tests.
+ * HasajaxEntityDelete trait tests.
  *
  * @since   __DEPLOY_VERSION__
  */
-class HasAjaxDeleteTest extends \TestCaseDatabase
+class HasajaxEntityDeleteTest extends \TestCaseDatabase
 {
 	/**
 	 * @test
 	 *
 	 * @return void
 	 */
-	public function ajaxDeleteReturnsErrorForMissingAjaxHeader()
+	public function ajaxEntityDeleteReturnsErrorForMissingAjaxHeader()
 	{
-		$controller = new ControllerWithAjaxDelete;
+		$controller = new ControllerWithEntityCRUD;
 
 		ob_start();
 
-		$controller->ajaxDelete();
+		$controller->ajaxEntityDelete();
 
 		$output = ob_get_clean();
 
@@ -49,15 +49,15 @@ class HasAjaxDeleteTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function ajaxDeleteReturnsErrorForMissingCid()
+	public function ajaxEntityDeleteReturnsErrorForMissingCid()
 	{
 		$this->setupRequestWithTokenAndAjaxHeader();
 
-		$controller = new ControllerWithAjaxDelete;
+		$controller = new ControllerWithEntityCRUD;
 
 		ob_start();
 
-		$controller->ajaxDelete();
+		$controller->ajaxEntityDelete();
 
 		$output = ob_get_clean();
 
@@ -69,27 +69,27 @@ class HasAjaxDeleteTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function ajaxDeleteReturnsErrorIfDeleteIsNotAllowed()
+	public function ajaxEntityDeleteReturnsErrorIfDeleteIsNotAllowed()
 	{
 		$this->setupRequestWithTokenAndAjaxHeader();
 
 		$ids = [1, 2, 5];
 
-		Factory::getApplication()->input->set('cid', $ids);
+		Factory::getApplication()->input->set('id', $ids);
 
-		$controller = $this->getMockBuilder(ControllerWithAjaxDelete::class)
-			->setMethods(['allowDelete', 'entityClass'])
+		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
+			->setMethods(['activeUserCanDeleteEntity', 'entityClassOrFail'])
 			->getMock();
 
-		$controller->method('entityClass')
+		$controller->method('entityClassOrFail')
 			->willReturn(Article::class);
 
-		$controller->method('allowDelete')
+		$controller->method('activeUserCanDeleteEntity')
 			->will($this->onConsecutiveCalls(true, true, false));
 
 		ob_start();
 
-		$controller->ajaxDelete();
+		$controller->ajaxEntityDelete();
 
 		$output = ob_get_clean();
 
@@ -101,34 +101,35 @@ class HasAjaxDeleteTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function ajaxDeleteReturnsExpectedJson()
+	public function ajaxEntityDeleteReturnsExpectedJson()
 	{
 		$this->setupRequestWithTokenAndAjaxHeader();
 
 		$article1 = Article::create(
 			[
-				'title' => 'First article'
+				'title' => 'My article'
 			]
 		);
 
 		$article2 = Article::create(
 			[
-				'title' => 'Second article'
+				'title' => 'Another article'
 			]
 		);
-
 		$ids = [$article1->id(), $article2->id()];
 
-		Factory::getApplication()->input->set('cid', $ids);
+		Factory::getApplication()->input->set('id', $ids);
 
-		$controller = $this->getMockBuilder(ControllerWithAjaxDelete::class)
-			->setMethods(['allowDelete', 'entityClass'])
+		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
+			->setMethods(['entityClassOrFail', 'activeUserCanDeleteEntity'])
 			->getMock();
 
-		$controller->method('entityClass')
+		$controller->expects($this->any())
+			->method('entityClassOrFail')
 			->willReturn(Article::class);
 
-		$controller->method('allowDelete')
+		$controller->expects($this->exactly(2))
+			->method('activeUserCanDeleteEntity')
 			->will($this->onConsecutiveCalls(true, true));
 
 		$reloaded = Article::load($article1->id());
@@ -136,9 +137,10 @@ class HasAjaxDeleteTest extends \TestCaseDatabase
 
 		ob_start();
 
-		$controller->ajaxDelete();
+		$controller->ajaxEntityDelete();
 
 		$output = ob_get_clean();
+
 		$error = '';
 
 		try
@@ -155,17 +157,40 @@ class HasAjaxDeleteTest extends \TestCaseDatabase
 	}
 
 	/**
+	 * Setup AJAX header on the active request.
+	 *
+	 * @return  void
+	 */
+	private function setupRequestWithAjaxHeader()
+	{
+		Factory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
+	}
+
+	/**
 	 * Setups current request to have a valid token and an AJAX header.
 	 *
 	 * @param   string  $method  Request method where the token is expected
 	 *
 	 * @return  void
 	 */
-	private function setupRequestWithTokenAndAjaxHeader(string $method = 'post')
+	private function setupRequestWithTokenAndAjaxHeader(string $method = 'get')
+	{
+		$this->setupRequestWithToken($method);
+		$this->setupRequestWithAjaxHeader();
+	}
+
+	/**
+	 * Setups current request to have a valid token.
+	 *
+	 * @param   string  $method  Request method where the token is expected
+	 *
+	 * @return  void
+	 */
+	private function setupRequestWithToken(string $method = 'get')
 	{
 		Factory::getApplication()->input->{$method}->set(Session::getFormToken(), 1);
-		Factory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
 	}
+
 
 	/**
 	 * Gets the data set to be loaded into the database during setup
