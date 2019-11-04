@@ -13,6 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Phproberto\Joomla\Entity\Content\Article;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
+use Phproberto\Joomla\Entity\MVC\Controller\Traits\HasEntitySave;
 use Phproberto\Joomla\Entity\MVC\Controller\Traits\HasEntityCreate;
 use Phproberto\Joomla\Entity\MVC\Controller\Traits\HasEntityDelete;
 use Phproberto\Joomla\Entity\MVC\Controller\Traits\HasEntityUpdate;
@@ -25,5 +26,5 @@ use Phproberto\Joomla\Entity\MVC\Controller\Traits\HasAssociatedEntity;
  */
 class ControllerWithEntityCRUD extends BaseController
 {
-	use HasEntityCreate, HasEntityDelete, HasEntityUpdate, HasAssociatedEntity;
+	use HasEntityCreate, HasEntityDelete, HasEntityUpdate, HasEntitySave, HasAssociatedEntity;
 }

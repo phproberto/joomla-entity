@@ -143,4 +143,17 @@ trait HasState
 	{
 		return (int) $this->get($this->columnAlias(CoreColumn::STATE));
 	}
+
+	/**
+	 * Get the name of the entity state.
+	 *
+	 * @return  string
+	 */
+	public function stateName()
+	{
+		$state = $this->state();
+		$availableStates = $this->availableStates();
+
+		return isset($availableStates[$state]) ? $availableStates[$state] : '';
+	}
 }

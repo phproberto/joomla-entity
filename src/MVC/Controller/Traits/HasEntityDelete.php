@@ -11,6 +11,8 @@ namespace Phproberto\Joomla\Entity\MVC\Controller\Traits;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Phproberto\Joomla\Entity\MVC\Request;
 use Phproberto\Joomla\Entity\MVC\JSONResponse;
@@ -126,13 +128,15 @@ trait HasEntityDelete
 	abstract public function entityClassOrFail();
 
 	/**
-	 * Delete one or more entities.
+	 * Delete one or more entities..
+	 *
+	 * @param   string  $method  Request method where the token is expected
 	 *
 	 * @return  boolean
 	 */
-	public function entityDelete()
+	public function delete(string $method = 'get')
 	{
-		Request::active()->validateHasToken('get');
+		Request::active()->validateHasToken($method);
 
 		$idRequestVar = $this->entityPrimaryKeyOnUrl();
 		$ids = ArrayHelper::toPositiveIntegers($this->input->get($idRequestVar, [], 'array'));
@@ -153,7 +157,7 @@ trait HasEntityDelete
 
 			if (!$this->activeUserCanDeleteEntity($entity))
 			{
-				Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
+				$error = Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED');
 				$this->setMessage($error, 'error');
 
 				return false;
@@ -174,6 +178,8 @@ trait HasEntityDelete
 
 		$this->setRedirect($this->entityDeleteReturnOk());
 		$this->setMessage(Text::plural($this->{'text_prefix'} . '_N_ITEMS_DELETED', count($ids)));
+
+		return true;
 	}
 
 	/**
@@ -190,7 +196,7 @@ trait HasEntityDelete
 			return base64_decode($url);
 		}
 
-		return $this->entityCreateReturnOk();
+		return $this->entityDeleteReturnOk();
 	}
 
 	/**

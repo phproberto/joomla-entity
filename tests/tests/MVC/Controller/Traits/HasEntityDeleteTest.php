@@ -49,7 +49,7 @@ class HasajaxEntityDeleteTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function ajaxEntityDeleteReturnsErrorForMissingCid()
+	public function ajaxEntityDeleteReturnsErrorForMissingIds()
 	{
 		$this->setupRequestWithTokenAndAjaxHeader();
 
@@ -154,6 +154,136 @@ class HasajaxEntityDeleteTest extends \TestCaseDatabase
 
 		$this->assertTrue(strlen($error) > 0);
 		$this->assertSame(json_encode($ids), $output);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function entityDeleteTrhowsExceptionForMissingToken()
+	{
+		$controller = new ControllerWithEntityCRUD;
+		$error = '';
+
+		try
+		{
+			$controller->entityDelete();
+		}
+		catch (\Exception $e)
+		{
+			$error = $e->getMessage();
+		}
+
+		$this->assertTrue(substr_count($error, 'None or invalid token received') > 0);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function entityDeleteReturnsErrorForMissingIds()
+	{
+		$this->setupRequestWithToken('post');
+
+		$returnError = 'index.php?option=com_content&error=yes';
+
+		Factory::getApplication()->input->set('returnError', base64_encode($returnError));
+
+		$controller = new ControllerWithEntityCRUD;
+
+		$reflection = new \ReflectionClass($controller);
+		$messageProperty = $reflection->getProperty('message');
+		$messageProperty->setAccessible(true);
+		$redirectProperty = $reflection->getProperty('redirect');
+		$redirectProperty->setAccessible(true);
+
+		$this->assertFalse($controller->entityDelete());
+
+		$this->assertSame('JERROR_NO_ITEMS_SELECTED', $messageProperty->getValue($controller));
+		$this->assertSame($returnError, $redirectProperty->getValue($controller));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function entityDeleteReturnsErrorForPermissionDenied()
+	{
+		$this->setupRequestWithToken('post');
+
+		$ids = [1, 2, 5];
+		$returnError = 'index.php?option=com_content&error=yes';
+
+		Factory::getApplication()->input->set('id', $ids);
+		Factory::getApplication()->input->set('returnError', base64_encode($returnError));
+
+		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
+			->setMethods(['activeUserCanDeleteEntity', 'entityClassOrFail'])
+			->getMock();
+
+		$controller->method('entityClassOrFail')
+			->willReturn(Article::class);
+
+		$controller->method('activeUserCanDeleteEntity')
+			->will($this->onConsecutiveCalls(true, true, false));
+
+		$reflection = new \ReflectionClass($controller);
+		$messageProperty = $reflection->getProperty('message');
+		$messageProperty->setAccessible(true);
+		$redirectProperty = $reflection->getProperty('redirect');
+		$redirectProperty->setAccessible(true);
+
+		$this->assertFalse($controller->entityDelete());
+
+		$this->assertSame('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', $messageProperty->getValue($controller));
+		$this->assertSame($returnError, $redirectProperty->getValue($controller));
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function entityDeleteReturnsErrorForDeleteException()
+	{
+		$this->setupRequestWithToken('post');
+
+		$ids = [2, 5];
+
+		$returnOk = 'index.php?option=com_content&error=no';
+		$returnError = 'index.php?option=com_content&error=yes';
+
+		Factory::getApplication()->input->set('id', $ids);
+		Factory::getApplication()->input->set('return', base64_encode($returnOk));
+		Factory::getApplication()->input->set('returnError', base64_encode($returnError));
+
+		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
+			->setMethods(['activeUserCanDeleteEntity', 'entityClassOrFail'])
+			->getMock();
+
+		$controller->method('entityClassOrFail')
+			->willReturn(Article::class);
+
+		$controller->method('activeUserCanDeleteEntity')
+			->willReturn(true);
+
+		$controller->option = 'com_phproberto';
+		$controller->context = 'my-context';
+		$controller->{'text_prefix'} = 'LIB_JOOMLA_ENTITY';
+
+		$reflection = new \ReflectionClass($controller);
+		$messageProperty = $reflection->getProperty('message');
+		$messageProperty->setAccessible(true);
+		$redirectProperty = $reflection->getProperty('redirect');
+		$redirectProperty->setAccessible(true);
+
+		$this->assertTrue($controller->entityDelete());
+
+		$this->assertSame('LIB_JOOMLA_ENTITY_N_ITEMS_DELETED', $messageProperty->getValue($controller));
+		$this->assertSame($returnOk, $redirectProperty->getValue($controller));
 	}
 
 	/**
