@@ -57,6 +57,49 @@ trait HasAssociatedEntity
 	}
 
 	/**
+	 * Retrieve entity class and fail if it does not exist.
+	 *
+	 * @return  string
+	 *
+	 * @throws  \RuntimeException
+	 */
+	public function entityClassOrFail()
+	{
+		$class = $this->entityClass();
+
+		if (!class_exists($class))
+		{
+			throw new \RuntimeException(sprintf("Entity class not found `%s`", $class));
+		}
+
+		return $class;
+	}
+
+	/**
+	 * Retrieve an instance of the associated entity.
+	 *
+	 * @param   integer  $id  Identifier
+	 *
+	 * @return  EntityInterface
+	 */
+	public function entityInstance(int $id = null)
+	{
+		$entityClass = $this->entityClassOrFail();
+
+		return $id ? $entityClass::find($id) : new $entityClass;
+	}
+
+	/**
+	 * URL parameters containing primary key value(s).
+	 *
+	 * @return  string
+	 */
+	public function entityPrimaryKeyOnUrl()
+	{
+		return 'id';
+	}
+
+	/**
 	 * Retrieve an entity from the request.
 	 *
 	 * @param   string  $primaryKey  Column storing entity identifier. Defaults to entity primary key.

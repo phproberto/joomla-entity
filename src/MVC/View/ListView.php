@@ -10,15 +10,15 @@ namespace Phproberto\Joomla\Entity\MVC\View;
 
 defined('_JEXEC') || die;
 
-use SEC\View\HTMLView;
 use Joomla\String\Inflector;
-use SEC\Contract\AssociatedEntity;
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\MVC\View\HTMLView;
+use Phproberto\Joomla\Entity\Contracts\AssociatedEntity;
 
 /**
  * Base list view.
  *
- * @since  1.0.1
+ * @since  __DEPLOY_VERSION__
  */
 abstract class ListView extends HTMLView
 {

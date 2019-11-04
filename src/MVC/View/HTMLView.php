@@ -18,17 +18,17 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\View\HtmlView as BaseView;
 use Phproberto\Joomla\Entity\Extensions\Entity\Component;
 use Phproberto\Joomla\Entity\Extensions\Entity\Traits\HasComponent;
-use Phproberto\Joomla\Twig\Twig;
 use Phproberto\Joomla\Entity\Traits;
+use Phproberto\Joomla\Twig\Twig;
 
 /**
  * Base HTML view.
  *
- * @since  1.0.1
+ * @since  __DEPLOY_VERSION__
  */
 abstract class HTMLView extends BaseView
 {
-	use HasComponent, Traits\HasLayoutData, Traits\HasMessages, Traits\HasRedirect;
+	use Traits\HasApp, HasComponent, Traits\HasLayoutData, Traits\HasMessages, Traits\HasRedirect;
 
 	/**
 	 * Allow to check access to the view in child classes.

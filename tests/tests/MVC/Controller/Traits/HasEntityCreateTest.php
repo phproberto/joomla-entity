@@ -130,7 +130,7 @@ class HasEntityCreateTest extends \TestCaseDatabase
 			->method('save');
 
 		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
-			->setMethods(['entityInstance', 'entitySaveDataFromRequest'])
+			->setMethods(['entityInstance', 'entityCreateDataFromRequest'])
 			->getMock();
 
 		$controller->expects($this->once())
@@ -138,7 +138,7 @@ class HasEntityCreateTest extends \TestCaseDatabase
 			->willReturn($entity);
 
 		$controller->expects($this->once())
-			->method('entitySaveDataFromRequest')
+			->method('entityCreateDataFromRequest')
 			->willReturn($requestData);
 
 		$controller->option = 'com_phproberto';
@@ -159,267 +159,18 @@ class HasEntityCreateTest extends \TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function entityCreateTrhowsExceptionForMissingToken()
-	{
-		$controller = new ControllerWithEntityCRUD;
-		$error = '';
-
-		try
-		{
-			$controller->entityCreate();
-		}
-		catch (\Exception $e)
-		{
-			$error = $e->getMessage();
-		}
-
-		$this->assertTrue(substr_count($error, 'None or invalid token received') > 0);
-	}
-
-	/**
-	 * @test
-	 *
-	 * @return void
-	 */
-	public function entityCreateAssignsOwnerForOwnerableEntities()
-	{
-		$this->setupRequestWithToken();
-
-		$requestData = [
-			'name' => 'Test entity'
-		];
-
-		$activeUser = new User(53);
-		$reflection = new \ReflectionClass(User::class);
-		$activeProperty = $reflection->getProperty('active');
-		$activeProperty->setAccessible(true);
-		$activeProperty->setValue(User::class, $activeUser);
-
-		$entity = $this->getMockBuilder(Ownerable::class)
-			->setMethods(
-				[
-					'assign', 'bind', 'columnAlias', 'hasOwner', 'isOwner', 'owner', 'primaryKey', 'save'
-				]
-			)
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('primaryKey')
-			->willReturn('id');
-
-		$entity->expects($this->once())
-			->method('bind')
-			->with($this->equalTo($requestData));
-
-		$entity->expects($this->once())
-			->method('columnAlias')
-			->with($this->equalTo(UsersColumn::OWNER))
-			->willReturn(UsersColumn::OWNER);
-
-		$entity->expects($this->once())
-			->method('assign')
-			->with($this->equalTo(UsersColumn::OWNER), $this->equalTo($activeUser->id()));
-
-		$entity->expects($this->once())
-			->method('save');
-
-		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
-			->setMethods(['entityInstance', 'entityCreateDataFromRequest'])
-			->getMock();
-
-		$controller->expects($this->once())
-			->method('entityInstance')
-			->willReturn($entity);
-
-		$controller->expects($this->once())
-			->method('entityCreateDataFromRequest')
-			->willReturn($requestData);
-
-		$controller->option = 'com_phproberto';
-		$controller->context = 'my-context';
-		$controller->{'text_prefix'} = 'LIB_JOOMLA_ENTITY_';
-
-		$app = Factory::getApplication();
-		$app->expects($this->once())
-			->method('setUserState')
-			->with($this->equalTo($this->userStateContext), $this->equalTo(null));
-
-		$this->assertTrue($controller->entityCreate());
-
-		$reflection = new \ReflectionClass($controller);
-		$messageProperty = $reflection->getProperty('message');
-		$messageProperty->setAccessible(true);
-
-		$this->assertSame('JLIB_APPLICATION_SAVE_SUCCESS', $messageProperty->getValue($controller));
-	}
-
-	/**
-	 * @test
-	 *
-	 * @return void
-	 */
 	public function entityCreateDataFromRequestReturnsModelFormControl()
 	{
-		$formControl = 'jform';
 		$requestData = [
 			'id'   => 12,
 			'name' => 'Test entity'
 		];
 
-		Factory::getApplication()->input->post->set($formControl, $requestData);
+		Factory::getApplication()->input->post->set('entity', $requestData);
 
-		$model = $this->getMockBuilder('Model')
-			->setMethods(['formControl'])
-			->getMock();
-
-		$model->expects($this->once())
-			->method('formControl')
-			->willReturn($formControl);
-
-		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
-			->setMethods(['getModel'])
-			->getMock();
-
-		$controller->expects($this->once())
-			->method('getModel')
-			->willReturn($model);
+		$controller = new ControllerWithEntityCRUD;
 
 		$this->assertSame($requestData, $controller->entityCreateDataFromRequest());
-	}
-
-	/**
-	 * @test
-	 *
-	 * @return void
-	 */
-	public function entityCreateReturnsFalseOnSaveException()
-	{
-		$this->setupRequestWithToken();
-
-		$requestData = [
-			'name' => 'Test entity'
-		];
-
-		$saveError = 'My error message';
-
-		$entity = $this->getMockBuilder(EntityInterface::class)
-			->setMethods(['bind', 'primaryKey', 'save'])
-			->getMock();
-
-		$entity->expects($this->once())
-			->method('primaryKey')
-			->willReturn('id');
-
-		$entity->expects($this->once())
-			->method('bind')
-			->with($this->equalTo($requestData));
-
-		$entity->expects($this->once())
-			->method('save')
-			->willThrowException(new \Exception($saveError));
-
-		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
-			->setMethods(['entityInstance', 'entityCreateDataFromRequest'])
-			->getMock();
-
-		$controller->expects($this->once())
-			->method('entityInstance')
-			->willReturn($entity);
-
-		$controller->expects($this->once())
-			->method('entityCreateDataFromRequest')
-			->willReturn($requestData);
-
-		$controller->option = 'com_phproberto';
-		$controller->context = 'my-context';
-		$controller->{'text_prefix'} = 'LIB_JOOMLA_ENTITY_';
-
-		$app = Factory::getApplication();
-		$app->expects($this->once())
-			->method('setUserState')
-			->with($this->equalTo($this->userStateContext), $this->equalTo($requestData));
-
-		$this->assertFalse($controller->entityCreate());
-
-		$reflection = new \ReflectionClass($controller);
-		$messageProperty = $reflection->getProperty('message');
-		$messageProperty->setAccessible(true);
-
-		$this->assertSame($saveError, $messageProperty->getValue($controller));
-	}
-
-	/**
-	 * @test
-	 *
-	 * @return void
-	 */
-	public function entityCreateReturnsCorrectValueBasedOnCanCreate()
-	{
-		$this->setupRequestWithToken();
-
-		$requestData = [
-			'name' => 'Test entity'
-		];
-
-		$acl = $this->getMockBuilder('Acl')
-			->setMethods(['canCreate'])
-			->getMock();
-
-		$acl->expects($this->exactly(2))
-			->method('canCreate')
-			->will($this->onConsecutiveCalls(true, false));
-
-		$entity = $this->getMockBuilder(Aclable::class)
-			->setMethods(['bind', 'acl', 'aclPrefix', 'aclAssetName', 'primaryKey', 'save'])
-			->getMock();
-
-		$entity->expects($this->exactly(2))
-			->method('primaryKey')
-			->willReturn('id');
-
-		$entity->expects($this->exactly(2))
-			->method('bind')
-			->with($this->equalTo($requestData));
-
-		$entity->expects($this->exactly(2))
-			->method('acl')
-			->willReturn($acl);
-
-		$controller = $this->getMockBuilder(ControllerWithEntityCRUD::class)
-			->setMethods(['entityInstance', 'entityCreateDataFromRequest'])
-			->getMock();
-
-		$controller->expects($this->exactly(2))
-			->method('entityInstance')
-			->willReturn($entity);
-
-		$controller->expects($this->exactly(2))
-			->method('entityCreateDataFromRequest')
-			->willReturn($requestData);
-
-		$controller->option = 'com_phproberto';
-		$controller->context = 'my-context';
-		$controller->{'text_prefix'} = 'LIB_JOOMLA_ENTITY_';
-
-		$app = Factory::getApplication();
-		$app->expects($this->at(0))
-			->method('setUserState')
-			->withConsecutive(
-				[$this->equalTo($this->userStateContext), $this->equalTo(null)],
-				[$this->equalTo($this->userStateContext), $this->equalTo($requestData)]
-			);
-
-		// $acl->canCreate() returns true
-		$this->assertTrue($controller->entityCreate());
-
-		// $acl->canCreate() returns false
-		$this->assertFalse($controller->entityCreate());
-
-		$reflection = new \ReflectionClass($controller);
-		$messageProperty = $reflection->getProperty('message');
-		$messageProperty->setAccessible(true);
-
-		$this->assertSame('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED', $messageProperty->getValue($controller));
 	}
 
 	/**

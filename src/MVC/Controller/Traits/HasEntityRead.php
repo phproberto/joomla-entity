@@ -34,11 +34,13 @@ trait HasEntityRead
 	/**
 	 * Entity read
 	 *
+	 * @param   string  $method  Request method where the token is expected
+	 *
 	 * @return  void
 	 */
-	public function entityRead()
+	public function entityRead(string $method = 'get')
 	{
-		Request::active()->validateHasToken('get');
+		Request::active()->validateHasToken($method);
 		$app = Factory::getApplication();
 
 		$id = $this->input->getInt($this->entityInstance()->primaryKey());
