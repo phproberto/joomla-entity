@@ -10,8 +10,6 @@ namespace Phproberto\Joomla\Entity\Tests\Searcher;
 
 defined('_JEXEC') || die;
 
-use Joomla\CMS\Factory;
-use Phproberto\Joomla\Entity\Collection;
 use Phproberto\Joomla\Entity\Searcher\BaseSearcher;
 use Phproberto\Joomla\Entity\Tests\Searcher\Stubs\Searcher;
 

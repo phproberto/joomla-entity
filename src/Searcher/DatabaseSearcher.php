@@ -11,7 +11,9 @@ namespace Phproberto\Joomla\Entity\Searcher;
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Pagination\Pagination;
 use Phproberto\Joomla\Entity\Searcher\BaseSearcher;
+use Phproberto\Joomla\Entity\MVC\Model\Traits\HasStaticCache;
 
 /**
  * Database finder.
@@ -20,6 +22,8 @@ use Phproberto\Joomla\Entity\Searcher\BaseSearcher;
  */
 abstract class DatabaseSearcher extends BaseSearcher
 {
+	use HasStaticCache;
+
 	/**
 	 * Database driver.
 	 *
@@ -34,9 +38,52 @@ abstract class DatabaseSearcher extends BaseSearcher
 	 */
 	public function __construct(array $options = [])
 	{
-		parent::__construct($options);
+		$this->db = isset($options['db']) ? $options['db'] : Factory::getDbo();
 
-		$this->db = $this->options->get('db', Factory::getDbo());
+		unset($options['db']);
+		parent::__construct($options);
+	}
+
+	/**
+	 * [cacheHash description]
+	 *
+	 * @param   [type]  $prefix  [description]
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function cacheHash($prefix)
+	{
+		$prefix = $prefix ? $prefix : get_class($this);
+
+		$options = $this->options->toArray();
+
+		ksort($options);
+
+		return md5($prefix . ':' . json_encode($options));
+	}
+
+	/**
+	 * Count of found items. Basically a copy of:
+	 * Joomla\CMS\MVC\Model\BaseDatabaseModel::_getListCount()
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function count()
+	{
+		$staticCache = &$this->getStaticCache();
+
+		$hash = $this->cacheHash('count');
+
+		if (!isset($staticCache[$hash]))
+		{
+			$staticCache[$hash] = $this->loadCount();
+		}
+
+		return $staticCache[$hash];
 	}
 
 	/**
@@ -46,10 +93,75 @@ abstract class DatabaseSearcher extends BaseSearcher
 	 */
 	public function defaultOptions()
 	{
-		return [
-			'list.start' => 0,
-			'list.limit' => 20
-		];
+		return array_merge(
+			parent::defaultOptions(),
+			[
+				'list.start' => 0,
+				'list.limit' => 20
+			]
+		);
+	}
+
+	/**
+	 * Number of items to retrieve in the search.
+	 *
+	 * @return  integer
+	 */
+	public function limit()
+	{
+		return (int) $this->options->get('list.limit', 20);
+	}
+
+	/**
+	 * Load the count of items in the search.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadCount()
+	{
+		$query = $this->searchQuery();
+
+		// Use fast COUNT(*) on \JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
+		if ($query instanceof \JDatabaseQuery
+			&& $query->type == 'select'
+			&& $query->group === null
+			&& $query->union === null
+			&& $query->unionAll === null
+			&& $query->having === null)
+		{
+			$query = clone $query;
+			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
+
+			$this->db->setQuery($query);
+
+			return (int) $this->db->loadResult();
+		}
+
+		// Otherwise fall back to inefficient way of counting all results.
+
+		// Remove the limit and offset part if it's a \JDatabaseQuery object
+		if ($query instanceof \JDatabaseQuery)
+		{
+			$query = clone $query;
+			$query->clear('limit')->clear('offset');
+		}
+
+		$this->db->setQuery($query);
+		$this->db->execute();
+
+		return (int) $this->db->getNumRows();
+	}
+
+	/**
+	 * Pagination object.
+	 *
+	 * @return  Pagination
+	 */
+	public function pagination()
+	{
+		return new Pagination($this->count(), $this->start(), $this->limit());
 	}
 
 	/**
@@ -66,12 +178,44 @@ abstract class DatabaseSearcher extends BaseSearcher
 	 */
 	public function search()
 	{
-		$this->db->setQuery(
-			$this->searchQuery(),
-			(int) $this->options->get('list.start'),
-			(int) $this->options->get('list.limit', 20)
-		);
+		$staticCache = &$this->getStaticCache();
 
-		return $this->db->loadAssocList() ?: [];
+		$hash = $this->cacheHash('search');
+
+		if (!isset($staticCache[$hash]))
+		{
+			$this->db->setQuery(
+				$this->searchQuery(),
+				$this->start(),
+				$this->limit()
+			);
+
+			$staticCache[$hash] = $this->db->loadAssocList() ?: [];
+		}
+
+		return $staticCache[$hash];
+	}
+
+	/**
+	 * Get the starting item.
+	 *
+	 * @return  integer
+	 */
+	public function start()
+	{
+		$start = (int) $this->options->get('list.start');
+
+		if ($start > 0)
+		{
+			$limit = $this->limit();
+			$total = $this->count();
+
+			if ($start > $total - $limit)
+			{
+				$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
+			}
+		}
+
+		return (int) $start;
 	}
 }
