@@ -75,18 +75,14 @@ abstract class ListModel extends BaseListModel implements ModelWithStateInterfac
 	 */
 	public function getItems(): array
 	{
-		$staticCache = &$this->getStaticCache();
+		$key = $this->getStateHash('getItems');
 
-		$hash = $this->getStateHash();
-
-		if (isset($staticCache[$hash]))
+		if (!$this->hasInStaticCache($key))
 		{
-			return $staticCache[$hash];
+			$this->storeInStaticCache($key, parent::getItems());
 		}
 
-		$staticCache[$hash] = parent::getItems() ?: [];
-
-		return $staticCache[$hash];
+		return $this->getFromStaticCache($key);
 	}
 
 	/**
