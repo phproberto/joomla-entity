@@ -20,11 +20,59 @@ use Phproberto\Joomla\Entity\Searcher\DatabaseSearcher;
 class SampleDatabaseSearcher extends DatabaseSearcher
 {
 	/**
+	 * Mocked cache hash.
+	 *
+	 * @var  array
+	 */
+	public $mockedCacheHash = [];
+
+	/**
 	 * Mocked search query.
 	 *
 	 * @var  \JDatabaseQuery
 	 */
-	public $searchQuery;
+	public $mockedSearchQuery;
+
+	/**
+	 * Mocked static cache.
+	 *
+	 * @var  array
+	 */
+	public $mockedStaticCache;
+
+	/**
+	 * Get the hash for a prefix.
+	 *
+	 * @param   string  $prefix  Prefix to use to generate a custom hash.
+	 *
+	 * @return string
+	 */
+	protected function cacheHash($prefix)
+	{
+		$prefix = $prefix ? $prefix : get_class($this);
+
+		if (array_key_exists($prefix, $this->mockedCacheHash))
+		{
+			return $this->mockedCacheHash[$prefix];
+		}
+
+		return parent::cacheHash($prefix);
+	}
+
+	/**
+	 * Gets static cache for this class
+	 *
+	 * @return  array
+	 */
+	protected function &getStaticCache(): array
+	{
+		if ($this->mockedStaticCache)
+		{
+			return $this->mockedStaticCache;
+		}
+
+		return parent::getStaticCache();
+	}
 
 	/**
 	 * Retrieve the search query.
@@ -33,9 +81,9 @@ class SampleDatabaseSearcher extends DatabaseSearcher
 	 */
 	public function searchQuery()
 	{
-		if (null !== $this->searchQuery)
+		if ($this->mockedSearchQuery)
 		{
-			return $this->searchQuery;
+			return $this->mockedSearchQuery;
 		}
 
 		return $this->db->getQuery(true);

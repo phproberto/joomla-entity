@@ -78,12 +78,8 @@ class DatabaseSearcherTest extends \TestCaseDatabase
 
 		$db = $this->getMockBuilder(\JDatabaseDriver::class)
 			->disableOriginalConstructor()
-			->setMethods(['setQuery', 'loadAssocList'])
+			->setMethods(['loadAssocList'])
 			->getMockForAbstractClass();
-
-		$db->expects($this->once())
-			->method('setQuery')
-			->with($query, $options['list.start'], $options['list.limit']);
 
 		$items = [
 			['id' => 1, 'name' => 'first item'],
@@ -97,9 +93,36 @@ class DatabaseSearcherTest extends \TestCaseDatabase
 		$options['db'] = $db;
 
 		$searcher = new SampleDatabaseSearcher($options);
-		$searcher->searchQuery = $query;
+		$searcher->mockedSearchQuery = $query;
 
 		$this->assertSame($items, $searcher->search());
+	}
 
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function searchReturnsReturnsCachedResults()
+	{
+		$cacheHash = 'myhash';
+
+		$searcher = new SampleDatabaseSearcher;
+		$searcher->mockedCacheHash['search'] = $cacheHash;
+
+		$reflection = new \ReflectionClass($searcher);
+		$method = $reflection->getMethod('storeInStaticCache');
+		$method->setAccessible(true);
+
+		$cachedContent = [
+			[
+				'id' => 12,
+				'name' => 'A search result'
+			]
+		];
+
+		$method->invoke($searcher, $cacheHash, $cachedContent);
+
+		$this->assertSame(12, $searcher->search()[0]['id']);
 	}
 }
