@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Pagination\Pagination;
 use Phproberto\Joomla\Entity\Searcher\BaseSearcher;
-use Phproberto\Joomla\Entity\MVC\Model\Traits\HasStaticCache;
+use Phproberto\Joomla\Entity\Traits\HasStaticCache;
 
 /**
  * Database finder.
@@ -45,9 +45,9 @@ abstract class DatabaseSearcher extends BaseSearcher
 	}
 
 	/**
-	 * [cacheHash description]
+	 * Get the hash for a prefix.
 	 *
-	 * @param   [type]  $prefix  [description]
+	 * @param   string  $prefix  Prefix to use to generate a custom hash.
 	 *
 	 * @return string
 	 *
@@ -64,6 +64,8 @@ abstract class DatabaseSearcher extends BaseSearcher
 		return md5($prefix . ':' . json_encode($options));
 	}
 
+
+
 	/**
 	 * Count of found items. Basically a copy of:
 	 * Joomla\CMS\MVC\Model\BaseDatabaseModel::_getListCount()
@@ -74,16 +76,9 @@ abstract class DatabaseSearcher extends BaseSearcher
 	 */
 	public function count()
 	{
-		$staticCache = &$this->getStaticCache();
+		$key = $this->cacheHash('count');
 
-		$hash = $this->cacheHash('count');
-
-		if (!isset($staticCache[$hash]))
-		{
-			$staticCache[$hash] = $this->loadCount();
-		}
-
-		return $staticCache[$hash];
+		return $this->getFromStaticCacheOrStore($key, [$this, 'loadCount']);
 	}
 
 	/**
@@ -178,22 +173,25 @@ abstract class DatabaseSearcher extends BaseSearcher
 	 */
 	public function search()
 	{
-		$staticCache = &$this->getStaticCache();
+		$key = $this->cacheHash('search');
 
-		$hash = $this->cacheHash('search');
+		return $this->getFromStaticCacheOrStore($key, [$this, 'searchFresh']);
+	}
 
-		if (!isset($staticCache[$hash]))
-		{
-			$this->db->setQuery(
-				$this->searchQuery(),
-				$this->start(),
-				$this->limit()
-			);
+	/**
+	 * Search without using cache.
+	 *
+	 * @return  array
+	 */
+	public function searchFresh()
+	{
+		$this->db->setQuery(
+			$this->searchQuery(),
+			$this->start(),
+			$this->limit()
+		);
 
-			$staticCache[$hash] = $this->db->loadAssocList() ?: [];
-		}
-
-		return $staticCache[$hash];
+		return $this->db->loadAssocList() ?: [];
 	}
 
 	/**

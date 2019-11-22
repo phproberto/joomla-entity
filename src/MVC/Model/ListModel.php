@@ -13,10 +13,10 @@ defined('_JEXEC') || die;
 use Joomla\CMS\MVC\Model\ListModel as BaseListModel;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasSearch;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasContext;
-use Phproberto\Joomla\Entity\MVC\Model\Traits\HasStaticCache;
 use Phproberto\Joomla\Entity\MVC\Model\ModelWithStateInterface;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasFilteredState;
 use Phproberto\Joomla\Entity\MVC\Model\Traits\HasQueryModifiers;
+use Phproberto\Joomla\Entity\Traits\HasStaticCache;
 
 /**
  * Base list model.
