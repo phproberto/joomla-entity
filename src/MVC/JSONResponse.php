@@ -28,7 +28,14 @@ final class JSONResponse
 	 *
 	 * @var  array
 	 */
-	protected $data;
+	protected $data = [];
+
+	/**
+	 * Error message.
+	 *
+	 * @var  string
+	 */
+	protected $errorMessage;
 
 	/**
 	 * Status code.
@@ -80,6 +87,16 @@ final class JSONResponse
 	}
 
 	/**
+	 * Get the error message.
+	 *
+	 * @return  integer
+	 */
+	public function getErrorMessage(): string
+	{
+		return $this->errorMessage;
+	}
+
+	/**
 	 * Get the status code.
 	 *
 	 * @return  integer
@@ -87,16 +104,6 @@ final class JSONResponse
 	public function getStatusCode(): int
 	{
 		return $this->statusCode;
-	}
-
-	/**
-	 * Get the status text.
-	 *
-	 * @return  integer
-	 */
-	public function getStatusText(): string
-	{
-		return $this->statusText;
 	}
 
 	/**
@@ -111,7 +118,20 @@ final class JSONResponse
 		$this->app->setHeader('status', $this->statusCode);
 		$this->app->sendHeaders();
 
-		echo ($this->data ? json_encode($this->data) : $this->statusText);
+		if (ResponseStatus::OK !== $this->statusCode)
+		{
+			$this->data = array_merge(
+				[
+					'error' => [
+						'code'    => $this->statusCode,
+						'message' => $this->errorMessage
+					]
+				],
+				$this->data
+			);
+		}
+
+		echo json_encode($this->data);
 
 		$this->app->close();
 	}
@@ -131,6 +151,20 @@ final class JSONResponse
 	}
 
 	/**
+	 * Set the error message text.
+	 *
+	 * @param   string  $text  Error text
+	 *
+	 * @return  self
+	 */
+	public function setErrorMessage(string $text)
+	{
+		$this->errorMessage = $text;
+
+		return $this;
+	}
+
+	/**
 	 * Set the status code.
 	 *
 	 * @param   int  $code  HTTP status code
@@ -140,20 +174,6 @@ final class JSONResponse
 	public function setStatusCode(int $code)
 	{
 		$this->statusCode = $code;
-
-		return $this;
-	}
-
-	/**
-	 * Set the status text.
-	 *
-	 * @param   string  $text  Status text
-	 *
-	 * @return  self
-	 */
-	public function setStatusText(string $text)
-	{
-		$this->statusText = $text;
 
 		return $this;
 	}
