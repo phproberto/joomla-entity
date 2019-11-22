@@ -87,7 +87,7 @@ trait HasEntityDelete
 		if (!$ids)
 		{
 			return $response->setStatusCode(400)
-				->setStatusText(Text::_('JERROR_NO_ITEMS_SELECTED'))
+				->setErrorMessage(Text::_('JERROR_NO_ITEMS_SELECTED'))
 				->send();
 		}
 
@@ -97,8 +97,8 @@ trait HasEntityDelete
 
 			if (!$this->activeUserCanDeleteEntity($entity))
 			{
-				return $response->setStatusCode(400)
-					->setStatusText(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'))
+				return $response->setStatusCode(403)
+					->setErrorMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'))
 					->send();
 			}
 		}
@@ -111,7 +111,7 @@ trait HasEntityDelete
 		catch (\Exception $e)
 		{
 			return $response->setStatusCode(500)
-				->setStatusText($e->getMessage())
+				->setErrorMessage($e->getMessage())
 				->send();
 		}
 
@@ -134,7 +134,7 @@ trait HasEntityDelete
 	 *
 	 * @return  boolean
 	 */
-	public function delete(string $method = 'get')
+	public function entityDelete(string $method = 'get')
 	{
 		Request::active()->validateHasToken($method);
 

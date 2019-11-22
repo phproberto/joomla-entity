@@ -81,7 +81,7 @@ trait HasEntityCreate
 		if ($entity instanceof Aclable && !$entity->acl()->canCreate())
 		{
 			return $response->setStatusCode(403)
-				->setStatusText(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'))
+				->setErrorMessage(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'))
 				->send();
 		}
 
@@ -92,13 +92,13 @@ trait HasEntityCreate
 		catch (SaveException $e)
 		{
 			return $response->setStatusCode(500)
-				->setStatusText($e->getMessage())
+				->setErrorMessage($e->getMessage())
 				->send();
 		}
 		catch (ValidationException $e)
 		{
 			return $response->setStatusCode(400)
-				->setStatusText($e->getMessage())
+				->setErrorMessage($e->getMessage())
 				->send();
 		}
 
