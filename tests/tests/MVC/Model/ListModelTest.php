@@ -88,7 +88,7 @@ class ListModelTest extends \TestCaseDatabase
 
 		$expected = [
 			SampleListModel::class => [
-				'8b9c5667aa1027c7978b9148e5e8ba68' => $items
+				'5f785a00023e8e2292fd438d10a0b783' => $items
 			]
 		];
 
@@ -102,6 +102,8 @@ class ListModelTest extends \TestCaseDatabase
 	 */
 	public function getItemsReturnsStaticCache()
 	{
+		$cacheKey = '5f785a00023e8e2292fd438d10a0b783';
+
 		$items = [
 			[
 				'id' => 222,
@@ -109,17 +111,11 @@ class ListModelTest extends \TestCaseDatabase
 			]
 		];
 
-		$staticCache = [
-			SampleListModel::class => [
-				'8b9c5667aa1027c7978b9148e5e8ba68' => $items
-			]
-		];
-
 		$reflection = new \ReflectionClass(ListModel::class);
-		$staticCacheProperty = $reflection->getProperty('staticCache');
-		$staticCacheProperty->setAccessible(true);
+		$method = $reflection->getMethod('storeInStaticCache');
+		$method->setAccessible(true);
 
-		$staticCacheProperty->setValue(ListModel::class, $staticCache);
+		$method->invoke($this->model, $cacheKey, $items);
 
 		$this->assertEquals($items, $this->model->getItems());
 	}
