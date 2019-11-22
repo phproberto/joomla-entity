@@ -39,7 +39,7 @@ class UserSearchTest extends \TestCaseDatabase
 						'filter.blocked' => 0,
 						'list.limit'   => 0
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -56,7 +56,7 @@ class UserSearchTest extends \TestCaseDatabase
 						'filter.blocked' => 1,
 						'list.limit'   => 0
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -85,7 +85,7 @@ class UserSearchTest extends \TestCaseDatabase
 	{
 		$users = UserSearch::instance(
 			['filter.group' => 5, 'list.limit' => 0]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(1, count($users));
 		$this->assertSame(816, (int) $users[0]['id']);
@@ -98,7 +98,7 @@ class UserSearchTest extends \TestCaseDatabase
 				},
 				UserSearch::instance(
 					['filter.group' => [6,8], 'list.limit' => 0]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -115,7 +115,7 @@ class UserSearchTest extends \TestCaseDatabase
 	{
 		$users = UserSearch::instance(
 			['filter.not_group' => 5, 'list.limit' => 0]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(2, count($users));
 		$this->assertSame(817, (int) $users[0]['id']);
@@ -129,7 +129,7 @@ class UserSearchTest extends \TestCaseDatabase
 				},
 				UserSearch::instance(
 					['filter.not_group' => [6,8], 'list.limit' => 0]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -146,21 +146,21 @@ class UserSearchTest extends \TestCaseDatabase
 	{
 		$users = UserSearch::instance(
 			['filter.search' => 'Super User', 'list.limit' => 0]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(1, count($users));
 		$this->assertSame(815, (int) $users[0]['id']);
 
 		$users = UserSearch::instance(
 			['filter.search' => 'my-name', 'list.limit' => 0]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(1, count($users));
 		$this->assertSame(817, (int) $users[0]['id']);
 
 		$users = UserSearch::instance(
 			['filter.search' => 'me+sample', 'list.limit' => 0]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(1, count($users));
 		$this->assertSame(816, (int) $users[0]['id']);

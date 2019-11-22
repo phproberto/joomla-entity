@@ -31,7 +31,7 @@ class CategorySearchTest extends \TestCaseDatabase
 			[
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($categories));
 
@@ -88,7 +88,7 @@ class CategorySearchTest extends \TestCaseDatabase
 				'filter.tag_id' => 2,
 				'list.limit'   => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(1, count($categories));
 		$this->assertSame(14, (int) $categories[0]['id']);
