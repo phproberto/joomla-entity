@@ -59,9 +59,10 @@ class HasajaxEntityDeleteTest extends \TestCaseDatabase
 
 		$controller->ajaxEntityDelete();
 
-		$output = ob_get_clean();
+		$response = json_decode(ob_get_clean());
 
-		$this->assertSame('JERROR_NO_ITEMS_SELECTED', $output);
+		$this->assertSame(400, $response->error->code);
+		$this->assertSame('JERROR_NO_ITEMS_SELECTED', $response->error->message);
 	}
 
 	/**
@@ -91,9 +92,10 @@ class HasajaxEntityDeleteTest extends \TestCaseDatabase
 
 		$controller->ajaxEntityDelete();
 
-		$output = ob_get_clean();
+		$response = json_decode(ob_get_clean());
 
-		$this->assertSame('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', $output);
+		$this->assertSame(403, $response->error->code);
+		$this->assertSame('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', $response->error->message);
 	}
 
 	/**
@@ -185,7 +187,7 @@ class HasajaxEntityDeleteTest extends \TestCaseDatabase
 	 */
 	public function entityDeleteReturnsErrorForMissingIds()
 	{
-		$this->setupRequestWithToken('post');
+		$this->setupRequestWithToken('get');
 
 		$returnError = 'index.php?option=com_content&error=yes';
 
@@ -212,7 +214,7 @@ class HasajaxEntityDeleteTest extends \TestCaseDatabase
 	 */
 	public function entityDeleteReturnsErrorForPermissionDenied()
 	{
-		$this->setupRequestWithToken('post');
+		$this->setupRequestWithToken('get');
 
 		$ids = [1, 2, 5];
 		$returnError = 'index.php?option=com_content&error=yes';
@@ -249,7 +251,7 @@ class HasajaxEntityDeleteTest extends \TestCaseDatabase
 	 */
 	public function entityDeleteReturnsErrorForDeleteException()
 	{
-		$this->setupRequestWithToken('post');
+		$this->setupRequestWithToken('get');
 
 		$ids = [2, 5];
 

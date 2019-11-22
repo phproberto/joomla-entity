@@ -59,10 +59,6 @@ class HasEntityUpdateTest extends \TestCaseDatabase
 			->getMock();
 
 		$entity->expects($this->exactly(2))
-			->method('primaryKey')
-			->willReturn('id');
-
-		$entity->expects($this->exactly(2))
 			->method('bind')
 			->with($this->equalTo($requestData));
 
@@ -90,7 +86,6 @@ class HasEntityUpdateTest extends \TestCaseDatabase
 		$controller->context = 'my-context';
 		$controller->{'text_prefix'} = 'LIB_JOOMLA_ENTITY_';
 
-		// $acl->canEdit() returns true
 		ob_start();
 
 		$controller->ajaxEntityUpdate();
@@ -99,14 +94,14 @@ class HasEntityUpdateTest extends \TestCaseDatabase
 
 		$this->assertSame(json_encode($requestData), $output);
 
-		// $acl->canEdit() returns false
 		ob_start();
 
 		$controller->ajaxEntityUpdate();
 
-		$output = ob_get_clean();
+		$response = json_decode(ob_get_clean());
 
-		$this->assertSame('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN', $output);
+		$this->assertSame(403, $response->error->code);
+		$this->assertSame('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN', $response->error->message);
 	}
 
 
