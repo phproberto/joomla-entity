@@ -38,7 +38,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 					'filter.access' => 1,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertFalse(in_array(2, $ids));
@@ -53,7 +53,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 					'filter.access' => 2,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertTrue(in_array(2, $filteredIds));
@@ -63,7 +63,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			{
 				return (int) $itemData['id'];
 			},
-			ArticleSearch::instance(['filter.access' => [1, 2], 'list.limit' => 0])->search()
+			ArticleSearch::instance(['filter.access' => [1, 2], 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame($ids, array_intersect($ids, $multipleFilteredIds));
@@ -75,7 +75,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			{
 				return (int) $itemData['id'];
 			},
-			ArticleSearch::instance(['filter.access' => null, 'list.limit' => 0])->search()
+			ArticleSearch::instance(['filter.access' => null, 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame([], array_diff($multipleFilteredIds, $nullAccessIds));
@@ -93,7 +93,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.active_language' => true,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($articles));
 
@@ -129,7 +129,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 					'filter.active_user_access' => true,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertFalse(in_array(2, $filteredIds));
@@ -144,7 +144,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 					'filter.active_user_access' => true,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertTrue(in_array(2, $filteredIds));
@@ -162,7 +162,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.author_id' => 815,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -176,7 +176,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.author_id' => null,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($allItems));
 		$this->assertTrue(count($allItems) > count($items));
@@ -195,7 +195,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.editor_id' => 815,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -209,7 +209,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.editor_id' => null,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($allItems));
 		$this->assertTrue(count($allItems) > count($items));
@@ -226,7 +226,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			[
 				'filter.category_id' => 64
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -248,7 +248,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			{
 				return (int) $itemData['id'];
 			},
-			ArticleSearch::instance(['list.limit' => 0])->search()
+			ArticleSearch::instance(['list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertNotSame(1, count($ids));
@@ -259,7 +259,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			{
 				return (int) $itemData['id'];
 			},
-			ArticleSearch::instance(['list.direction' => 'DESC', 'list.limit' => 0])->search()
+			ArticleSearch::instance(['list.direction' => 'DESC', 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame(count($ids), count($reverseIds));
@@ -278,7 +278,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.featured' => 1,
 				'list.limit' => 5
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -292,7 +292,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.featured' => 0,
 				'list.limit' => 5
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -323,13 +323,13 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 */
 	public function idFilterIsApplied()
 	{
-		$results = ArticleSearch::instance(['filter.id' => 17])->search();
+		$results = ArticleSearch::instance(['filter.id' => 17])->searchFresh();
 
 		$this->assertSame(1, count($results));
 
 		$this->assertSame(17, (int) $results[0]['id']);
 
-		$results = ArticleSearch::instance(['filter.id' => [17, 18]])->search();
+		$results = ArticleSearch::instance(['filter.id' => [17, 18]])->searchFresh();
 
 		$this->assertSame(2, count($results));
 
@@ -344,7 +344,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 */
 	public function languageFilterIsApplied()
 	{
-		$items = ArticleSearch::instance(['filter.language' => 'es-ES'])->search();
+		$items = ArticleSearch::instance(['filter.language' => 'es-ES'])->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -353,7 +353,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			$this->assertSame('es-ES', $item['language']);
 		}
 
-		$items = ArticleSearch::instance(['filter.language' => 'en-GB'])->search();
+		$items = ArticleSearch::instance(['filter.language' => 'en-GB'])->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -375,7 +375,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.not_author_id' => 815,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -396,7 +396,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			[
 				'filter.not_category_id' => 64
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -413,13 +413,13 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 */
 	public function notIdFilterIsApplied()
 	{
-		$articles = ArticleSearch::instance(['list.limit' => 2])->search();
+		$articles = ArticleSearch::instance(['list.limit' => 2])->searchFresh();
 
 		$this->assertSame(2, count($articles));
 
 		$articlesNotId = ArticleSearch::instance(
 			['filter.not_id' => $articles[0]['id'], 'list.limit' => 2]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(2, count($articles));
 
@@ -427,7 +427,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 
 		$articlesNotId = ArticleSearch::instance(
 			['filter.not_id' => [$articles[0]['id'], $articles[1]['id']], 'list.limit' => 2]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(2, count($articles));
 
@@ -446,7 +446,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			[
 				'filter.not_language' => 'es-ES'
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -459,7 +459,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			[
 				'filter.not_language' => 'en-GB'
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -487,7 +487,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 						'filter.not_state' => 1,
 						'list.limit'   => 0
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -501,7 +501,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 */
 	public function orderingIsApplied()
 	{
-		$articles = ArticleSearch::instance()->search();
+		$articles = ArticleSearch::instance()->searchFresh();
 
 		$this->assertSame(20, (int) $articles[0]['id']);
 
@@ -509,7 +509,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 			[
 				'list.ordering' => 'a.title'
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(1, (int) $articles[0]['id']);
 	}
@@ -521,12 +521,12 @@ class ArticleSearchTest extends \TestCaseDatabase
 	 */
 	public function searchFilterIsApplied()
 	{
-		$articles = ArticleSearch::instance(['filter.search' => 'Banner', 'list.limit' => 0])->search();
+		$articles = ArticleSearch::instance(['filter.search' => 'Banner', 'list.limit' => 0])->searchFresh();
 
 		$this->assertSame(1, count($articles));
 		$this->assertSame(7, (int) $articles[0]['id']);
 
-		$articles = ArticleSearch::instance(['filter.search' => 'fruit-shop', 'list.limit' => 0])->search();
+		$articles = ArticleSearch::instance(['filter.search' => 'fruit-shop', 'list.limit' => 0])->searchFresh();
 
 		$this->assertSame(1, count($articles));
 		$this->assertSame(20, (int) $articles[0]['id']);
@@ -550,7 +550,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 						'filter.state' => 1,
 						'list.limit'   => 0
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -567,7 +567,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 						'list.limit'   => 0,
 						'filter.state' => 0
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -584,7 +584,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 						'list.limit'       => 0,
 						'filter.state' => [0, 1]
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -602,7 +602,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 						'list.limit' => 0,
 						'filter.state' => null
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -660,7 +660,7 @@ class ArticleSearchTest extends \TestCaseDatabase
 				'filter.tag_id' => 2,
 				'list.limit'   => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(2, count($articles));
 		$this->assertSame(24, (int) $articles[0]['id']);

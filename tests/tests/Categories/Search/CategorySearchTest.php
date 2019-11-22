@@ -34,7 +34,7 @@ class CategorySearchTest extends \TestCaseDatabase
 				'filter.active_language' => true,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($categories));
 
@@ -70,7 +70,7 @@ class CategorySearchTest extends \TestCaseDatabase
 					'filter.active_user_access' => true,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertFalse(in_array(46, $filteredIds));
@@ -85,7 +85,7 @@ class CategorySearchTest extends \TestCaseDatabase
 					'filter.active_user_access' => true,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertTrue(in_array(46, $filteredIds));
@@ -108,7 +108,7 @@ class CategorySearchTest extends \TestCaseDatabase
 					'filter.access' => 1,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertFalse(in_array(46, $ids));
@@ -123,7 +123,7 @@ class CategorySearchTest extends \TestCaseDatabase
 					'filter.access' => 2,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertTrue(in_array(46, $filteredIds));
@@ -133,7 +133,7 @@ class CategorySearchTest extends \TestCaseDatabase
 			{
 				return (int) $categoryData['id'];
 			},
-			CategorySearch::instance(['filter.access' => [1, 2], 'list.limit' => 0])->search()
+			CategorySearch::instance(['filter.access' => [1, 2], 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame($ids, array_intersect($ids, $multipleFilteredIds));
@@ -145,7 +145,7 @@ class CategorySearchTest extends \TestCaseDatabase
 			{
 				return (int) $categoryData['id'];
 			},
-			CategorySearch::instance(['filter.access' => null, 'list.limit' => 0])->search()
+			CategorySearch::instance(['filter.access' => null, 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame($multipleFilteredIds, $nullAccessIds);
@@ -163,7 +163,7 @@ class CategorySearchTest extends \TestCaseDatabase
 			{
 				return (int) $categoryData['id'];
 			},
-			CategorySearch::instance(['filter.descendant_id' => 21, 'list.limit' => 0])->search()
+			CategorySearch::instance(['filter.descendant_id' => 21, 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame([1,14,19,20], $ids);
@@ -181,7 +181,7 @@ class CategorySearchTest extends \TestCaseDatabase
 			{
 				return (int) $categoryData['id'];
 			},
-			CategorySearch::instance(['filter.ancestor_id' => 20, 'list.limit' => 0])->search()
+			CategorySearch::instance(['filter.ancestor_id' => 20, 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame([], array_diff($ids, [21,22,23,24,25,64,65,66,67,68,69,70,75]));
@@ -199,7 +199,7 @@ class CategorySearchTest extends \TestCaseDatabase
 			{
 				return (int) $categoryData['id'];
 			},
-			CategorySearch::instance(['list.limit' => 0])->search()
+			CategorySearch::instance(['list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertNotSame(1, count($ids));
@@ -210,7 +210,7 @@ class CategorySearchTest extends \TestCaseDatabase
 			{
 				return (int) $categoryData['id'];
 			},
-			CategorySearch::instance(['list.direction' => 'DESC', 'list.limit' => 0])->search()
+			CategorySearch::instance(['list.direction' => 'DESC', 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame(count($ids), count($reverseIds));
@@ -224,7 +224,7 @@ class CategorySearchTest extends \TestCaseDatabase
 	 */
 	public function extensionFilterIsApplied()
 	{
-		$results = CategorySearch::instance(['filter.extension' => 'com_content', 'list.limit' => 5])->search();
+		$results = CategorySearch::instance(['filter.extension' => 'com_content', 'list.limit' => 5])->searchFresh();
 
 		$this->assertTrue(is_array($results));
 		$this->assertNotSame(0, count($results));
@@ -255,13 +255,13 @@ class CategorySearchTest extends \TestCaseDatabase
 	 */
 	public function idFilterIsApplied()
 	{
-		$results = CategorySearch::instance(['filter.id' => 37])->search();
+		$results = CategorySearch::instance(['filter.id' => 37])->searchFresh();
 
 		$this->assertSame(1, count($results));
 
 		$this->assertSame(37, (int) $results[0]['id']);
 
-		$results = CategorySearch::instance(['filter.id' => [37, 38]])->search();
+		$results = CategorySearch::instance(['filter.id' => [37, 38]])->searchFresh();
 
 		$this->assertSame(2, count($results));
 
@@ -276,7 +276,7 @@ class CategorySearchTest extends \TestCaseDatabase
 	 */
 	public function languageFilterIsApplied()
 	{
-		$items = CategorySearch::instance(['filter.language' => 'en-GB'])->search();
+		$items = CategorySearch::instance(['filter.language' => 'en-GB'])->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -293,7 +293,7 @@ class CategorySearchTest extends \TestCaseDatabase
 	 */
 	public function levelFilterIsApplied()
 	{
-		$categories = CategorySearch::instance(['filter.level' => 3, 'list.limit' => 2])->search();
+		$categories = CategorySearch::instance(['filter.level' => 3, 'list.limit' => 2])->searchFresh();
 
 		$this->assertSame(2, count($categories));
 
@@ -310,13 +310,13 @@ class CategorySearchTest extends \TestCaseDatabase
 	 */
 	public function notIdFilterIsApplied()
 	{
-		$categories = CategorySearch::instance(['list.limit' => 2])->search();
+		$categories = CategorySearch::instance(['list.limit' => 2])->searchFresh();
 
 		$this->assertSame(2, count($categories));
 
 		$categoriesNotId = CategorySearch::instance(
 			['filter.not_id' => $categories[0]['id'], 'list.limit' => 2]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(2, count($categories));
 
@@ -324,7 +324,7 @@ class CategorySearchTest extends \TestCaseDatabase
 
 		$categoriesNotId = CategorySearch::instance(
 			['filter.not_id' => [$categories[0]['id'], $categories[1]['id']], 'list.limit' => 2]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(2, count($categories));
 
@@ -339,7 +339,7 @@ class CategorySearchTest extends \TestCaseDatabase
 	 */
 	public function orderingIsApplied()
 	{
-		$categories = CategorySearch::instance()->search();
+		$categories = CategorySearch::instance()->searchFresh();
 
 		$this->assertSame(1, (int) $categories[0]['id']);
 
@@ -348,7 +348,7 @@ class CategorySearchTest extends \TestCaseDatabase
 				'filter.published' => null,
 				'list.ordering'    => 'c.published'
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(42, (int) $categories[0]['id']);
 	}
@@ -360,7 +360,7 @@ class CategorySearchTest extends \TestCaseDatabase
 	 */
 	public function parentFilterIsApplied()
 	{
-		$categories = CategorySearch::instance(['list.limit' => 5])->search();
+		$categories = CategorySearch::instance(['list.limit' => 5])->searchFresh();
 
 		$this->assertSame(5, count($categories));
 
@@ -369,7 +369,7 @@ class CategorySearchTest extends \TestCaseDatabase
 			$this->assertNotSame(37, (int) $categoryData['parent_id']);
 		}
 
-		$categories = CategorySearch::instance(['filter.parent_id' => 37, 'list.limit' => 5])->search();
+		$categories = CategorySearch::instance(['filter.parent_id' => 37, 'list.limit' => 5])->searchFresh();
 
 		$this->assertSame(5, count($categories));
 
@@ -397,7 +397,7 @@ class CategorySearchTest extends \TestCaseDatabase
 						'filter.published' => 1,
 						'list.limit' => 0
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -409,7 +409,7 @@ class CategorySearchTest extends \TestCaseDatabase
 				{
 					return (int) $categoryData['published'];
 				},
-				CategorySearch::instance(['list.limit' => 0, 'filter.published' => 0])->search()
+				CategorySearch::instance(['list.limit' => 0, 'filter.published' => 0])->searchFresh()
 			)
 		);
 
@@ -421,7 +421,7 @@ class CategorySearchTest extends \TestCaseDatabase
 				{
 					return (int) $categoryData['published'];
 				},
-				CategorySearch::instance(['list.limit' => 0, 'filter.published' => [0, 1]])->search()
+				CategorySearch::instance(['list.limit' => 0, 'filter.published' => [0, 1]])->searchFresh()
 			)
 		);
 
@@ -434,7 +434,7 @@ class CategorySearchTest extends \TestCaseDatabase
 				{
 					return (int) $categoryData['published'];
 				},
-				CategorySearch::instance(['list.limit' => 0, 'filter.published' => null])->search()
+				CategorySearch::instance(['list.limit' => 0, 'filter.published' => null])->searchFresh()
 			)
 		);
 
@@ -449,17 +449,17 @@ class CategorySearchTest extends \TestCaseDatabase
 	 */
 	public function searchFilterIsApplied()
 	{
-		$categories = CategorySearch::instance(['filter.search' => 'growers', 'list.limit' => 0])->search();
+		$categories = CategorySearch::instance(['filter.search' => 'growers', 'list.limit' => 0])->searchFresh();
 
 		$this->assertSame(1, count($categories));
 		$this->assertSame(30, (int) $categories[0]['id']);
 
-		$categories = CategorySearch::instance(['filter.search' => 'com_users', 'list.limit' => 0])->search();
+		$categories = CategorySearch::instance(['filter.search' => 'com_users', 'list.limit' => 0])->searchFresh();
 
 		$this->assertSame(1, count($categories));
 		$this->assertSame(77, (int) $categories[0]['id']);
 
-		$categories = CategorySearch::instance(['filter.search' => 'park-site', 'list.limit' => 0])->search();
+		$categories = CategorySearch::instance(['filter.search' => 'park-site', 'list.limit' => 0])->searchFresh();
 
 		$this->assertSame(6, count($categories));
 

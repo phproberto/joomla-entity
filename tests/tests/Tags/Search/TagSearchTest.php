@@ -34,7 +34,7 @@ class TagSearchTest extends \TestCaseDatabase
 				'filter.active_language' => true,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertNotSame(0, count($tags));
 
@@ -70,7 +70,7 @@ class TagSearchTest extends \TestCaseDatabase
 					'filter.active_user_access' => true,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertFalse(in_array(7, $filteredIds));
@@ -85,7 +85,7 @@ class TagSearchTest extends \TestCaseDatabase
 					'filter.active_user_access' => true,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertTrue(in_array(7, $filteredIds));
@@ -108,7 +108,7 @@ class TagSearchTest extends \TestCaseDatabase
 					'filter.access' => 1,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertFalse(in_array(7, $ids));
@@ -123,7 +123,7 @@ class TagSearchTest extends \TestCaseDatabase
 					'filter.access' => 2,
 					'list.limit' => 0
 				]
-			)->search()
+			)->searchFresh()
 		);
 
 		$this->assertTrue(in_array(7, $filteredIds));
@@ -133,7 +133,7 @@ class TagSearchTest extends \TestCaseDatabase
 			{
 				return (int) $tagData['id'];
 			},
-			TagSearch::instance(['filter.access' => [1, 2], 'list.limit' => 0])->search()
+			TagSearch::instance(['filter.access' => [1, 2], 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame($ids, array_intersect($ids, $multipleFilteredIds));
@@ -145,7 +145,7 @@ class TagSearchTest extends \TestCaseDatabase
 			{
 				return (int) $tagData['id'];
 			},
-			TagSearch::instance(['filter.access' => null, 'list.limit' => 0])->search()
+			TagSearch::instance(['filter.access' => null, 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame($multipleFilteredIds, $nullAccessIds);
@@ -163,7 +163,7 @@ class TagSearchTest extends \TestCaseDatabase
 				'filter.content_item_id' => 24,
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(4, count($tags));
 
@@ -185,7 +185,7 @@ class TagSearchTest extends \TestCaseDatabase
 				'filter.content_type_alias' => 'com_content.category',
 				'list.limit' => 0
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(3, count($tags));
 
@@ -206,7 +206,7 @@ class TagSearchTest extends \TestCaseDatabase
 			{
 				return (int) $tagData['id'];
 			},
-			TagSearch::instance(['filter.descendant_id' => 7, 'list.limit' => 0])->search()
+			TagSearch::instance(['filter.descendant_id' => 7, 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame([1,8,6], $ids);
@@ -224,7 +224,7 @@ class TagSearchTest extends \TestCaseDatabase
 			{
 				return (int) $tagData['id'];
 			},
-			TagSearch::instance(['filter.ancestor_id' => 20, 'list.limit' => 0])->search()
+			TagSearch::instance(['filter.ancestor_id' => 20, 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame([], array_diff($ids, [21,22,23,24,25,64,65,66,67,68,69,70,75]));
@@ -242,7 +242,7 @@ class TagSearchTest extends \TestCaseDatabase
 			{
 				return (int) $tagData['id'];
 			},
-			TagSearch::instance(['list.limit' => 0])->search()
+			TagSearch::instance(['list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertNotSame(1, count($ids));
@@ -253,7 +253,7 @@ class TagSearchTest extends \TestCaseDatabase
 			{
 				return (int) $tagData['id'];
 			},
-			TagSearch::instance(['list.direction' => 'DESC', 'list.limit' => 0])->search()
+			TagSearch::instance(['list.direction' => 'DESC', 'list.limit' => 0])->searchFresh()
 		);
 
 		$this->assertSame(count($ids), count($reverseIds));
@@ -281,13 +281,13 @@ class TagSearchTest extends \TestCaseDatabase
 	 */
 	public function idFilterIsApplied()
 	{
-		$results = TagSearch::instance(['filter.id' => 3])->search();
+		$results = TagSearch::instance(['filter.id' => 3])->searchFresh();
 
 		$this->assertSame(1, count($results));
 
 		$this->assertSame(3, (int) $results[0]['id']);
 
-		$results = TagSearch::instance(['filter.id' => [3, 4]])->search();
+		$results = TagSearch::instance(['filter.id' => [3, 4]])->searchFresh();
 
 		$this->assertSame(2, count($results));
 
@@ -302,7 +302,7 @@ class TagSearchTest extends \TestCaseDatabase
 	 */
 	public function languageFilterIsApplied()
 	{
-		$items = TagSearch::instance(['filter.language' => 'en-GB'])->search();
+		$items = TagSearch::instance(['filter.language' => 'en-GB'])->searchFresh();
 
 		$this->assertNotSame(0, count($items));
 
@@ -319,7 +319,7 @@ class TagSearchTest extends \TestCaseDatabase
 	 */
 	public function levelFilterIsApplied()
 	{
-		$tags = TagSearch::instance(['filter.level' => 3, 'list.limit' => 2])->search();
+		$tags = TagSearch::instance(['filter.level' => 3, 'list.limit' => 2])->searchFresh();
 
 		$this->assertSame(2, count($tags));
 
@@ -336,13 +336,13 @@ class TagSearchTest extends \TestCaseDatabase
 	 */
 	public function notIdFilterIsApplied()
 	{
-		$tags = TagSearch::instance(['list.limit' => 2])->search();
+		$tags = TagSearch::instance(['list.limit' => 2])->searchFresh();
 
 		$this->assertSame(2, count($tags));
 
 		$tagsNotId = TagSearch::instance(
 			['filter.not_id' => $tags[0]['id'], 'list.limit' => 2]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(2, count($tags));
 
@@ -350,7 +350,7 @@ class TagSearchTest extends \TestCaseDatabase
 
 		$tagsNotId = TagSearch::instance(
 			['filter.not_id' => [$tags[0]['id'], $tags[1]['id']], 'list.limit' => 2]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(2, count($tags));
 
@@ -365,7 +365,7 @@ class TagSearchTest extends \TestCaseDatabase
 	 */
 	public function orderingIsApplied()
 	{
-		$tags = TagSearch::instance()->search();
+		$tags = TagSearch::instance()->searchFresh();
 
 		$this->assertSame(1, (int) $tags[0]['id']);
 
@@ -374,7 +374,7 @@ class TagSearchTest extends \TestCaseDatabase
 				'filter.published' => null,
 				'list.ordering'    => 't.published'
 			]
-		)->search();
+		)->searchFresh();
 
 		$this->assertSame(5, (int) $tags[0]['id']);
 	}
@@ -386,7 +386,7 @@ class TagSearchTest extends \TestCaseDatabase
 	 */
 	public function parentFilterIsApplied()
 	{
-		$tags = TagSearch::instance(['filter.parent_id' => 6, 'list.limit' => 5])->search();
+		$tags = TagSearch::instance(['filter.parent_id' => 6, 'list.limit' => 5])->searchFresh();
 
 		$this->assertSame(2, count($tags));
 
@@ -414,7 +414,7 @@ class TagSearchTest extends \TestCaseDatabase
 						'filter.published' => 1,
 						'list.limit' => 0
 					]
-				)->search()
+				)->searchFresh()
 			)
 		);
 
@@ -426,7 +426,7 @@ class TagSearchTest extends \TestCaseDatabase
 				{
 					return (int) $tagData['published'];
 				},
-				TagSearch::instance(['list.limit' => 0, 'filter.published' => 0])->search()
+				TagSearch::instance(['list.limit' => 0, 'filter.published' => 0])->searchFresh()
 			)
 		);
 
@@ -438,7 +438,7 @@ class TagSearchTest extends \TestCaseDatabase
 				{
 					return (int) $tagData['published'];
 				},
-				TagSearch::instance(['list.limit' => 0, 'filter.published' => [0, 1]])->search()
+				TagSearch::instance(['list.limit' => 0, 'filter.published' => [0, 1]])->searchFresh()
 			)
 		);
 
@@ -451,7 +451,7 @@ class TagSearchTest extends \TestCaseDatabase
 				{
 					return (int) $tagData['published'];
 				},
-				TagSearch::instance(['list.limit' => 0, 'filter.published' => null])->search()
+				TagSearch::instance(['list.limit' => 0, 'filter.published' => null])->searchFresh()
 			)
 		);
 
@@ -466,17 +466,17 @@ class TagSearchTest extends \TestCaseDatabase
 	 */
 	public function searchFilterIsApplied()
 	{
-		$tags = TagSearch::instance(['filter.search' => 'diesel-alias', 'list.limit' => 0])->search();
+		$tags = TagSearch::instance(['filter.search' => 'diesel-alias', 'list.limit' => 0])->searchFresh();
 
 		$this->assertSame(1, count($tags));
 		$this->assertSame(7, (int) $tags[0]['id']);
 
-		$tags = TagSearch::instance(['filter.search' => 'cars/gasoline', 'list.limit' => 0])->search();
+		$tags = TagSearch::instance(['filter.search' => 'cars/gasoline', 'list.limit' => 0])->searchFresh();
 
 		$this->assertSame(1, count($tags));
 		$this->assertSame(9, (int) $tags[0]['id']);
 
-		$tags = TagSearch::instance(['filter.search' => 'Vehicles title', 'list.limit' => 0])->search();
+		$tags = TagSearch::instance(['filter.search' => 'Vehicles title', 'list.limit' => 0])->searchFresh();
 
 		$this->assertSame(1, count($tags));
 
