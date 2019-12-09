@@ -65,7 +65,6 @@ trait HasEntityUpdate
 		$response = new JSONResponse;
 
 		$data = $this->entityUpdateDataFromRequest();
-		$context = $this->option . '.edit.' . $this->context . '.data';
 
 		$id = $this->input->get($this->entityPrimaryKeyOnUrl());
 
@@ -85,15 +84,15 @@ trait HasEntityUpdate
 		{
 			$entity->save();
 		}
-		catch (SaveException $e)
-		{
-			return $response->setStatusCode(500)
-				->setErrorMessage($e->getMessage())
-				->send();
-		}
 		catch (ValidationException $e)
 		{
 			return $response->setStatusCode(400)
+				->setErrorMessage($e->getMessage())
+				->send();
+		}
+		catch (\Exception $e)
+		{
+			return $response->setStatusCode(500)
 				->setErrorMessage($e->getMessage())
 				->send();
 		}
@@ -108,6 +107,6 @@ trait HasEntityUpdate
 	 */
 	public function entityUpdateDataFromRequest()
 	{
-		return $this->input->post->get('jform', [], 'array');
+		return $this->input->post->get('entity', [], 'array');
 	}
 }
