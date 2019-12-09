@@ -11,6 +11,7 @@ namespace Phproberto\Joomla\Entity\Tests\Tags\Traits;
 use Joomla\CMS\Factory;
 use Phproberto\Joomla\Entity\Tags\Tag;
 use Phproberto\Joomla\Entity\Collection;
+use Phproberto\Joomla\Entity\Tags\Search\TagSearch;
 use Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs\ClassWithTags;
 use Phproberto\Joomla\Entity\Tests\Tags\Traits\Stubs\ClassWithSearchableTags;
 
@@ -206,6 +207,7 @@ class HasTagsTest extends \TestCaseDatabase
 	protected function tearDown()
 	{
 		ClassWithTags::clearAll();
+		TagSearch::clearStaticCache();
 
 		parent::tearDown();
 	}
