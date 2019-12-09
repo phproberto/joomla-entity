@@ -31,8 +31,11 @@ class HasStaticCacheTest extends \TestCase
 		$staticCacheProperty->setAccessible(true);
 
 		$cache = [
-			'mycache' => 'myvalue'
+			ClassWithStaticCache::class => [
+				'mycache' => 'myvalue'
+			]
 		];
+
 		$this->assertEquals([], $staticCacheProperty->getValue(ClassWithStaticCache::class));
 
 		$staticCacheProperty->setValue(ClassWithStaticCache::class, $cache);
@@ -40,7 +43,7 @@ class HasStaticCacheTest extends \TestCase
 
 		ClassWithStaticCache::clearStaticCache();
 
-		$this->assertEquals([], $staticCacheProperty->getValue(ClassWithStaticCache::class));
+		$this->assertEquals([ClassWithStaticCache::class => []], $staticCacheProperty->getValue(ClassWithStaticCache::class));
 	}
 
 	/**
@@ -48,7 +51,7 @@ class HasStaticCacheTest extends \TestCase
 	 *
 	 * @return void
 	 */
-	public function getStaticCacheReturnsReferenceToCache()
+	public function getFromStaticCacheReturnsCachedValue()
 	{
 		$class = new ClassWithStaticCache;
 
@@ -56,12 +59,17 @@ class HasStaticCacheTest extends \TestCase
 		$staticCacheProperty = $reflection->getProperty('staticCache');
 		$staticCacheProperty->setAccessible(true);
 
-		$method = $reflection->getMethod('getStaticCache');
+		$cache = [
+			ClassWithStaticCache::class => [
+				'my-key' => 'my-value'
+			]
+		];
+
+		$staticCacheProperty->setValue($class, $cache);
+
+		$method = $reflection->getMethod('getFromStaticCache');
 		$method->setAccessible(true);
 
-		$staticCache = $method->invoke($class);
-		$staticCache['test'] = 'value';
-
-		$this->assertEquals('value', $staticCacheProperty->getValue($class)['test']);
+		$this->assertEquals('my-value', $method->invoke($class, 'my-key'));
 	}
 }
