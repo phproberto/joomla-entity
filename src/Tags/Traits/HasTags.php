@@ -154,6 +154,7 @@ trait HasTags
 
 		$db->setQuery($query);
 		$db->execute();
+		TagSearch::clearStaticCache();
 	}
 
 	/**
