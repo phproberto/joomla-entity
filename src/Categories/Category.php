@@ -18,6 +18,7 @@ use Phproberto\Joomla\Entity\ComponentEntity;
 use Phproberto\Joomla\Entity\Traits as EntityTraits;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
+use Phproberto\Joomla\Entity\Core\Contracts\Assetable;
 use Phproberto\Joomla\Entity\Core\Contracts\Publishable;
 use Phproberto\Joomla\Entity\Users\Traits as UsersTraits;
 use Phproberto\Joomla\Entity\Validation\Contracts\Validable;
@@ -32,13 +33,14 @@ use Phproberto\Joomla\Entity\Categories\Validation\CategoryValidator;
  *
  * @since   1.0.0
  */
-class Category extends ComponentEntity implements Publishable, Translatable, Validable
+class Category extends ComponentEntity implements Publishable, Translatable, Validable, Assetable
 {
 	use CoreTraits\HasAccess, CoreTraits\HasAncestors, CoreTraits\HasAsset, CoreTraits\HasAssociations, CoreTraits\HasChildren;
 	use CoreTraits\HasDescendants, CoreTraits\HasLevel, CoreTraits\HasMetadata, CoreTraits\HasParams, CoreTraits\HasParent;
 	use CoreTraits\HasState;
 	use HasTranslations, HasValidation;
 	use UsersTraits\HasAuthor, UsersTraits\HasEditor;
+	use CoreTraits\HasAsset;
 
 	/**
 	 * Cached root instance.

@@ -24,15 +24,17 @@ use Phproberto\Joomla\Entity\Content\Traits\HasArticles;
 use Phproberto\Joomla\Entity\Content\Search\ArticleSearch;
 use Phproberto\Joomla\Entity\Categories\Category as BaseCategory;
 use Phproberto\Joomla\Entity\Content\Command\CreateUncategorisedCategory;
+use Phproberto\Joomla\Entity\Core\Contracts\Assetable;
+use Phproberto\Joomla\Entity\Core\Traits\HasAsset;
 
 /**
  * Content category entity.
  *
  * @since   1.0.0
  */
-class Category extends BaseCategory implements Aclable
+class Category extends BaseCategory implements Aclable, Assetable
 {
-	use HasArticles, HasAcl, HasLink, HasTags;
+	use HasArticles, HasAcl, HasLink, HasTags, HasAsset;
 
 	/**
 	 * Extension associated to this category.
