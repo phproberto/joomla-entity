@@ -24,7 +24,7 @@ interface Assetable
 	 *
 	 * @return  string
 	 */
-	abstract public function columnAlias($column);
+	public function columnAlias($column);
 
 	/**
 	 * Get a property of this entity.
@@ -34,7 +34,7 @@ interface Assetable
 	 *
 	 * @return  mixed
 	 */
-	abstract public function get($property, $default = null);
+	public function get($property, $default = null);
 
 	/**
 	 * Get the associated asset.
