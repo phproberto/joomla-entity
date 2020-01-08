@@ -63,6 +63,11 @@ trait HasAsset
 		return $this->asset;
 	}
 
+    public function getContentExtension()
+    {
+        return self::$extension;
+    }
+
 	/**
 	 * Load the asset from the database.
 	 *

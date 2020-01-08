@@ -18,6 +18,7 @@ use Phproberto\Joomla\Entity\Helper\ClassName;
 use Phproberto\Joomla\Entity\Helper\ArrayHelper;
 use Phproberto\Joomla\Entity\Exception\SaveException;
 use Phproberto\Joomla\Entity\Contracts\EntityInterface;
+use Phproberto\Joomla\Entity\Core\Contracts\Assetable;
 use Phproberto\Joomla\Entity\Core\Traits as CoreTraits;
 use Phproberto\Joomla\Entity\Exception\DeleteException;
 use Phproberto\Joomla\Entity\Exception\InvalidEntityData;
@@ -300,6 +301,12 @@ abstract class Entity implements EntityInterface
 
 		foreach ($ids as $id)
 		{
+		   if ($entity instanceof Assetable) {
+				$table->extension = $entity->getContentExtension();
+				$pk = $entity->primaryKey();
+				$table->$pk = $id;
+			}
+
 			if (!$table->delete($id))
 			{
 				$entity->bind([$entity->primaryKey() => $id]);
