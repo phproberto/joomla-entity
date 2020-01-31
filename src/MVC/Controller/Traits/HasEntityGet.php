@@ -55,7 +55,7 @@ trait HasEntityGet
 	 *
 	 * @return  void
 	 */
-	public function jsonEntityGet(string $method = 'post')
+	public function jsonEntityGet(string $method = 'get')
 	{
 		if (!Request::active()->validateHasToken($method))
 		{
