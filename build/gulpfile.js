@@ -5,7 +5,7 @@ var del         = require('del');
 var browserSync = require('browser-sync');
 
 var src = '../src';
-var libraryName = 'joomla_entity';
+var libraryName = 'phproberto/joomla_entity';
 
 var wwwPath = config.wwwDir + '/libraries/' + libraryName + '/vendor/phproberto/joomla-entity/src';
 
