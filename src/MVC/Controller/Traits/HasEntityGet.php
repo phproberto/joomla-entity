@@ -71,8 +71,6 @@ trait HasEntityGet
 			return $response->setStatusCode(400)
 				->setErrorMessage(Text::_($this->{'text_prefix'} . '_ERROR_NO_ITEM_SELECTED'))
 				->send();
-
-			return;
 		}
 
 		try
